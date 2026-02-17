@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Noto_Sans_KR, Noto_Serif_KR } from "next/font/google";
 
 import "./globals.css";
@@ -20,6 +20,10 @@ const serif = Noto_Serif_KR({
 export const metadata: Metadata = {
   title: "더 제자교회",
   description: "복음으로 사람을 세우는 더 제자교회 공식 웹사이트"
+};
+
+export const viewport: Viewport = {
+  themeColor: "#ffffff"
 };
 
 export default function RootLayout({
