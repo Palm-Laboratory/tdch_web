@@ -9,11 +9,21 @@
 body {
   margin: 0;
   min-height: 100vh;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at 20% 10%, rgba(208, 173, 104, 0.24), transparent 30%),
     radial-gradient(circle at 80% 20%, rgba(183, 126, 85, 0.2), transparent 28%),
     linear-gradient(180deg, #f7f5ef 0%, #f2eee2 100%);
   color: #222018;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 .fade-up {
