@@ -79,6 +79,16 @@ a {
   }
 }
 
+.hero-start-anchor {
+  margin-left: clamp(1rem, calc((100vw - 1120px) / 2 + 1rem), 12.25rem);
+}
+
+@media (min-width: 768px) {
+  .hero-start-anchor {
+    margin-left: clamp(1.5rem, calc((100vw - 1120px) / 2 + 1.5rem), 12.75rem);
+  }
+}
+
 .chip {
   display: inline-flex;
   align-items: center;
