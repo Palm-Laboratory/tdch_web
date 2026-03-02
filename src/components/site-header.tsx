@@ -16,16 +16,19 @@ export default function SiteHeader() {
 
           <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-2 text-base font-semibold text-ink/85 lg:flex">
             {navMenuGroups.map((menu) => (
-              <div key={menu.label} className="group/menu relative">
+              <div key={menu.label} className="group/menu relative pb-2 -mb-2">
                 <Link
                   href={menu.href}
-                  className="inline-flex whitespace-nowrap rounded-full px-3 py-2 transition hover:bg-cedar/5 hover:text-clay"
+                  className="inline-flex whitespace-nowrap rounded-full border border-transparent px-4 py-2 transition group-focus-within/menu:border-cedar/20 group-focus-within/menu:bg-white group-focus-within/menu:text-clay group-hover/menu:border-cedar/20 group-hover/menu:bg-white group-hover/menu:text-clay"
                 >
-                  {menu.label}
+                  <span>{menu.label}</span>
                 </Link>
 
-                <div className="pointer-events-none absolute left-1/2 top-full z-50 w-56 -translate-x-1/2 pt-3 opacity-0 transition duration-150 group-focus-within/menu:pointer-events-auto group-focus-within/menu:opacity-100 group-hover/menu:pointer-events-auto group-hover/menu:opacity-100">
-                  <div className="surface-card-strong rounded-2xl p-2">
+                <div className="pointer-events-none absolute left-0 top-full z-50 w-64 translate-y-1 opacity-0 transition duration-150 group-focus-within/menu:pointer-events-auto group-focus-within/menu:translate-y-0 group-focus-within/menu:opacity-100 group-hover/menu:pointer-events-auto group-hover/menu:translate-y-0 group-hover/menu:opacity-100">
+                  <div className="relative overflow-hidden rounded-2xl border border-cedar/15 bg-white p-3 shadow-[0_18px_40px_rgba(16,33,63,0.14)]">
+                    <p className="px-2 pb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-cedar/60">
+                      {menu.label}
+                    </p>
                     {menu.items.map((item) => (
                       <Link
                         key={`${menu.label}-${item.href}`}
@@ -46,16 +49,19 @@ export default function SiteHeader() {
               ☰
             </summary>
             <div className="surface-card-strong absolute right-0 top-[calc(100%+0.6rem)] z-50 w-[min(19rem,calc(100vw-2rem))] rounded-2xl p-3">
-              <nav className="space-y-4">
+              <nav className="space-y-3">
                 {navMenuGroups.map((menu) => (
-                  <div key={`mobile-${menu.label}`} className="space-y-2">
-                    <Link
-                      href={menu.href}
-                      className="block rounded-xl border border-cedar/10 bg-white px-3 py-2 text-sm font-semibold text-ink transition hover:border-cedar/20 hover:bg-cedar/5 hover:text-clay"
-                    >
-                      {menu.label}
-                    </Link>
-                    <div className="grid gap-2 pl-2">
+                  <details key={`mobile-${menu.label}`} className="group/sub rounded-xl border border-cedar/12 bg-white/90 px-2 py-1">
+                    <summary className="flex cursor-pointer list-none items-center rounded-lg px-2 py-2 text-sm font-semibold text-ink transition hover:bg-cedar/5 hover:text-clay">
+                      <span>{menu.label}</span>
+                    </summary>
+                    <div className="grid gap-1 pb-2 pl-2">
+                      <Link
+                        href={menu.href}
+                        className="block rounded-lg px-2 py-1.5 text-xs font-semibold text-cedar transition hover:bg-cedar/5 hover:text-clay"
+                      >
+                        {menu.label} 메인
+                      </Link>
                       {menu.items.map((item) => (
                         <Link
                           key={`mobile-${menu.label}-${item.href}`}
@@ -66,7 +72,7 @@ export default function SiteHeader() {
                         </Link>
                       ))}
                     </div>
-                  </div>
+                  </details>
                 ))}
               </nav>
             </div>
