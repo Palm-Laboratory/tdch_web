@@ -1,7 +1,7 @@
 import SectionTitle from "@/components/section-title";
 
 const phone = process.env.NEXT_PUBLIC_CHURCH_PHONE ?? "010-0000-0000";
-const email = process.env.NEXT_PUBLIC_CHURCH_EMAIL ?? "hello@deojeja.church";
+const email = process.env.NEXT_PUBLIC_CHURCH_EMAIL ?? "hello@thedisciples.church";
 const address =
   process.env.NEXT_PUBLIC_CHURCH_ADDRESS ?? "서울시 OO구 OO로 00, 더 제자교회";
 const naverMap = process.env.NEXT_PUBLIC_NAVER_MAP_URL ?? "https://map.naver.com";

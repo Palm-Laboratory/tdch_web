@@ -1,11 +1,13 @@
 import Link from "next/link";
 
-const phone = process.env.NEXT_PUBLIC_CHURCH_PHONE ?? "010-0000-0000";
-const email = process.env.NEXT_PUBLIC_CHURCH_EMAIL ?? "hello@deojeja.church";
+const phone = process.env.NEXT_PUBLIC_CHURCH_PHONE ?? "010-5252-8580";
+const email = process.env.NEXT_PUBLIC_CHURCH_EMAIL ?? "hello@thedisciples.church";
 const address =
-  process.env.NEXT_PUBLIC_CHURCH_ADDRESS ?? "서울시 OO구 OO로 00, 더 제자교회";
-const youtube = process.env.NEXT_PUBLIC_YOUTUBE_URL ?? "#";
-const kakao = process.env.NEXT_PUBLIC_KAKAO_URL ?? "#";
+  process.env.NEXT_PUBLIC_CHURCH_ADDRESS ?? "경기도 수원시 팔달구 경수대로425 지하1층, 더 제자교회";
+const youtube =
+  process.env.NEXT_PUBLIC_YOUTUBE_URL ??
+  "https://www.youtube.com/@%EB%8D%94%EC%A0%9C%EC%9E%90%EA%B5%90%ED%9A%8C";
+const kakao = process.env.NEXT_PUBLIC_KAKAO_URL ?? "https://open.kakao.com/o/yourlink";
 
 export default function SiteFooter() {
   return (

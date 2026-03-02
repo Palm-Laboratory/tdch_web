@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: deojeja-web
+    container_name: thedisciples-web
     restart: unless-stopped
     env_file:
       - .env
@@ -15,7 +15,7 @@ services:
 
   caddy:
     image: caddy:2.8-alpine
-    container_name: deojeja-caddy
+    container_name: thedisciples-caddy
     restart: unless-stopped
     env_file:
       - .env
