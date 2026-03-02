@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Noto_Sans_KR, Noto_Serif_KR } from "next/font/google";
+import Script from "next/script";
 
 import "./globals.css";
 import SiteFooter from "@/components/site-footer";
@@ -40,6 +41,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${sans.variable} ${serif.variable} font-[var(--font-sans)] antialiased`}>
+        <Script src="https://cdn.lordicon.com/lordicon.js" strategy="afterInteractive" />
         <div className="relative flex min-h-screen flex-col">
           <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
             <div className="absolute -left-20 top-20 h-72 w-72 rounded-full bg-gold/20 blur-3xl" />

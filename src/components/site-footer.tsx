@@ -41,6 +41,16 @@ export default function SiteFooter() {
           <p>{email}</p>
         </div>
       </div>
+      <div className="section-shell mt-6 border-t border-ivory/15 pt-4 text-xs text-ivory/65">
+        <a
+          href="https://lordicon.com/"
+          target="_blank"
+          rel="noreferrer"
+          className="underline decoration-ivory/30 underline-offset-2 transition hover:text-ivory"
+        >
+          Animated icons by Lordicon.com
+        </a>
+      </div>
     </footer>
   );
 }
