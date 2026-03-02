@@ -55,14 +55,14 @@ a {
 
 .surface-card {
   border: 1px solid var(--border-soft);
-  background: var(--surface-card);
+  background: #ffffff;
   box-shadow: 0 10px 28px var(--shadow-soft);
   backdrop-filter: blur(2px);
 }
 
 .surface-card-strong {
   border: 1px solid var(--border-strong);
-  background: linear-gradient(165deg, var(--surface-card-strong-start), var(--surface-card-strong-end));
+  background: #ffffff;
   box-shadow: 0 16px 34px var(--shadow-strong);
 }
 
