@@ -75,7 +75,7 @@ export const sermons = [
   },
   {
     date: "2026-02-01",
-    title: "복음으로 다시 시작하는 교회",
+    title: "성령으로 제자삼는 교회",
     pastor: "담임목사 김OO",
     summary: "개척교회의 시작점은 규모가 아닌 복음의 중심입니다."
   }

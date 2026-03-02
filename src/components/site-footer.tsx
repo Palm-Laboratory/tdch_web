@@ -15,7 +15,7 @@ export default function SiteFooter() {
       <div className="section-shell grid gap-7 text-sm lg:grid-cols-[1.2fr,1fr,1fr]">
         <div className="space-y-3">
           <p className="font-serif text-2xl text-ivory">더 제자교회</p>
-          <p className="max-w-sm leading-relaxed">복음으로 사람을 세우는 공동체</p>
+          <p className="max-w-sm leading-relaxed">성령으로 제자삼는 교회</p>
           <div className="flex flex-wrap gap-2">
             <a
               href={youtube}
