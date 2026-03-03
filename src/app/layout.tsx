@@ -19,12 +19,12 @@ const serif = Noto_Serif_KR({
 });
 
 export const metadata: Metadata = {
-  title: "더 제자교회",
+  title: "The 제자교회",
   description: "성령으로 제자삼는 교회",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "더 제자교회"
+    title: "The 제자교회"
   }
 };
 

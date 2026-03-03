@@ -56,7 +56,7 @@ const newsPosts: NewsPostPreview[] = [
     category: "공지",
     title: "봄 학기 성경공부 신청 안내 (더미)",
     date: "2026.03.01",
-    thumbnail: "/images/sample.jpg"
+    thumbnail: "/images/sample.png"
   },
   {
     href: "/sermons#setlist",
@@ -70,14 +70,14 @@ const newsPosts: NewsPostPreview[] = [
     category: "새가족",
     title: "새가족 환영 모임 안내 (더미)",
     date: "2026.02.28",
-    thumbnail: "/images/sample2.jpg"
+    thumbnail: "/images/sample2.png"
   },
   {
     href: "/news#bulletin",
     category: "주보",
     title: "2월 4주차 주보 안내 (더미)",
     date: "2026.02.23",
-    thumbnail: "/images/sample.jpg"
+    thumbnail: "/images/sample.png"
   },
   {
     href: "/news#notice",
@@ -91,7 +91,7 @@ const newsPosts: NewsPostPreview[] = [
     category: "셋 리스트",
     title: "수요 예배 찬양 셋 리스트 (더미)",
     date: "2026.02.20",
-    thumbnail: "/images/sample2.jpg"
+    thumbnail: "/images/sample2.png"
   },
   {
     href: "/newcomer",
@@ -108,12 +108,12 @@ export default function Home() {
     "https://www.youtube.com/@%EB%8D%94%EC%A0%9C%EC%9E%90%EA%B5%90%ED%9A%8C";
 
   return (
-    <div className="section-shell flex w-full flex-col pb-16 pt-0 md:pb-20 md:pt-0">
-      <section className="relative left-1/2 w-[min(2200px,122vw)] -translate-x-1/2 overflow-hidden rounded-b-[2rem] shadow-[0_20px_46px_rgba(16,33,63,0.2)]">
-        <div className="relative min-h-[92svh] md:min-h-[calc(100svh-5rem)]">
+    <div className="section-shell flex w-full flex-col pb-0 pt-0">
+      <section className="relative left-1/2 h-[650px] w-[1800px] -translate-x-1/2 overflow-hidden">
+        <div className="relative h-full">
           <Image
-            src="/images/sample2.jpg"
-            alt="더 제자교회 메인 히어로 이미지"
+            src="/images/sample2.png"
+            alt="The 제자교회 메인 히어로 이미지"
             fill
             priority
             className="object-cover object-center"
@@ -121,7 +121,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-ink/78 via-ink/52 to-ink/18" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/38 via-transparent to-transparent" />
 
-          <div className="relative z-10 flex min-h-[92svh] items-center py-8 md:min-h-[calc(100svh-5rem)] md:py-10">
+          <div className="relative z-10 flex h-full items-center py-8 md:py-10">
             <div className="section-shell w-full">
               <div className="grid items-end gap-3 lg:grid-cols-[minmax(0,770px),270px] lg:items-stretch lg:justify-center lg:gap-4">
                 <div className="w-full max-w-xl space-y-6 rounded-2xl bg-black/30 px-6 py-7 text-ivory backdrop-blur-[2px] md:space-y-7 md:max-w-[770px] md:px-7 md:py-8">
@@ -202,118 +202,138 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mt-10 px-2 py-2 text-center md:mt-12">
-        <h2 className="font-serif text-3xl font-bold leading-tight text-ink md:text-5xl">
-          더 제자교회에 오신 것을 환영합니다
-        </h2>
-      </section>
+      {/* 2. 웰컴 문구 + 사명 이미지 영역 */}
+      <section className="relative left-1/2 mt-0 w-[1800px] -translate-x-1/2 overflow-hidden">
+        <div className="absolute inset-0 bg-[#ffffff]" />
 
-      <section className="mt-11 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {quickInfoCards.map((card) => (
-          <Link
-            key={card.title}
-            href={card.href}
-            className="group rounded-3xl border border-cedar/12 bg-white/92 p-5 shadow-[0_12px_28px_rgba(16,33,63,0.12)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_30px_rgba(16,33,63,0.16)]"
-          >
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cedar/70">{card.enTitle}</p>
-            <h2 className="mt-2 text-xl font-bold leading-tight text-ink">{card.title}</h2>
-            <p className="mt-3 text-sm leading-relaxed text-ink/72">{card.description}</p>
-          </Link>
-        ))}
-      </section>
+        <div className="relative z-10 section-shell pb-28 pt-10 md:pb-36 md:pt-12">
+          <section className="px-2 py-2 text-center">
+            <h2 className="font-serif text-3xl font-bold leading-tight text-ink md:text-5xl">
+              The 제자교회에 오신 것을 환영합니다
+            </h2>
+          </section>
 
-      <section className="mt-11 grid gap-4 lg:grid-cols-[1.2fr,1fr]">
-        <a
-          href={youtubeUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="group overflow-hidden rounded-3xl border border-cedar/14 bg-white shadow-[0_16px_34px_rgba(16,33,63,0.15)]"
-        >
-          <div className="relative aspect-[16/9] w-full overflow-hidden">
-            <Image
-              src="/images/main_bg_3.jpg"
-              alt="최신 예배 설교 하이라이트"
-              fill
-              className="object-cover transition duration-500 group-hover:scale-[1.03]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/45 to-black/8" />
-            <div className="absolute bottom-4 left-4 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-ink">
-              Featured Sermon
+          {/* ── 교회 사명 섹션 ── */}
+          <section>
+            <div className="mx-auto w-full max-w-[800px]">
+              <Image
+                src="/images/mission.png"
+                alt="The 제자교회 사명 - 다음 세대 자녀 양육, 다문화 가족 지원, 다민족 선교"
+                width={800}
+                height={600}
+                className="h-auto w-full object-contain"
+              />
             </div>
-          </div>
-          <div className="space-y-2 p-5">
-            <h2 className="text-2xl font-bold leading-tight text-ink">말씀 / 예배 하이라이트</h2>
-            <p className="text-sm leading-relaxed text-ink/75">
-              최신 주일 예배 설교 영상과 핵심 메시지를 홈에서 바로 확인하세요. (더미 데이터)
-            </p>
-          </div>
-        </a>
-
-        <Link
-          href="/news#bulletin"
-          className="group overflow-hidden rounded-3xl border border-cedar/14 bg-white shadow-[0_16px_34px_rgba(16,33,63,0.13)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(16,33,63,0.16)]"
-        >
-          <div className="relative aspect-[4/3] w-full overflow-hidden">
-            <Image
-              src="/images/main_bg_2.jpg"
-              alt="금주 주보 썸네일"
-              fill
-              className="object-cover transition duration-500 group-hover:scale-[1.03]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-black/5" />
-            <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-ink">
-              This Week Bulletin
-            </span>
-          </div>
-          <div className="space-y-2 p-5">
-            <h3 className="text-2xl font-bold leading-tight text-ink">금주 주보</h3>
-            <p className="text-sm leading-relaxed text-ink/75">
-              이번 주 예배 순서와 교회 소식을 한눈에 확인하세요. (더미 데이터)
-            </p>
-          </div>
-        </Link>
+          </section>
+        </div>
       </section>
 
-      <section className="mt-11 rounded-3xl border border-cedar/14 bg-white/95 p-5 shadow-[0_16px_34px_rgba(16,33,63,0.12)] md:p-6">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cedar/70">Church News</p>
-            <h2 className="mt-1 text-2xl font-bold text-ink">교회 소식</h2>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <span className="rounded-full bg-cedar/10 px-3 py-1 text-xs font-semibold text-cedar">주보</span>
-            <span className="rounded-full bg-cedar/10 px-3 py-1 text-xs font-semibold text-cedar">공지</span>
-            <span className="rounded-full bg-cedar/10 px-3 py-1 text-xs font-semibold text-cedar">
-              셋 리스트
-            </span>
-            <span className="rounded-full bg-cedar/10 px-3 py-1 text-xs font-semibold text-cedar">새가족</span>
-          </div>
+      {/* 3. 하단 카드 영역 */}
+      <section className="relative left-1/2 mt-0 w-[1800px] -translate-x-1/2">
+        <div className="pointer-events-none absolute inset-y-0 left-1/2 w-[3000px] -translate-x-1/2 opacity-70">
+          <Image
+            src="/images/main_bg_sec3.png"
+            alt="섹션 3 배경 이미지"
+            fill
+            className="object-contain object-top"
+          />
         </div>
 
-        <div className="no-scrollbar mt-5 flex gap-4 overflow-x-auto pb-1">
-          {newsPosts.map((post) => (
-            <Link
-              key={`${post.category}-${post.title}`}
-              href={post.href}
-              className="group w-[260px] min-w-[260px] overflow-hidden rounded-2xl border border-cedar/12 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_26px_rgba(16,33,63,0.14)]"
+        <div className="relative z-10 section-shell space-y-11 pb-16 pt-[2em] md:pb-20">
+          <section className="relative z-20 -mt-[6rem] grid gap-4 md:-mt-[6.5rem] md:grid-cols-2 xl:grid-cols-4">
+            {quickInfoCards.map((card) => (
+              <Link
+                key={card.title}
+                href={card.href}
+                className="group rounded-3xl border border-cedar/12 bg-white p-5 shadow-[0_12px_28px_rgba(16,33,63,0.12)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_30px_rgba(16,33,63,0.16)]"
+              >
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cedar/70">
+                  {card.enTitle}
+                </p>
+                <h2 className="mt-2 text-xl font-bold leading-tight text-ink">{card.title}</h2>
+                <p className="mt-3 text-sm leading-relaxed text-ink/72">{card.description}</p>
+              </Link>
+            ))}
+          </section>
+
+          <section className="grid gap-4 lg:grid-cols-2">
+            <a
+              href={youtubeUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="group relative block aspect-[16/10] overflow-hidden rounded-3xl border border-cedar/14 bg-white shadow-[0_16px_34px_rgba(16,33,63,0.15)]"
             >
-              <div className="relative aspect-[16/10] w-full overflow-hidden">
-                <Image
-                  src={post.thumbnail}
-                  alt={`${post.category} 썸네일`}
-                  fill
-                  className="object-cover transition duration-500 group-hover:scale-[1.04]"
-                />
+              <Image
+                src="/images/0302_thumb.jpg"
+                alt="최신 예배 설교 하이라이트"
+                fill
+                className="object-cover object-center transition duration-500 group-hover:scale-[1.03]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-black/10" />
+              <div className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-ink">
+                금주 말씀
               </div>
-              <div className="space-y-2 p-4">
-                <span className="inline-flex rounded-full bg-cedar/12 px-2.5 py-1 text-xs font-semibold text-cedar">
-                  {post.category}
-                </span>
-                <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-ink">{post.title}</h3>
-                <p className="text-xs font-medium text-ink/55">{post.date}</p>
-              </div>
+            </a>
+
+            <Link
+              href="/news#bulletin"
+              className="group relative block aspect-[16/10] overflow-hidden rounded-3xl border border-cedar/14 bg-white shadow-[0_16px_34px_rgba(16,33,63,0.13)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(16,33,63,0.16)]"
+            >
+              <Image
+                src="/images/0302_jubo.jpeg"
+                alt="금주 주보 썸네일"
+                fill
+                className="object-cover object-center transition duration-500 group-hover:scale-[1.03]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-black/5" />
+              <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-ink">
+                금주 주보
+              </span>
             </Link>
-          ))}
+          </section>
+
+          <section className="rounded-3xl border border-cedar/14 bg-white/95 p-5 shadow-[0_16px_34px_rgba(16,33,63,0.12)] md:p-6">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cedar/70">Church News</p>
+                <h2 className="mt-1 text-2xl font-bold text-ink">교회 소식</h2>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <span className="rounded-full bg-cedar/10 px-3 py-1 text-xs font-semibold text-cedar">주보</span>
+                <span className="rounded-full bg-cedar/10 px-3 py-1 text-xs font-semibold text-cedar">공지</span>
+                <span className="rounded-full bg-cedar/10 px-3 py-1 text-xs font-semibold text-cedar">
+                  셋 리스트
+                </span>
+                <span className="rounded-full bg-cedar/10 px-3 py-1 text-xs font-semibold text-cedar">새가족</span>
+              </div>
+            </div>
+
+            <div className="no-scrollbar mt-5 flex gap-4 overflow-x-auto pb-1">
+              {newsPosts.map((post) => (
+                <Link
+                  key={`${post.category}-${post.title}`}
+                  href={post.href}
+                  className="group w-[260px] min-w-[260px] overflow-hidden rounded-2xl border border-cedar/12 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_26px_rgba(16,33,63,0.14)]"
+                >
+                  <div className="relative aspect-[16/10] w-full overflow-hidden">
+                    <Image
+                      src={post.thumbnail}
+                      alt={`${post.category} 썸네일`}
+                      fill
+                      className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                    />
+                  </div>
+                  <div className="space-y-2 p-4">
+                    <span className="inline-flex rounded-full bg-cedar/12 px-2.5 py-1 text-xs font-semibold text-cedar">
+                      {post.category}
+                    </span>
+                    <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-ink">{post.title}</h3>
+                    <p className="text-xs font-medium text-ink/55">{post.date}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
         </div>
       </section>
     </div>

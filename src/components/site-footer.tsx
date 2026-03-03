@@ -1,7 +1,7 @@
 const phone = process.env.NEXT_PUBLIC_CHURCH_PHONE ?? "010-5252-8580";
 const email = process.env.NEXT_PUBLIC_CHURCH_EMAIL ?? "hello@thedisciples.church";
 const address =
-  process.env.NEXT_PUBLIC_CHURCH_ADDRESS ?? "경기도 수원시 팔달구 경수대로425 지하1층, 더 제자교회";
+  process.env.NEXT_PUBLIC_CHURCH_ADDRESS ?? "경기도 수원시 팔달구 경수대로425 지하1층, The 제자교회";
 const youtube =
   process.env.NEXT_PUBLIC_YOUTUBE_URL ??
   "https://www.youtube.com/@%EB%8D%94%EC%A0%9C%EC%9E%90%EA%B5%90%ED%9A%8C";
@@ -12,7 +12,7 @@ export default function SiteFooter() {
     <footer className="border-t border-cedar/20 bg-cedar py-10 text-ivory/80 md:py-12">
       <div className="section-shell grid gap-7 text-sm lg:grid-cols-[1.2fr,1fr]">
         <div className="space-y-3">
-          <p className="font-serif text-2xl text-ivory">더 제자교회</p>
+          <p className="font-serif text-2xl text-ivory">The 제자교회</p>
           <p className="max-w-sm leading-relaxed">성령으로 제자삼는 교회</p>
           <div className="flex flex-wrap gap-2">
             <a
