@@ -241,108 +241,113 @@ export default function Home() {
             })}
           </section>
 
+          {/* 상단 4개 카드와 말씀 메뉴 사이 명시적 공간 확보 */}
+          <div className="h-3 md:h-4"></div>
+
           {/* 말씀 섹션 */}
-          <div className="space-y-5">
-            <div className="flex items-end justify-between">
-              <div className="text-center">
-                <h2 className="font-serif text-3xl font-semibold text-ink md:text-4xl">말씀</h2>
-                <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-cedar/70">Sermon</p>
+          <div>
+            <div className="space-y-6">
+              <div className="flex items-end justify-between">
+                <div className="text-center">
+                  <h2 className="font-serif text-3xl font-semibold text-ink md:text-4xl">말씀</h2>
+                  <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-cedar/70">Sermon</p>
+                </div>
+                <Link href="/sermons" className="text-sm font-semibold text-cedar transition hover:text-clay">
+                  더보기 &rarr;
+                </Link>
               </div>
-              <Link href="/sermons" className="text-sm font-semibold text-cedar transition hover:text-clay">
-                더보기 &rarr;
-              </Link>
+
+              <section className="grid gap-4 lg:grid-cols-2">
+                <a
+                  href={youtubeUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group overflow-hidden rounded-3xl border border-cedar/14 bg-white shadow-[0_16px_34px_rgba(16,33,63,0.15)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(16,33,63,0.18)]"
+                >
+                  {/* 썸네일 */}
+                  <div className="relative aspect-[16/10] w-full overflow-hidden">
+                    <Image
+                      src="/images/0302_thumb.jpg"
+                      alt="최신 예배 설교 하이라이트"
+                      fill
+                      className="object-cover object-center transition duration-500 group-hover:scale-[1.03]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-black/10" />
+                    {/* 플레이 버튼 */}
+                    <div className="absolute bottom-4 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/95 shadow-md transition group-hover:scale-110">
+                      <svg className="ml-0.5 h-5 w-5 text-ink" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* 텍스트 영역 */}
+                  <div className="p-5">
+                    <div className="flex items-center gap-2 text-xs font-semibold text-cedar">
+                      <span>설교</span>
+                      <span className="text-cedar/40">|</span>
+                      <span>주일예배</span>
+                    </div>
+                    <h3 className="mt-2 text-base font-bold leading-snug text-ink md:text-lg">
+                      목마름을 채우시는 사랑
+                    </h3>
+                    <p className="mt-1 text-xs text-ink/55 line-clamp-1">
+                      요한복음 4:1~42 <span className="mx-1 text-ink/30">|</span> 이진욱 목사
+                    </p>
+                    <p className="mt-4 text-xs font-medium text-ink/40">
+                      2026.03.02
+                    </p>
+                  </div>
+                </a>
+
+                <a
+                  href={youtubeUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group overflow-hidden rounded-3xl border border-cedar/14 bg-white shadow-[0_16px_34px_rgba(16,33,63,0.13)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(16,33,63,0.16)]"
+                >
+                  {/* 썸네일 */}
+                  <div className="relative aspect-[16/10] w-full overflow-hidden">
+                    <Image
+                      src="/images/0228_thumb.jpg"
+                      alt="새 시작을 주시는 사랑 설교 썸네일"
+                      fill
+                      className="object-cover object-center transition duration-500 group-hover:scale-[1.03]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-black/10" />
+                    {/* 플레이 버튼 */}
+                    <div className="absolute bottom-4 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/95 shadow-md transition group-hover:scale-110">
+                      <svg className="ml-0.5 h-5 w-5 text-ink" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* 텍스트 영역 */}
+                  <div className="p-5">
+                    <div className="flex items-center gap-2 text-xs font-semibold text-cedar">
+                      <span>설교</span>
+                      <span className="text-cedar/40">|</span>
+                      <span>주일예배</span>
+                    </div>
+                    <h3 className="mt-2 text-base font-bold leading-snug text-ink md:text-lg">
+                      새 시작을 주시는 사랑
+                    </h3>
+                    <p className="mt-1 text-xs text-ink/55 line-clamp-1">
+                      요한복음 2:1~11 <span className="mx-1 text-ink/30">|</span> 이진욱 목사
+                    </p>
+                    <p className="mt-4 text-xs font-medium text-ink/40">
+                      2026.02.28
+                    </p>
+                  </div>
+                </a>
+              </section>
             </div>
 
-            <section className="grid gap-4 lg:grid-cols-2">
-              <a
-                href={youtubeUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="group overflow-hidden rounded-3xl border border-cedar/14 bg-white shadow-[0_16px_34px_rgba(16,33,63,0.15)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(16,33,63,0.18)]"
-              >
-                {/* 썸네일 */}
-                <div className="relative aspect-[16/10] w-full overflow-hidden">
-                  <Image
-                    src="/images/0302_thumb.jpg"
-                    alt="최신 예배 설교 하이라이트"
-                    fill
-                    className="object-cover object-center transition duration-500 group-hover:scale-[1.03]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-black/10" />
-                  {/* 플레이 버튼 */}
-                  <div className="absolute bottom-4 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/95 shadow-md transition group-hover:scale-110">
-                    <svg className="ml-0.5 h-5 w-5 text-ink" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </div>
-                </div>
-
-                {/* 텍스트 영역 */}
-                <div className="p-5">
-                  <div className="flex items-center gap-2 text-xs font-semibold text-cedar">
-                    <span>설교</span>
-                    <span className="text-cedar/40">|</span>
-                    <span>주일예배</span>
-                  </div>
-                  <h3 className="mt-2 text-base font-bold leading-snug text-ink md:text-lg">
-                    목마름을 채우시는 사랑
-                  </h3>
-                  <p className="mt-1 text-xs text-ink/55 line-clamp-1">
-                    요한복음 4:1~42 <span className="mx-1 text-ink/30">|</span> 이진욱 목사
-                  </p>
-                  <p className="mt-4 text-xs font-medium text-ink/40">
-                    2026.03.02
-                  </p>
-                </div>
-              </a>
-
-              <a
-                href={youtubeUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="group overflow-hidden rounded-3xl border border-cedar/14 bg-white shadow-[0_16px_34px_rgba(16,33,63,0.13)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(16,33,63,0.16)]"
-              >
-                {/* 썸네일 */}
-                <div className="relative aspect-[16/10] w-full overflow-hidden">
-                  <Image
-                    src="/images/0228_thumb.jpg"
-                    alt="새 시작을 주시는 사랑 설교 썸네일"
-                    fill
-                    className="object-cover object-center transition duration-500 group-hover:scale-[1.03]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-black/10" />
-                  {/* 플레이 버튼 */}
-                  <div className="absolute bottom-4 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/95 shadow-md transition group-hover:scale-110">
-                    <svg className="ml-0.5 h-5 w-5 text-ink" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </div>
-                </div>
-
-                {/* 텍스트 영역 */}
-                <div className="p-5">
-                  <div className="flex items-center gap-2 text-xs font-semibold text-cedar">
-                    <span>설교</span>
-                    <span className="text-cedar/40">|</span>
-                    <span>주일예배</span>
-                  </div>
-                  <h3 className="mt-2 text-base font-bold leading-snug text-ink md:text-lg">
-                    새 시작을 주시는 사랑
-                  </h3>
-                  <p className="mt-1 text-xs text-ink/55 line-clamp-1">
-                    요한복음 2:1~11 <span className="mx-1 text-ink/30">|</span> 이진욱 목사
-                  </p>
-                  <p className="mt-4 text-xs font-medium text-ink/40">
-                    2026.02.28
-                  </p>
-                </div>
-              </a>
-            </section>
-
-            <section className="rounded-3xl border border-cedar/14 bg-white/95 p-5 shadow-[0_16px_34px_rgba(16,33,63,0.12)] md:p-6">
+            <div className="mt-16 space-y-6 lg:mt-24">
               <div className="flex flex-wrap items-end justify-between gap-3">
                 <div className="text-center">
-                  <h2 className="text-2xl font-bold text-ink">교회 소식</h2>
+                  <h2 className="font-serif text-3xl font-semibold text-ink md:text-4xl">The 제자 소식</h2>
                   <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-cedar/70">Church News</p>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -355,32 +360,34 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="no-scrollbar mt-5 flex gap-4 overflow-x-auto pb-1">
-                {newsPosts.map((post) => (
-                  <Link
-                    key={`${post.category}-${post.title}`}
-                    href={post.href}
-                    className="group w-[260px] min-w-[260px] overflow-hidden rounded-2xl border border-cedar/12 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_26px_rgba(16,33,63,0.14)]"
-                  >
-                    <div className="relative aspect-[16/10] w-full overflow-hidden">
-                      <Image
-                        src={post.thumbnail}
-                        alt={`${post.category} 썸네일`}
-                        fill
-                        className="object-cover transition duration-500 group-hover:scale-[1.04]"
-                      />
-                    </div>
-                    <div className="space-y-2 p-4">
-                      <span className="inline-flex rounded-full bg-cedar/12 px-2.5 py-1 text-xs font-semibold text-cedar">
-                        {post.category}
-                      </span>
-                      <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-ink">{post.title}</h3>
-                      <p className="text-xs font-medium text-ink/55">{post.date}</p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </section>
+              <section className="rounded-3xl border border-cedar/14 bg-white/95 p-5 shadow-[0_16px_34px_rgba(16,33,63,0.12)] md:p-6">
+                <div className="no-scrollbar flex gap-4 overflow-x-auto pb-1">
+                  {newsPosts.map((post) => (
+                    <Link
+                      key={`${post.category}-${post.title}`}
+                      href={post.href}
+                      className="group w-[260px] min-w-[260px] overflow-hidden rounded-2xl border border-cedar/12 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_26px_rgba(16,33,63,0.14)]"
+                    >
+                      <div className="relative aspect-[16/10] w-full overflow-hidden">
+                        <Image
+                          src={post.thumbnail}
+                          alt={`${post.category} 썸네일`}
+                          fill
+                          className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                        />
+                      </div>
+                      <div className="space-y-2 p-4">
+                        <span className="inline-flex rounded-full bg-cedar/12 px-2.5 py-1 text-xs font-semibold text-cedar">
+                          {post.category}
+                        </span>
+                        <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-ink">{post.title}</h3>
+                        <p className="text-xs font-medium text-ink/55">{post.date}</p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            </div>
           </div>
         </div>
       </section>
