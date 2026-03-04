@@ -44,7 +44,6 @@ export const navMenuGroups: NavMenuGroup[] = [
     items: [
       { href: "/contact#map", label: "지도" },
       { href: "/contact#contact-info", label: "연락처" },
-      { href: "/contact#kakao-phone", label: "카카오톡/전화" }
     ]
   },
   {

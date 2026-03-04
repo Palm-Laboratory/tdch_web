@@ -5,7 +5,6 @@ const address =
 const youtube =
   process.env.NEXT_PUBLIC_YOUTUBE_URL ??
   "https://www.youtube.com/@%EB%8D%94%EC%A0%9C%EC%9E%90%EA%B5%90%ED%9A%8C";
-const kakao = process.env.NEXT_PUBLIC_KAKAO_URL ?? "https://open.kakao.com/o/yourlink";
 
 export default function SiteFooter() {
   return (
@@ -22,14 +21,6 @@ export default function SiteFooter() {
               className="inline-flex min-h-10 items-center rounded-full border border-ivory/30 px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-ivory transition hover:bg-ivory/10"
             >
               Youtube
-            </a>
-            <a
-              href={kakao}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex min-h-10 items-center rounded-full border border-ivory/30 px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-ivory transition hover:bg-ivory/10"
-            >
-              Kakao
             </a>
           </div>
         </div>
