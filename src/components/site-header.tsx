@@ -5,7 +5,7 @@ import { navMenuGroups } from "@/lib/site-data";
 export default function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-cedar/10 bg-[#ffffff] backdrop-blur-lg animate-header-item">
-      <div className="section-shell py-[31px] md:py-[35px]">
+      <div className="section-shell py-[25px]">
         <div className="grid grid-cols-[auto_1fr_auto] items-center gap-4 md:gap-6">
           {/* 로고 */}
           <Link href="/" className="shrink-0">
