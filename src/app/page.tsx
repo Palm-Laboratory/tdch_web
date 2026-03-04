@@ -112,10 +112,10 @@ export default function Home() {
 
   return (
     <div className="section-shell flex w-full flex-col pb-0 pt-0">
-      <section className="relative left-1/2 h-[740px] w-[1800px] -translate-x-1/2 overflow-hidden">
+      <section className="relative left-1/2 h-[740px] w-[3000px] -translate-x-1/2 overflow-hidden">
         <div className="relative h-full">
           <Image
-            src="/images/sample2.png"
+            src="/images/main_bg_sec1.png"
             alt="The 제자교회 메인 히어로 이미지"
             fill
             priority
@@ -127,7 +127,7 @@ export default function Home() {
           <div className="relative z-10 flex h-full items-center py-8 md:py-10">
             <div className="section-shell w-full">
               <div className="grid items-end gap-3 lg:grid-cols-[minmax(0,770px),270px] lg:items-stretch lg:justify-center lg:gap-4">
-                <div className="w-full max-w-xl space-y-6 rounded-2xl bg-black/30 px-6 py-7 text-ivory backdrop-blur-[2px] md:space-y-7 md:max-w-[770px] md:px-7 md:py-8">
+                <div className="w-full max-w-xl space-y-6 rounded-2xl bg-black/30 px-6 py-7 text-ivory backdrop-blur-md md:space-y-7 md:max-w-[770px] md:px-7 md:py-8">
                   <p className="chip w-fit bg-gold/30 text-ivory">VISION</p>
                   <h1 className="font-serif text-4xl leading-[1.18] md:text-6xl">
                     성령으로
@@ -212,13 +212,13 @@ export default function Home() {
       </section>
 
       {/* 3. 하단 카드 영역 */}
-      <section className="relative left-1/2 mt-0 w-[1800px] -translate-x-1/2">
-        <div className="pointer-events-none absolute inset-y-0 left-1/2 w-[3000px] -translate-x-1/2 opacity-70">
+      <section className="relative left-1/2 mt-0 w-[3000px] -translate-x-1/2">
+        <div className="pointer-events-none absolute inset-y-0 left-1/2 w-full -translate-x-1/2 opacity-70">
           <Image
             src="/images/main_bg_sec3.png"
             alt="섹션 3 배경 이미지"
             fill
-            className="object-contain object-top"
+            className="object-cover object-center"
           />
         </div>
 
@@ -333,7 +333,7 @@ export default function Home() {
       </section>
 
       {/* 4. The 제자 소식 섹션 */}
-      <section className="relative left-1/2 mt-0 w-[1800px] -translate-x-1/2 overflow-hidden">
+      <section className="relative left-1/2 mt-0 w-[3000px] -translate-x-1/2 overflow-hidden">
         {/* 어두운 그라디언트 배경 — 추후 이미지로 교체 예정 */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#13243a] via-[#1c2f48] to-[#0f1c2e]" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
