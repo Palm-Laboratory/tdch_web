@@ -94,7 +94,7 @@ const newsPosts: NewsPostPreview[] = [
     category: "셋 리스트",
     title: "수요 예배 찬양 셋 리스트 (더미)",
     date: "2026.02.20",
-    thumbnail: "/images/sample2.png"
+    thumbnail: "/images/.png"
   },
   {
     href: "/newcomer",
@@ -115,7 +115,7 @@ export default function Home() {
       <section className="relative left-1/2 h-[740px] w-[3000px] -translate-x-1/2 overflow-hidden">
         <div className="relative h-full">
           <Image
-            src="/images/main_bg_sec1.png"
+            src="/images/main_bg/main_bg_sec1.png"
             alt="The 제자교회 메인 히어로 이미지"
             fill
             priority
@@ -217,7 +217,7 @@ export default function Home() {
       <section className="relative left-1/2 mt-0 w-[3000px] -translate-x-1/2">
         <div className="pointer-events-none absolute inset-y-0 left-1/2 w-full -translate-x-1/2 opacity-70">
           <Image
-            src="/images/main_bg_sec3.png"
+            src="/images/main_bg/main_bg_sec3.png"
             alt="섹션 3 배경 이미지"
             fill
             className="object-cover object-center"
@@ -254,7 +254,7 @@ export default function Home() {
                   {/* 썸네일 */}
                   <div className="relative aspect-[16/10] w-full overflow-hidden">
                     <Image
-                      src="/images/0302_thumb.jpg"
+                      src="/images/sermon_thumb/0302_thumb.jpg"
                       alt="최신 예배 설교 하이라이트"
                       fill
                       className="object-cover object-center transition duration-500 group-hover:scale-[1.03]"
@@ -296,7 +296,7 @@ export default function Home() {
                   {/* 썸네일 */}
                   <div className="relative aspect-[16/10] w-full overflow-hidden">
                     <Image
-                      src="/images/0228_thumb.jpg"
+                      src="/images/sermon_thumb/0228_thumb.jpg"
                       alt="새 시작을 주시는 사랑 설교 썸네일"
                       fill
                       className="object-cover object-center transition duration-500 group-hover:scale-[1.03]"
