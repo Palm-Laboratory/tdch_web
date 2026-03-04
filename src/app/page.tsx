@@ -7,7 +7,7 @@ interface QuickMenuCard {
   href: string;
   title: string;
   enTitle: string;
-  description: string;
+  imageName: string;
 }
 
 interface NewsPostPreview {
@@ -24,25 +24,25 @@ const quickMenuCards: QuickMenuCard[] = [
     href: "/about",
     title: "교회소개",
     enTitle: "Church Intro",
-    description: "교회의 비전과 인사말, 연혁을 한 번에 살펴보세요."
+    imageName: "/images/quick_menu/church.png"
   },
   {
     href: "/about#service-times",
     title: "예배 시간 안내",
     enTitle: "Service Times",
-    description: "주일예배와 평일 모임 시간을 한눈에 확인하세요."
+    imageName: "/images/quick_menu/clock.png"
   },
   {
     href: "/newcomer",
     title: "새가족 안내",
     enTitle: "Newcomer",
-    description: "처음 오신 분들을 위한 등록 및 정착 안내입니다."
+    imageName: "/images/quick_menu/people-group.png"
   },
   {
     href: "/contact#map",
     title: "오시는길/문의",
     enTitle: "Visit & Contact",
-    description: "지도, 연락처, 카카오톡 채널 정보를 바로 확인하세요."
+    imageName: "/images/quick_menu/map-marker.png"
   }
 ];
 

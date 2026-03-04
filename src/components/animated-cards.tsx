@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
@@ -7,7 +8,7 @@ interface QuickInfoCard {
     href: string;
     title: string;
     enTitle: string;
-    description: string;
+    imageName: string;
 }
 
 interface AnimatedCardsProps {
@@ -44,8 +45,8 @@ export default function AnimatedCards({ cards }: AnimatedCardsProps) {
                         key={card.title}
                         href={card.href}
                         className={`group rounded-3xl border border-cedar/12 p-5 shadow-[0_12px_28px_rgba(16,33,63,0.12)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_30px_rgba(16,33,63,0.16)] ${isColored
-                                ? "bg-gradient-to-br from-[#13243a] via-[#1c2f48] to-[#0f1c2e]"
-                                : "bg-white"
+                            ? "bg-gradient-to-br from-[#13243a] via-[#1c2f48] to-[#0f1c2e]"
+                            : "bg-white"
                             }`}
                         style={{
                             opacity: visible ? 1 : 0,
@@ -54,24 +55,32 @@ export default function AnimatedCards({ cards }: AnimatedCardsProps) {
                             transitionDelay: `${index * 120}ms`,
                         }}
                     >
-                        <p
-                            className={`text-xs font-semibold uppercase tracking-[0.14em] ${isColored ? "text-white/70" : "text-cedar/70"
-                                }`}
-                        >
-                            {card.enTitle}
-                        </p>
-                        <h2
-                            className={`mt-2 text-xl font-bold leading-tight ${isColored ? "text-white" : "text-ink"
-                                }`}
-                        >
-                            {card.title}
-                        </h2>
-                        <p
-                            className={`mt-3 text-sm leading-relaxed ${isColored ? "text-white/80" : "text-ink/72"
-                                }`}
-                        >
-                            {card.description}
-                        </p>
+                        <div className="flex flex-col h-full justify-between">
+                            <div>
+                                <p
+                                    className={`text-xs font-semibold uppercase tracking-[0.14em] ${isColored ? "text-white/70" : "text-cedar/70"
+                                        }`}
+                                >
+                                    {card.enTitle}
+                                </p>
+                                <h2
+                                    className={`mt-2 text-xl font-bold leading-tight ${isColored ? "text-white" : "text-ink"
+                                        }`}
+                                >
+                                    {card.title}
+                                </h2>
+                            </div>
+                            <div className="mt-6 flex justify-end">
+                                <div className="relative h-12 w-12 opacity-80 transition group-hover:opacity-100 group-hover:scale-110 duration-300">
+                                    <Image
+                                        src={card.imageName}
+                                        alt={card.title}
+                                        fill
+                                        className={`object-contain ${isColored ? "brightness-0 invert" : "opacity-70"}`}
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </Link>
                 );
             })}
