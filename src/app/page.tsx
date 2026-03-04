@@ -69,7 +69,7 @@ export default function Home() {
                   <Link
                     href="/about#location"
                     id="hero-location-card"
-                    className="group flex h-[210px] flex-col items-center justify-center rounded-[2rem] border border-white/70 bg-[#f1f3f5] px-6 py-6 text-center text-ink shadow-[0_18px_26px_rgba(16,33,63,0.18)] transition duration-300 hover:-translate-y-1 lg:h-full lg:px-8 lg:py-7"
+                    className="group flex h-[210px] flex-col items-center justify-center rounded-[2rem] border border-white/70 bg-[#f1f3f5]/80 px-6 py-6 text-center text-ink shadow-[0_18px_26px_rgba(16,33,63,0.18)] backdrop-blur-md transition duration-300 hover:-translate-y-1 lg:h-full lg:px-8 lg:py-7"
                   >
                     <lord-icon
                       src="/images/wired-outline-18-location-pin-hover-jump.json"
@@ -93,7 +93,7 @@ export default function Home() {
                     id="hero-youtube-card"
                     target="_blank"
                     rel="noreferrer"
-                    className="group flex h-[210px] flex-col items-center justify-center rounded-[2rem] border border-white/70 bg-[#f1f3f5] px-6 py-6 text-center text-ink shadow-[0_18px_26px_rgba(16,33,63,0.18)] transition duration-300 hover:-translate-y-1 lg:h-full lg:px-8 lg:py-7"
+                    className="group flex h-[210px] flex-col items-center justify-center rounded-[2rem] border border-white/70 bg-[#f1f3f5]/80 px-6 py-6 text-center text-ink shadow-[0_18px_26px_rgba(16,33,63,0.18)] backdrop-blur-md transition duration-300 hover:-translate-y-1 lg:h-full lg:px-8 lg:py-7"
                   >
                     <lord-icon
                       src="/images/wired-outline-2547-logo-youtube-hover-pinch.json"
