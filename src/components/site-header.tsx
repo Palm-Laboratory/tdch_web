@@ -9,7 +9,7 @@ export default function SiteHeader() {
         <div className="grid grid-cols-[auto_1fr_auto] items-center gap-4 md:gap-6">
           {/* 로고 */}
           <Link href="/" className="shrink-0">
-            <div>
+            <div className="text-center">
               <p className="hidden text-[10px] uppercase tracking-[0.18em] text-cedar/70 sm:block">The Disciples Church</p>
               <p className="whitespace-nowrap font-serif text-xl font-semibold text-ink md:text-2xl">The 제자교회</p>
             </div>
