@@ -222,19 +222,23 @@ export default function Home() {
 
         <div className="relative z-10 section-shell space-y-11 pb-8 pt-[2em] md:pb-10">
           <section className="relative z-20 -mt-[6rem] grid gap-4 md:-mt-[6.5rem] md:grid-cols-2 xl:grid-cols-4">
-            {quickInfoCards.map((card) => (
-              <Link
-                key={card.title}
-                href={card.href}
-                className="group rounded-3xl border border-cedar/12 bg-white p-5 shadow-[0_12px_28px_rgba(16,33,63,0.12)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_30px_rgba(16,33,63,0.16)]"
-              >
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cedar/70">
-                  {card.enTitle}
-                </p>
-                <h2 className="mt-2 text-xl font-bold leading-tight text-ink">{card.title}</h2>
-                <p className="mt-3 text-sm leading-relaxed text-ink/72">{card.description}</p>
-              </Link>
-            ))}
+            {quickInfoCards.map((card, index) => {
+              const isColored = index % 2 === 1;
+              return (
+                <Link
+                  key={card.title}
+                  href={card.href}
+                  className="group rounded-3xl border border-cedar/12 p-5 shadow-[0_12px_28px_rgba(16,33,63,0.12)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_30px_rgba(16,33,63,0.16)]"
+                  style={{ backgroundColor: isColored ? "#6b83b0" : "#ffffff" }}
+                >
+                  <p className={`text-xs font-semibold uppercase tracking-[0.14em] ${isColored ? "text-white/70" : "text-cedar/70"}`}>
+                    {card.enTitle}
+                  </p>
+                  <h2 className={`mt-2 text-xl font-bold leading-tight ${isColored ? "text-white" : "text-ink"}`}>{card.title}</h2>
+                  <p className={`mt-3 text-sm leading-relaxed ${isColored ? "text-white/80" : "text-ink/72"}`}>{card.description}</p>
+                </Link>
+              );
+            })}
           </section>
 
           <section className="grid gap-4 lg:grid-cols-2">
