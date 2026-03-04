@@ -24,12 +24,12 @@ export default function SiteHeader() {
               >
                 <Link
                   href={menu.href}
-                  className="inline-flex whitespace-nowrap rounded-full border border-transparent px-6 py-2.5 transition group-focus-within/menu:border-cedar/20 group-focus-within/menu:bg-white group-focus-within/menu:text-clay group-hover/menu:border-cedar/20 group-hover/menu:bg-white group-hover/menu:text-clay"
+                  className="inline-flex whitespace-nowrap rounded-full border border-transparent px-6 py-2.5 transition group-hover/menu:border-cedar/20 group-hover/menu:bg-white group-hover/menu:text-clay"
                 >
                   <span>{menu.label}</span>
                 </Link>
 
-                <div className="pointer-events-none absolute left-0 top-full z-50 w-64 translate-y-1 opacity-0 transition duration-150 group-focus-within/menu:pointer-events-auto group-focus-within/menu:translate-y-0 group-focus-within/menu:opacity-100 group-hover/menu:pointer-events-auto group-hover/menu:translate-y-0 group-hover/menu:opacity-100">
+                <div className="pointer-events-none absolute left-0 top-full z-50 w-64 translate-y-1 opacity-0 transition duration-150 group-hover/menu:pointer-events-auto group-hover/menu:translate-y-0 group-hover/menu:opacity-100">
                   <div className="relative overflow-hidden rounded-2xl border border-cedar/15 bg-white p-3 shadow-[0_18px_40px_rgba(16,33,63,0.14)]">
                     <p className="px-2 pb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-cedar/60">
                       {menu.label}
