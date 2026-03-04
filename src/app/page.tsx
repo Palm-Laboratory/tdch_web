@@ -222,7 +222,7 @@ export default function Home() {
           />
         </div>
 
-        <div className="relative z-10 section-shell space-y-11 pb-8 pt-[2em] md:pb-10">
+        <div className="relative z-10 section-shell space-y-7 pb-[4.5rem] pt-[2em] md:pb-[5.5rem]">
           {/* 퀵 메뉴 — 주요 안내 바로가기 카드 4개 */}
           <AnimatedCards cards={quickMenuCards} />
 
@@ -337,7 +337,7 @@ export default function Home() {
         {/* 어두운 그라디언트 배경 — 추후 이미지로 교체 예정 */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#13243a] via-[#1c2f48] to-[#0f1c2e]" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-        <div className="relative z-10 section-shell pb-16 pt-16 md:pb-20 md:pt-20">
+        <div className="relative z-10 section-shell pb-28 pt-10 md:pt-12">
           {/* 섹션 헤더 */}
           <div className="mb-10">
             <h2 className="font-serif text-3xl font-semibold text-ivory md:text-4xl">The 제자 소식</h2>
