@@ -3,16 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-
-interface QuickInfoCard {
-    href: string;
-    title: string;
-    enTitle: string;
-    imageName: string;
-}
+import type { QuickMenuCard } from "@/lib/site-data";
 
 interface AnimatedCardsProps {
-    cards: QuickInfoCard[];
+    cards: QuickMenuCard[];
 }
 
 export default function AnimatedCards({ cards }: AnimatedCardsProps) {
