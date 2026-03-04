@@ -36,7 +36,7 @@ export default function Home() {
                 {/* 비전 텍스트 카드 */}
                 <div className="w-full max-w-xl space-y-6 rounded-2xl bg-black/30 px-6 py-7 text-ivory backdrop-blur-md md:space-y-7 md:max-w-[770px] md:px-7 md:py-8">
                   <p className="chip w-fit bg-gold/30 text-ivory">VISION</p>
-                  <h1 className="font-serif text-4xl leading-[1.18] md:text-6xl">
+                  <h1 className="font-yeongwol text-6xl leading-[1.18] tracking-wider md:text-8xl">
                     성령으로
                     <br />
                     제자삼는 교회

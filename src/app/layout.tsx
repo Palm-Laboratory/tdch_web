@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Noto_Sans_KR, Noto_Serif_KR } from "next/font/google";
+import localFont from "next/font/local";
 import Script from "next/script";
 
 import "./globals.css";
@@ -16,6 +17,12 @@ const serif = Noto_Serif_KR({
   subsets: ["latin"],
   variable: "--font-serif",
   weight: ["400", "600", "700"]
+});
+
+const yeongwol = localFont({
+  src: "./fonts/YeongwolTTF.ttf",
+  variable: "--font-yeongwol",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -40,7 +47,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${sans.variable} ${serif.variable} font-[var(--font-sans)] antialiased`}>
+      <body className={`${sans.variable} ${serif.variable} ${yeongwol.variable} font-[var(--font-sans)] antialiased`}>
         <Script src="https://cdn.lordicon.com/lordicon.js" strategy="afterInteractive" />
         <div className="relative flex min-h-screen flex-col">
           <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">

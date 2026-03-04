@@ -10,13 +10,13 @@ export default function SiteHeader() {
           {/* 로고 */}
           <Link href="/" className="shrink-0">
             <div className="text-center">
-              <p className="hidden text-[10px] uppercase tracking-[0.18em] text-themeBlue/70 sm:block">The Disciples Church</p>
-              <p className="whitespace-nowrap font-serif text-xl font-semibold text-ink md:text-2xl">The 제자교회</p>
+              <p className="hidden text-[10px] font-semibold uppercase tracking-[0.18em] text-themeBlue/70 sm:block">The Disciples Church</p>
+              <p className="whitespace-nowrap font-serif text-[20px] font-bold text-ink md:text-[24px]">The 제자교회</p>
             </div>
           </Link>
 
           {/* 데스크탑 내비게이션 */}
-          <nav className="hidden items-center justify-center gap-6 text-lg font-semibold text-ink/85 lg:flex xl:gap-8">
+          <nav className="hidden items-center justify-center gap-6 text-[20px] font-semibold text-ink/85 lg:flex xl:gap-8">
             {navMenuGroups.map((menu) => (
               <div
                 key={menu.label}
