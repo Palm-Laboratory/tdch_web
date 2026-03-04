@@ -175,6 +175,8 @@ export default function Home() {
                       경기도 수원시 팔달구
                       <br />
                       경수대로425 지하1층
+                      <br />
+                      (나인아트홀)
                     </p>
                   </Link>
 
@@ -231,7 +233,7 @@ export default function Home() {
 
           {/* 말씀 섹션 */}
           <div>
-            <div className="space-y-6">
+            <div className="space-y-8">
               <div className="flex items-end justify-between">
                 <div className="text-center">
                   <h2 className="font-serif text-3xl font-semibold text-ink md:text-4xl">말씀</h2>
@@ -339,9 +341,11 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
         <div className="relative z-10 section-shell pb-28 pt-10 md:pt-12">
           {/* 섹션 헤더 */}
-          <div className="mb-10">
-            <h2 className="font-serif text-3xl font-semibold text-ivory md:text-4xl">The 제자 소식</h2>
-            <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-ivory/50">Church News</p>
+          <div className="mb-8">
+            <div className="inline-block text-center">
+              <h2 className="font-serif text-3xl font-semibold text-ivory md:text-4xl">The 제자 소식</h2>
+              <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-ivory/50">THE DISCIPLES NEWS</p>
+            </div>
           </div>
 
           {/* 3컬럼 레이아웃 */}
@@ -351,7 +355,7 @@ export default function Home() {
             <div className="flex flex-col">
               <div className="mb-4 flex items-center justify-between border-b border-white/15 pb-3">
                 <div className="flex items-baseline gap-2.5">
-                  <h3 className="text-lg font-bold text-ivory">교회소식</h3>
+                  <h3 className="text-lg font-bold text-ivory">교회 소식</h3>
                   <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ivory/40">Church News</p>
                 </div>
                 <Link href="/news#notice" className="text-xs font-semibold text-ivory/50 transition hover:text-ivory">
@@ -385,7 +389,7 @@ export default function Home() {
             <div className="flex flex-col">
               <div className="mb-4 flex items-center justify-between border-b border-white/15 pb-3">
                 <div className="flex items-baseline gap-2.5">
-                  <h3 className="text-lg font-bold text-ivory">교회주보</h3>
+                  <h3 className="text-lg font-bold text-ivory">교회 주보</h3>
                   <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ivory/40">Bulletin</p>
                 </div>
                 <Link href="/news#bulletin" className="text-xs font-semibold text-ivory/50 transition hover:text-ivory">
