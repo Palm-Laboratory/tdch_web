@@ -1,0 +1,40 @@
+import Image from "next/image";
+
+interface PageHeaderProps {
+  title: string;
+  subtitle: string;
+  backgroundImageUrl?: string;
+}
+
+export default function PageHeader({
+  title,
+  subtitle,
+  backgroundImageUrl = "/images/main_bg/main_bg_sec1.png"
+}: PageHeaderProps) {
+  return (
+    <section className="relative w-full h-[260px] sm:h-[300px] overflow-hidden">
+      <div className="absolute inset-0">
+        <Image
+          src={backgroundImageUrl}
+          alt={`${title} 배경 이미지`}
+          fill
+          priority
+          /* 원래 object-center 였으나, 더 상단 영역(y축 25%)이 보이도록 커스텀 포지셔닝 적용 */
+          className="object-cover object-[center_25%]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#13243a]/90 via-[#13243a]/60 to-[#13243a]/30" />
+      </div>
+
+      <div className="relative z-10 flex h-full items-center justify-center pt-10">
+        <div className="text-center">
+          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-ivory/60">
+            {subtitle}
+          </p>
+          <h1 className="font-serif text-3xl font-bold text-ivory sm:text-4xl md:text-5xl">
+            {title}
+          </h1>
+        </div>
+      </div>
+    </section>
+  );
+}

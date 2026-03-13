@@ -11,14 +11,14 @@ export interface NavMenuGroup {
 
 export const navMenuGroups: NavMenuGroup[] = [
   {
-    href: "/about",
+    href: "/about", // 메인 클릭 시 /about/greeting 으로 리다이렉트 처리 예정
     label: "교회소개",
     items: [
-      { href: "/about#greeting", label: "인사말" },
-      { href: "/about#vision", label: "비전" },
-      { href: "/about#service-times", label: "예배 시간 안내" },
-      { href: "/about#location", label: "오시는 길" },
-      { href: "/about#history", label: "교회연혁" }
+      { href: "/about/greeting", label: "인사말" },
+      { href: "/about/vision", label: "비전" },
+      { href: "/about/service-times", label: "예배 시간 안내" },
+      { href: "/about/location", label: "오시는 길" },
+      { href: "/about/history", label: "교회연혁" }
     ]
   },
   {
@@ -63,8 +63,8 @@ export interface QuickMenuCard {
 }
 
 export const quickMenuCards: QuickMenuCard[] = [
-  { href: "/about", title: "교회소개", enTitle: "Church Intro", imageName: "/images/quick_menu/church.png" },
-  { href: "/about#service-times", title: "예배 시간 안내", enTitle: "Service Times", imageName: "/images/quick_menu/clock.png" },
+  { href: "/about/greeting", title: "교회소개", enTitle: "Church Intro", imageName: "/images/quick_menu/church.png" },
+  { href: "/about/service-times", title: "예배 시간 안내", enTitle: "Service Times", imageName: "/images/quick_menu/clock.png" },
   { href: "/newcomer", title: "새가족 안내", enTitle: "Newcomer", imageName: "/images/quick_menu/people-group.png" },
   { href: "/contact#map", title: "오시는길/문의", enTitle: "Visit & Contact", imageName: "/images/quick_menu/map-marker.png" },
 ];
