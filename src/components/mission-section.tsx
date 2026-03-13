@@ -58,7 +58,7 @@ export default function MissionSection() {
                     }}
                 >
                     <Image
-                        src="/images/mission.png"
+                        src="/images/our_mission.png"
                         alt="The 제자교회 사명 - 다음 세대 자녀 양육, 다문화 가족 지원, 다민족 선교"
                         width={800}
                         height={600}
