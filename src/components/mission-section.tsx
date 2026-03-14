@@ -31,7 +31,7 @@ export default function MissionSection() {
     const { ref: imageRef, inView: imageInView } = useInView(0.15);
 
     return (
-        <div className="relative z-10 section-shell pb-28 pt-10 md:pb-32 md:pt-12">
+        <div className="relative z-10 section-shell">
             {/* 환영 문구 */}
             <section className="px-2 py-2 text-center" ref={headingRef}>
                 <h2

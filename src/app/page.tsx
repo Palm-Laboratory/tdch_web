@@ -115,7 +115,7 @@ export default function Home() {
       </section>
 
       {/* 2. 웰컴 문구 + 사명 이미지 영역 */}
-      <section className="relative w-full overflow-hidden bg-white">
+      <section className="relative w-full overflow-hidden bg-white pt-10 md:pt-12 pb-[8rem] md:pb-[11rem] lg:pb-[13.5rem]">
         <MissionSection />
       </section>
 
