@@ -25,8 +25,8 @@ export const navMenuGroups: NavMenuGroup[] = [
     href: "/sermons",
     label: "예배",
     items: [
-      { href: "/sermons#messages", label: "말씀/설교 영상 내용" },
-      { href: "/sermons#setlist", label: "찬양 셋리스트" }
+      { href: "/sermons/messages", label: "말씀/설교 영상" },
+      { href: "/sermons/setlist", label: "찬양 셋리스트" }
     ]
   },
   {
@@ -130,4 +130,29 @@ export const homeSermonList: SermonCardData[] = [
     pastor: "이진욱 목사",
     date: "2026.02.28",
   },
+];
+
+// ─── 설교 목록 전체 데이터 (임시 더미 — 추후 API 연동 예정) ──────────────
+
+export const sermonList: SermonCardData[] = [
+  { href: "", thumbnail: "/images/sermon_thumb/0302_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "주일예배", title: "목마름을 채우시는 사랑", scripture: "요한복음 4:1~42", pastor: "이진욱 목사", date: "2026.03.02" },
+  { href: "", thumbnail: "/images/sermon_thumb/0228_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "주일예배", title: "새 시작을 주시는 사랑", scripture: "요한복음 2:1~11", pastor: "이진욱 목사", date: "2026.02.28" },
+  { href: "", thumbnail: "/images/sermon_thumb/0302_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "주일예배", title: "참된 안식을 주시는 하나님", scripture: "마태복음 11:28~30", pastor: "이진욱 목사", date: "2026.02.23" },
+  { href: "", thumbnail: "/images/sermon_thumb/0228_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "수요예배", title: "빛 가운데 행하라", scripture: "요한1서 1:5~10", pastor: "이진욱 목사", date: "2026.02.19" },
+  { href: "", thumbnail: "/images/sermon_thumb/0302_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "주일예배", title: "사랑의 빚진 자", scripture: "로마서 13:8~14", pastor: "이진욱 목사", date: "2026.02.16" },
+  { href: "", thumbnail: "/images/sermon_thumb/0228_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "금요기도회", title: "주의 이름을 부르는 자", scripture: "시편 145:18~21", pastor: "이진욱 목사", date: "2026.02.14" },
+  { href: "", thumbnail: "/images/sermon_thumb/0302_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "주일예배", title: "믿음의 선한 싸움", scripture: "디모데전서 6:11~16", pastor: "이진욱 목사", date: "2026.02.09" },
+  { href: "", thumbnail: "/images/sermon_thumb/0228_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "수요예배", title: "성령의 열매", scripture: "갈라디아서 5:22~26", pastor: "이진욱 목사", date: "2026.02.05" },
+  { href: "", thumbnail: "/images/sermon_thumb/0302_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "주일예배", title: "끝까지 견디는 자", scripture: "마태복음 24:9~14", pastor: "이진욱 목사", date: "2026.02.02" },
+  { href: "", thumbnail: "/images/sermon_thumb/0228_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "주일예배", title: "하나님의 뜻 안에서", scripture: "로마서 12:1~2", pastor: "이진욱 목사", date: "2026.01.26" },
+  { href: "", thumbnail: "/images/sermon_thumb/0302_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "금요기도회", title: "여호와를 신뢰하는 자", scripture: "잠언 3:5~8", pastor: "이진욱 목사", date: "2026.01.24" },
+  { href: "", thumbnail: "/images/sermon_thumb/0228_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "주일예배", title: "은혜와 평강이 넘치기를", scripture: "베드로후서 1:1~4", pastor: "이진욱 목사", date: "2026.01.19" },
+  { href: "", thumbnail: "/images/sermon_thumb/0302_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "수요예배", title: "주님의 음성을 듣다", scripture: "요한복음 10:27~30", pastor: "이진욱 목사", date: "2026.01.15" },
+  { href: "", thumbnail: "/images/sermon_thumb/0228_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "주일예배", title: "거룩한 부르심에 합당하게", scripture: "에베소서 4:1~6", pastor: "이진욱 목사", date: "2026.01.12" },
+  { href: "", thumbnail: "/images/sermon_thumb/0302_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "주일예배", title: "새해 첫 걸음", scripture: "여호수아 1:1~9", pastor: "이진욱 목사", date: "2026.01.05" },
+  { href: "", thumbnail: "/images/sermon_thumb/0228_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "금요기도회", title: "감사의 제사를 드리라", scripture: "시편 100:1~5", pastor: "이진욱 목사", date: "2026.01.03" },
+  { href: "", thumbnail: "/images/sermon_thumb/0302_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "주일예배", title: "성탄의 기쁨", scripture: "누가복음 2:8~20", pastor: "이진욱 목사", date: "2025.12.22" },
+  { href: "", thumbnail: "/images/sermon_thumb/0228_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "주일예배", title: "대림절의 소망", scripture: "이사야 9:2~7", pastor: "이진욱 목사", date: "2025.12.15" },
+  { href: "", thumbnail: "/images/sermon_thumb/0302_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "수요예배", title: "깨어 기도하라", scripture: "마태복음 26:36~41", pastor: "이진욱 목사", date: "2025.12.11" },
+  { href: "", thumbnail: "/images/sermon_thumb/0228_thumb.jpg", thumbnailAlt: "설교 썸네일", category: "설교", type: "주일예배", title: "하나님의 시간표", scripture: "전도서 3:1~8", pastor: "이진욱 목사", date: "2025.12.08" },
 ];
