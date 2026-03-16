@@ -45,8 +45,8 @@ export default function AnimatedCards({ cards }: AnimatedCardsProps) {
                         style={{
                             opacity: visible ? 1 : 0,
                             transform: visible ? "translateY(0)" : "translateY(4rem)",
-                            transition: `opacity 0.5s ease, transform 0.5s ease`,
-                            transitionDelay: `${index * 120}ms`,
+                            transition: `opacity 0.6s ease, transform 0.6s ease`,
+                            transitionDelay: `${index * 200}ms`,
                         }}
                     >
                         <div className="flex flex-col h-full justify-between">
