@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { navMenuGroups } from "@/lib/site-data";
 
+// Breadscrumb(브레드크럼)
+// 현재 위치의 계층 표시
 export default function Breadcrumb() {
   const pathname = usePathname();
 
