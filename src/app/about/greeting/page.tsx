@@ -35,6 +35,14 @@ const missionCards = [
   }
 ];
 
+const communityFocus = [
+  "청소년 · 청년",
+  "다문화 가정",
+  "MK · TCK",
+  "이주민 · 이웃",
+  "교회에서 상처받은 분들"
+];
+
 export default function GreetingPage() {
   return (
     <div className="w-full bg-white">
@@ -114,7 +122,7 @@ export default function GreetingPage() {
           01
         </span>
 
-        <div className="mx-auto w-full max-w-[1120px] px-0">
+        <div className="section-shell">
           <div className="flex flex-col items-start">
             <div className="relative w-full">
               <div className="relative z-10 flex w-full flex-col items-start gap-[34px] pt-[42px]">
@@ -143,27 +151,27 @@ export default function GreetingPage() {
               {missionCards.map((card) => (
                 <article
                   key={card.title}
-                  className="relative min-h-[164px] w-full overflow-hidden rounded-[14px] bg-[#fbfbfa] px-[24px] py-[28px] shadow-[0px_10px_24px_rgba(9,18,37,0.18)] md:w-[310px]"
+                  className="relative min-h-[164px] w-full overflow-hidden rounded-[14px] bg-[#fbfbfa] px-[24px] py-[28px] shadow-[0px_10px_24px_rgba(9,18,37,0.18)] md:min-h-[196px] md:flex-1 md:px-[28px] md:py-[32px]"
                 >
-                  <div className="flex max-w-[228px] flex-col gap-[18px]">
-                    <div className="flex flex-col gap-[14px]">
-                      <p className="text-[10px] leading-none tracking-[0.24em] text-black/80">
+                  <div className="flex max-w-[252px] flex-col gap-[18px] md:max-w-[272px] md:gap-[20px]">
+                    <div className="flex flex-col gap-[14px] md:gap-[16px]">
+                      <p className="text-[10px] leading-none tracking-[0.24em] text-black/80 md:text-[11px]">
                         {card.eyebrow}
                       </p>
                       <h3
-                        className={`${nanumMyeongjo.className} text-[18px] font-bold leading-[1.15] tracking-[0.01em] text-black md:text-[19px]`}
+                        className={`${nanumMyeongjo.className} text-[18px] font-bold leading-[1.15] tracking-[0.01em] text-black md:text-[22px]`}
                       >
                         {card.title}
                       </h3>
                     </div>
 
-                    <p className="max-w-[224px] text-[12px] leading-[1.7] tracking-[0.01em] text-black/85">
+                    <p className="max-w-[236px] text-[12px] leading-[1.7] tracking-[0.01em] text-black/85 md:max-w-[264px] md:text-[13px] md:leading-[1.78]">
                       {card.description}
                     </p>
                   </div>
 
                   <span
-                    className={`${nanumMyeongjo.className} absolute right-[24px] top-[12px] text-[54px] leading-none tracking-[-0.02em] text-[#B2B2B2]`}
+                    className={`${nanumMyeongjo.className} absolute right-[24px] top-[12px] text-[54px] leading-none tracking-[-0.02em] text-[#B2B2B2] md:right-[28px] md:top-[14px] md:text-[60px]`}
                   >
                     {card.letter}
                   </span>
@@ -178,8 +186,96 @@ export default function GreetingPage() {
         </div>
       </section>
 
-      <section className="min-h-[482px] w-full" data-section="community" />
-      <section className="min-h-[584px] w-full" data-section="open-door" />
+      <section
+        className="relative z-0 w-full overflow-visible border-b border-black/20 bg-[#fcfbf8] py-14 md:min-h-[482px] md:py-[70px]"
+        data-section="community"
+      >
+        <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-10 px-0 md:flex-row md:items-start md:justify-between md:gap-0">
+          <div className="relative h-[520px] w-full overflow-visible md:-ml-[118px] md:-mt-[42px] md:h-[596px] md:w-[660px]">
+            <div className="absolute left-[0px] top-[-6px] z-10 w-[272px] rotate-[11deg] md:left-[-8px] md:top-[2px] md:w-[324px]">
+              <Image
+                src="/images/greeting/our_mission_1.png"
+                alt="공동체 사진 1"
+                width={540}
+                height={720}
+                className="h-auto w-full object-contain drop-shadow-[0_10px_24px_rgba(0,0,0,0.18)]"
+              />
+            </div>
+
+            <div className="absolute left-[230px] top-[-12px] z-0 w-[250px] rotate-[8deg] md:left-[286px] md:top-[-12px] md:w-[386px]">
+              <Image
+                src="/images/greeting/our_mission_4.png"
+                alt="공동체 사진 2"
+                width={720}
+                height={540}
+                className="h-auto w-full object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.18)]"
+              />
+            </div>
+
+            <div className="absolute left-[168px] top-[134px] z-20 w-[224px] rotate-[3deg] md:left-[230px] md:top-[178px] md:w-[366px]">
+              <Image
+                src="/images/greeting/our_mission_2.png"
+                alt="공동체 사진 3"
+                width={540}
+                height={720}
+                className="h-auto w-full object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.2)]"
+              />
+            </div>
+
+            <div className="absolute left-[-10px] top-[250px] z-30 w-[276px] rotate-[15deg] md:left-[-26px] md:top-[312px] md:w-[346px]">
+              <Image
+                src="/images/greeting/our_mission_3.png"
+                alt="공동체 사진 4"
+                width={540}
+                height={720}
+                className="h-auto w-full object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.18)]"
+              />
+            </div>
+          </div>
+
+          <div className="relative z-10 flex w-full max-w-[430px] flex-col px-5 md:mr-[14px] md:max-w-[448px] md:px-0 md:pt-[52px]">
+            <span
+              className={`${originalSurfer.className} pointer-events-none absolute left-0 top-[-30px] text-[112px] leading-none tracking-normal text-[#ece8e2] md:left-[-85px] md:top-[-16px] md:text-[116px]`}
+            >
+              02
+            </span>
+
+            <div className="relative z-10 flex flex-col gap-[12px]">
+              <div className="flex flex-col gap-[24px]">
+                <p
+                  className={`${originalSurfer.className} text-[18px] leading-none tracking-[0.08em] text-[#caa643] md:text-[20px]`}
+                >
+                  OUR COMMUNITY
+                </p>
+                <div className={`${nanumMyeongjo.className} text-[28px] leading-[1.3] tracking-[0.01em] text-black md:text-[30px] md:leading-[1.32]`}>
+                  <p>저희가 특히</p>
+                  <p>마음을 두는 사람들</p>
+                </div>
+              </div>
+
+              <div className="pt-[2px] text-[15px] leading-[1.8] tracking-[0.01em] text-black/88 md:text-[16px] md:leading-[28px]">
+                <p>하나님 나라엔 국적도, 언어도, 배경도 따로 없으니까요.</p>
+                <p>이 모두가 저희 교회가 꿈꾸는 가족입니다.</p>
+              </div>
+            </div>
+
+            <div className="relative z-10 mt-[30px] flex max-w-[420px] flex-wrap gap-[14px] md:mt-[34px] md:gap-[18px]">
+              {communityFocus.map((item) => (
+                <span
+                  key={item}
+                  className="inline-flex items-center rounded-full bg-[#1a2639] px-[18px] py-[12px] text-[14px] font-medium tracking-[0.03em] text-white md:text-[15px]"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        className="relative z-20 min-h-[584px] w-full bg-[#fcfbf8]"
+        data-section="open-door"
+      />
     </div>
   );
 }
