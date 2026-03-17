@@ -21,7 +21,7 @@ export default function ServiceTimesPage() {
   const weekdayServices = serviceTimes.filter((s) => s.day !== "주일");
 
   return (
-    <div className="space-y-14 pb-4">
+    <div className="section-shell space-y-14 pt-10 md:pt-16 pb-20">
       {/* ── 주일 예배 카드 (3열) ── */}
       <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {sundayServices.map((svc) => (

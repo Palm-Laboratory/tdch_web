@@ -1,6 +1,6 @@
 export default function VisionPage() {
   return (
-    <div className="mx-auto max-w-5xl py-8">
+    <div className="section-shell max-w-5xl pt-10 md:pt-16 pb-20">
       <div className="text-center mb-16">
          <p className="mb-2 text-xs font-bold tracking-widest text-themeBlue uppercase">Our Vision</p>
          <h2 className="text-3xl font-bold text-ink sm:text-4xl">핵심 가치 및 비전</h2>
