@@ -49,7 +49,36 @@ export default function GreetingPage() {
         </div>
       </section>
 
-      <section className="min-h-[428px] w-full" data-section="welcome" />
+      <section
+        className="w-full border-b border-black/20 bg-[#fffefc] py-14 md:min-h-[428px] md:py-20"
+        data-section="welcome"
+      >
+        <div className="section-shell">
+          <div className="flex max-w-[980px] flex-col items-start gap-8 md:gap-10">
+            <p
+              className={`${originalSurfer.className} text-[24px] leading-[1] tracking-[0.04em] text-[#1a2744] md:text-[32px]`}
+            >
+              WELCOME
+            </p>
+
+            <div className="w-full rounded-r-[12px] border-l-[3px] border-[#c9a84c] bg-gradient-to-r from-[#fffcf5] to-[#fffefc] px-5 py-5 md:px-[30px] md:py-5">
+              <div
+                className={`${nanumMyeongjo.className} space-y-1 text-[22px] font-bold leading-[1.65] tracking-[0.04em] text-[#1a2744] md:text-[24px]`}
+              >
+                <p>솔직히 교회가 힘들었던 적 있으신가요?</p>
+                <p>기대했다가 상처받고, 지쳐서 떠났다가,</p>
+                <p>
+                  그래도 어딘가 <span className="text-[#c9a84c]">하나님은 믿고 싶은 그 마음.</span>
+                </p>
+              </div>
+            </div>
+
+            <p className="text-base leading-[1.8] tracking-[0.04em] text-[#1a2744] md:text-[18px]">
+              The 제자교회는 바로 그 자리에서 시작된 교회입니다.
+            </p>
+          </div>
+        </div>
+      </section>
       <section className="min-h-[586px] w-full" data-section="mission" />
       <section className="min-h-[482px] w-full" data-section="community" />
       <section className="min-h-[584px] w-full" data-section="open-door" />
