@@ -11,6 +11,30 @@ const nanumMyeongjo = Nanum_Myeongjo({
   weight: ["800"]
 });
 
+const missionCards = [
+  {
+    eyebrow: "TEACHING",
+    title: "가르치는 사명",
+    description:
+      "강단에서 진리를 가르치셨고, 말씀으로 세상을 살아가는 힘을 주셨습니다.",
+    letter: "T"
+  },
+  {
+    eyebrow: "HEALING",
+    title: "치유하는 사명",
+    description:
+      "부서진 사람 앞에서 무릎을 꿇으셨고, 사랑으로 그 마음을 회복시키셨습니다.",
+    letter: "H"
+  },
+  {
+    eyebrow: "EVANGELIZING",
+    title: "전파하는 사명",
+    description:
+      "아무도 찾지 않는 사람에게 먼저 찾아가셨어요. 삶으로 복음을 전하는 것.",
+    letter: "E"
+  }
+];
+
 export default function GreetingPage() {
   return (
     <div className="w-full bg-white">
@@ -79,7 +103,81 @@ export default function GreetingPage() {
           </div>
         </div>
       </section>
-      <section className="min-h-[586px] w-full" data-section="mission" />
+
+      <section
+        className="relative w-full border-b border-black/50 bg-[#202f55] py-14 text-white md:min-h-[586px] md:py-[72px]"
+        data-section="mission"
+      >
+        <span
+          className={`${originalSurfer.className} pointer-events-none absolute left-[155px] top-[43px] text-[112px] leading-none tracking-normal text-[#111d38]/70 md:text-[116px]`}
+        >
+          01
+        </span>
+
+        <div className="mx-auto w-full max-w-[1120px] px-0">
+          <div className="flex flex-col items-start">
+            <div className="relative w-full">
+              <div className="relative z-10 flex w-full flex-col items-start gap-[34px] pt-[42px]">
+                <div className="flex w-full max-w-[566px] flex-col items-start gap-[14px] text-white">
+                  <p
+                    className={`${originalSurfer.className} text-[18px] leading-none tracking-[0.08em] text-[#d1ab46] md:text-[22px]`}
+                  >
+                    OUR MISSION
+                  </p>
+                  <h2
+                    className={`${nanumMyeongjo.className} text-[28px] font-bold leading-[1.22] tracking-[0.01em] md:text-[31px]`}
+                  >
+                    예수님이 하신 세 가지
+                  </h2>
+                </div>
+
+                <p className="max-w-[620px] text-[15px] leading-[1.8] tracking-[0.01em] text-white/92 md:text-[16px]">
+                  예수님은 평생 세 가지 일을 하셨어요. 가르치고, 치유하고, 복음을 전하셨습니다.
+                  <br />
+                  The 제자교회도 그렇게 하고 싶습니다.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-[42px] grid w-full gap-[10px] md:grid-cols-3">
+              {missionCards.map((card) => (
+                <article
+                  key={card.title}
+                  className="relative min-h-[164px] w-full overflow-hidden rounded-[14px] bg-[#fbfbfa] px-[24px] py-[28px] shadow-[0px_10px_24px_rgba(9,18,37,0.18)] md:w-[310px]"
+                >
+                  <div className="flex max-w-[228px] flex-col gap-[18px]">
+                    <div className="flex flex-col gap-[14px]">
+                      <p className="text-[10px] leading-none tracking-[0.24em] text-black/80">
+                        {card.eyebrow}
+                      </p>
+                      <h3
+                        className={`${nanumMyeongjo.className} text-[18px] font-bold leading-[1.15] tracking-[0.01em] text-black md:text-[19px]`}
+                      >
+                        {card.title}
+                      </h3>
+                    </div>
+
+                    <p className="max-w-[224px] text-[12px] leading-[1.7] tracking-[0.01em] text-black/85">
+                      {card.description}
+                    </p>
+                  </div>
+
+                  <span
+                    className={`${nanumMyeongjo.className} absolute right-[24px] top-[12px] text-[54px] leading-none tracking-[-0.02em] text-[#B2B2B2]`}
+                  >
+                    {card.letter}
+                  </span>
+                </article>
+              ))}
+            </div>
+
+            <p className="mt-[34px] text-[15px] leading-[1.8] tracking-[0.01em] text-white/92 md:text-[16px]">
+              거창하지 않아도 됩니다. 예수님이 하신 것처럼, 그냥 그렇게요.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="min-h-[482px] w-full" data-section="community" />
       <section className="min-h-[584px] w-full" data-section="open-door" />
     </div>
