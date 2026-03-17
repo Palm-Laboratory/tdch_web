@@ -1,5 +1,5 @@
 const phone = process.env.NEXT_PUBLIC_CHURCH_PHONE ?? "010-5252-8580";
-const email = process.env.NEXT_PUBLIC_CHURCH_EMAIL ?? "hello@thedisciples.church";
+const email = process.env.NEXT_PUBLIC_CHURCH_EMAIL ?? "timothy35@hanmail.net";
 const address =
   process.env.NEXT_PUBLIC_CHURCH_ADDRESS ?? "경기도 수원시 팔달구 경수대로425 지하1층(나인아트홀), The 제자교회";
 const youtube =
