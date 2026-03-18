@@ -56,6 +56,13 @@ function MobileServiceCard({
 }
 
 export default function ServiceTimesPage() {
+  const mainLocationServices = serviceTimes.filter(
+    (svc) => svc.location === "나인아트홀(지하1층)"
+  );
+  const otherLocationServices = serviceTimes.filter(
+    (svc) => svc.location !== "나인아트홀(지하1층)"
+  );
+
   return (
     <div className="section-shell space-y-14 pt-10 md:pt-16 pb-20">
       <section>
@@ -95,7 +102,7 @@ export default function ServiceTimesPage() {
               </tr>
             </thead>
             <tbody>
-              {serviceTimes.map((svc, index) => (
+              {mainLocationServices.map((svc, index) => (
                 <tr key={svc.name} className="border-b border-cedar/15 last:border-b-0">
                   <td className="border-r border-cedar/15 px-6 py-6 text-center text-xl font-bold text-ink">
                     {svc.name}
@@ -105,12 +112,25 @@ export default function ServiceTimesPage() {
                   </td>
                   {index === 0 ? (
                     <td
-                      rowSpan={serviceTimes.length}
+                      rowSpan={mainLocationServices.length}
                       className="px-6 py-6 text-center align-middle text-xl font-medium text-ink/80"
                     >
                       나인아트홀(지하1층)
                     </td>
                   ) : null}
+                </tr>
+              ))}
+              {otherLocationServices.map((svc) => (
+                <tr key={svc.name} className="border-b border-cedar/15 last:border-b-0">
+                  <td className="border-r border-cedar/15 px-6 py-6 text-center text-xl font-bold text-ink">
+                    {svc.name}
+                  </td>
+                  <td className="border-r border-cedar/15 px-6 py-6 text-center text-xl font-medium text-ink/80">
+                    {formatSchedule(svc.day, svc.time, svc.ampm)}
+                  </td>
+                  <td className="px-6 py-6 text-center align-middle text-xl font-medium text-ink/80">
+                    {svc.location}
+                  </td>
                 </tr>
               ))}
             </tbody>
