@@ -328,7 +328,7 @@ export default function GreetingPage() {
               animate={mission.isInView ? "visible" : "hidden"}
               custom={0.8}
             >
-              거창하지 않아도 됩니다. 예수님이 하신 것처럼, 그냥 그렇게요.
+              거창하지 않아도 됩니다.<br className="md:hidden" /> 예수님이 하신 것처럼,<br className="md:hidden" />그냥 그렇게요.
             </motion.p>
           </div>
         </div>
@@ -433,7 +433,7 @@ export default function GreetingPage() {
               </div>
 
               <div className="text-[18px] leading-[1.8] tracking-[0.01em] text-black/88">
-                <p>하나님 나라엔 국적도, 언어도, 배경도 따로 없으니까요.</p>
+                <p>하나님 나라엔 국적도, 언어도, 배경도 <br className="md:hidden" />따로 없으니까요.</p>
                 <p className="mt-1">이 모두가 저희 교회가 꿈꾸는 가족입니다.</p>
               </div>
             </motion.div>
@@ -518,7 +518,7 @@ export default function GreetingPage() {
                 animate={openDoor.isInView ? "visible" : "hidden"}
                 custom={0.35}
               >
-                <div className={`${nanumMyeongjo.className} text-[18px] leading-[1.78] tracking-[0.01em] text-black`}>
+                <div className={`${nanumMyeongjo.className} font-bold text-[18px] leading-[1.78] tracking-[0.01em] text-black`}>
                   <p>지쳤다면, 여기서 쉬어가세요.</p>
                   <p className="mt-1">다시 시작하고 싶다면, 함께 걸어가요.</p>
                 </div>
