@@ -28,6 +28,12 @@ const yeongwol = localFont({
 export const metadata: Metadata = {
   title: "The 제자교회",
   description: "성령으로 제자삼는 교회",
+  formatDetection: {
+    telephone: false,
+    date: false,
+    address: false,
+    email: false,
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -46,8 +52,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <body className={`${sans.variable} ${serif.variable} ${yeongwol.variable} font-[var(--font-sans)] antialiased`}>
+    <html lang="ko" suppressHydrationWarning>
+      <body suppressHydrationWarning className={`${sans.variable} ${serif.variable} ${yeongwol.variable} font-[var(--font-sans)] antialiased`}>
         <Script src="https://cdn.lordicon.com/lordicon.js" strategy="afterInteractive" />
         <div className="relative flex min-h-screen flex-col">
           <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
