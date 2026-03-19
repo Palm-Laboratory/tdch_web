@@ -400,7 +400,7 @@ export default function GreetingPage() {
               02
             </motion.span>
             <motion.div
-              className={sectionCopyStackClass}
+              className={`${sectionCopyStackClass} pt-[42px]`}
               variants={fadeUp}
               initial="hidden"
               animate={community.isInView ? "visible" : "hidden"}
@@ -464,7 +464,7 @@ export default function GreetingPage() {
                 03
               </motion.span>
               <motion.div
-                className={sectionCopyStackClass}
+                className={`${sectionCopyStackClass} pt-[42px]`}
                 variants={fadeUp}
                 initial="hidden"
                 animate={openDoor.isInView ? "visible" : "hidden"}
