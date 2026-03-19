@@ -20,21 +20,21 @@ const missionCards = [
     eyebrow: "TEACHING",
     title: "가르치는 사명",
     description:
-      "강단에서 진리를 가르치셨고, 말씀으로 세상을 살아가는 힘을 주셨습니다.",
+      "강단에서 진리를 가르치셨고, 말씀으로\n세상을 살아가는 힘을 주셨습니다.",
     letter: "T"
   },
   {
     eyebrow: "HEALING",
     title: "치유하는 사명",
     description:
-      "무너진 사람 앞에서 무릎을 꿇으셨고, 사랑으로 그 마음을 회복시키셨습니다.",
+      "무너진 사람 앞에서 무릎을 꿇으셨고,\n사랑으로 그 마음을 회복시키셨습니다.",
     letter: "H"
   },
   {
     eyebrow: "EVANGELIZING",
     title: "전파하는 사명",
     description:
-      "아무도 찾지 않는 사람에게 먼저 찾아가셔서 삶으로 복음을 전하셨습니다.",
+      "아무도 찾지 않는 사람에게 먼저 찾아가셔서\n삶으로 복음을 전하셨습니다.",
     letter: "E"
   }
 ];
@@ -267,20 +267,15 @@ export default function GreetingPage() {
             </div>
 
             {/* Staggered mission cards */}
-            <div className="mt-[42px] flex w-full flex-col gap-[10px] md:flex-row md:items-start md:gap-[20px]">
+            <div className="mt-[42px] flex w-full flex-col gap-[10px] md:flex-row md:items-start md:gap-[40px]">
               {missionCards.map((card, i) => (
                 <motion.article
                   key={card.title}
-                  className="relative min-h-[164px] w-full overflow-hidden rounded-[14px] bg-[#fbfbfa] px-[24px] py-[28px] shadow-[0px_10px_24px_rgba(9,18,37,0.18)] md:min-h-[196px] md:flex-1 md:px-[28px] md:py-[32px]"
+                  className="relative min-h-[164px] w-full overflow-hidden rounded-[14px] bg-[#fbfbfa] px-[24px] py-[28px] shadow-[0px_10px_24px_rgba(9,18,37,0.18)] transition-[transform,box-shadow] duration-[40ms] ease-linear hover:-translate-y-2 hover:shadow-[0px_18px_40px_rgba(9,18,37,0.28)] hover:duration-[300ms] hover:ease-out md:min-h-[196px] md:flex-1 md:px-[28px] md:py-[32px]"
                   variants={fadeUp}
                   initial="hidden"
                   animate={mission.isInView ? "visible" : "hidden"}
                   custom={0.35 + i * 0.15}
-                  whileHover={{
-                    y: -8,
-                    boxShadow: "0px 18px 40px rgba(9,18,37,0.28)",
-                    transition: { duration: 0.3, ease: "easeOut" }
-                  }}
                 >
                   <div className="flex max-w-[252px] flex-col gap-[18px] md:max-w-[272px] md:gap-[20px]">
                     <div className="flex flex-col gap-[14px] md:gap-[16px]">
@@ -294,7 +289,7 @@ export default function GreetingPage() {
                       </h3>
                     </div>
 
-                    <p className="max-w-[236px] text-[12px] leading-[1.7] tracking-[0.01em] text-black/85 md:max-w-[264px] md:text-[13px] md:leading-[1.78]">
+                    <p className="max-w-[236px] whitespace-pre-line text-[13px] leading-[1.76] tracking-[0.01em] text-black/85 md:max-w-[264px] md:text-[15px] md:leading-[1.82]">
                       {card.description}
                     </p>
                   </div>
