@@ -24,7 +24,7 @@ export default function Home() {
   return (
     <div className="flex w-full flex-col pb-0 pt-0 overflow-x-hidden">
       {/* 1. 히어로 섹션 */}
-      <section className="relative w-full h-[560px] sm:h-[620px] lg:h-[740px] overflow-hidden">
+      <section className="relative w-full h-[560px] md:h-[620px] lg:h-[740px] overflow-hidden">
         <div className="relative h-full">
           <Image
             src="/images/main_bg/main_bg_sec1.png"
@@ -40,15 +40,15 @@ export default function Home() {
             <div className="section-shell w-full">
               <div className="grid items-center gap-3 lg:grid-cols-[minmax(0,770px),270px] lg:items-stretch lg:gap-4">
                 {/* 비전 텍스트 카드 */}
-                <div className="w-full space-y-3 rounded-2xl bg-black/30 px-5 py-5 text-ivory backdrop-blur-md sm:space-y-4 sm:px-6 sm:py-6 md:space-y-5 md:px-7 md:py-7 lg:space-y-6 lg:py-8">
-                  <p className="chip w-fit bg-gold/30 text-ivory text-[0.65rem] sm:text-xs">VISION</p>
-                  <h1 className="font-yeongwol text-[2.2rem] leading-[1.2] tracking-wide sm:text-5xl md:text-6xl lg:text-7xl lg:tracking-wider xl:text-8xl">
+                <div className="w-full space-y-4 rounded-2xl bg-black/30 px-6 py-6 text-ivory backdrop-blur-md md:space-y-5 md:px-7 md:py-7 lg:space-y-6 lg:py-8">
+                  <p className="chip w-fit bg-gold/30 text-ivory text-xs">VISION</p>
+                  <h1 className="font-yeongwol text-[3rem] leading-[1.2] tracking-wide md:text-6xl lg:text-7xl lg:tracking-wider xl:text-8xl">
                     성령으로
                     <br />
                     제자삼는 교회
                   </h1>
                   {/* 성경 구절 */}
-                  <div className={`${gowunBatang.className} mt-2 text-sm font-medium leading-[1.8] text-ivory/90 sm:mt-3 md:text-base md:mt-4 lg:text-[1.42rem] lg:mt-5`}>
+                  <div className={`${gowunBatang.className} mt-3 text-sm font-medium leading-[1.8] text-ivory/90 md:mt-4 md:text-base lg:mt-5 lg:text-[1.42rem]`}>
                     <p className="lg:space-y-3">
                       <span className="block">
                         예수께서 나아와 말씀하여 이르시되 하늘과 땅의 모든 권세를 내게 주셨으니
@@ -64,7 +64,7 @@ export default function Home() {
                       </span>
                     </p>
                   </div>
-                  <p className="text-right text-xs font-semibold tracking-wide text-white sm:text-sm md:text-base">
+                  <p className="text-right text-sm font-semibold tracking-wide text-white md:text-base">
                     마태복음 28:18~20
                   </p>
                 </div>
@@ -141,7 +141,7 @@ export default function Home() {
             <div className="space-y-8">
               <div className="flex items-end justify-between">
                 <div className="text-center">
-                  <h2 className="font-serif text-2xl font-semibold text-ink sm:text-3xl md:text-4xl">말씀</h2>
+                  <h2 className="font-serif text-3xl font-semibold text-ink md:text-4xl">말씀</h2>
                   <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-cedar/70">Sermon</p>
                 </div>
                 <Link href="/sermons" className="text-sm font-semibold text-cedar transition hover:text-clay">
@@ -175,7 +175,7 @@ export default function Home() {
           {/* 섹션 헤더 */}
           <div className="mb-8">
             <div className="inline-block">
-              <h2 className="font-serif text-2xl font-semibold text-ivory sm:text-3xl md:text-4xl">The 제자 소식</h2>
+              <h2 className="font-serif text-3xl font-semibold text-ivory md:text-4xl">The 제자 소식</h2>
               <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-ivory/50">THE DISCIPLES NEWS</p>
             </div>
           </div>

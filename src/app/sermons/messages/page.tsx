@@ -27,7 +27,7 @@ export default function MessagesPage() {
     <div className="space-y-8">
       {/* 섹션 헤더 */}
       <div>
-        <h2 className="font-serif text-2xl font-bold text-ink sm:text-3xl md:text-4xl">
+        <h2 className="font-serif text-3xl font-bold text-ink md:text-4xl">
           말씀 / 설교 영상
         </h2>
         <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-cedar/60">
@@ -54,7 +54,7 @@ export default function MessagesPage() {
               <rect x="3" y="14" width="7" height="7" rx="1" />
               <rect x="14" y="14" width="7" height="7" rx="1" />
             </svg>
-            <span className="hidden sm:inline">썸네일</span>
+            <span className="hidden md:inline">썸네일</span>
           </button>
           <button
             onClick={() => setViewMode("list")}
@@ -68,7 +68,7 @@ export default function MessagesPage() {
             <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" />
             </svg>
-            <span className="hidden sm:inline">리스트</span>
+            <span className="hidden md:inline">리스트</span>
           </button>
         </div>
 
@@ -122,7 +122,7 @@ export default function MessagesPage() {
 
       {/* 컨텐츠: 썸네일 뷰 */}
       {viewMode === "thumbnail" && (
-        <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <section className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {visibleSermons.map((sermon, i) => {
             const href = sermon.href || youtubeUrl;
             return (
@@ -181,7 +181,7 @@ export default function MessagesPage() {
                 <th className="px-5 py-3.5 text-left font-semibold text-ink/70">날짜</th>
                 <th className="px-5 py-3.5 text-left font-semibold text-ink/70">제목</th>
                 <th className="hidden px-5 py-3.5 text-left font-semibold text-ink/70 md:table-cell">성경 구절</th>
-                <th className="hidden px-5 py-3.5 text-left font-semibold text-ink/70 sm:table-cell">설교자</th>
+                <th className="hidden px-5 py-3.5 text-left font-semibold text-ink/70 md:table-cell">설교자</th>
                 <th className="px-5 py-3.5 text-left font-semibold text-ink/70">분류</th>
               </tr>
             </thead>
@@ -203,7 +203,7 @@ export default function MessagesPage() {
                     <td className="hidden whitespace-nowrap px-5 py-4 text-ink/55 md:table-cell">
                       {sermon.scripture}
                     </td>
-                    <td className="hidden whitespace-nowrap px-5 py-4 text-ink/55 sm:table-cell">
+                    <td className="hidden whitespace-nowrap px-5 py-4 text-ink/55 md:table-cell">
                       {sermon.pastor}
                     </td>
                     <td className="whitespace-nowrap px-5 py-4">

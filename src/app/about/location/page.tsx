@@ -66,7 +66,7 @@ function InfoSection({
       <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-cedar/70">
         {subtitle}
       </p>
-      <h3 className="text-2xl font-bold text-ink sm:text-3xl md:text-4xl">
+      <h3 className="text-3xl font-bold text-ink md:text-4xl">
         {title}
       </h3>
       <div className="mt-5">{children}</div>
@@ -126,7 +126,7 @@ export default function LocationPage() {
 
               <div className="absolute inset-x-0 bottom-0 p-4 md:p-6">
                 <div className="max-w-[34rem] rounded-[24px] border border-white/70 bg-white/88 px-5 py-4 text-ink shadow-[0_18px_42px_rgba(16,33,63,0.18)] backdrop-blur-md md:px-6 md:py-5">
-                  <h2 className="text-2xl font-bold text-ink sm:text-3xl">
+                  <h2 className="text-3xl font-bold text-ink">
                     {churchName}
                   </h2>
                   <p className="mt-2 max-w-[32rem] text-sm leading-6 text-ink/72 md:text-base">

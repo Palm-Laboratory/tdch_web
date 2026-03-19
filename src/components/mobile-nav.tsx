@@ -56,12 +56,12 @@ export default function MobileNav({ isOpen, setIsOpen }: { isOpen: boolean, setI
             isOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible pointer-events-none -translate-y-2"
           }`}
         >
-        <div className="flex h-full flex-col pt-4 sm:pt-6">
+        <div className="flex h-full flex-col pt-4 md:pt-6">
           {/* 헤더 영역 (로고 & 닫기 버튼) */}
-          <div className="flex h-[60px] items-center justify-between px-4 sm:px-6">
+          <div className="flex h-[60px] items-center justify-between px-4 md:px-6">
             <Link href="/" onClick={() => setIsOpen(false)} className="shrink-0 pt-1 lg:hidden">
               <div className="text-left">
-                <p className="hidden text-[10px] font-semibold uppercase tracking-[0.18em] text-themeBlue/70 sm:block">The Disciples Church</p>
+                <p className="hidden text-[10px] font-semibold uppercase tracking-[0.18em] text-themeBlue/70 md:block">The Disciples Church</p>
                 <p className="whitespace-nowrap font-serif text-[24px] font-bold text-ink hover:text-themeBlue transition">The 제자교회</p>
               </div>
             </Link>

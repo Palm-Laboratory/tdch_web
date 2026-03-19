@@ -76,7 +76,7 @@ export default function Breadcrumb() {
       {/* 2. LNB (Local Navigation Bar) - 소메뉴 목록 */}
       {menuGroup && menuGroup.items && menuGroup.items.length > 0 && (
         <nav className="w-full border-b border-cedar/8 bg-white overflow-x-auto no-scrollbar" aria-label="LNB">
-          <ul className="section-shell flex items-center justify-start sm:justify-center gap-1 min-w-max px-4">
+          <ul className="section-shell flex items-center justify-start md:justify-center gap-1 min-w-max px-4">
             {menuGroup.items.map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
 

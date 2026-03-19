@@ -269,7 +269,7 @@ export default function GreetingPage() {
             </div>
 
             {/* Staggered mission cards */}
-            <div className="mt-[42px] flex w-full flex-col gap-[10px] md:flex-row md:items-start md:gap-[40px]">
+            <div className="mt-[42px] flex w-full flex-col gap-[10px] md:flex-row md:items-stretch md:gap-[40px]">
               {missionCards.map((card, i) => (
                 <motion.article
                   key={card.title}

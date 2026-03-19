@@ -19,7 +19,7 @@ function SectionHeading({
       <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-cedar/70">
         {subtitle}
       </p>
-      <h2 className="text-2xl font-bold text-ink sm:text-3xl">{title}</h2>
+      <h2 className="text-3xl font-bold text-ink">{title}</h2>
     </div>
   );
 }
@@ -70,7 +70,7 @@ export default function ServiceTimesPage() {
           <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-cedar/70">
             Service Times
           </p>
-          <h2 className="text-3xl font-bold tracking-[-0.03em] text-ink sm:text-4xl">
+          <h2 className="text-4xl font-bold tracking-[-0.03em] text-ink">
             예배 시간 안내
           </h2>
         </div>

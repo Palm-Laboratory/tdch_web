@@ -30,7 +30,7 @@ export default function AnimatedCards({ cards }: AnimatedCardsProps) {
     return (
         <section
             ref={ref}
-            className="relative z-20 -mt-[6rem] grid grid-cols-2 gap-4 md:-mt-[6.5rem] xl:grid-cols-4"
+            className="relative z-20 -mt-[6rem] grid grid-cols-2 gap-4 md:-mt-[6.5rem] lg:grid-cols-4"
         >
             {cards.map((card, index) => {
                 const isColored = index % 2 === 1;

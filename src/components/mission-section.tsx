@@ -35,7 +35,7 @@ export default function MissionSection() {
             {/* 환영 문구 */}
             <section className="px-2 py-2 text-center" ref={headingRef}>
                 <h2
-                    className="font-serif text-xl font-bold leading-tight text-ink sm:text-2xl md:text-4xl lg:text-5xl"
+                    className="font-serif text-2xl font-bold leading-tight text-ink md:text-4xl lg:text-5xl"
                     style={{
                         opacity: headingInView ? 1 : 0,
                         transform: headingInView ? "translateY(0)" : "translateY(28px)",

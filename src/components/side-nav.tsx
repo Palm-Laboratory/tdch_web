@@ -47,7 +47,7 @@ export default function SideNav({ groupLabel }: SideNavProps) {
       </div>
 
       {/* 모바일/태블릿: 가로 스크롤 탭 */}
-      <nav className="lg:hidden overflow-x-auto no-scrollbar border-b border-cedar/8 bg-white px-4 sm:px-6 py-3" aria-label="사이드 메뉴">
+      <nav className="lg:hidden overflow-x-auto no-scrollbar border-b border-cedar/8 bg-white px-4 md:px-6 py-3" aria-label="사이드 메뉴">
         <ul className="flex min-w-max items-center gap-2 py-1">
           {items.map((item) => {
             const isActive =

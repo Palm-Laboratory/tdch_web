@@ -6,7 +6,7 @@ export default function VisitorBanner() {
       <div>
         <h3 className="text-xl font-bold text-ivory md:text-2xl">처음 방문하시나요?</h3>
         <p className="mt-1.5 text-sm leading-relaxed text-ivory/60">
-          교회 오시는 방법과 근방 대중교통 운영 등<br className="hidden sm:block" />자세한 안내를 확인하실 수 있습니다. 환영합니다!
+          교회 오시는 방법과 근방 대중교통 운영 등<br className="hidden md:block" />자세한 안내를 확인하실 수 있습니다. 환영합니다!
 
         </p>
       </div>

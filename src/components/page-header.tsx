@@ -29,7 +29,7 @@ export default function PageHeader({
   const displayTitle = currentItem?.label || defaultTitle;
 
   return (
-    <section className="relative w-full h-[260px] sm:h-[300px] overflow-hidden">
+    <section className="relative w-full h-[280px] md:h-[300px] overflow-hidden">
       <div className="absolute inset-0">
         <Image
           src={backgroundImageUrl}
@@ -47,7 +47,7 @@ export default function PageHeader({
           <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-ivory/60">
             {subtitle}
           </p>
-          <h1 className="font-serif text-3xl font-bold text-ivory sm:text-4xl md:text-5xl">
+          <h1 className="font-serif text-4xl font-bold text-ivory md:text-5xl">
             {displayTitle}
           </h1>
         </div>
