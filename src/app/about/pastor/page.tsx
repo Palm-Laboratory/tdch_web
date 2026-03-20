@@ -34,6 +34,27 @@ const pastorSectionThreeBodyLines = [
   "지금은 필리핀 크리스찬 대학교에서 박사과정 중이에요."
 ] as const;
 
+const pastorSectionFourCards = [
+  {
+    number: "01",
+    title: "상처가 뭔지 압니다",
+    body:
+      "타지에서 가족과 함께 버텨온 시간이 어떤 건지, 사람에게 실망하는 게 어떤 건지, 그래도 하나님을 붙잡을 수밖에 없는 게 어떤 건지 알고 있습니다."
+  },
+  {
+    number: "02",
+    title: "설교가 교과서 같지 않습니다",
+    body:
+      "이론이 아닌 삶의 현장에서 하나님을 경험한 이야기를 나눕니다. 17년의 선교 현장이 고스란히 담긴, 살아있는 말씀입니다."
+  },
+  {
+    number: "03",
+    title: "작은 시작, 부끄럽지 않아요",
+    body:
+      "예수님도 열두 명으로 시작하셨으니까요. 수원 · 동탄 · 용인에 작은 뿌리를 내리며 더제자교회를 세우고 있습니다."
+  }
+] as const;
+
 // 섹션1(담임목사 소개)
 function PastorHeroSection() {
   return (
@@ -219,12 +240,52 @@ function PastorSectionThree() {
   );
 }
 
+function PastorSectionFour() {
+  return (
+    <section className="w-full bg-[rgb(250,248,244)]">
+      <div className="mx-auto w-full max-w-[1120px] px-4 py-16 md:px-8 md:py-20 lg:min-h-[508px] lg:px-8 lg:py-[52px] xl:px-0">
+        <div>
+          <p className="font-[var(--font-serif)] text-xs font-semibold uppercase tracking-[0.28em] text-[#cda74d] md:text-sm">
+            WHO HE IS
+          </p>
+
+          <h2 className={`${gowunBatang.className} mt-3 text-[2rem] font-bold leading-[1.2] tracking-[-0.03em] text-[#22345c] md:mt-4 md:text-[2.8rem] lg:text-[3.15rem]`}>
+            삶에서 나온 말을 합니다
+          </h2>
+        </div>
+
+        <div className="mt-10 grid gap-6 md:mt-12 md:gap-8 lg:mt-[44px] lg:grid-cols-3 lg:gap-6">
+          {pastorSectionFourCards.map((card) => (
+            <article
+              key={card.number}
+              className="rounded-[22px] border border-black/6 bg-white px-6 py-7 shadow-[0_8px_18px_rgba(0,0,0,0.12)] md:px-8 md:py-8 lg:min-h-[322px] lg:px-6 lg:py-7"
+            >
+              <p className="font-[var(--font-serif)] text-[3.9rem] font-semibold leading-none tracking-[-0.05em] text-[#d9d9d9]/75 md:text-[4.8rem] lg:text-[4rem]">
+                {card.number}
+              </p>
+
+              <h3 className="mt-5 text-[1.5rem] font-bold leading-[1.4] tracking-[-0.03em] text-black md:text-[1.8rem] lg:mt-4 lg:text-[1.2rem]">
+                {card.title}
+              </h3>
+
+              <p className="mt-4 text-[1.02rem] leading-[1.95] tracking-[-0.02em] text-black/90 md:text-[1.12rem] lg:mt-5 lg:text-[1.1rem] lg:leading-[1.8]">
+                {card.body}
+              </p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function PastorPage() {
   return (
     <div className="w-full bg-white">
       <PastorHeroSection />
       <PastorMissionSection />
       <PastorSectionThree />
+      <PastorSectionFour />
     </div>
   );
 }
