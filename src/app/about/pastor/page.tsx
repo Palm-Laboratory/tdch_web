@@ -55,6 +55,47 @@ const pastorSectionFourCards = [
   }
 ] as const;
 
+const pastorEducationItems = [
+  {
+    eyebrow: null,
+    title: "명지대학교 사회교육대학원",
+    subtitle: "청소년지도전공 · 청소년지도사 1급"
+  },
+  {
+    eyebrow: null,
+    title: "크리스찬치유상담대학원대학교",
+    subtitle: "치유상담학전공"
+  },
+  {
+    eyebrow: null,
+    title: "한국침례신학대학교 목회신학대학원",
+    subtitle: "신학전공"
+  },
+  {
+    eyebrow: "현재 재학 중",
+    title: "필리핀 크리스찬 대학교",
+    subtitle: "박사과정 (Ph.D.)"
+  }
+] as const;
+
+const pastorMinistryItems = [
+  {
+    eyebrow: null,
+    title: "기독교한국침례회 해외선교회",
+    subtitle: "파송 선교사"
+  },
+  {
+    eyebrow: "2009 - 2025",
+    title: "필리핀 산타로사꿈의교회",
+    subtitle: "설립 및 담임목사"
+  },
+  {
+    eyebrow: "2025 - 현재",
+    title: "The 제자교회",
+    subtitle: "담임목사"
+  }
+] as const;
+
 // 섹션1(담임목사 소개)
 function PastorHeroSection() {
   return (
@@ -279,6 +320,97 @@ function PastorSectionFour() {
   );
 }
 
+function PastorSectionFiveColumn({
+  label,
+  tone,
+  items
+}: {
+  label: string;
+  tone: "navy" | "gold";
+  items: ReadonlyArray<{
+    eyebrow: string | null;
+    title: string;
+    subtitle: string;
+  }>;
+}) {
+  const bulletClassName = tone === "gold" ? "bg-[rgb(201,168,76)]" : "bg-[rgb(26,39,68)]";
+  const bulletRingClassName =
+    tone === "gold" ? "ring-[rgb(244,238,200)]" : "ring-[rgb(237,238,240)]";
+  const eyebrowClassName = tone === "gold" ? "text-[#cda74d]" : "text-[#7f8aa3]";
+  const pillClassName =
+    tone === "gold"
+      ? "bg-[#f5efe2] text-[#9c7a20]"
+      : "bg-[#eef1f7] text-[#22345c]";
+
+  return (
+    <div>
+      <div className="flex items-center gap-4 md:gap-6">
+        <span
+          className={`inline-flex min-h-[42px] min-w-[72px] items-center justify-center rounded-full px-5 text-[1.3rem] font-semibold tracking-[-0.03em] ${pillClassName}`}
+        >
+          {label}
+        </span>
+        <span className="h-px flex-1 bg-black/10" />
+      </div>
+
+      <div className="mt-8 flex flex-col">
+        {items.map((item, index) => (
+          <article
+            key={`${label}-${item.title}`}
+            className={`grid grid-cols-[24px_minmax(0,1fr)] gap-4 py-6 md:grid-cols-[32px_minmax(0,1fr)] md:gap-6 md:py-7 ${
+              index > 0 ? "border-t border-black/10" : ""
+            }`}
+          >
+            <div className="flex justify-center pt-1">
+              <span className={`block h-4 w-4 rounded-full ring-4 ${bulletClassName} ${bulletRingClassName}`} />
+            </div>
+
+            <div>
+              {item.eyebrow ? (
+                <p className={`text-[0.95rem] font-semibold tracking-[0.12em] ${eyebrowClassName}`}>
+                  {item.eyebrow}
+                </p>
+              ) : null}
+              <h3 className={`text-[1.55rem] font-bold leading-[1.45] tracking-[-0.03em] text-[#22345c] ${item.eyebrow ? "mt-2" : ""}`}>
+                {item.title}
+              </h3>
+              <p className="mt-2 text-[1.18rem] font-medium leading-[1.6] tracking-[-0.02em] text-[#a7adba]">
+                {item.subtitle}
+              </p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function PastorSectionFive() {
+  return (
+    <section className="w-full bg-white">
+      <div className="mx-auto w-full max-w-[1120px] px-4 py-16 md:px-8 md:py-20 lg:min-h-[508px] lg:px-8 lg:py-[72px] xl:px-0">
+        <div>
+          <div className="flex items-center gap-3 text-[#cda74d]">
+            <span className="h-px w-10 bg-current md:w-12" />
+            <p className="font-[var(--font-serif)] text-sm font-semibold tracking-[0.18em]">
+              학력 및 사역
+            </p>
+          </div>
+
+          <h2 className={`${gowunBatang.className} mt-6 text-[2.5rem] font-bold leading-[1.15] tracking-[-0.04em] text-[#22345c] md:text-[3.6rem] lg:text-[4.25rem]`}>
+            걸어온 길
+          </h2>
+        </div>
+
+        <div className="mt-12 grid gap-10 md:mt-14 lg:mt-[58px] lg:grid-cols-2 lg:gap-[72px]">
+          <PastorSectionFiveColumn label="학력" tone="navy" items={pastorEducationItems} />
+          <PastorSectionFiveColumn label="사역" tone="gold" items={pastorMinistryItems} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function PastorPage() {
   return (
     <div className="w-full bg-white">
@@ -286,6 +418,7 @@ export default function PastorPage() {
       <PastorMissionSection />
       <PastorSectionThree />
       <PastorSectionFour />
+      <PastorSectionFive />
     </div>
   );
 }
