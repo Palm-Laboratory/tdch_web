@@ -55,7 +55,7 @@ export default function RootLayout({
     <html lang="ko" suppressHydrationWarning>
       <body suppressHydrationWarning className={`${sans.variable} ${serif.variable} ${yeongwol.variable} font-[var(--font-sans)] antialiased`}>
         <Script src="https://cdn.lordicon.com/lordicon.js" strategy="afterInteractive" />
-        <div className="relative flex min-h-screen flex-col overflow-x-hidden">
+        <div className="relative flex min-h-screen flex-col [overflow-x:clip]">
           <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
             <div className="absolute -left-20 top-20 h-72 w-72 rounded-full bg-gold/20 blur-3xl" />
             <div className="absolute right-0 top-1/3 h-80 w-80 rounded-full bg-clay/15 blur-3xl" />
