@@ -63,9 +63,9 @@ const communityFocus = [
 
 const sectionNumberClass =
   `${originalSurfer.className} pointer-events-none absolute left-[-10px] top-[-28px] text-[112px] leading-none tracking-normal md:text-[116px]`;
-const sectionOneNumberClass = "md:left-[-9px] md:top-[-32px]";
+const sectionOneNumberClass = "md:left-[-9px] md:top-[-35px]";
 const sectionTwoNumberClass = "md:left-[-40px] md:top-[-80px]";
-const sectionThreeNumberClass = "md:left-[-40px] md:top-[-60px]";
+const sectionThreeNumberClass = "md:left-[-40px] md:top-[-80px]";
 const sectionEyebrowClass =
   `${originalSurfer.className} text-[18px] leading-none tracking-[0.08em] text-[#caa643] md:text-[20px]`;
 const sectionTitleClass =
@@ -337,18 +337,18 @@ export default function GreetingPage() {
       {/* ━━━ COMMUNITY (02) ━━━ */}
       <section
         ref={community.ref}
-        className="relative z-0 w-full overflow-visible border-b border-black/20 bg-white py-14 md:min-h-[482px] md:py-[35px]"
+        className="relative z-0 w-full overflow-visible border-b border-black/20 bg-white py-14 md:min-h-[482px] md:py-[70px]"
         data-section="community"
       >
         <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-10 px-0 md:flex-row md:items-start md:justify-between md:gap-0">
           {/* Photo collage with fly-in animations */}
-          <div className="order-2 relative h-[520px] w-full overflow-visible md:order-1 md:-ml-[118px] md:-mt-[42px] md:h-[596px] md:w-[660px]">
+          <div className="order-2 relative h-[520px] w-full overflow-visible md:order-1 md:h-[clamp(361px,45.1vw,488px)] md:w-[clamp(400px,50vw,540px)] lg:-ml-[118px] lg:-mt-[42px] lg:h-[596px] lg:w-[660px]">
             {[
               {
                 src: "/images/greeting/our_mission_1.png",
                 alt: "공동체 사진 1",
                 w: 540, h: 720,
-                pos: "left-[0px] top-[-6px] z-10 w-[272px] rotate-[11deg] md:left-[-8px] md:top-[2px] md:w-[324px]",
+                pos: "left-[0px] top-[-6px] z-10 w-[272px] rotate-[11deg] md:left-[-1.25%] md:top-[0.35%] md:w-[49.1%]",
                 from: { x: -120, y: -80, rotate: -15, opacity: 0 },
                 to: { x: 0, y: 0, rotate: 11, opacity: 1 },
                 delay: 0.1
@@ -357,7 +357,7 @@ export default function GreetingPage() {
                 src: "/images/greeting/our_mission_4.png",
                 alt: "공동체 사진 2",
                 w: 720, h: 540,
-                pos: "left-[230px] top-[-12px] z-0 w-[250px] rotate-[8deg] md:left-[286px] md:top-[-12px] md:w-[386px]",
+                pos: "left-[230px] top-[-12px] z-0 w-[250px] rotate-[8deg] md:left-[43.3%] md:top-[-2%] md:w-[58.5%]",
                 from: { x: 100, y: -100, rotate: -10, opacity: 0 },
                 to: { x: 0, y: 0, rotate: 8, opacity: 1 },
                 delay: 0.25
@@ -366,7 +366,7 @@ export default function GreetingPage() {
                 src: "/images/greeting/our_mission_2.png",
                 alt: "공동체 사진 3",
                 w: 540, h: 720,
-                pos: "left-[168px] top-[134px] z-20 w-[224px] rotate-[3deg] md:left-[230px] md:top-[178px] md:w-[366px]",
+                pos: "left-[168px] top-[134px] z-20 w-[224px] rotate-[3deg] md:left-[34.9%] md:top-[29.9%] md:w-[55.5%]",
                 from: { x: 80, y: 120, rotate: -8, opacity: 0 },
                 to: { x: 0, y: 0, rotate: 3, opacity: 1 },
                 delay: 0.4
@@ -375,7 +375,7 @@ export default function GreetingPage() {
                 src: "/images/greeting/our_mission_3.png",
                 alt: "공동체 사진 4",
                 w: 540, h: 720,
-                pos: "left-[-10px] top-[250px] z-30 w-[276px] rotate-[15deg] md:left-[-26px] md:top-[312px] md:w-[346px]",
+                pos: "left-[-10px] top-[250px] z-30 w-[276px] rotate-[15deg] md:left-[-4%] md:top-[52.3%] md:w-[52.4%]",
                 from: { x: -100, y: 100, rotate: 30, opacity: 0 },
                 to: { x: 0, y: 0, rotate: 15, opacity: 1 },
                 delay: 0.55
@@ -405,38 +405,40 @@ export default function GreetingPage() {
           </div>
 
           {/* Community text */}
-          <div className="order-1 relative z-10 flex w-full max-w-[430px] flex-col px-5 md:order-2 md:mr-[14px] md:max-w-[390px] md:self-center md:px-0">
-            <motion.span
-              className={`${sectionNumberClass} ${sectionTwoNumberClass} text-[#ece8e2]`}
-              variants={fadeIn}
-              initial="hidden"
-              animate={community.isInView ? "visible" : "hidden"}
-              custom={0}
-            >
-              02
-            </motion.span>
-            <motion.div
-              className={`${sectionCopyStackClass}`}
-              variants={fadeUp}
-              initial="hidden"
-              animate={community.isInView ? "visible" : "hidden"}
-              custom={0.15}
-            >
-              <div className={sectionIntroGroupClass}>
-                <p className={sectionEyebrowClass}>
-                  OUR COMMUNITY
-                </p>
-                <h2 className={sectionTitleClass}>
-                  <span className="block">저희가 특히</span>
-                  <span className="block">마음을 두는 사람들</span>
-                </h2>
-              </div>
+          <div className="order-1 relative z-10 flex w-full max-w-[430px] flex-col px-5 md:order-2 md:mr-[14px] md:min-h-[clamp(361px,45.1vw,488px)] md:max-w-[390px] md:justify-center md:px-0 lg:min-h-[596px]">
+            <div className="relative">
+              <motion.span
+                className={`${sectionNumberClass} ${sectionTwoNumberClass} text-[#ece8e2]`}
+                variants={fadeIn}
+                initial="hidden"
+                animate={community.isInView ? "visible" : "hidden"}
+                custom={0}
+              >
+                02
+              </motion.span>
+              <motion.div
+                className={sectionCopyStackClass}
+                variants={fadeUp}
+                initial="hidden"
+                animate={community.isInView ? "visible" : "hidden"}
+                custom={0.15}
+              >
+                <div className={sectionIntroGroupClass}>
+                  <p className={sectionEyebrowClass}>
+                    OUR COMMUNITY
+                  </p>
+                  <h2 className={sectionTitleClass}>
+                    <span className="block">저희가 특히</span>
+                    <span className="block">마음을 두는 사람들</span>
+                  </h2>
+                </div>
 
-              <div className="text-[18px] leading-[1.8] tracking-[0.01em] text-black/88">
-                <p>하나님 나라엔 국적도, 언어도, 배경도 <br className="md:hidden" />따로 없으니까요.</p>
-                <p className="mt-1">이 모두가 저희 교회가 꿈꾸는 가족입니다.</p>
-              </div>
-            </motion.div>
+                <div className="text-[18px] leading-[1.8] tracking-[0.01em] text-black/88">
+                  <p>하나님 나라엔 국적도, 언어도, 배경도 <br className="md:hidden" />따로 없으니까요.</p>
+                  <p className="mt-1">이 모두가 저희 교회가 꿈꾸는 가족입니다.</p>
+                </div>
+              </motion.div>
+            </div>
 
             {/* Stagger pop-in badges */}
             <div className="relative z-10 mt-[30px] flex max-w-[420px] flex-wrap gap-[14px] md:mt-[34px] md:gap-[18px]">
@@ -464,12 +466,12 @@ export default function GreetingPage() {
       {/* ━━━ OPEN DOOR (03) ━━━ */}
       <section
         ref={openDoor.ref}
-        className="relative z-20 w-full border-b border-black/20 bg-[#fcfbf8] py-14 md:min-h-[584px] md:py-[80px]"
+        className="relative z-20 w-full border-b border-black/20 bg-[#fcfbf8] py-14 md:min-h-[584px] md:py-[35px]"
         data-section="open-door"
       >
         <div className="section-shell">
           <div className="relative flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
-            <div className="relative z-10 flex w-full max-w-[430px] flex-col md:max-w-[448px] md:pt-[18px]">
+            <div className="relative z-10 flex w-full max-w-[430px] flex-col md:max-w-[448px] md:self-center">
               <motion.span
                 className={`${sectionNumberClass} ${sectionThreeNumberClass} text-[#ece8e2]`}
                 variants={fadeIn}
@@ -480,7 +482,7 @@ export default function GreetingPage() {
                 03
               </motion.span>
               <motion.div
-                className={`${sectionCopyStackClass} pt-[42px]`}
+                className={sectionCopyStackClass}
                 variants={fadeUp}
                 initial="hidden"
                 animate={openDoor.isInView ? "visible" : "hidden"}
