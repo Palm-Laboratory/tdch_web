@@ -7,7 +7,11 @@ import { navMenuGroups } from "@/lib/site-data";
 // Breadscrumb(브레드크럼) 과 LNB 목록
 // Breadscrumb: 현재 위치의 계층 표시
 // lnb row: GNB기준 현재 화면의 LNB 메뉴 ROW 탭
-export default function Breadcrumb() {
+export default function Breadcrumb({
+  hideLnb = false,
+}: {
+  hideLnb?: boolean;
+}) {
   const pathname = usePathname();
 
   // 현재 경로에 맞는 메뉴 그룹 찾기
@@ -74,7 +78,7 @@ export default function Breadcrumb() {
       </nav>
 
       {/* 2. LNB (Local Navigation Bar) - 소메뉴 목록 */}
-      {menuGroup && menuGroup.items && menuGroup.items.length > 0 && (
+      {!hideLnb && menuGroup && menuGroup.items && menuGroup.items.length > 0 && (
         <nav className="w-full border-b border-cedar/8 bg-white overflow-x-auto no-scrollbar" aria-label="LNB">
           <ul className="section-shell flex items-center justify-start md:justify-center gap-1 min-w-max px-4">
             {menuGroup.items.map((item) => {
