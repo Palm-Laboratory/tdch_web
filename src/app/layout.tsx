@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import Script from "next/script";
 
 import "./globals.css";
+import BackToTopFab from "@/components/back-to-top-fab";
 import SiteFooter from "@/components/site-footer";
 import SiteHeader from "@/components/site-header";
 
@@ -63,6 +64,7 @@ export default function RootLayout({
           </div>
           <SiteHeader />
           <main className="flex-1">{children}</main>
+          <BackToTopFab />
           <SiteFooter />
         </div>
       </body>
