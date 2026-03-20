@@ -1,4 +1,4 @@
-import Image from "next/image";
+import NaverDynamicMap from "./components/naver-dynamic-map";
 
 const churchName = "The 제자교회";
 const addressFallback = "경기도 수원시 팔달구 경수대로425 지하1층(나인아트홀)";
@@ -81,15 +81,10 @@ export default function LocationPage() {
   const naverMapUrl = process.env.NEXT_PUBLIC_NAVER_MAP_URL ?? naverMapFallback;
   const latitude = process.env.NEXT_PUBLIC_CHURCH_LAT ?? latitudeFallback;
   const longitude = process.env.NEXT_PUBLIC_CHURCH_LNG ?? longitudeFallback;
-  const hasStaticMapAuth = Boolean(
-    process.env.NAVER_MAP_CLIENT_ID && process.env.NAVER_MAP_CLIENT_SECRET
-  );
+  const naverMapClientId = process.env.NAVER_MAP_CLIENT_ID ?? process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID;
   const kakaoMapUrl =
     process.env.NEXT_PUBLIC_KAKAO_MAP_URL ??
     `https://map.kakao.com/link/search/${encodeURIComponent(address)}`;
-  const staticMapUrl = hasStaticMapAuth
-    ? `/api/static-map?lat=${encodeURIComponent(latitude)}&lng=${encodeURIComponent(longitude)}`
-    : null;
 
   return (
     <div className="w-full overflow-x-hidden bg-white">
@@ -97,35 +92,20 @@ export default function LocationPage() {
         <div className="section-shell relative py-12 md:py-16">
           <div className="mt-10 overflow-hidden rounded-[34px] border border-cedar/12 bg-white shadow-[0_24px_60px_rgba(16,33,63,0.12)]">
             <div className="relative aspect-[16/11] w-full overflow-hidden md:aspect-[16/8] lg:aspect-[16/7]">
-              {staticMapUrl ? (
-                <Image
-                  src={staticMapUrl}
-                  alt={`${churchName} 정적 지도`}
-                  fill
-                  unoptimized
-                  className="object-cover"
-                />
-              ) : (
-                <div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[linear-gradient(135deg,#edf4ff_0%,#f8fbff_46%,#eef6ff_100%)]">
-                  <div className="absolute inset-0 opacity-70 [background-image:linear-gradient(to_right,rgba(42,79,143,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(42,79,143,0.08)_1px,transparent_1px)] [background-size:38px_38px]" />
-                  <div className="absolute left-[14%] top-[22%] h-20 w-20 rounded-full bg-gold/25 blur-2xl" />
-                  <div className="absolute bottom-[18%] right-[16%] h-24 w-24 rounded-full bg-clay/15 blur-2xl" />
-                  <div className="relative z-10 flex flex-col items-center px-6 text-center">
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-[0_18px_32px_rgba(16,33,63,0.12)]">
-                      <span className="text-2xl">+</span>
-                    </div>
-                    <p className="mt-5 text-[11px] font-black uppercase tracking-[0.26em] text-cedar/55">
-                      Static Map Ready
-                    </p>
-                    <p className="mt-3 max-w-[22rem] text-sm leading-7 text-ink/65 md:text-base">
-                      서버 전용 네이버 지도 인증값을 연결하면 이 영역에 실제 정적 지도가 표시됩니다.
-                    </p>
-                  </div>
-                </div>
-              )}
+              <NaverDynamicMap
+                clientId={naverMapClientId}
+                latitude={Number(latitude)}
+                longitude={Number(longitude)}
+                title={churchName}
+              />
 
               <div className="absolute inset-x-0 bottom-0 p-4 md:p-6">
-                <div className="max-w-[34rem] rounded-[24px] border border-white/70 bg-white/88 px-5 py-4 text-ink shadow-[0_18px_42px_rgba(16,33,63,0.18)] backdrop-blur-md md:px-6 md:py-5">
+                <div className="rounded-[20px] border border-white/70 bg-white/88 px-4 py-3 text-ink shadow-[0_18px_42px_rgba(16,33,63,0.18)] backdrop-blur-md md:hidden">
+                  <p className="text-sm leading-6 text-ink/72">
+                    {address}
+                  </p>
+                </div>
+                <div className="hidden max-w-[34rem] rounded-[24px] border border-white/70 bg-white/88 px-5 py-4 text-ink shadow-[0_18px_42px_rgba(16,33,63,0.18)] backdrop-blur-md md:block md:px-6 md:py-5">
                   <h2 className="text-3xl font-bold text-ink">
                     {churchName}
                   </h2>
