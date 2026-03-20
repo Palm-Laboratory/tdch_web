@@ -354,15 +354,15 @@ function PastorSectionFiveColumn({
         <span className="h-px flex-1 bg-black/10" />
       </div>
 
-      <div className="mt-8 flex flex-col">
+      <div className="mt-6 flex flex-col">
         {items.map((item, index) => (
           <article
             key={`${label}-${item.title}`}
-            className={`grid grid-cols-[24px_minmax(0,1fr)] gap-4 py-6 md:grid-cols-[32px_minmax(0,1fr)] md:gap-6 md:py-7 ${index > 0 ? "border-t border-black/10" : ""
+            className={`grid grid-cols-[12px_minmax(0,1fr)] gap-2 py-4 md:grid-cols-[16px_minmax(0,1fr)] md:gap-3 md:py-5 ${index > 0 ? "border-t border-black/10" : ""
               }`}
           >
-            <div className="flex justify-center pt-1">
-              <span className={`block h-4 w-4 rounded-full ring-4 ${bulletClassName} ${bulletRingClassName}`} />
+            <div className="flex justify-center pt-1.5">
+              <span className={`block h-2.5 w-2.5 rounded-full ring-[3px] ${bulletClassName} ${bulletRingClassName}`} />
             </div>
 
             <div>
@@ -371,10 +371,10 @@ function PastorSectionFiveColumn({
                   {item.eyebrow}
                 </p>
               ) : null}
-              <h3 className={`type-card-title font-bold leading-[1.45] tracking-[-0.03em] text-[#22345c] ${item.eyebrow ? "mt-2" : ""}`}>
+              <h3 className={`type-body-strong font-semibold leading-[1.45] tracking-[-0.03em] text-[#22345c] ${item.eyebrow ? "mt-2" : ""}`}>
                 {item.title}
               </h3>
-              <p className="type-body mt-2 font-medium leading-[1.6] tracking-[-0.02em] text-[#a7adba]">
+              <p className="type-body mt-1.5 font-medium leading-[1.6] tracking-[-0.02em] text-[#a7adba]">
                 {item.subtitle}
               </p>
             </div>
@@ -413,7 +413,7 @@ function PastorSectionFive() {
 
 function PastorFinalSection() {
   return (
-    <section className="w-full bg-[rgb(247,248,252)]">
+    <section className="w-full bg-white">
       <div className="mx-auto w-full max-w-[1120px] px-4 py-12 md:px-8 md:py-16 lg:px-8 lg:py-[52px] xl:px-0">
         <div className="flex flex-col gap-4 md:hidden">
           <Link
