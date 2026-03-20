@@ -67,7 +67,7 @@ function PastorHeroSection() {
         ))}
       </div>
 
-      <div className="relative mx-auto w-full max-w-[1120px] px-4 py-10 md:px-8 md:py-14 lg:px-0 lg:py-0">
+      <div className="relative mx-auto w-full max-w-[1120px] px-4 py-10 md:px-8 md:py-14 lg:px-8 lg:py-0 xl:px-0">
         <div className="relative grid min-h-[620px] items-end gap-8 px-2 pb-0 pt-10 md:min-h-[540px] md:px-2 md:pt-14 lg:h-[424px] lg:grid-cols-[minmax(0,0.95fr)_minmax(420px,0.98fr)] lg:items-start lg:gap-2 lg:px-0 lg:py-[36px]">
           <div className="z-10 max-w-[460px] self-start pb-4 pt-4 text-white md:pb-6 md:pt-4 lg:flex lg:h-full lg:max-w-[420px] lg:self-stretch lg:flex-col lg:justify-between lg:py-[15px]">
             <div>
@@ -139,7 +139,7 @@ function PastorHeroSection() {
 function PastorMissionSection() {
   return (
     <section className="w-full bg-white">
-      <div className="mx-auto w-full max-w-[1120px] px-4 py-16 md:px-8 md:py-20 lg:min-h-[474px] lg:px-0 lg:py-[72px]">
+      <div className="mx-auto w-full max-w-[1120px] px-4 py-16 md:px-8 md:py-20 lg:min-h-[474px] lg:px-8 lg:py-[72px] xl:px-0">
         <div className="pt-2 md:pt-3 lg:pt-1">
           <p className="font-[var(--font-serif)] text-xs font-semibold uppercase tracking-[0.28em] text-[#cda74d] md:text-sm">
             PHILIPPINES · 2009 - 2025
@@ -164,7 +164,7 @@ function PastorMissionSection() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-8 text-[1.08rem] leading-[1.5] tracking-[-0.02em] text-[#000000] md:text-[1.18rem] lg:gap-10 lg:text-[1.1rem] lg:leading-[1.95]">
+          <div className="flex flex-col gap-8 text-[1.08rem] leading-[1.5] tracking-[-0.02em] text-[#000000] md:text-[1.18rem] lg:gap-5 lg:text-[1.1rem] lg:leading-[1.95]">
             <p>
               기독교한국침례회 해외선교회 파송으로 17년간 필리핀에서 선교했습니다.<br className="hidden md:block" />
               산타로사, 그 작은 도시에서 4가정으로 시작한 교회가 120여 명의 공동체로 자라는 것을 지켜봤습니다.
