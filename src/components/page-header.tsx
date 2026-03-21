@@ -21,12 +21,9 @@ export default function PageHeader({
   const menuGroup = navMenuGroups.find(
     (g) => pathname === g.href || pathname.startsWith(`${g.href}/`)
   );
-  const currentItem = menuGroup?.items.find(
-    (item) => pathname === item.href || pathname.startsWith(`${item.href}/`)
-  );
 
-  // Use the sub-menu label if found, otherwise fallback to the group title
-  const displayTitle = currentItem?.label || defaultTitle;
+  // PageHeader banner always shows the top-level menu label.
+  const displayTitle = menuGroup?.label || defaultTitle;
 
   return (
     <section className="relative w-full h-[280px] md:h-[300px] overflow-hidden">
