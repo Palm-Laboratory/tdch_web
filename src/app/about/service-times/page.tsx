@@ -70,7 +70,7 @@ export default function ServiceTimesPage() {
           <p className="type-label mb-2 font-semibold uppercase tracking-[0.2em] text-cedar/70">
             Service Times
           </p>
-          <h2 className="type-page-title font-bold tracking-[-0.03em] text-ink">
+          <h2 className="type-section-title font-bold tracking-[-0.03em] text-ink">
             예배 시간 안내
           </h2>
         </div>
@@ -90,13 +90,13 @@ export default function ServiceTimesPage() {
           <table className="w-full min-w-[680px] table-fixed border-collapse text-left lg:min-w-[760px]">
             <thead>
               <tr className="border-b border-cedar/15 bg-[#fafcff]">
-                <th className="type-body-strong w-[38%] border-r border-cedar/15 px-4 py-4 text-center font-bold text-ink lg:px-6 lg:py-5">
+                <th className="type-label w-[38%] border-r border-cedar/15 px-4 py-4 text-center font-semibold tracking-[0.08em] text-ink/72 lg:px-6 lg:py-5">
                   구분
                 </th>
-                <th className="type-body-strong w-[37%] border-r border-cedar/15 px-4 py-4 text-center font-bold text-ink lg:px-6 lg:py-5">
+                <th className="type-label w-[37%] border-r border-cedar/15 px-4 py-4 text-center font-semibold tracking-[0.08em] text-ink/72 lg:px-6 lg:py-5">
                   시간
                 </th>
-                <th className="type-body-strong w-[25%] px-4 py-4 text-center font-bold text-ink lg:px-6 lg:py-5">
+                <th className="type-label w-[25%] px-4 py-4 text-center font-semibold tracking-[0.08em] text-ink/72 lg:px-6 lg:py-5">
                   장소
                 </th>
               </tr>

@@ -89,7 +89,13 @@ export default function LocationPage() {
   return (
     <div className="w-full overflow-x-hidden bg-white">
       <section id="map" className="relative overflow-hidden scroll-mt-28">
-        <div className="section-shell relative">
+        <div className="section-shell relative py-12 md:py-16">
+          <p className="type-label mb-2 font-semibold uppercase tracking-[0.2em] text-cedar/70">
+            LOCATION
+          </p>
+          <h2 className="type-section-title mb-6 font-bold text-ink md:mb-8">
+            오시는 길
+          </h2>
           <div className="mt-10 overflow-hidden rounded-[34px] border border-cedar/12 bg-white">
             <div className="relative aspect-[16/11] w-full overflow-hidden md:aspect-[16/8] lg:aspect-[16/7]">
               <NaverDynamicMap

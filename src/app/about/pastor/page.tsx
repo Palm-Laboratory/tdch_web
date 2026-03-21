@@ -174,18 +174,18 @@ function PastorHeroSection() {
             </div>
           </div>
 
-          {/* <div className="relative z-10 mx-auto flex w-full max-w-[560px] justify-center self-end lg:hidden">
+          <div className="relative z-10 mx-auto flex w-full max-w-[560px] justify-center self-end lg:hidden">
             <div className="relative w-full max-w-[560px]">
               <Image
-                src="/images/about/senior_pastor.png"
+                src="/images/about/senior_pastor_sm.png"
                 alt="담임목사 이진욱 목사"
-                width={1189}
-                height={1205}
+                width={602}
+                height={530}
                 priority
                 className="h-auto w-full object-contain object-bottom"
               />
             </div>
-          </div> */}
+          </div>
 
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden lg:block w-[58%]">
             <div className="absolute bottom-[-350px] right-[-130px] w-[990px] max-w-none">
