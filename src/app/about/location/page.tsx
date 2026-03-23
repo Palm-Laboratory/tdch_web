@@ -139,20 +139,27 @@ export default function LocationPage() {
         <div className="space-y-16 md:space-y-24">
           <InfoSection title="방문 안내" subtitle="Visit Guide">
             <ul className="type-body space-y-3 text-ink/78">
-              <li className="flex gap-4">
-                <span className="mt-[0.7em] h-2.5 w-2.5 shrink-0 bg-themeBlue" />
+              <li className="flex items-start gap-4">
+                <span className="mt-2 block h-2.5 w-2.5 shrink-0 rounded-full bg-themeBlue" />
                 <span>
                   예배 장소는{" "}
                   <strong className="font-semibold text-red-600">나인아트홀(지하 1층)</strong>
                   {" "}입니다.
                 </span>
               </li>
-              <li className="flex gap-4">
-                <span className="mt-[0.7em] h-2.5 w-2.5 shrink-0 bg-themeBlue" />
-                <span>주차 공간이 제한되어 있어 대중교통 이용을 권장합니다.</span>
+              <li className="flex items-start gap-4">
+                <span className="mt-2 block h-2.5 w-2.5 shrink-0 rounded-full bg-themeBlue" />
+                <span>
+                  주일 방문 시, 아트홀 건물 주차장을 이용하실 수 있고,
+                  주변 유료주차장이나 수원시청 주차장에 주차하신 뒤 걸어서 오셔도 됩니다.
+                </span>
               </li>
-              <li className="flex gap-4">
-                <span className="mt-[0.7em] h-2.5 w-2.5 shrink-0 bg-themeBlue" />
+              <li className="flex items-start gap-4">
+                <span className="mt-2 block h-2.5 w-2.5 shrink-0 rounded-full bg-themeBlue" />
+                <span>평일에는 주차가 다소 어려울 수 있어 대중 교통 이용을 권장합니다.</span>
+              </li>
+              <li className="flex items-start gap-4">
+                <span className="mt-2 block h-2.5 w-2.5 shrink-0 rounded-full bg-themeBlue" />
                 <span>방문하시는 경우 건물 내 엘리베이터를 이용하여 지하 1층으로 오시면 됩니다.</span>
               </li>
             </ul>
@@ -160,12 +167,12 @@ export default function LocationPage() {
 
           <InfoSection title="지하철 이용" subtitle="Subway">
             <ul className="type-body space-y-3 text-ink/78">
-              <li className="flex gap-4">
-                <span className="mt-[0.7em] h-2.5 w-2.5 shrink-0 bg-themeBlue" />
+              <li className="flex items-start gap-4">
+                <span className="mt-2 block h-2.5 w-2.5 shrink-0 rounded-full bg-themeBlue" />
                 <span>수원시청역 6번 출구에서 도보 약 8분 거리</span>
               </li>
-              <li className="flex gap-4">
-                <span className="mt-[0.7em] h-2.5 w-2.5 shrink-0 bg-themeBlue" />
+              <li className="flex items-start gap-4">
+                <span className="mt-2 block h-2.5 w-2.5 shrink-0 rounded-full bg-themeBlue" />
                 <span>매교역 8번 출구에서 도보 약 14분 거리</span>
               </li>
             </ul>
@@ -209,14 +216,14 @@ export default function LocationPage() {
           <div id="contact-info" className="scroll-mt-28">
             <InfoSection title="교회정보" subtitle="Church Info">
               <ul className="type-body space-y-3 text-ink/78">
-                <li className="flex gap-4">
-                  <span className="mt-[0.7em] h-2.5 w-2.5 shrink-0 bg-themeBlue" />
+                <li className="flex items-start gap-4">
+                  <span className="mt-2 block h-2.5 w-2.5 shrink-0 rounded-full bg-themeBlue" />
                   <span>
                     주소 : {address}
                   </span>
                 </li>
-                <li className="flex gap-4">
-                  <span className="mt-[0.7em] h-2.5 w-2.5 shrink-0 bg-themeBlue" />
+                <li className="flex items-start gap-4">
+                  <span className="mt-2 block h-2.5 w-2.5 shrink-0 rounded-full bg-themeBlue" />
                   <span>
                     TEL :
                     {" "}
@@ -225,8 +232,8 @@ export default function LocationPage() {
                     </a>
                   </span>
                 </li>
-                <li className="flex gap-4">
-                  <span className="mt-[0.7em] h-2.5 w-2.5 shrink-0 bg-themeBlue" />
+                <li className="flex items-start gap-4">
+                  <span className="mt-2 block h-2.5 w-2.5 shrink-0 rounded-full bg-themeBlue" />
                   <span>
                     EMAIL :
                     {" "}
