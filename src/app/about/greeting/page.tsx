@@ -584,7 +584,7 @@ export default function GreetingPage() {
                   <p className="mt-1">다시 시작하고 싶다면, 함께 걸어가요.</p>
 
                   <p className="type-body-small mt-5 text-right font-normal text-black/72">
-                    "성령으로 제자 삼는 교회"
+                    &quot;성령으로 제자 삼는 교회&quot;
                   </p>
                   <p className="type-body-small mt-2 text-right font-normal text-black/72">
                     The 제자교회 담임목사 이진욱 드림
