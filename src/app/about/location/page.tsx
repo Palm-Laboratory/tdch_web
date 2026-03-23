@@ -112,7 +112,7 @@ export default function LocationPage() {
                   </p>
                 </div>
                 <div className="hidden max-w-[25rem] rounded-[24px] border border-white/70 bg-white/88 px-5 py-4 text-ink shadow-[0_18px_42px_rgba(16,33,63,0.18)] backdrop-blur-md md:block md:px-6 md:py-5">
-                  <h2 className="type-section-title font-serif font-bold text-ink">
+                  <h2 className="type-card-title font-serif font-bold text-ink">
                     {churchName}
                   </h2>
                   <p className="type-body mt-2 max-w-[32rem] text-ink/72">
