@@ -3,7 +3,7 @@ import CopyAccountButton from "./components/copy-account-button";
 
 export const metadata: Metadata = {
   title: "헌금안내 | The 제자교회",
-  description: "The 제자교회 헌금안내 페이지는 현재 구현 예정입니다.",
+  description: "온라인 헌금 방법, 입금자명 작성 예시, 온라인 계좌 안내를 확인하실 수 있습니다.",
 };
 
 const senderNameExamples = {
@@ -22,14 +22,31 @@ const offeringTypeExamples = [
   { korean: "절기헌금", code: "절기" },
 ];
 
-const givingBankAccount =
-  (
-    process.env.NEXT_PUBLIC_GIVING_BANK ??
-    "하나은행 181-04-01160-381 예금주:이진욱(The제자교회)"
-  ).replace(/\s*예금주:/, "\n예금주:");
+function normalizeGivingAccount(raw: string, ownerFallback: string) {
+  const normalized = raw.replace(/\s+/g, " ").trim();
+  const accountNumberMatch = normalized.match(/\d[\d-]*/);
+  const accountNumber = accountNumberMatch?.[0] ?? "181-04-01160-381";
+  const bankName = normalized
+    .replace(/\s*예금주:.*$/, "")
+    .replace(accountNumber, "")
+    .trim() || "하나은행";
 
-const [bankAccountLine, accountOwnerLine] = givingBankAccount.split("\n");
-const bankAccountNumber = bankAccountLine.replace(/^[^\d]*/, "").replace(/-/g, "").trim();
+  const ownerMatch = normalized.match(/예금주:\s*(.+)$/);
+  const owner = ownerMatch?.[1]?.trim() || ownerFallback;
+
+  return {
+    bankName,
+    accountNumber,
+    owner,
+    copyValue: accountNumber.replace(/-/g, ""),
+  };
+}
+
+const givingAccount = normalizeGivingAccount(
+  process.env.NEXT_PUBLIC_GIVING_BANK ??
+    "하나은행 181-04-01160-381 예금주:이진욱(The제자교회)",
+  process.env.NEXT_PUBLIC_GIVING_OWNER ?? "이진욱(The제자교회)"
+);
 
 export default function GivingPage() {
   return (
@@ -59,13 +76,13 @@ export default function GivingPage() {
           </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-3 md:gap-4">
-            <span className="inline-flex min-h-11 items-center rounded-[6px] bg-[#253555] px-6 py-2 text-[1.2rem] font-bold tracking-[-0.03em] text-white md:min-h-[54px] md:px-7 md:text-[1.5rem]">
+            <span className="type-card-title inline-flex min-h-11 items-center rounded-[6px] bg-ink px-6 py-2 font-bold tracking-[-0.03em] text-white md:min-h-[54px] md:px-7">
               이름
             </span>
-            <span className="text-[1rem] font-light leading-none text-ink/35 md:text-[1.5rem]">
+            <span className="type-card-title font-light leading-none text-ink/35">
               +
             </span>
-            <span className="inline-flex min-h-11 items-center rounded-[6px] bg-[#253555] px-6 py-2 text-[1.1rem] font-bold tracking-[-0.03em] text-white md:min-h-[54px] md:px-7 md:text-[1.5rem]">
+            <span className="type-card-title inline-flex min-h-11 items-center rounded-[6px] bg-ink px-6 py-2 font-bold tracking-[-0.03em] text-white md:min-h-[54px] md:px-7">
               헌금종류 앞 두 글자
             </span>
           </div>
@@ -84,7 +101,7 @@ export default function GivingPage() {
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2.2"
-                    className="mt-1.5 h-5 w-5 shrink-0 text-[#253555]"
+                    className="mt-1.5 h-5 w-5 shrink-0 text-ink"
                     aria-hidden="true"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
@@ -135,17 +152,17 @@ export default function GivingPage() {
               <p className="type-body mt-1 text-ink/68">온라인 계좌</p>
             </div>
             <div className="hidden h-14 w-px bg-black/10 md:block" />
-            <div className="font-serif tracking-[-0.04em] text-[#253555]">
-              <p className="text-[1.125rem] leading-[1.2] md:text-[1.5rem]">
-                {bankAccountLine}
+            <div className="font-serif tracking-[-0.04em] text-ink">
+              <p className="type-card-title leading-[1.2]">
+                {givingAccount.bankName} {givingAccount.accountNumber}
               </p>
-              <p className="mt-1 text-[0.95rem] leading-[1.3] md:text-[1.125rem]">
-                {accountOwnerLine}
+              <p className="type-body-small mt-1 leading-[1.3] text-ink/72">
+                예금주:{givingAccount.owner}
               </p>
             </div>
           </div>
 
-          <CopyAccountButton value={bankAccountNumber} />
+          <CopyAccountButton value={givingAccount.copyValue} />
         </div>
       </section>
 

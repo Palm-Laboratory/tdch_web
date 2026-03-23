@@ -45,7 +45,7 @@ export default function CopyAccountButton({
     <button
       type="button"
       onClick={handleCopy}
-      className="type-body-small relative z-10 inline-flex min-h-11 shrink-0 cursor-pointer items-center justify-center border border-black/10 px-5 py-2 font-semibold text-[#253555] transition hover:bg-[#253555] hover:text-white"
+      className="type-body-small relative z-10 inline-flex min-h-11 shrink-0 cursor-pointer items-center justify-center border border-black/10 px-5 py-2 font-semibold text-ink transition hover:bg-ink hover:text-white"
       aria-label="계좌번호 복사하기"
     >
       {copied ? "복사됨" : "복사하기"}
