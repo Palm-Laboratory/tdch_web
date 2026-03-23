@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Gowun_Batang } from "next/font/google";
 
@@ -97,8 +98,32 @@ function PastorHeroSection() {
       />
 
       <div className="section-shell section-shell--narrow relative py-8 md:py-0 lg:py-0">
-        <div className="relative min-h-[420px] px-2 pb-8 pt-8 md:min-h-[460px] md:px-2 md:pb-10 md:pt-8 lg:min-h-[440px] lg:px-0 lg:pb-10 lg:pt-5">
-          <div className="z-10 max-w-[460px] self-start pb-4 pt-4 text-white md:max-w-[420px] md:pt-0">
+        {/* Mobile: anchor the portrait to the section shell so inner padding does not create visual gaps. */}
+        <div className="pointer-events-none absolute bottom-0 -right-4 z-0 aspect-[553/738] w-[42%] min-w-[165px] md:hidden">
+          <Image
+            src="/images/about/pastor_sm.png"
+            alt="이진욱 목사 모바일 프로필 이미지"
+            fill
+            priority
+            sizes="(max-width: 767px) 42vw, 240px"
+            className="origin-[110%_100%] object-contain object-bottom-right scale-[1.4]"
+          />
+        </div>
+
+        {/* Tablet only: keep the image pinned to the shell edge, matching the mobile anchoring logic. */}
+        <div className="pointer-events-none absolute bottom-0 hidden -right-8 z-0 aspect-[719/771] w-[46%] min-w-[290px] md:block lg:hidden">
+          <Image
+            src="/images/about/pastor.png"
+            alt="이진욱 목사 프로필 이미지"
+            fill
+            priority
+            sizes="(min-width: 768px) 46vw, 100vw"
+            className="origin-[110%_100%] object-contain object-bottom-right scale-[1.3]"
+          />
+        </div>
+
+        <div className="relative min-h-[420px] px-2 pb-8 pt-8 md:grid md:min-h-[460px] md:grid-cols-2 md:items-end md:gap-6 md:px-2 md:pb-0 md:pt-8 lg:min-h-[440px] lg:grid-cols-2 lg:gap-10 lg:px-0 lg:pt-5">
+          <div className="z-10 max-w-[460px] self-start pb-4 pt-4 text-white md:max-w-[360px] md:pt-0 lg:max-w-[420px]">
             <div className="md:pl-1 md:pt-[40px] lg:pl-2 lg:pt-[46px] xl:pt-[54px]">
               <div className="flex items-center gap-3 text-[#d5b25c]">
                 <span className="h-px w-10 bg-current md:w-12" />
@@ -129,8 +154,20 @@ function PastorHeroSection() {
                 <br />
                 오히려 멀게 느껴지고..
               </p>
-              <p>그래서 그냥 있는 그대로 써보려고 합니다.</p>
+              <p>그래서 그냥 <br className="md:hidden" />있는 그대로 써보려고 합니다.</p>
             </div>
+          </div>
+
+          {/* Desktop+: render the portrait inside the right grid column instead of shell-level absolute positioning. */}
+          <div className="relative hidden h-full min-h-[340px] lg:block lg:min-h-[405px]">
+            <Image
+              src="/images/about/pastor.png"
+              alt="이진욱 목사 프로필 이미지"
+              fill
+              priority
+              sizes="(min-width: 1280px) 490px, (min-width: 768px) calc(50vw - 32px), 100vw"
+              className="origin-[110%_100%] object-contain object-bottom-right scale-[1.3]"
+            />
           </div>
         </div>
       </div>
@@ -335,7 +372,7 @@ function PastorSectionFive() {
           </h2>
         </div>
 
-        <div className="mt-12 grid gap-10 md:mt-14 lg:mt-[58px] lg:grid-cols-2 lg:gap-[72px]">
+        <div className="mt-12 grid gap-10 md:mt-14 md:grid-cols-2 lg:mt-[58px] lg:gap-[72px]">
           <PastorSectionFiveColumn label="학력" tone="navy" items={pastorEducationItems} />
           <PastorSectionFiveColumn label="사역" tone="gold" items={pastorMinistryItems} />
         </div>
