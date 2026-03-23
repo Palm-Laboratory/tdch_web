@@ -28,7 +28,7 @@ export default function Breadcrumb({
     <div className="w-full flex flex-col bg-[#f8fafd]">
       {/* 1. Breadcrumb (경로 표시) */}
       <nav className="section-shell py-3 border-b border-cedar/8" aria-label="Breadcrumb">
-        <ol className="flex items-center justify-center gap-1.5 text-sm">
+        <ol className="type-body-small flex items-center justify-center gap-1.5">
           {/* 홈 */}
           <li>
             <Link
@@ -88,7 +88,7 @@ export default function Breadcrumb({
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className={`block py-3.5 px-3 md:px-4 text-[0.92rem] font-medium whitespace-nowrap border-b-[2.5px] transition-colors ${isActive
+                    className={`type-body-small block whitespace-nowrap border-b-[2.5px] px-3 py-3.5 font-medium transition-colors md:px-4 ${isActive
                         ? "border-themeBlue text-themeBlue font-bold"
                         : "border-transparent text-ink/65 hover:text-themeBlue hover:border-themeBlue/30"
                       }`}

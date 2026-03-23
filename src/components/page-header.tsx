@@ -41,10 +41,10 @@ export default function PageHeader({
 
       <div className="relative z-10 flex h-full items-center justify-center pt-10">
         <div className="text-center">
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-ivory/60">
+          <p className="type-label mb-3 font-semibold uppercase tracking-[0.2em] text-ivory/60">
             {subtitle}
           </p>
-          <h1 className="font-serif text-4xl font-bold text-ivory md:text-5xl">
+          <h1 className="type-page-title font-serif font-bold text-ivory">
             {displayTitle}
           </h1>
         </div>
