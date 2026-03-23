@@ -190,6 +190,24 @@ docker compose up -d --build
 - 넓은 본문: `section-shell section-shell--wide`
 - 거의 풀폭: `section-shell section-shell--full`
 
+정의 값:
+
+- `section-shell`
+  - `base`: `max-width: 1120px`, `padding-inline: 1rem`
+  - `md (768px+)`: `padding-inline: 2rem`
+  - `xl (1280px+)`: `max-width: 1200px`
+  - `2xl (1536px+)`: `max-width: 1400px`
+- `section-shell--narrow`
+  - `base`: `max-width: 920px`
+  - `xl (1280px+)`: `max-width: 980px`
+  - `2xl (1536px+)`: `max-width: 1040px`
+- `section-shell--wide`
+  - `base`: `max-width: 1280px`
+  - `xl (1280px+)`: `max-width: 1360px`
+  - `2xl (1536px+)`: `max-width: 1480px`
+- `section-shell--full`
+  - 전 구간: `max-width: none`
+
 운영 원칙:
 
 - 공통 기준 폭은 `src/app/globals.css`의 `section-shell` 계열 클래스에서만 관리합니다.
