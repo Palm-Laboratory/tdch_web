@@ -55,7 +55,7 @@ export default function GivingPage() {
         <p className="type-label mb-3 font-semibold uppercase tracking-[0.2em] text-cedar/70">
           Online Offering Guide
         </p>
-        <h2 className="type-section-title font-serif font-bold tracking-[0.01em] text-ink">
+        <h2 className="type-section-title font-bold tracking-[0.01em] text-ink">
           온라인 헌금방법
         </h2>
         <ul className="type-body mt-5 space-y-3 text-ink/78">
