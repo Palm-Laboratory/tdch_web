@@ -181,6 +181,29 @@ docker compose up -d --build
 
 - 현재 `src`에는 없음
 
+## 컨테이너 폭 기준
+
+본문 레이아웃의 기본 컨테이너는 `section-shell`입니다. 새 페이지를 만들 때는 페이지마다 임의의 `max-width` 값을 직접 만들기보다, 아래 폭 티어를 조합해서 사용합니다.
+
+- 기본 본문: `section-shell`
+- 좁은 본문: `section-shell section-shell--narrow`
+- 넓은 본문: `section-shell section-shell--wide`
+- 거의 풀폭: `section-shell section-shell--full`
+
+운영 원칙:
+
+- 공통 기준 폭은 `src/app/globals.css`의 `section-shell` 계열 클래스에서만 관리합니다.
+- 페이지 컴포넌트 안에서 `max-w-[...]`를 새로 추가하는 방식은 예외적인 시각 연출이 아니면 지양합니다.
+- 텍스트 중심 페이지, 안내성 단일 컬럼 페이지는 `narrow`를 우선 검토합니다.
+- 표, 지도, 카드 그리드, 설교 목록처럼 가로 사용량이 큰 화면은 `wide`를 우선 검토합니다.
+- 히어로, 배경 연출, 미디어 중심 섹션처럼 의도적으로 화면을 넓게 써야 하는 경우에만 `full` 또는 별도 레이아웃을 사용합니다.
+- 헤더, 푸터, 브레드크럼과 본문 축이 크게 어긋나지 않도록 유지합니다.
+
+현재 적용 예시:
+
+- `narrow`: `src/app/newcomer/page.tsx`, `src/app/giving/page.tsx`
+- `wide`: `src/app/about/location/page.tsx`, `src/app/about/service-times/page.tsx`, `src/app/sermons/layout.tsx`
+
 ## 새 화면 체크리스트
 
 새 페이지나 새 섹션을 만들 때는 아래 순서로 반응형을 맞춥니다.

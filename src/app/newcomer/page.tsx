@@ -17,7 +17,7 @@ export default function NewcomerPage() {
         backgroundImageUrl="/images/main_bg/main_bg_sec1.png"
       />
       <Breadcrumb />
-      <main className="section-shell pt-10 md:pt-16 pb-20">
+      <main className="section-shell section-shell--narrow pt-10 md:pt-16 pb-20">
         <ComingSoonPage
           title="새가족안내"
           subtitle="NEWCOMER"

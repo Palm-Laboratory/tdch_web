@@ -64,7 +64,7 @@ export default function ServiceTimesPage() {
   );
 
   return (
-    <div className="section-shell space-y-14 pt-10 md:pt-16 pb-20">
+    <div className="section-shell section-shell--wide space-y-14 pt-10 md:pt-16 pb-20">
       <section>
         <div className="mb-8">
           <p className="type-label mb-2 font-semibold uppercase tracking-[0.2em] text-cedar/70">

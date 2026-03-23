@@ -14,7 +14,7 @@ export default function SermonsLayout({
         backgroundImageUrl="/images/main_bg/main_bg_sec1.png"
       />
       <Breadcrumb />
-      <main className="section-shell pt-10 md:pt-16 pb-20">{children}</main>
+      <main className="section-shell section-shell--wide pt-10 md:pt-16 pb-20">{children}</main>
     </div>
   );
 }

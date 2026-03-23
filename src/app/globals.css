@@ -172,10 +172,23 @@ a {
 
 /* ── 기본 컨텐츠 셸 (유동적 반응형) ── */
 .section-shell {
+  --section-shell-max-width: 1120px;
   margin-inline: auto;
   width: 100%;
-  max-width: 1120px;
+  max-width: var(--section-shell-max-width);
   padding-inline: 1rem;
+}
+
+.section-shell--narrow {
+  --section-shell-max-width: 920px;
+}
+
+.section-shell--wide {
+  --section-shell-max-width: 1280px;
+}
+
+.section-shell--full {
+  --section-shell-max-width: none;
 }
 
 @media (min-width: 768px) {
@@ -186,13 +199,37 @@ a {
 
 @media (min-width: 1280px) {
   .section-shell {
-    max-width: 1200px;
+    --section-shell-max-width: 1200px;
+  }
+
+  .section-shell--narrow {
+    --section-shell-max-width: 980px;
+  }
+
+  .section-shell--wide {
+    --section-shell-max-width: 1360px;
+  }
+
+  .section-shell--full {
+    --section-shell-max-width: none;
   }
 }
 
 @media (min-width: 1536px) {
   .section-shell {
-    max-width: 1400px;
+    --section-shell-max-width: 1400px;
+  }
+
+  .section-shell--narrow {
+    --section-shell-max-width: 1040px;
+  }
+
+  .section-shell--wide {
+    --section-shell-max-width: 1480px;
+  }
+
+  .section-shell--full {
+    --section-shell-max-width: none;
   }
 }
 

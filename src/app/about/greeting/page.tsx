@@ -61,6 +61,12 @@ const communityFocus = [
   "교회에서 상처받은 분들"
 ];
 
+const welcomeQuestions = [
+  "이렇게 살아도 괜찮은 걸까?",
+  "나 같은 사람도 하나님 앞에 설 수 있을까?",
+  "믿고 싶은데, 어디서부터 시작해야 하지?"
+];
+
 const sectionNumberClass =
   `${originalSurfer.className} type-display-number pointer-events-none absolute left-[-10px] top-[-28px] tracking-normal`;
 const sectionOneNumberClass = "left-[10px] top-[-35px] md:left-[-9px] md:top-[-35px]";
@@ -69,7 +75,7 @@ const sectionThreeNumberClass = "top-[-75px] md:left-[-40px] md:top-[-80px]";
 const sectionEyebrowClass =
   `${originalSurfer.className} type-eyebrow tracking-[0.08em] text-[#caa643]`;
 const sectionTitleClass =
-  `${nanumMyeongjo.className} type-section-title font-bold tracking-[0.01em]`;
+  `${nanumMyeongjo.className} type-section-title font-bold tracking-[0.01em] md:text-[2rem]`;
 const sectionIntroGroupClass = "flex flex-col gap-[14px]";
 const sectionCopyStackClass = "relative z-10 flex flex-col gap-[24px]";
 
@@ -191,43 +197,89 @@ export default function GreetingPage() {
       >
         <div className="section-shell">
           <div className="flex max-w-[980px] flex-col items-start gap-8 md:gap-10">
-            <motion.p
-              className={`${originalSurfer.className} type-eyebrow tracking-[0.04em] text-[#1a2744]`}
-              variants={slideInLeft}
+            <div className="flex w-full flex-col gap-3 md:gap-10">
+              <div className={sectionIntroGroupClass}>
+                <motion.p
+                  className={`${originalSurfer.className} type-eyebrow tracking-[0.04em] text-[#1a2744]`}
+                  variants={slideInLeft}
+                  initial="hidden"
+                  animate={welcome.isInView ? "visible" : "hidden"}
+                  custom={0}
+                >
+                  WELCOME
+                </motion.p>
+                <motion.h2
+                  className={`${sectionTitleClass} text-[#111d38]`}
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate={welcome.isInView ? "visible" : "hidden"}
+                  custom={0.35}
+                >
+                  살다 보면 이런 질문이 <br className="md:hidden" />생길 때가 있어요.
+                </motion.h2>
+              </div>
+
+              {/* ━━━ 질문 카드 ━━━ */}
+              <div className="flex w-full flex-col gap-1 md:gap-2">
+                {welcomeQuestions.map((question, index) => (
+                  <motion.div
+                    key={question}
+                    className="w-full"
+                    variants={fadeUp}
+                    initial="hidden"
+                    animate={welcome.isInView ? "visible" : "hidden"}
+                    custom={0.45 + index * 0.12}
+                  >
+                    <div className="flex items-start gap-2 px-5 md:gap-3 md:px-8">
+                      <span
+                        className={`${nanumMyeongjo.className} shrink-0 text-[1.9rem] leading-[0.9] text-[#caa643] md:text-[2.2rem]`}
+                      >
+                        &ldquo;
+                      </span>
+                      <div className="flex items-start gap-1 md:gap-2">
+                        <p
+                          className={`${nanumMyeongjo.className} pt-1 text-[1rem] leading-[1.2] text-[#1a2744] md:text-[1.2rem]`}
+                        >
+                          {question}
+                        </p>
+                        <span
+                          className={`${nanumMyeongjo.className} shrink-0 pt-1 text-[1.9rem] leading-[0.9] text-[#caa643] md:text-[2.2rem]`}
+                        >
+                          &rdquo;
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            <motion.blockquote
+              className="mt-[10px] max-w-[412px] rounded-r-[12px] border-l-[3px] border-[#caa643] bg-gradient-to-r from-[#fffaf0] to-[rgba(252,251,248,0.2)] px-[28px] py-[30px]"
+              variants={fadeUp}
               initial="hidden"
               animate={welcome.isInView ? "visible" : "hidden"}
-              custom={0}
+              custom={0.9}
             >
-              WELCOME
-            </motion.p>
+              <div className={`${nanumMyeongjo.className} type-lead font-bold tracking-[0.01em] text-black`}>
+                <p>그 질문이 여기까지 데려왔다면,</p>
+                <p className="mt-1">잘 오셨습니다.</p>
+              </div>
+            </motion.blockquote>
 
             <motion.div
-              className="w-full rounded-r-[12px] border-l-[3px] border-[#c9a84c] bg-gradient-to-r from-[#fffcf5] to-[#fffefc] px-5 py-5 md:px-[30px] md:py-5"
+              className="max-w-[920px] type-lead tracking-[0.01em] text-black/88"
               variants={fadeUp}
               initial="hidden"
               animate={welcome.isInView ? "visible" : "hidden"}
-              custom={0.15}
+              custom={1.05}
             >
-              <div
-                className={`${nanumMyeongjo.className} type-lead space-y-1 font-bold tracking-[0.01em] text-[#1a2744]`}
-              >
-                <p>솔직히 교회가 힘들었던 적 있으신가요?</p>
-                <p>기대했다가 상처받고, 지쳐서 떠났다가,</p>
-                <p>
-                  그래도 어딘가 <span className="text-[#c9a84c] font-extrabold">하나님은 믿고 싶은 그 마음.</span>
-                </p>
-              </div>
+              <p>
+                더제자교회는 완벽한 신앙을 가진 사람들이 모인 곳이 아닙니다.
+                처음 믿는 분도, 오래 믿었지만 지친 분도, 교회가 낯설고 두려운 분도
+                — 그냥 오셔도 됩니다. 예수님은 늘 그런 자리에 먼저 찾아오셨으니까요.
+              </p>
             </motion.div>
-
-            <motion.p
-              className="type-body-strong font-bold tracking-[0.04em] text-[#000000]"
-              variants={fadeUp}
-              initial="hidden"
-              animate={welcome.isInView ? "visible" : "hidden"}
-              custom={0.35}
-            >
-              The 제자교회는 바로 그 자리에서 시작된 교회입니다.
-            </motion.p>
           </div>
         </div>
       </section>
@@ -509,6 +561,8 @@ export default function GreetingPage() {
                     The 제자교회는 완벽한 사람들이 모인 곳이 아닙니다.
                     <br />
                     의심해도 되고, 넘어져도 되고, 질문해도 됩니다.
+                    <br />
+                    그냥 와도 됩니다.
                   </p>
                   <p>
                     성령님이 이 공동체를 이끄실 거라 믿기 때문에,
@@ -528,6 +582,16 @@ export default function GreetingPage() {
                 <div className={`${nanumMyeongjo.className} type-lead font-bold tracking-[0.01em] text-black`}>
                   <p>지쳤다면, 여기서 쉬어가세요.</p>
                   <p className="mt-1">다시 시작하고 싶다면, 함께 걸어가요.</p>
+
+                  <p className="mt-5 text-right text-[0.95rem] font-normal text-black/72 md:text-[1rem]">
+                    "성령으로 제자 삼는 교회"
+                  </p>
+                  <p className="text-right text-[0.95rem] font-normal text-black/72 md:text-[1rem]">
+                    마 28:19–20
+                  </p>
+                  <p className="mt-2 text-right text-[0.95rem] font-normal text-black/72 md:text-[1rem]">
+                    The 제자교회 담임목사 이진욱 드림
+                  </p>
                 </div>
               </motion.div>
             </div>
