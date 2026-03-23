@@ -85,7 +85,7 @@ export default function SiteHeader() {
             className={`hidden items-center justify-center font-semibold text-ink/85 transition-[gap,font-size] duration-300 lg:mr-auto lg:flex lg:pl-10 ${isCondensed ? "gap-5 text-[18px] xl:gap-6" : "gap-6 text-[20px] xl:gap-8"
               }`}
           >
-            {navMenuGroups.map((menu) => (
+            {navMenuGroups.filter((menu) => !menu.hiddenInHeader).map((menu) => (
               <div
                 key={menu.label}
                 className="group/menu relative pb-2 -mb-2"

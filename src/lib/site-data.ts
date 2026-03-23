@@ -7,6 +7,7 @@ export interface NavMenuGroup {
   href: string;
   label: string;
   items: NavSubItem[];
+  hiddenInHeader?: boolean;
 }
 
 export const navMenuGroups: NavMenuGroup[] = [
@@ -55,6 +56,7 @@ export const navMenuGroups: NavMenuGroup[] = [
   {
     href: "/news",
     label: "교회 소식",
+    hiddenInHeader: true,
     items: [
       { href: "/news#notice", label: "공지" },
       { href: "/news#bulletin", label: "주보" }
