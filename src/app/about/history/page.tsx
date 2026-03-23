@@ -68,7 +68,7 @@ export default function HistoryPage() {
   return (
     <div className="relative w-full overflow-hidden bg-white">
       <div className="pointer-events-none absolute inset-0">
-        <div className="section-shell relative h-full">
+        <div className="section-shell section-shell--narrow relative h-full">
           <div className="animate-image-fade-in-right absolute inset-y-0 left-[28%] right-0 hidden [mask-image:linear-gradient(to_right,transparent_0%,black_16%,black_88%,transparent_100%)] md:block md:left-[60%]">
             <div className="absolute inset-0 opacity-25 md:opacity-100">
               <Image
@@ -83,7 +83,7 @@ export default function HistoryPage() {
       </div>
 
       {/* 페이지 제목 */}
-      <section className="section-shell relative z-10 space-y-14 pb-20 pt-10 md:pt-16">
+      <section className="section-shell section-shell--narrow relative z-10 space-y-14 pb-20 pt-10 md:pt-16">
         <div className="mb-10 md:mb-14">
           <p className="type-label mb-2 font-semibold uppercase tracking-[0.2em] text-cedar/70">
             Church History
@@ -103,7 +103,7 @@ export default function HistoryPage() {
 
       {/* 미래를 기대하는 메시지 */}
       <section className="relative z-10 -mt-8 overflow-hidden pt-8 md:-mt-12 md:pt-12">
-        <div className="section-shell relative py-16 md:py-20 lg:py-24">
+        <div className="section-shell section-shell--narrow relative py-16 md:py-20 lg:py-24">
           <div className="flex justify-start">
             <div className="max-w-[34rem] space-y-5 text-left text-ink">
               <p className="type-label font-semibold uppercase tracking-[0.2em] text-themeBlue/72">

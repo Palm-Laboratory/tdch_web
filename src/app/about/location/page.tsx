@@ -89,7 +89,7 @@ export default function LocationPage() {
   return (
     <div className="w-full overflow-x-hidden bg-white">
       <section id="map" className="relative overflow-hidden scroll-mt-28">
-        <div className="section-shell section-shell--wide relative py-12 md:py-16">
+        <div className="section-shell section-shell--narrow relative py-12 md:py-16">
           <p className="type-label mb-2 font-semibold uppercase tracking-[0.2em] text-cedar/70">
             LOCATION
           </p>
@@ -135,7 +135,7 @@ export default function LocationPage() {
         </div>
       </section>
 
-      <section className="section-shell section-shell--wide py-12 md:py-16">
+      <section className="section-shell section-shell--narrow py-12 md:py-16">
         <div className="space-y-16 md:space-y-24">
           <InfoSection title="방문 안내" subtitle="Visit Guide">
             <ul className="type-body space-y-3 text-ink/78">

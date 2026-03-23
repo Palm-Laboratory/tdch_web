@@ -197,16 +197,20 @@ docker compose up -d --build
   - `md (768px+)`: `padding-inline: 2rem`
   - `xl (1280px+)`: `max-width: 1200px`
   - `2xl (1536px+)`: `max-width: 1400px`
+  - 사용 예시: 일반 소개 페이지, 기본 2단 이하 정보 섹션, 공통 본문 레이아웃
 - `section-shell--narrow`
   - `base`: `max-width: 920px`
   - `xl (1280px+)`: `max-width: 980px`
   - `2xl (1536px+)`: `max-width: 1040px`
+  - 사용 예시: 텍스트 중심 페이지, 방문 안내/소개문, 단일 컬럼 위주의 콘텐츠, 집중해서 읽게 해야 하는 페이지
 - `section-shell--wide`
   - `base`: `max-width: 1280px`
   - `xl (1280px+)`: `max-width: 1360px`
   - `2xl (1536px+)`: `max-width: 1480px`
+  - 사용 예시: 표, 지도, 카드 그리드, 설교 목록, 가로 사용량이 큰 정보형 화면
 - `section-shell--full`
   - 전 구간: `max-width: none`
+  - 사용 예시: 히어로 배경 연출, 대형 이미지/미디어 섹션, 화면 폭 자체가 디자인 요소인 랜딩 블록
 
 운영 원칙:
 
