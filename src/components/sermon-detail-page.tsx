@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { MediaItemDto, SermonSiteKey, VideoDetailResponse } from "@/lib/media-api";
-import { buildMediaDetailPath, formatDisplayDate } from "@/lib/media-api";
+import { formatDisplayDate } from "@/lib/media-api";
+import RelatedVideosList from "@/components/related-videos-list";
 
 const youtubeChannelUrl =
   process.env.NEXT_PUBLIC_YOUTUBE_URL ??
@@ -40,14 +40,17 @@ function buildMetaLines(detail: VideoDetailResponse): string[] {
   ].filter(Boolean) as string[];
 }
 
-function buildRelatedMeta(item: MediaItemDto): string {
-  const segments = [
-    item.preacher ?? "The 제자교회",
-    item.serviceType ?? (item.contentKind === "SHORT" ? "짧은 영상" : "예배 영상"),
-    `${formatDisplayDate(item.displayDate)} 업로드`,
-  ];
-
-  return segments.join(" · ");
+function buildAutoplayEmbedUrl(embedUrl: string): string {
+  try {
+    const url = new URL(embedUrl);
+    url.searchParams.set("autoplay", "1");
+    url.searchParams.set("playsinline", "1");
+    url.searchParams.set("rel", "0");
+    return url.toString();
+  } catch {
+    const separator = embedUrl.includes("?") ? "&" : "?";
+    return `${embedUrl}${separator}autoplay=1&playsinline=1&rel=0`;
+  }
 }
 
 export default function SermonDetailPage({
@@ -59,7 +62,7 @@ export default function SermonDetailPage({
 }: SermonDetailPageProps) {
   if (!detail) {
     return (
-      <section className="pb-10 pt-4 md:pb-14 md:pt-6">
+      <section className="mx-auto max-w-[1520px] px-4 pb-10 pt-4 md:px-8 md:pb-14 md:pt-6">
         <div className="rounded-[24px] bg-[#171717] px-6 py-10 text-white md:px-8">
           <p className="text-sm font-medium text-white/60">영상을 불러오지 못했습니다.</p>
           <h1 className="mt-3 text-[1.9rem] font-bold tracking-[-0.03em] text-white">
@@ -91,15 +94,16 @@ export default function SermonDetailPage({
 
   const metaLines = buildMetaLines(detail);
   const description = buildDescription(detail);
+  const autoplayEmbedUrl = buildAutoplayEmbedUrl(detail.embedUrl);
 
   return (
-    <section className="pb-10 pt-4 md:pb-14 md:pt-6">
+    <section className="mx-auto max-w-[1520px] px-4 pb-10 pt-4 md:px-8 md:pb-14 md:pt-6">
       <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_380px] xl:items-start">
         <div className="min-w-0">
-          <div className="overflow-hidden rounded-[22px] bg-black shadow-[0_18px_48px_rgba(0,0,0,0.28)]">
+          <div className="overflow-hidden rounded-[22px] bg-black">
             <div className={siteKey === "its-okay" ? "mx-auto aspect-[9/16] max-h-[78vh] w-full max-w-[520px]" : "aspect-video w-full"}>
               <iframe
-                src={detail.embedUrl}
+                src={autoplayEmbedUrl}
                 title={detail.displayTitle}
                 className="h-full w-full"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -110,7 +114,7 @@ export default function SermonDetailPage({
           </div>
 
           <div className="mt-5">
-            <h1 className="text-[1.7rem] font-bold leading-[1.24] tracking-[-0.03em] text-ink md:text-[2rem]">
+            <h1 className="text-[1rem] font-bold leading-[1.24] tracking-[-0.03em] text-ink md:text-[1.55rem]">
               {detail.displayTitle}
             </h1>
             <div className="mt-3 flex flex-wrap items-center gap-2 text-[0.95rem] text-ink/56">
@@ -124,56 +128,13 @@ export default function SermonDetailPage({
             </div>
           </div>
 
-          <div className="mt-5 flex flex-col gap-4 border-b border-black/8 pb-6 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-center gap-4">
-              <div className="relative h-14 w-14 overflow-hidden rounded-full bg-[#10213f]">
-                <Image
-                  src="/images/logo/church_logo.png"
-                  alt="The 제자교회"
-                  fill
-                  className="object-cover"
-                  sizes="56px"
-                />
-              </div>
-              <div>
-                <p className="text-[1.02rem] font-bold tracking-[-0.02em] text-ink">The 제자교회</p>
-                <p className="mt-1 text-sm text-ink/58">
-                  {detail.preacher ?? sectionTitle} · {detail.serviceType ?? contentKindLabel[detail.contentKind]}
-                </p>
-              </div>
-            </div>
+          <details className="group mt-5 rounded-[20px] bg-black/5 px-5 py-5 md:px-6">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold text-ink/78">
+              <span>영상 설명</span>
+              <span className="text-ink/44 transition group-open:rotate-180">⌃</span>
+            </summary>
 
-            <div className="flex flex-wrap gap-2">
-              <Link
-                href={listHref}
-                className="inline-flex items-center gap-2 rounded-full bg-black px-5 py-3 text-sm font-semibold text-white transition hover:bg-black/88"
-              >
-                <ActionIcon type="list" />
-                <span>목록</span>
-              </Link>
-              <a
-                href={youtubeChannelUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-black/6 px-5 py-3 text-sm font-semibold text-ink transition hover:bg-black/10"
-              >
-                <ActionIcon type="channel" />
-                <span>채널</span>
-              </a>
-              <a
-                href={detail.youtubeUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-black/6 px-5 py-3 text-sm font-semibold text-ink transition hover:bg-black/10"
-              >
-                <ActionIcon type="play" />
-                <span>원본 보기</span>
-              </a>
-            </div>
-          </div>
-
-          <div className="mt-5 rounded-[20px] bg-black/5 px-5 py-5 md:px-6">
-            <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm font-semibold text-ink/72">
+            <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm font-semibold text-ink/72">
               <span>{formatDisplayDate(detail.publishedAt.slice(0, 10))} 게시</span>
               <span>{detail.serviceType ?? contentKindLabel[detail.contentKind]}</span>
               {detail.scripture ? <span>{detail.scripture}</span> : null}
@@ -194,14 +155,14 @@ export default function SermonDetailPage({
                 ))}
               </div>
             ) : null}
-          </div>
+          </details>
         </div>
 
-        <aside className="min-w-0">
+        <aside className="min-w-0 rounded-[24px] border border-black/8 bg-[#f7f8fb] p-5 md:p-6">
           <div className="mb-4 flex items-center justify-between">
             <div>
-              <p className="text-[0.82rem] font-semibold uppercase tracking-[0.16em] text-ink/48">Next Up</p>
-              <h2 className="mt-1 text-[1.15rem] font-bold tracking-[-0.02em] text-ink">다음 영상</h2>
+              <p className="text-[0.82rem] font-semibold uppercase tracking-[0.16em] text-ink/48">Related Videos</p>
+              <h2 className="mt-1 text-[1.15rem] font-bold tracking-[-0.02em] text-ink">관련 영상</h2>
             </div>
             <Link
               href={listHref}
@@ -211,73 +172,9 @@ export default function SermonDetailPage({
             </Link>
           </div>
 
-          <div className="space-y-3">
-            {relatedItems.length > 0 ? (
-              relatedItems.map((item) => (
-                <Link
-                  key={item.youtubeVideoId}
-                  href={buildMediaDetailPath(siteKey, item.youtubeVideoId)}
-                  className="group flex gap-3 rounded-[18px] p-2 transition hover:bg-black/4"
-                >
-                  <div
-                    className={`relative shrink-0 overflow-hidden rounded-[14px] bg-black ${
-                      item.contentKind === "SHORT" ? "h-[180px] w-[104px]" : "aspect-video w-[180px]"
-                    }`}
-                  >
-                    <Image
-                      src={item.thumbnailUrl}
-                      alt={item.displayTitle}
-                      fill
-                      className="object-cover transition duration-300 group-hover:scale-[1.02]"
-                      sizes={item.contentKind === "SHORT" ? "104px" : "180px"}
-                    />
-                  </div>
-                  <div className="min-w-0 pt-1">
-                    <p className="line-clamp-2 text-[1rem] font-semibold leading-6 tracking-[-0.02em] text-ink">
-                      {item.displayTitle}
-                    </p>
-                    <p className="mt-2 text-sm text-ink/62">
-                      {buildRelatedMeta(item)}
-                    </p>
-                  </div>
-                </Link>
-              ))
-            ) : (
-              <div className="rounded-[18px] bg-black/4 px-5 py-5 text-sm text-ink/64">
-                아직 추천할 영상이 더 없습니다.
-              </div>
-            )}
-          </div>
+          <RelatedVideosList siteKey={siteKey} items={relatedItems} />
         </aside>
       </div>
     </section>
-  );
-}
-
-function ActionIcon({ type }: { type: "list" | "channel" | "play" }) {
-  if (type === "list") {
-    return (
-      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-[2]">
-        <path strokeLinecap="round" d="M8 7h11M8 12h11M8 17h11" />
-        <circle cx="4" cy="7" r="1" fill="currentColor" stroke="none" />
-        <circle cx="4" cy="12" r="1" fill="currentColor" stroke="none" />
-        <circle cx="4" cy="17" r="1" fill="currentColor" stroke="none" />
-      </svg>
-    );
-  }
-
-  if (type === "channel") {
-    return (
-      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-[2]">
-        <circle cx="12" cy="8" r="3.5" />
-        <path strokeLinecap="round" d="M5.5 19c1.7-3.1 4-4.5 6.5-4.5s4.8 1.4 6.5 4.5" />
-      </svg>
-    );
-  }
-
-  return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4 fill-current">
-      <path d="M8 6.5v11l9-5.5-9-5.5Z" />
-    </svg>
   );
 }
