@@ -2,6 +2,14 @@ import type { Metadata } from "next";
 import SermonArchivePage from "@/components/sermon-archive-page";
 import { getMediaList } from "@/lib/media-api";
 
+const PAGE_SIZE = 4;
+
+interface BetterDevotionPageProps {
+  searchParams?: Promise<{
+    page?: string;
+  }>;
+}
+
 export const metadata: Metadata = {
   title: "더 좋은 묵상 | The 제자교회",
   description: "The 제자교회 더 좋은 묵상 콘텐츠를 확인하실 수 있습니다.",
@@ -9,8 +17,13 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default async function BetterDevotionPage() {
-  const response = await getMediaList("better-devotion", 24);
+export default async function BetterDevotionPage({ searchParams }: BetterDevotionPageProps) {
+  const resolvedSearchParams = await searchParams;
+  const currentPage = parsePageParam(resolvedSearchParams?.page);
+  const [response, latestResponse] = await Promise.all([
+    getMediaList("better-devotion", currentPage - 1, PAGE_SIZE),
+    getMediaList("better-devotion", 0, 1),
+  ]);
 
   return (
     <SermonArchivePage
@@ -23,9 +36,20 @@ export default async function BetterDevotionPage() {
       response={response}
       showIntroCard={false}
       showLatestEmbed
+      latestEmbedItem={latestResponse?.items[0] ?? null}
       showPlaylistRows
       playlistTitle="묵상 목록"
       playlistSubtitle="PLAYLIST"
+      currentPage={currentPage}
     />
   );
+}
+
+function parsePageParam(page: string | undefined): number {
+  const parsed = Number(page);
+  if (!Number.isFinite(parsed) || parsed < 1) {
+    return 1;
+  }
+
+  return Math.floor(parsed);
 }

@@ -89,11 +89,12 @@ export async function getHomeMedia(): Promise<HomeMediaResponse | null> {
 
 export async function getMediaList(
   siteKey: SermonSiteKey,
+  page = 0,
   size = 24,
 ): Promise<MediaListResponse | null> {
   try {
     return await fetchMedia<MediaListResponse>(
-      `/api/v1/media/menus/${siteKey}/videos?page=0&size=${size}`,
+      `/api/v1/media/menus/${siteKey}/videos?page=${page}&size=${size}`,
     );
   } catch (error) {
     console.error(`Failed to fetch media list for ${siteKey}.`, error);

@@ -7,14 +7,14 @@ export default function SermonsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex w-full flex-col pb-20">
+    <div className="flex w-full flex-col">
       <PageHeader
         title="말씀"
         subtitle="MESSAGE"
         backgroundImageUrl="/images/main_bg/main_bg_sec1.png"
       />
       <Breadcrumb />
-      <main className="section-shell section-shell--wide pt-10 md:pt-16 pb-20">{children}</main>
+      <main className="section-shell section-shell--wide pt-10 md:pt-16">{children}</main>
     </div>
   );
 }

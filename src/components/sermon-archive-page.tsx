@@ -3,6 +3,11 @@ import type { MediaItemDto, MediaListResponse, SermonSiteKey } from "@/lib/media
 import { buildMediaDetailPath, buildMediaMeta } from "@/lib/media-api";
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
+
+const youtubeChannelUrl =
+  process.env.NEXT_PUBLIC_YOUTUBE_URL ??
+  "https://www.youtube.com/@%EB%8D%94%EC%A0%9C%EC%9E%90%EA%B5%90%ED%9A%8C";
 
 interface SermonArchivePageProps {
   title: string;
@@ -19,6 +24,8 @@ interface SermonArchivePageProps {
   showPlaylistRows?: boolean;
   playlistTitle?: string;
   playlistSubtitle?: string;
+  currentPage?: number;
+  latestEmbedItem?: MediaItemDto | null;
 }
 
 function getItemCategory(item: MediaItemDto, fallbackName: string): string {
@@ -52,13 +59,15 @@ export default function SermonArchivePage({
   showPlaylistRows = false,
   playlistTitle,
   playlistSubtitle,
+  currentPage = 1,
+  latestEmbedItem = null,
 }: SermonArchivePageProps) {
   const items = response?.items ?? [];
   const menuName = response?.menu.name ?? title;
-  const latestItem = items[0];
+  const latestItem = latestEmbedItem ?? items[0];
 
   return (
-    <section className="space-y-8">
+    <section className="space-y-8 pb-20">
       {showIntroCard ? (
         <div className="overflow-hidden rounded-[32px] border border-cedar/10 bg-white shadow-[0_20px_60px_rgba(16,33,63,0.08)]">
           <div className="bg-[linear-gradient(135deg,rgba(19,36,58,0.96),rgba(38,84,124,0.88))] px-8 py-12 text-ivory md:px-12">
@@ -128,13 +137,21 @@ export default function SermonArchivePage({
                   <p className="type-label mb-3 font-semibold uppercase tracking-[0.2em] text-cedar/70">
                     {playlistSubtitle ?? "PLAYLIST"}
                   </p>
-                  <h2 className="type-section-title font-bold text-ink">
-                    {playlistTitle ?? `${menuName} 목록`}
-                  </h2>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <h2 className="type-section-title font-bold text-ink">
+                      {playlistTitle ?? `${menuName} 목록`}
+                    </h2>
+                  </div>
                 </div>
-                <div className="flex h-12 min-w-12 items-center justify-center rounded-full bg-[#f2f4fb] px-4 text-xl font-medium text-cedar/55">
-                  {response?.totalElements ?? items.length}편
-                </div>
+                <a
+                  href={youtubeChannelUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex self-end items-center gap-2 whitespace-nowrap text-[1.1rem] font-medium tracking-[-0.01em] text-ink transition hover:text-cedar"
+                >
+                  <span>YouTube 채널에서 더 보기</span>
+                  <span aria-hidden="true" className="text-[1.4rem] leading-none">→</span>
+                </a>
               </div>
 
               <div className="grid gap-x-10 gap-y-8 lg:grid-cols-2">
@@ -150,6 +167,12 @@ export default function SermonArchivePage({
                   />
                 ))}
               </div>
+
+              <Pagination
+                siteKey={siteKey}
+                currentPage={currentPage}
+                totalPages={response?.totalPages ?? 0}
+              />
             </div>
           </div>
         ) : (
@@ -180,6 +203,113 @@ export default function SermonArchivePage({
       )}
     </section>
   );
+}
+
+interface PaginationProps {
+  siteKey: SermonSiteKey;
+  currentPage: number;
+  totalPages: number;
+}
+
+function Pagination({ siteKey, currentPage, totalPages }: PaginationProps) {
+  if (totalPages <= 1) {
+    return null;
+  }
+
+  const normalizedCurrentPage = Math.min(Math.max(currentPage, 1), totalPages);
+  const pages = buildPageNumbers(normalizedCurrentPage, totalPages);
+
+  return (
+    <nav className="flex flex-wrap items-center justify-center gap-2 pt-2" aria-label="페이지 이동">
+      <PaginationLink
+        siteKey={siteKey}
+        page={normalizedCurrentPage - 1}
+        disabled={normalizedCurrentPage <= 1}
+      >
+        이전
+      </PaginationLink>
+
+      {pages.map((page) => (
+        <PaginationLink
+          key={page}
+          siteKey={siteKey}
+          page={page}
+          active={page === normalizedCurrentPage}
+        >
+          {page}
+        </PaginationLink>
+      ))}
+
+      <PaginationLink
+        siteKey={siteKey}
+        page={normalizedCurrentPage + 1}
+        disabled={normalizedCurrentPage >= totalPages}
+      >
+        다음
+      </PaginationLink>
+    </nav>
+  );
+}
+
+interface PaginationLinkProps {
+  siteKey: SermonSiteKey;
+  page: number;
+  active?: boolean;
+  disabled?: boolean;
+  children: ReactNode;
+}
+
+function PaginationLink({
+  siteKey,
+  page,
+  active = false,
+  disabled = false,
+  children,
+}: PaginationLinkProps) {
+  if (disabled) {
+    return (
+      <span className="inline-flex h-11 min-w-11 items-center justify-center rounded-full border border-black/8 px-4 text-sm font-medium text-ink/32">
+        {children}
+      </span>
+    );
+  }
+
+  return (
+    <Link
+      href={buildSermonListPath(siteKey, page)}
+      scroll={false}
+      prefetch
+      aria-current={active ? "page" : undefined}
+      className={[
+        "inline-flex h-11 min-w-11 items-center justify-center rounded-full border px-4 text-sm font-medium transition",
+        active
+          ? "border-ink bg-ink text-white"
+          : "border-black/10 bg-white text-ink hover:border-cedar/30 hover:text-cedar",
+      ].join(" ")}
+    >
+      {children}
+    </Link>
+  );
+}
+
+function buildSermonListPath(siteKey: SermonSiteKey, page: number): string {
+  if (page <= 1) {
+    return `/sermons/${siteKey}`;
+  }
+
+  return `/sermons/${siteKey}?page=${page}`;
+}
+
+function buildPageNumbers(currentPage: number, totalPages: number): number[] {
+  const start = Math.max(1, currentPage - 2);
+  const end = Math.min(totalPages, currentPage + 2);
+  const pages: number[] = [];
+
+  for (let page = start; page <= end; page += 1) {
+    pages.push(page);
+  }
+
+  return pages;
 }
 
 function getPlaylistLabel(item: MediaItemDto): string {

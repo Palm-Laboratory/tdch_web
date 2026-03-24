@@ -2,6 +2,14 @@ import type { Metadata } from "next";
 import SermonArchivePage from "@/components/sermon-archive-page";
 import { getMediaList } from "@/lib/media-api";
 
+const PAGE_SIZE = 4;
+
+interface MessagesPageProps {
+  searchParams?: Promise<{
+    page?: string;
+  }>;
+}
+
 export const metadata: Metadata = {
   title: "말씀 / 설교 | The 제자교회",
   description: "The 제자교회 말씀과 설교 영상을 확인하실 수 있습니다.",
@@ -9,8 +17,13 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default async function MessagesPage() {
-  const response = await getMediaList("messages", 24);
+export default async function MessagesPage({ searchParams }: MessagesPageProps) {
+  const resolvedSearchParams = await searchParams;
+  const currentPage = parsePageParam(resolvedSearchParams?.page);
+  const [response, latestResponse] = await Promise.all([
+    getMediaList("messages", currentPage - 1, PAGE_SIZE),
+    getMediaList("messages", 0, 1),
+  ]);
 
   return (
     <SermonArchivePage
@@ -23,11 +36,22 @@ export default async function MessagesPage() {
       response={response}
       showIntroCard={false}
       showLatestEmbed
+      latestEmbedItem={latestResponse?.items[0] ?? null}
       latestEmbedTitle="주일 예배"
       latestEmbedSubtitle="SUNDAY WORSHIP"
       showPlaylistRows
       playlistTitle="설교 목록"
       playlistSubtitle="PLAYLIST"
+      currentPage={currentPage}
     />
   );
+}
+
+function parsePageParam(page: string | undefined): number {
+  const parsed = Number(page);
+  if (!Number.isFinite(parsed) || parsed < 1) {
+    return 1;
+  }
+
+  return Math.floor(parsed);
 }
