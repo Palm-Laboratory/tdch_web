@@ -100,7 +100,7 @@ export default function SermonArchivePage({
       ) : null}
 
       {showLatestEmbed && latestItem ? (
-        <div className="section-shell section-shell--narrow">
+        <div className="w-full">
           {(latestEmbedTitle || latestEmbedSubtitle) ? (
             <div className="mb-4">
               {latestEmbedSubtitle ? (
@@ -130,7 +130,7 @@ export default function SermonArchivePage({
 
       {items.length > 0 ? (
         showPlaylistRows ? (
-          <div className="section-shell section-shell--narrow">
+          <div className="w-full">
             <div className="space-y-7 border-y border-black/10 py-7 md:space-y-9 md:py-9">
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -176,21 +176,21 @@ export default function SermonArchivePage({
             </div>
           </div>
         ) : (
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {items.map((item) => (
-            <SermonVideoCard
-              key={item.youtubeVideoId}
-              href={buildMediaDetailPath(siteKey, item.youtubeVideoId)}
-              thumbnail={item.thumbnailUrl}
-              thumbnailAlt={item.displayTitle}
-              category={getItemCategory(item, menuName)}
-              type={getItemType(item)}
-              title={item.displayTitle}
-              meta={buildMediaMeta(item)}
-              date={item.displayDate.replaceAll("-", ".")}
-            />
-          ))}
-        </div>
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {items.map((item) => (
+              <SermonVideoCard
+                key={item.youtubeVideoId}
+                href={buildMediaDetailPath(siteKey, item.youtubeVideoId)}
+                thumbnail={item.thumbnailUrl}
+                thumbnailAlt={item.displayTitle}
+                category={getItemCategory(item, menuName)}
+                type={getItemType(item)}
+                title={item.displayTitle}
+                meta={buildMediaMeta(item)}
+                date={item.displayDate.replaceAll("-", ".")}
+              />
+            ))}
+          </div>
         )
       ) : (
         <div className="rounded-[32px] border border-dashed border-cedar/20 bg-white px-8 py-12 text-center shadow-[0_20px_60px_rgba(16,33,63,0.06)]">
