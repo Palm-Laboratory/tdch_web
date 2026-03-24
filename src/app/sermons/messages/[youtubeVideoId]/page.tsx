@@ -12,8 +12,8 @@ interface MessagesDetailPageProps {
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "말씀 / 설교 상세 | The 제자교회",
-  description: "The 제자교회 말씀과 설교 상세 페이지입니다.",
+  title: "말씀 / 설교 | The 제자교회",
+  description: "The 제자교회 말씀과 설교 페이지입니다.",
 };
 
 export default async function MessagesDetailPage({ params }: MessagesDetailPageProps) {

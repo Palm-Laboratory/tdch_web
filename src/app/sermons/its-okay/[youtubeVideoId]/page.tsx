@@ -12,8 +12,8 @@ interface ItsOkayDetailPageProps {
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "그래도 괜찮아 상세 | The 제자교회",
-  description: "The 제자교회 그래도 괜찮아 상세 페이지입니다.",
+  title: "그래도 괜찮아 | The 제자교회",
+  description: "The 제자교회 그래도 괜찮아 페이지입니다.",
 };
 
 export default async function ItsOkayDetailPage({ params }: ItsOkayDetailPageProps) {

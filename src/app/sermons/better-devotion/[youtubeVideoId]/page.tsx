@@ -12,8 +12,8 @@ interface BetterDevotionDetailPageProps {
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "더 좋은 묵상 상세 | The 제자교회",
-  description: "The 제자교회 더 좋은 묵상 상세 페이지입니다.",
+  title: "더 좋은 묵상 | The 제자교회",
+  description: "The 제자교회 더 좋은 묵상 페이지입니다.",
 };
 
 export default async function BetterDevotionDetailPage({
