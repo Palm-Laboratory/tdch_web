@@ -10,7 +10,7 @@ export default function ComingSoonPage({
   description,
 }: ComingSoonPageProps) {
   return (
-    <section className="mx-auto max-w-4xl pb-20">
+    <section className="mx-auto max-w-4xl">
       <div className="overflow-hidden rounded-[32px] border border-cedar/10 bg-white shadow-[0_20px_60px_rgba(16,33,63,0.08)]">
         <div className="bg-[linear-gradient(135deg,rgba(19,36,58,0.96),rgba(38,84,124,0.88))] px-8 py-12 text-ivory md:px-12">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-ivory/65">

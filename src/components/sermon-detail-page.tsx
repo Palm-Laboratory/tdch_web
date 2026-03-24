@@ -33,7 +33,7 @@ export default function SermonDetailPage({
 }: SermonDetailPageProps) {
   if (!detail) {
     return (
-      <section className="space-y-6 pb-20">
+      <section className="space-y-6">
         <div className="rounded-[32px] border border-dashed border-cedar/20 bg-white px-8 py-12 text-center shadow-[0_20px_60px_rgba(16,33,63,0.06)]">
           <p className="type-label font-semibold uppercase tracking-[0.2em] text-cedar/70">
             {sectionSubtitle}
@@ -58,7 +58,7 @@ export default function SermonDetailPage({
   const infoRows = buildInfoRows(detail);
 
   return (
-    <section className="space-y-8 pb-20">
+    <section className="space-y-8">
       <div className="overflow-hidden rounded-[34px] border border-cedar/10 bg-white shadow-[0_24px_80px_rgba(16,33,63,0.10)]">
         <div className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(109,166,240,0.26),transparent_32%),linear-gradient(135deg,#10213f_0%,#20426f_55%,#315c8f_100%)] px-8 py-10 text-white md:px-12 md:py-12">
           <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)", backgroundSize: "28px 28px" }} />

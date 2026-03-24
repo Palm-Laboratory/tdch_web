@@ -20,12 +20,14 @@ export default async function MessagesDetailPage({ params }: MessagesDetailPageP
   const detail = await getMediaDetail(youtubeVideoId);
 
   return (
-    <SermonDetailPage
-      siteKey="messages"
-      sectionTitle="말씀 / 설교"
-      sectionSubtitle="SERMON DETAIL"
-      listHref="/sermons/messages"
-      detail={detail}
-    />
+    <div className="pb-20">
+      <SermonDetailPage
+        siteKey="messages"
+        sectionTitle="말씀 / 설교"
+        sectionSubtitle="SERMON DETAIL"
+        listHref="/sermons/messages"
+        detail={detail}
+      />
+    </div>
   );
 }

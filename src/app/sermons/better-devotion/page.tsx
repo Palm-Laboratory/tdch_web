@@ -26,22 +26,24 @@ export default async function BetterDevotionPage({ searchParams }: BetterDevotio
   ]);
 
   return (
-    <SermonArchivePage
-      siteKey="better-devotion"
-      title="더 좋은 묵상"
-      subtitle="BETTER DEVOTION"
-      description="하루를 시작하는 묵상 콘텐츠를 모아두었습니다. 목록은 백엔드 YouTube sync 결과를 기반으로 자동으로 갱신됩니다."
-      emptyTitle="더 좋은 묵상 영상이 아직 준비되지 않았습니다."
-      emptyDescription="재생목록에 영상이 쌓이면 이 페이지에 자동으로 노출됩니다."
-      response={response}
-      showIntroCard={false}
-      showLatestEmbed
-      latestEmbedItem={latestResponse?.items[0] ?? null}
-      showPlaylistRows
-      playlistTitle="묵상 목록"
-      playlistSubtitle="PLAYLIST"
-      currentPage={currentPage}
-    />
+    <div className="pb-20">
+      <SermonArchivePage
+        siteKey="better-devotion"
+        title="더 좋은 묵상"
+        subtitle="BETTER DEVOTION"
+        description="하루를 시작하는 묵상 콘텐츠를 모아두었습니다. 목록은 백엔드 YouTube sync 결과를 기반으로 자동으로 갱신됩니다."
+        emptyTitle="더 좋은 묵상 영상이 아직 준비되지 않았습니다."
+        emptyDescription="재생목록에 영상이 쌓이면 이 페이지에 자동으로 노출됩니다."
+        response={response}
+        showIntroCard={false}
+        showLatestEmbed
+        latestEmbedItem={latestResponse?.items[0] ?? null}
+        showPlaylistRows
+        playlistTitle="묵상 목록"
+        playlistSubtitle="PLAYLIST"
+        currentPage={currentPage}
+      />
+    </div>
   );
 }
 

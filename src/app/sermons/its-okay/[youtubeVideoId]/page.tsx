@@ -20,12 +20,14 @@ export default async function ItsOkayDetailPage({ params }: ItsOkayDetailPagePro
   const detail = await getMediaDetail(youtubeVideoId);
 
   return (
-    <SermonDetailPage
-      siteKey="its-okay"
-      sectionTitle="그래도 괜찮아"
-      sectionSubtitle="IT'S OKAY DETAIL"
-      listHref="/sermons/its-okay"
-      detail={detail}
-    />
+    <div className="pb-20">
+      <SermonDetailPage
+        siteKey="its-okay"
+        sectionTitle="그래도 괜찮아"
+        sectionSubtitle="IT'S OKAY DETAIL"
+        listHref="/sermons/its-okay"
+        detail={detail}
+      />
+    </div>
   );
 }

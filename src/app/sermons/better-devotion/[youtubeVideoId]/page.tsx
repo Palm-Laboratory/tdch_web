@@ -22,12 +22,14 @@ export default async function BetterDevotionDetailPage({
   const detail = await getMediaDetail(youtubeVideoId);
 
   return (
-    <SermonDetailPage
-      siteKey="better-devotion"
-      sectionTitle="더 좋은 묵상"
-      sectionSubtitle="BETTER DEVOTION DETAIL"
-      listHref="/sermons/better-devotion"
-      detail={detail}
-    />
+    <div className="pb-20">
+      <SermonDetailPage
+        siteKey="better-devotion"
+        sectionTitle="더 좋은 묵상"
+        sectionSubtitle="BETTER DEVOTION DETAIL"
+        listHref="/sermons/better-devotion"
+        detail={detail}
+      />
+    </div>
   );
 }
