@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Gowun_Batang } from "next/font/google";
 import MissionSection from "@/components/mission-section";
 import AnimatedCards from "@/components/animated-cards";
+import SermonVideoCard from "@/components/sermon-video-card";
 
 import {
   quickMenuCards,
@@ -10,16 +11,21 @@ import {
   bulletinList,
   homeSermonList,
 } from "@/lib/site-data";
+import { getHomeMedia, toHomeSermonCards } from "@/lib/media-api";
 
 const gowunBatang = Gowun_Batang({ subsets: ["latin"], weight: ["400", "700"] });
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
   const youtubeUrl =
     process.env.NEXT_PUBLIC_YOUTUBE_URL ??
     "https://www.youtube.com/@%EB%8D%94%EC%A0%9C%EC%9E%90%EA%B5%90%ED%9A%8C";
   const naverMapUrl =
     process.env.NEXT_PUBLIC_NAVER_MAP_URL ??
     "https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%EB%8F%84%20%EC%88%98%EC%9B%90%EC%8B%9C%20%ED%8C%94%EB%8B%AC%EA%B5%AC%20%EA%B2%BD%EC%88%98%EB%8C%80%EB%A1%9C425%20%EB%82%98%EC%9D%B8%EC%95%84%ED%8A%B8%ED%99%80/place/1394960485?c=15.00,0,0,0,dh&isCorrectAnswer=true&placePath=/home?from=map&fromPanelNum=1&additionalHeight=76&timestamp=202603132012&locale=ko&svcName=map_pcv5&searchText=%EA%B2%BD%EA%B8%B0%EB%8F%84%20%EC%88%98%EC%9B%90%EC%8B%9C%20%ED%8C%94%EB%8B%AC%EA%B5%AC%20%EA%B2%BD%EC%88%98%EB%8C%80%EB%A1%9C425%20%EB%82%98%EC%9D%B8%EC%95%84%ED%8A%B8%ED%99%80";
+  const homeMedia = await getHomeMedia();
+  const sermonCards = toHomeSermonCards(homeMedia?.latestMessages, homeSermonList);
 
   return (
     <div className="flex w-full flex-col pb-0 pt-0 overflow-x-hidden">
@@ -150,52 +156,19 @@ export default function Home() {
               </div>
 
               <section className="grid gap-4 md:grid-cols-2">
-                {homeSermonList.map((sermon, i) => {
-                  const href = sermon.href || youtubeUrl;
-                  const shadow = i === 0
-                    ? "shadow-[0_16px_34px_rgba(16,33,63,0.15)]"
-                    : "shadow-[0_16px_34px_rgba(16,33,63,0.13)]";
-                  return (
-                    <a
-                      key={i}
-                      href={href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={`group overflow-hidden rounded-3xl border border-cedar/14 bg-white ${shadow} transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(16,33,63,0.18)]`}
-                    >
-                      <div className="relative aspect-[16/10] w-full overflow-hidden">
-                        <Image
-                          src={sermon.thumbnail}
-                          alt={sermon.thumbnailAlt}
-                          fill
-                          className="object-cover object-center transition duration-500 group-hover:scale-[1.03]"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-black/10" />
-                        <div className="absolute bottom-4 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/95 shadow-md transition group-hover:scale-110">
-                          <svg className="ml-0.5 h-5 w-5 text-ink" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z" />
-                          </svg>
-                        </div>
-                      </div>
-                      <div className="p-5">
-                        <div className="flex items-center gap-2 text-xs font-semibold text-cedar">
-                          <span>{sermon.category}</span>
-                          <span className="text-cedar/40">|</span>
-                          <span>{sermon.type}</span>
-                        </div>
-                        <h3 className="mt-2 text-base font-bold leading-snug text-ink md:text-lg">
-                          {sermon.title}
-                        </h3>
-                        <div className="mt-3 flex items-center justify-between gap-4 text-xs">
-                          <p className="text-ink/55 line-clamp-1">
-                            {sermon.scripture} <span className="mx-1 text-ink/30">|</span> {sermon.pastor}
-                          </p>
-                          <p className="shrink-0 font-medium text-ink/40">{sermon.date}</p>
-                        </div>
-                      </div>
-                    </a>
-                  );
-                })}
+                {sermonCards.map((sermon, i) => (
+                  <SermonVideoCard
+                    key={`${sermon.title}-${i}`}
+                    href={sermon.href || youtubeUrl}
+                    thumbnail={sermon.thumbnail}
+                    thumbnailAlt={sermon.thumbnailAlt}
+                    category={sermon.category}
+                    type={sermon.type}
+                    title={sermon.title}
+                    meta={`${sermon.scripture} | ${sermon.pastor}`}
+                    date={sermon.date}
+                  />
+                ))}
               </section>
             </div>
           </div>

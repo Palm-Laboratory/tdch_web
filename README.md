@@ -62,10 +62,12 @@ docker compose up -d --build
 ## 단계 5) 운영 데이터 수정 위치
 
 - 연락처/계좌/링크: `.env`
-- 예배시간/설교/공지 기본 데이터: `src/lib/site-data.ts`
+- 예배시간/공지 기본 데이터: `src/lib/site-data.ts`
+- 설교/미디어 데이터: `MEDIA_API_BASE_URL` 로 연결된 백엔드 API
 
 지도/연락처 관련 주요 환경변수:
 
+- `MEDIA_API_BASE_URL`: 백엔드 미디어 API 주소
 - `NEXT_PUBLIC_CHURCH_PHONE`
 - `NEXT_PUBLIC_CHURCH_EMAIL`
 - `NEXT_PUBLIC_CHURCH_ADDRESS`

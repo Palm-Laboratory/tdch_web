@@ -1,17 +1,25 @@
 import type { Metadata } from "next";
-import ComingSoonPage from "@/components/coming-soon-page";
+import SermonArchivePage from "@/components/sermon-archive-page";
+import { getMediaList } from "@/lib/media-api";
 
 export const metadata: Metadata = {
   title: "그래도 괜찮아 | The 제자교회",
-  description: "The 제자교회 그래도 괜찮아 페이지는 현재 구현 예정입니다.",
+  description: "The 제자교회 그래도 괜찮아 콘텐츠를 확인하실 수 있습니다.",
 };
 
-export default function ItsOkayPage() {
+export const dynamic = "force-dynamic";
+
+export default async function ItsOkayPage() {
+  const response = await getMediaList("its-okay", 24);
+
   return (
-    <ComingSoonPage
+    <SermonArchivePage
       title="그래도 괜찮아"
       subtitle="IT'S OKAY"
-      description="위로와 회복을 전하는 콘텐츠를 준비 중입니다. 곧 이 페이지에서 관련 메시지를 확인하실 수 있습니다."
+      description="짧지만 선명한 위로와 회복의 메시지를 모았습니다. 운영 sync 이후 최신 영상이 이 페이지로 바로 연결됩니다."
+      emptyTitle="짧은 영상 콘텐츠가 아직 준비되지 않았습니다."
+      emptyDescription="백엔드 sync가 완료되면 이 페이지에서 최신 쇼츠를 확인하실 수 있습니다."
+      response={response}
     />
   );
 }
