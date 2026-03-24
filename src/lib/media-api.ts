@@ -63,6 +63,13 @@ const mediaApiBaseUrl =
   process.env.NEXT_PUBLIC_MEDIA_API_BASE_URL ??
   DEFAULT_MEDIA_API_BASE_URL;
 
+export class MediaNotFoundError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "MediaNotFoundError";
+  }
+}
+
 async function fetchMedia<T>(path: string): Promise<T> {
   const response = await fetch(`${mediaApiBaseUrl}${path}`, {
     headers: {
@@ -72,6 +79,9 @@ async function fetchMedia<T>(path: string): Promise<T> {
   });
 
   if (!response.ok) {
+    if (response.status === 404) {
+      throw new MediaNotFoundError(`Media API resource not found: ${path}`);
+    }
     throw new Error(`Media API request failed: ${response.status} ${response.statusText}`);
   }
 
@@ -106,6 +116,9 @@ export async function getMediaDetail(youtubeVideoId: string): Promise<VideoDetai
   try {
     return await fetchMedia<VideoDetailResponse>(`/api/v1/media/videos/${youtubeVideoId}`);
   } catch (error) {
+    if (error instanceof MediaNotFoundError) {
+      throw error;
+    }
     console.error(`Failed to fetch media detail for ${youtubeVideoId}.`, error);
     return null;
   }

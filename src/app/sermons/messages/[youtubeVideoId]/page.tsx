@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import SermonDetailPage from "@/components/sermon-detail-page";
-import { getMediaDetail, getMediaList } from "@/lib/media-api";
+import { getMediaDetail, getMediaList, MediaNotFoundError } from "@/lib/media-api";
 
 interface MessagesDetailPageProps {
   params: Promise<{
@@ -17,10 +18,20 @@ export const metadata: Metadata = {
 
 export default async function MessagesDetailPage({ params }: MessagesDetailPageProps) {
   const { youtubeVideoId } = await params;
-  const [detail, response] = await Promise.all([
-    getMediaDetail(youtubeVideoId),
-    getMediaList("messages", 0, 10),
-  ]);
+  let detail;
+
+  try {
+    [detail] = await Promise.all([
+      getMediaDetail(youtubeVideoId),
+    ]);
+  } catch (error) {
+    if (error instanceof MediaNotFoundError) {
+      notFound();
+    }
+    throw error;
+  }
+
+  const response = await getMediaList("messages", 0, 10);
   const relatedItems = (response?.items ?? [])
     .filter((item) => item.youtubeVideoId !== youtubeVideoId)
     .slice(0, 8);
