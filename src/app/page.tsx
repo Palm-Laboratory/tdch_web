@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Gowun_Batang } from "next/font/google";
 import MissionSection from "@/components/mission-section";
 import AnimatedCards from "@/components/animated-cards";
-import SermonCard from "@/components/sermon-card";
+
 import {
   quickMenuCards,
   churchNewsList,
@@ -150,17 +150,52 @@ export default function Home() {
               </div>
 
               <section className="grid gap-4 md:grid-cols-2">
-                {homeSermonList.map((sermon, i) => (
-                  <SermonCard
-                    key={i}
-                    data={sermon}
-                    youtubeUrl={youtubeUrl}
-                    shadowClass={i === 0
-                      ? "shadow-[0_16px_34px_rgba(16,33,63,0.15)]"
-                      : "shadow-[0_16px_34px_rgba(16,33,63,0.13)]"
-                    }
-                  />
-                ))}
+                {homeSermonList.map((sermon, i) => {
+                  const href = sermon.href || youtubeUrl;
+                  const shadow = i === 0
+                    ? "shadow-[0_16px_34px_rgba(16,33,63,0.15)]"
+                    : "shadow-[0_16px_34px_rgba(16,33,63,0.13)]";
+                  return (
+                    <a
+                      key={i}
+                      href={href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`group overflow-hidden rounded-3xl border border-cedar/14 bg-white ${shadow} transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(16,33,63,0.18)]`}
+                    >
+                      <div className="relative aspect-[16/10] w-full overflow-hidden">
+                        <Image
+                          src={sermon.thumbnail}
+                          alt={sermon.thumbnailAlt}
+                          fill
+                          className="object-cover object-center transition duration-500 group-hover:scale-[1.03]"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-black/10" />
+                        <div className="absolute bottom-4 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/95 shadow-md transition group-hover:scale-110">
+                          <svg className="ml-0.5 h-5 w-5 text-ink" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </div>
+                      </div>
+                      <div className="p-5">
+                        <div className="flex items-center gap-2 text-xs font-semibold text-cedar">
+                          <span>{sermon.category}</span>
+                          <span className="text-cedar/40">|</span>
+                          <span>{sermon.type}</span>
+                        </div>
+                        <h3 className="mt-2 text-base font-bold leading-snug text-ink md:text-lg">
+                          {sermon.title}
+                        </h3>
+                        <div className="mt-3 flex items-center justify-between gap-4 text-xs">
+                          <p className="text-ink/55 line-clamp-1">
+                            {sermon.scripture} <span className="mx-1 text-ink/30">|</span> {sermon.pastor}
+                          </p>
+                          <p className="shrink-0 font-medium text-ink/40">{sermon.date}</p>
+                        </div>
+                      </div>
+                    </a>
+                  );
+                })}
               </section>
             </div>
           </div>
