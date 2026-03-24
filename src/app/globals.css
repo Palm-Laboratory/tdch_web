@@ -56,7 +56,7 @@ body {
   }
 
   .type-section-title {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     line-height: 1.28;
   }
 
@@ -108,7 +108,7 @@ body {
   }
 
   .type-section-title {
-    font-size: 1.875rem;
+    font-size: 1.75rem;
     line-height: 1.32;
   }
 
@@ -135,7 +135,7 @@ body {
 
 @media (min-width: 1024px) {
   .type-section-title {
-    font-size: 2.5rem;
+    font-size: 2.125rem;
     line-height: 1.2;
   }
 }

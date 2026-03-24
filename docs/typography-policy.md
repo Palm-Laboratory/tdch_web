@@ -42,7 +42,7 @@
 
 - `.type-section-title`
   - 섹션 타이틀
-  - `1.75rem / md: 1.875rem / lg: 2.5rem`
+  - `1.5rem / md: 1.75rem / lg: 2.125rem`
 
 - `.type-card-title`
   - 카드/블록 제목

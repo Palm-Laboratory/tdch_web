@@ -140,7 +140,7 @@ docker compose up -d --build
 
 - `display`: `2.125rem` / `md: 3rem`
 - `h1`: `1.75rem` / `md: 1.875rem` / `lg: 2.5rem`
-- `h2`: `1.5rem` / `md: 2rem` / `lg: 2.5rem`
+- `h2`: `1.5rem` / `md: 1.75rem` / `lg: 2.125rem`
 - `h3`: `1.125rem` / `md: 1.375rem`
 - `lead`: `1.125rem` / `md: 1.1875rem`
 - `body`: `1rem`
