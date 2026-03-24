@@ -4,8 +4,7 @@ import localFont from "next/font/local";
 import Script from "next/script";
 
 import "./globals.css";
-import BackToTopFab from "@/components/back-to-top-fab";
-import SiteFooter from "@/components/site-footer";
+import RootLayoutAccessories from "@/components/root-layout-accessories";
 import SiteHeader from "@/components/site-header";
 import { NavigationProvider } from "@/lib/navigation-context";
 import { getNavigationResponse } from "@/lib/navigation-api";
@@ -69,8 +68,7 @@ export default async function RootLayout({
             </div>
             <SiteHeader />
             <main className="flex-1">{children}</main>
-            <BackToTopFab />
-            <SiteFooter />
+            <RootLayoutAccessories />
           </div>
         </NavigationProvider>
       </body>

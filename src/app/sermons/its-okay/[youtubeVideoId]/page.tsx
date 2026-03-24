@@ -31,16 +31,14 @@ export default async function ItsOkayDetailPage({ params }: ItsOkayDetailPagePro
     throw error;
   }
 
-  const response = await getMediaList("its-okay", 0, 10);
-  const relatedItems = (response?.items ?? [])
-    .filter((item) => item.youtubeVideoId !== youtubeVideoId)
-    .slice(0, 8);
+  const response = await getMediaList("its-okay", 0, 100);
+  const items = response?.items ?? [];
 
   return (
     <ShortsDetailPage
       listHref="/sermons/its-okay"
       detail={detail}
-      relatedItems={relatedItems}
+      playlistItems={items}
     />
   );
 }
