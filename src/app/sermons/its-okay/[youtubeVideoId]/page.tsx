@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import SermonDetailPage from "@/components/sermon-detail-page";
+import ShortsDetailPage from "@/components/shorts-detail-page";
 import { getMediaDetail, getMediaList, MediaNotFoundError } from "@/lib/media-api";
 
 interface ItsOkayDetailPageProps {
@@ -37,9 +37,7 @@ export default async function ItsOkayDetailPage({ params }: ItsOkayDetailPagePro
     .slice(0, 8);
 
   return (
-    <SermonDetailPage
-      siteKey="its-okay"
-      sectionTitle="그래도 괜찮아"
+    <ShortsDetailPage
       listHref="/sermons/its-okay"
       detail={detail}
       relatedItems={relatedItems}
