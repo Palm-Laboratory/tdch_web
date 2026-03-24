@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import SermonDetailPage from "@/components/sermon-detail-page";
-import { getMediaDetail } from "@/lib/media-api";
+import { getMediaDetail, getMediaList } from "@/lib/media-api";
 
 interface ItsOkayDetailPageProps {
   params: Promise<{
@@ -17,17 +17,21 @@ export const metadata: Metadata = {
 
 export default async function ItsOkayDetailPage({ params }: ItsOkayDetailPageProps) {
   const { youtubeVideoId } = await params;
-  const detail = await getMediaDetail(youtubeVideoId);
+  const [detail, response] = await Promise.all([
+    getMediaDetail(youtubeVideoId),
+    getMediaList("its-okay", 0, 10),
+  ]);
+  const relatedItems = (response?.items ?? [])
+    .filter((item) => item.youtubeVideoId !== youtubeVideoId)
+    .slice(0, 8);
 
   return (
-    <div className="pb-20">
-      <SermonDetailPage
-        siteKey="its-okay"
-        sectionTitle="그래도 괜찮아"
-        sectionSubtitle="IT'S OKAY DETAIL"
-        listHref="/sermons/its-okay"
-        detail={detail}
-      />
-    </div>
+    <SermonDetailPage
+      siteKey="its-okay"
+      sectionTitle="그래도 괜찮아"
+      listHref="/sermons/its-okay"
+      detail={detail}
+      relatedItems={relatedItems}
+    />
   );
 }

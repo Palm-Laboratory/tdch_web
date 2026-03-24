@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import SermonDetailPage from "@/components/sermon-detail-page";
-import { getMediaDetail } from "@/lib/media-api";
+import { getMediaDetail, getMediaList } from "@/lib/media-api";
 
 interface MessagesDetailPageProps {
   params: Promise<{
@@ -17,17 +17,21 @@ export const metadata: Metadata = {
 
 export default async function MessagesDetailPage({ params }: MessagesDetailPageProps) {
   const { youtubeVideoId } = await params;
-  const detail = await getMediaDetail(youtubeVideoId);
+  const [detail, response] = await Promise.all([
+    getMediaDetail(youtubeVideoId),
+    getMediaList("messages", 0, 10),
+  ]);
+  const relatedItems = (response?.items ?? [])
+    .filter((item) => item.youtubeVideoId !== youtubeVideoId)
+    .slice(0, 8);
 
   return (
-    <div className="pb-20">
-      <SermonDetailPage
-        siteKey="messages"
-        sectionTitle="말씀 / 설교"
-        sectionSubtitle="SERMON DETAIL"
-        listHref="/sermons/messages"
-        detail={detail}
-      />
-    </div>
+    <SermonDetailPage
+      siteKey="messages"
+      sectionTitle="말씀 / 설교"
+      listHref="/sermons/messages"
+      detail={detail}
+      relatedItems={relatedItems}
+    />
   );
 }

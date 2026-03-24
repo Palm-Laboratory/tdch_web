@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import SermonDetailPage from "@/components/sermon-detail-page";
-import { getMediaDetail } from "@/lib/media-api";
+import { getMediaDetail, getMediaList } from "@/lib/media-api";
 
 interface BetterDevotionDetailPageProps {
   params: Promise<{
@@ -19,17 +19,21 @@ export default async function BetterDevotionDetailPage({
   params,
 }: BetterDevotionDetailPageProps) {
   const { youtubeVideoId } = await params;
-  const detail = await getMediaDetail(youtubeVideoId);
+  const [detail, response] = await Promise.all([
+    getMediaDetail(youtubeVideoId),
+    getMediaList("better-devotion", 0, 10),
+  ]);
+  const relatedItems = (response?.items ?? [])
+    .filter((item) => item.youtubeVideoId !== youtubeVideoId)
+    .slice(0, 8);
 
   return (
-    <div className="pb-20">
-      <SermonDetailPage
-        siteKey="better-devotion"
-        sectionTitle="더 좋은 묵상"
-        sectionSubtitle="BETTER DEVOTION DETAIL"
-        listHref="/sermons/better-devotion"
-        detail={detail}
-      />
-    </div>
+    <SermonDetailPage
+      siteKey="better-devotion"
+      sectionTitle="더 좋은 묵상"
+      listHref="/sermons/better-devotion"
+      detail={detail}
+      relatedItems={relatedItems}
+    />
   );
 }
