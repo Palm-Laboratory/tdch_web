@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState, type TouchEvent } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type PointerEvent, type RefObject } from "react";
+import { useRouter } from "next/navigation";
 
 interface ShortsPlaylistItem {
   youtubeVideoId: string;
@@ -11,44 +12,77 @@ interface ShortsPlaylistItem {
 interface ShortsDetailViewerProps {
   initialVideoId: string;
   items: ShortsPlaylistItem[];
+  listHref: string;
 }
 
 type Direction = "up" | "down";
+type TransitionSnapshot = {
+  from: ShortsPlaylistItem;
+  to: ShortsPlaylistItem;
+  direction: Direction;
+};
 
-function buildEmbedUrl(embedUrl: string, autoplay: boolean): string {
+function buildThumbnailUrl(youtubeVideoId: string): string {
+  return `https://i.ytimg.com/vi/${youtubeVideoId}/hqdefault.jpg`;
+}
+
+function buildEmbedUrl(
+  embedUrl: string,
+  autoplay: boolean,
+  muted: boolean,
+  origin?: string,
+): string {
   try {
     const url = new URL(embedUrl);
     url.searchParams.set("autoplay", autoplay ? "1" : "0");
+    url.searchParams.set("mute", muted ? "1" : "0");
     url.searchParams.set("playsinline", "1");
     url.searchParams.set("rel", "0");
+    url.searchParams.set("enablejsapi", "1");
+    if (origin) {
+      url.searchParams.set("origin", origin);
+    }
     return url.toString();
   } catch {
     const separator = embedUrl.includes("?") ? "&" : "?";
-    return `${embedUrl}${separator}autoplay=${autoplay ? "1" : "0"}&playsinline=1&rel=0`;
+    const originQuery = origin ? `&origin=${encodeURIComponent(origin)}` : "";
+    return `${embedUrl}${separator}autoplay=${autoplay ? "1" : "0"}&mute=${muted ? "1" : "0"}&playsinline=1&rel=0&enablejsapi=1${originQuery}`;
   }
 }
 
 export default function ShortsDetailViewer({
   initialVideoId,
   items,
+  listHref,
 }: ShortsDetailViewerProps) {
+  const router = useRouter();
   const initialIndex = Math.max(
     0,
     items.findIndex((item) => item.youtubeVideoId === initialVideoId),
   );
   const [activeIndex, setActiveIndex] = useState(initialIndex);
-  const [incomingIndex, setIncomingIndex] = useState<number | null>(null);
-  const [direction, setDirection] = useState<Direction>("down");
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
+  const [hasUnlockedAudio, setHasUnlockedAudio] = useState(false);
+  const [transitionSnapshot, setTransitionSnapshot] = useState<TransitionSnapshot | null>(null);
+  const [viewportHeight, setViewportHeight] = useState("100svh");
   const timerRef = useRef<number | null>(null);
   const wheelDeltaRef = useRef(0);
-  const touchStartYRef = useRef<number | null>(null);
-  const touchDeltaYRef = useRef(0);
+  const pointerStartYRef = useRef<number | null>(null);
+  const pointerDeltaYRef = useRef(0);
+  const pointerIdRef = useRef<number | null>(null);
+  const activeIframeRef = useRef<HTMLIFrameElement | null>(null);
+  const playerReadyRef = useRef(false);
+  const loadedVideoIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     setActiveIndex(initialIndex);
-    setIncomingIndex(null);
-    setIsAnimating(false);
+    setIsTransitioning(false);
+    setIsPlaying(true);
+    setIsMuted(true);
+    setHasUnlockedAudio(false);
+    setTransitionSnapshot(null);
 
     if (timerRef.current) {
       window.clearTimeout(timerRef.current);
@@ -56,8 +90,9 @@ export default function ShortsDetailViewer({
     }
 
     wheelDeltaRef.current = 0;
-    touchStartYRef.current = null;
-    touchDeltaYRef.current = 0;
+    pointerStartYRef.current = null;
+    pointerDeltaYRef.current = 0;
+    pointerIdRef.current = null;
   }, [initialIndex]);
 
   useEffect(() => {
@@ -81,35 +116,93 @@ export default function ShortsDetailViewer({
     };
   }, []);
 
+  useEffect(() => {
+    function updateViewportHeight() {
+      const nextHeight = window.visualViewport?.height ?? window.innerHeight;
+      setViewportHeight(`${Math.round(nextHeight)}px`);
+    }
+
+    updateViewportHeight();
+
+    window.addEventListener("resize", updateViewportHeight);
+    window.visualViewport?.addEventListener("resize", updateViewportHeight);
+
+    return () => {
+      window.removeEventListener("resize", updateViewportHeight);
+      window.visualViewport?.removeEventListener("resize", updateViewportHeight);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!window.history.state?.shortsDetailBackTrap) {
+      window.history.pushState(
+        {
+          ...(window.history.state ?? {}),
+          shortsDetailBackTrap: true,
+        },
+        "",
+        window.location.href,
+      );
+    }
+
+    function handlePopState() {
+      window.location.replace(listHref);
+    }
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [listHref, router]);
+
   const activeItem = items[activeIndex] ?? items[0];
   const previousIndex = activeIndex > 0 ? activeIndex - 1 : null;
   const nextIndex = activeIndex < items.length - 1 ? activeIndex + 1 : null;
-  const previousItem = previousIndex !== null ? items[previousIndex] : null;
-  const nextItem = nextIndex !== null ? items[nextIndex] : null;
 
   function handleMove(targetIndex: number | null, nextDirection: Direction) {
-    if (targetIndex === null || isAnimating || !items[targetIndex]) {
+    if (targetIndex === null || isTransitioning || !items[targetIndex]) {
       return;
     }
 
+    const targetItem = items[targetIndex];
     wheelDeltaRef.current = 0;
-    touchStartYRef.current = null;
-    touchDeltaYRef.current = 0;
-    setDirection(nextDirection);
-    setIncomingIndex(targetIndex);
-    setIsAnimating(true);
+    pointerStartYRef.current = null;
+    pointerDeltaYRef.current = 0;
+    pointerIdRef.current = null;
+    setTransitionSnapshot({
+      from: activeItem,
+      to: targetItem,
+      direction: nextDirection,
+    });
+    setIsTransitioning(true);
+    setIsPlaying(true);
+    setIsMuted(true);
+    setActiveIndex(targetIndex);
+
+    if (playerReadyRef.current && loadedVideoIdRef.current !== targetItem.youtubeVideoId) {
+      setPlayerMuted(true);
+      sendPlayerCommand("loadVideoById", [targetItem.youtubeVideoId]);
+      loadedVideoIdRef.current = targetItem.youtubeVideoId;
+      window.setTimeout(() => {
+        sendPlayerCommand("playVideo");
+      }, 120);
+      if (hasUnlockedAudio) {
+        window.setTimeout(() => {
+          setPlayerMuted(false);
+          setIsMuted(false);
+        }, 320);
+      }
+    }
 
     timerRef.current = window.setTimeout(() => {
-      const nextItem = items[targetIndex];
-      setActiveIndex(targetIndex);
-      setIncomingIndex(null);
-      setIsAnimating(false);
-      window.history.replaceState({}, "", `/sermons/its-okay/${nextItem.youtubeVideoId}`);
-    }, 360);
+      setIsTransitioning(false);
+      setTransitionSnapshot(null);
+    }, 280);
   }
 
   function handleWheel(event: React.WheelEvent<HTMLDivElement>) {
-    if (isAnimating) {
+    if (isTransitioning) {
       event.preventDefault();
       return;
     }
@@ -129,40 +222,55 @@ export default function ShortsDetailViewer({
     }
   }
 
-  function handleTouchStart(event: TouchEvent<HTMLDivElement>) {
-    if (isAnimating) {
+  function handlePointerDown(event: PointerEvent<HTMLDivElement>) {
+    if (isTransitioning) {
       return;
     }
 
-    touchStartYRef.current = event.touches[0]?.clientY ?? null;
-    touchDeltaYRef.current = 0;
+    pointerIdRef.current = event.pointerId;
+    pointerStartYRef.current = event.clientY;
+    pointerDeltaYRef.current = 0;
+    event.currentTarget.setPointerCapture(event.pointerId);
   }
 
-  function handleTouchMove(event: TouchEvent<HTMLDivElement>) {
-    if (touchStartYRef.current === null || isAnimating) {
+  function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
+    if (
+      pointerStartYRef.current === null ||
+      pointerIdRef.current !== event.pointerId ||
+      isTransitioning
+    ) {
       return;
     }
 
-    const currentY = event.touches[0]?.clientY;
-    if (typeof currentY !== "number") {
-      return;
-    }
+    pointerDeltaYRef.current = event.clientY - pointerStartYRef.current;
 
-    touchDeltaYRef.current = currentY - touchStartYRef.current;
-
-    if (Math.abs(touchDeltaYRef.current) > 8) {
+    if (Math.abs(pointerDeltaYRef.current) > 8) {
       event.preventDefault();
     }
   }
 
-  function handleTouchEnd() {
-    if (touchStartYRef.current === null || isAnimating) {
+  function resetPointerState() {
+    pointerStartYRef.current = null;
+    pointerDeltaYRef.current = 0;
+    pointerIdRef.current = null;
+  }
+
+  function handlePointerUp(event: PointerEvent<HTMLDivElement>) {
+    if (
+      pointerStartYRef.current === null ||
+      pointerIdRef.current !== event.pointerId ||
+      isTransitioning
+    ) {
       return;
     }
 
-    const deltaY = touchDeltaYRef.current;
-    touchStartYRef.current = null;
-    touchDeltaYRef.current = 0;
+    const deltaY = pointerDeltaYRef.current;
+    resetPointerState();
+
+    if (Math.abs(deltaY) < 12) {
+      togglePlayback();
+      return;
+    }
 
     if (Math.abs(deltaY) < 42) {
       return;
@@ -175,67 +283,129 @@ export default function ShortsDetailViewer({
     }
   }
 
-  const incomingItem = incomingIndex !== null ? items[incomingIndex] : null;
+  function handlePointerCancel() {
+    resetPointerState();
+  }
+  const viewportStyle = {
+    ["--shorts-viewport-height" as string]: viewportHeight,
+  } as CSSProperties;
+
+  function sendPlayerCommand(command: string, args: unknown[] = []) {
+    activeIframeRef.current?.contentWindow?.postMessage(
+      JSON.stringify({
+        event: "command",
+        func: command,
+        args,
+      }),
+      "*",
+    );
+  }
+
+  function setPlayerMuted(muted: boolean) {
+    activeIframeRef.current?.contentWindow?.postMessage(
+      JSON.stringify({
+        event: "command",
+        func: muted ? "mute" : "unMute",
+        args: [],
+      }),
+      "*",
+    );
+  }
+
+  function togglePlayback() {
+    if (isMuted) {
+      setPlayerMuted(false);
+      sendPlayerCommand("playVideo");
+      setIsMuted(false);
+      setIsPlaying(true);
+      setHasUnlockedAudio(true);
+      return;
+    }
+
+    if (isPlaying) {
+      sendPlayerCommand("pauseVideo");
+      setIsPlaying(false);
+      return;
+    }
+
+    sendPlayerCommand("playVideo");
+    setIsPlaying(true);
+  }
+
+  function handlePlayerLoad() {
+    playerReadyRef.current = true;
+    loadedVideoIdRef.current = activeItem.youtubeVideoId;
+    window.setTimeout(() => {
+      sendPlayerCommand("playVideo");
+      setPlayerMuted(!hasUnlockedAudio);
+    }, 300);
+  }
 
   return (
     <div
-      className="relative h-full w-full touch-none"
+      className="fixed inset-x-0 top-0 z-20 h-[var(--shorts-viewport-height)] w-full bg-black md:relative md:inset-auto md:z-auto md:h-full md:bg-transparent"
+      style={viewportStyle}
       onWheel={handleWheel}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-      onTouchCancel={handleTouchEnd}
     >
-      <div className="flex h-full w-full justify-center">
-        <div className="relative h-full w-full max-w-[calc(100dvh*9/16)] md:max-w-[calc((100svh-3rem)*9/16)]">
-          <div className="relative overflow-hidden rounded-[16px] bg-black">
-            <div className="mx-auto h-[100dvh] w-full md:h-[calc(100svh-3rem-92px)]">
+      <div className="h-full w-full md:flex md:justify-center">
+        <div className="relative h-[var(--shorts-viewport-height)] w-full md:h-full md:max-w-[calc((100svh-3rem)*9/16)]">
+          <div className="relative h-full overflow-hidden bg-black md:rounded-[16px]">
+            <div className="mx-auto h-full w-full">
               <VideoLayer
-                key={activeItem.youtubeVideoId}
                 title={activeItem.displayTitle}
                 embedUrl={activeItem.embedUrl}
-                className={isAnimating ? (direction === "down" ? "-translate-y-full" : "translate-y-full") : "translate-y-0"}
+                iframeRef={activeIframeRef}
+                onLoad={handlePlayerLoad}
+                className="translate-y-0"
               />
-              {incomingItem ? (
-                <VideoLayer
-                  key={`${incomingItem.youtubeVideoId}-incoming`}
-                  title={incomingItem.displayTitle}
-                  embedUrl={incomingItem.embedUrl}
-                  className={isAnimating ? "translate-y-0" : direction === "down" ? "translate-y-full" : "-translate-y-full"}
-                  initialClass={direction === "down" ? "translate-y-full" : "-translate-y-full"}
-                />
-              ) : null}
             </div>
+            {transitionSnapshot ? (
+              <div className="pointer-events-none absolute inset-0 z-[5] overflow-hidden bg-black">
+                <TransitionFrame
+                  item={transitionSnapshot.from}
+                  className={
+                    isTransitioning
+                      ? transitionSnapshot.direction === "down"
+                        ? "-translate-y-full"
+                        : "translate-y-full"
+                      : "translate-y-0"
+                  }
+                />
+                <TransitionFrame
+                  item={transitionSnapshot.to}
+                  className={
+                    isTransitioning
+                      ? "translate-y-0"
+                      : transitionSnapshot.direction === "down"
+                        ? "translate-y-full"
+                        : "-translate-y-full"
+                  }
+                  initialClass={
+                    transitionSnapshot.direction === "down"
+                      ? "translate-y-full"
+                      : "-translate-y-full"
+                  }
+                />
+              </div>
+            ) : null}
+            {items.length > 0 ? (
+              <GestureZone
+                className="absolute inset-0 z-10 md:hidden"
+                onPointerDown={handlePointerDown}
+                onPointerMove={handlePointerMove}
+                onPointerUp={handlePointerUp}
+                onPointerCancel={handlePointerCancel}
+              />
+            ) : null}
           </div>
         </div>
       </div>
 
-      <div className="pointer-events-none absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden">
-        {previousItem ? (
-          <iframe
-            src={buildEmbedUrl(previousItem.embedUrl, false)}
-            title={`${previousItem.displayTitle} preload`}
-            className="h-0 w-0 border-0 opacity-0"
-            tabIndex={-1}
-            aria-hidden="true"
-          />
-        ) : null}
-        {nextItem ? (
-          <iframe
-            src={buildEmbedUrl(nextItem.embedUrl, false)}
-            title={`${nextItem.displayTitle} preload`}
-            className="h-0 w-0 border-0 opacity-0"
-            tabIndex={-1}
-            aria-hidden="true"
-          />
-        ) : null}
-      </div>
-
-      <aside className="absolute right-0 top-1/2 flex -translate-y-1/2 flex-col items-center gap-4 md:right-3 xl:right-6">
+      <aside className="absolute right-0 top-1/2 hidden -translate-y-1/2 flex-col items-center gap-4 md:flex md:right-3 xl:right-6">
         {previousIndex !== null ? (
           <DirectionButton
             onClick={() => handleMove(previousIndex, "up")}
-            disabled={isAnimating}
+            disabled={isTransitioning}
           >
             ↑
           </DirectionButton>
@@ -243,7 +413,7 @@ export default function ShortsDetailViewer({
         {nextIndex !== null ? (
           <DirectionButton
             onClick={() => handleMove(nextIndex, "down")}
-            disabled={isAnimating}
+            disabled={isTransitioning}
           >
             ↓
           </DirectionButton>
@@ -257,31 +427,40 @@ interface VideoLayerProps {
   title: string;
   embedUrl: string;
   className: string;
-  initialClass?: string;
+  iframeRef?: RefObject<HTMLIFrameElement | null>;
+  onLoad?: () => void;
 }
 
-function VideoLayer({ title, embedUrl, className, initialClass }: VideoLayerProps) {
+function VideoLayer({ title, embedUrl, className, iframeRef, onLoad }: VideoLayerProps) {
   const [mounted, setMounted] = useState(false);
+  const [iframeSrc, setIframeSrc] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+    setIframeSrc(buildEmbedUrl(embedUrl, true, true, window.location.origin));
+  }, [embedUrl]);
 
   return (
     <div
       className={[
         "absolute inset-0 transition-transform duration-300 ease-out",
-        mounted ? className : (initialClass ?? className),
+        mounted ? className : className,
       ].join(" ")}
     >
-      <iframe
-        src={buildEmbedUrl(embedUrl, true)}
-        title={title}
-        className="h-full w-full"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerPolicy="strict-origin-when-cross-origin"
-        allowFullScreen
-      />
+      {iframeSrc ? (
+        <iframe
+          ref={iframeRef}
+          src={iframeSrc}
+          title={title}
+          onLoad={onLoad}
+          className="h-full w-full"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        />
+      ) : (
+        <div className="h-full w-full bg-black" />
+      )}
     </div>
   );
 }
@@ -302,5 +481,69 @@ function DirectionButton({ onClick, disabled, children }: DirectionButtonProps) 
     >
       {children}
     </button>
+  );
+}
+
+interface GestureZoneProps {
+  className: string;
+  onPointerDown: (event: PointerEvent<HTMLDivElement>) => void;
+  onPointerMove: (event: PointerEvent<HTMLDivElement>) => void;
+  onPointerUp: (event: PointerEvent<HTMLDivElement>) => void;
+  onPointerCancel: () => void;
+}
+
+function GestureZone({
+  className,
+  onPointerDown,
+  onPointerMove,
+  onPointerUp,
+  onPointerCancel,
+}: GestureZoneProps) {
+  return (
+    <div
+      className={`pointer-events-auto touch-none ${className}`}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerCancel}
+    />
+  );
+}
+
+interface TransitionFrameProps {
+  item: ShortsPlaylistItem;
+  className: string;
+  initialClass?: string;
+}
+
+function TransitionFrame({ item, className, initialClass }: TransitionFrameProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => {
+      setMounted(false);
+    };
+  }, []);
+
+  return (
+    <div
+      className={[
+        "absolute inset-0 overflow-hidden bg-black transition-transform duration-300 ease-out",
+        mounted ? className : (initialClass ?? className),
+      ].join(" ")}
+    >
+      <div
+        className="absolute inset-0 scale-110 bg-cover bg-center opacity-80 blur-md"
+        style={{ backgroundImage: `url(${buildThumbnailUrl(item.youtubeVideoId)})` }}
+      />
+      <div className="absolute inset-0 bg-black/28" />
+      <img
+        src={buildThumbnailUrl(item.youtubeVideoId)}
+        alt={item.displayTitle}
+        className="absolute inset-0 h-full w-full object-contain"
+        draggable={false}
+      />
+    </div>
   );
 }

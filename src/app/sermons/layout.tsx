@@ -25,7 +25,7 @@ export default function SermonsLayout({
         />
       )}
       {!hideShell && <Breadcrumb />}
-      <main className={hideShell ? "section-shell section-shell--full" : "section-shell section-shell--wide pt-10 md:pt-16"}>
+      <main className={hideShell ? "w-full md:section-shell md:section-shell--full" : "section-shell section-shell--wide pt-10 md:pt-16"}>
         {children}
       </main>
     </div>

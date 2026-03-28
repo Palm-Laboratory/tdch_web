@@ -149,7 +149,7 @@ export default function SermonArchivePage({
                   rel="noreferrer"
                   className="inline-flex self-end items-center gap-2 whitespace-nowrap text-[1.1rem] font-medium tracking-[-0.01em] text-ink transition hover:text-cedar"
                 >
-                  <span>YouTube 채널에서 더 보기</span>
+                  <span>YouTube</span>
                   <span aria-hidden="true" className="text-[1.4rem] leading-none">→</span>
                 </a>
               </div>
