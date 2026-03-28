@@ -457,11 +457,12 @@ export interface ServiceTimeData {
 }
 
 export const serviceTimes: ServiceTimeData[] = [
-  { name: "주일 1부 예배", day: "주일", time: "11:00", ampm: "AM", location: "나인아트홀(지하1층)" },
-  { name: "주일 2부 오후 찬양 예배", day: "주일", time: "2:00", ampm: "PM", location: "나인아트홀(지하1층)" },
-  { name: "새벽 기도회", day: "월~금", time: "5:30", ampm: "AM", location: "나인아트홀(지하1층)" },
-  { name: "수요 예배", day: "수요일", time: "8:00", ampm: "PM", location: "나인아트홀(지하1층)" },
-  { name: "금요 기도회", day: "금요일", time: "9:00", ampm: "PM", location: "나인아트홀(지하1층)" },
+  { name: "주일 1부 예배 (준비 중)", day: "주일", time: "11:00", ampm: "AM", location: "나인아트홀(지하1층)" },
+  { name: "젊은이 예배", day: "주일", time: "2:00", ampm: "PM", location: "나인아트홀(지하1층)" },
+  { name: "새가족 양육", day: "주일", time: "예배 후", ampm: "PM", location: "나인아트홀(지하1층)" },
+  // { name: "새벽 기도회", day: "월~금", time: "5:30", ampm: "AM", location: "나인아트홀(지하1층)" },
+  { name: "리더 모임", day: "수요일", time: "8:30", ampm: "PM", location: "나인아트홀(지하1층)" },
+  { name: "금요 기도회", day: "금요일", time: "8:00", ampm: "PM", location: "나인아트홀(지하1층)" },
   { name: "더 좋은 묵상", day: "화~금", time: "8:00", ampm: "AM", location: "YouTube" },
 ];
 
