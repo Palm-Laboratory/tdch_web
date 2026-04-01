@@ -21,9 +21,6 @@ export default async function Home() {
   const youtubeUrl =
     process.env.NEXT_PUBLIC_YOUTUBE_URL ??
     "https://www.youtube.com/@%EB%8D%94%EC%A0%9C%EC%9E%90%EA%B5%90%ED%9A%8C";
-  const naverMapUrl =
-    process.env.NEXT_PUBLIC_NAVER_MAP_URL ??
-    "https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%EB%8F%84%20%EC%88%98%EC%9B%90%EC%8B%9C%20%ED%8C%94%EB%8B%AC%EA%B5%AC%20%EA%B2%BD%EC%88%98%EB%8C%80%EB%A1%9C425%20%EB%82%98%EC%9D%B8%EC%95%84%ED%8A%B8%ED%99%80/place/1394960485?c=15.00,0,0,0,dh&isCorrectAnswer=true&placePath=/home?from=map&fromPanelNum=1&additionalHeight=76&timestamp=202603132012&locale=ko&svcName=map_pcv5&searchText=%EA%B2%BD%EA%B8%B0%EB%8F%84%20%EC%88%98%EC%9B%90%EC%8B%9C%20%ED%8C%94%EB%8B%AC%EA%B5%AC%20%EA%B2%BD%EC%88%98%EB%8C%80%EB%A1%9C425%20%EB%82%98%EC%9D%B8%EC%95%84%ED%8A%B8%ED%99%80";
   const homeMedia = await getHomeMedia();
   const sermonCards = toHomeSermonCards(homeMedia?.latestMessages, homeSermonList);
 
@@ -77,11 +74,9 @@ export default async function Home() {
 
                 {/* 오시는 길 & YouTube 바로가기 카드: lg 이상에서만 표시 */}
                 <div className="hidden lg:grid gap-5 h-full grid-rows-2">
-                  <a
-                    href={naverMapUrl}
+                  <Link
+                    href="/about/location"
                     id="hero-location-card"
-                    target="_blank"
-                    rel="noreferrer"
                     className="group flex h-full flex-col items-center justify-center rounded-[2rem] border border-white/70 bg-[#f1f3f5]/80 px-8 py-7 text-center text-ink shadow-[0_18px_26px_rgba(16,33,63,0.18)] backdrop-blur-md transition duration-300 hover:-translate-y-1"
                   >
                     <lord-icon
@@ -95,7 +90,7 @@ export default async function Home() {
                     <p className="mt-2 text-sm font-medium leading-snug text-ink/65">
                       경기도 수원시 팔달구<br />경수대로425 지하1층<br />(나인아트홀)
                     </p>
-                  </a>
+                  </Link>
 
                   <a
                     href={youtubeUrl}
