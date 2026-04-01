@@ -1,4 +1,5 @@
 import NaverDynamicMap from "./components/naver-dynamic-map";
+import SectionHeading from "@/components/temp/section-heading";
 
 const churchName = "The 제자교회";
 const addressFallback = "경기도 수원시 팔달구 경수대로425 지하1층(나인아트홀)";
@@ -63,12 +64,7 @@ function InfoSection({
 }) {
   return (
     <section>
-      <p className="type-label mb-2 font-semibold uppercase tracking-[0.2em] text-[#C9A84C]">
-        {subtitle}
-      </p>
-      <h3 className="type-section-title font-bold text-ink">
-        {title}
-      </h3>
+      <SectionHeading as="h3" label={subtitle} title={title} />
       <div className="mt-5">{children}</div>
     </section>
   );
@@ -92,12 +88,7 @@ export default function LocationPage() {
     <div className="w-full overflow-x-hidden bg-white">
       <section id="map" className="relative overflow-hidden scroll-mt-28">
         <div className="section-shell section-shell--narrow relative py-12 md:py-16">
-          <p className="type-label mb-2 font-semibold uppercase tracking-[0.2em] text-[#C9A84C]">
-            LOCATION
-          </p>
-          <h2 className="type-section-title mb-6 font-bold text-ink md:mb-8">
-            오시는 길
-          </h2>
+          <SectionHeading id="location-title" label="location" title="오시는 길" />
           <div className="mt-10 overflow-hidden border border-cedar/12 bg-white">
             <div className="relative aspect-[16/11] w-full overflow-hidden md:aspect-[16/8] lg:aspect-[16/7]">
               <NaverDynamicMap

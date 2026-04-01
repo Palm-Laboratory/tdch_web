@@ -41,12 +41,12 @@ export default function NewcomerFaqAccordion({
                 });
               }}
             >
-              <h3 className="text-[1.05rem] font-medium leading-[1.34] tracking-[-0.03em] text-ink md:text-[1.2rem]">
+              <h3 className="type-card-title font-medium leading-[1.34] tracking-[-0.03em] text-ink md:type-block-title">
                 {item.question}
               </h3>
               <span
                 aria-hidden="true"
-                className={`flex h-5 w-5 shrink-0 items-center justify-center text-[1.5rem] leading-none ${isOpen ? "text-[#7a7060]" : "text-[#c9a84c]"}`}
+                className={`flex h-5 w-5 shrink-0 items-center justify-center type-subsection-title leading-none ${isOpen ? "text-[#7a7060]" : "text-[#c9a84c]"}`}
               >
                 {isOpen ? "×" : "+"}
               </span>
@@ -58,7 +58,7 @@ export default function NewcomerFaqAccordion({
                   {(Array.isArray(item.answer) ? item.answer : [item.answer]).map((answerLine) => (
                     <li key={answerLine} className="flex items-start gap-2">
                       <span className="mt-[0.55rem] h-[4px] w-[4px] shrink-0 rounded-full bg-[#7a7060]" />
-                      <span className="text-[0.875rem] leading-[1.7] tracking-[0.02em] text-[#7a7060]">
+                      <span className="type-bodt leading-[1.7] tracking-[0.02em] text-[#7a7060]">
                         {answerLine}
                       </span>
                     </li>

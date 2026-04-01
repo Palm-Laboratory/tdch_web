@@ -62,19 +62,19 @@ body {
   }
 
   .type-subsection-title {
-    font-family: var(--font-section-title);
+    /* font-family: var(--font-section-title); */
     font-size: 1.3125rem;
     line-height: 1.32;
   }
 
   .type-block-title {
-    font-family: var(--font-section-title);
+    /* font-family: var(--font-section-title); */
     font-size: 1.21875rem;
     line-height: 1.34;
   }
 
   .type-card-title {
-    font-family: var(--font-section-title);
+    /* font-family: var(--font-section-title); */
     font-size: 1.125rem;
     line-height: 1.35;
   }

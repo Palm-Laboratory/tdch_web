@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond } from "next/font/google";
 import Breadcrumb from "@/components/breadcrumb";
 import PageHeader from "@/components/page-header";
+import SectionHeading from "@/components/temp/section-heading";
 
 const cormorantGaramond = Cormorant_Garamond({
   subsets: ["latin"],
@@ -102,35 +103,6 @@ export const metadata: Metadata = {
   title: "새가족 양육 | The 제자교회",
   description: "The 제자교회 새가족 양육 5주 과정과 침례 안내 페이지입니다.",
 };
-
-function SectionHeading({
-  id,
-  label,
-  title,
-  inverted = false,
-}: {
-  id: string;
-  label: string;
-  title: string;
-  inverted?: boolean;
-}) {
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
-        <p className="text-[0.625rem] font-semibold uppercase tracking-[0.28em] text-[#c9a84c] md:text-[0.6875rem]">
-          {label}
-        </p>
-        <h2
-          id={id}
-          className={`font-[var(--font-serif)] text-[1.75rem] font-bold leading-none tracking-[-0.02em] md:text-[2rem] ${inverted ? "text-white" : "text-[#1a2744]"}`}
-        >
-          {title}
-        </h2>
-      </div>
-      <div className="h-px w-9 bg-[#c9a84c]" />
-    </div>
-  );
-}
 
 function VerseCard() {
   return (
