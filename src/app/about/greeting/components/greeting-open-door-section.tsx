@@ -98,7 +98,7 @@ export default function GreetingOpenDoorSection() {
             custom={0.2}
           >
             <div className="relative h-[560px] border border-[rgba(0,0,0,0.22)] bg-white md:h-[640px]">
-              <div className="absolute bottom-[44px] left-[18px] right-[18px] top-[24px] overflow-hidden rounded-[8px] border border-[#0b0b0b] shadow-[0px_1px_1px_rgba(0,0,0,0.1)] md:bottom-[56px] md:left-[21px] md:right-[21px] md:top-[30px]">
+              <div className="absolute bottom-[44px] left-[18px] right-[18px] top-[24px] overflow-hidden shadow-[inset_0_0_4px_rgba(0,0,0,0.24),0px_1px_1px_rgba(0,0,0,0.1)] md:bottom-[56px] md:left-[21px] md:right-[21px] md:top-[30px]">
                 <Image
                   src="/images/greeting/open_door.jpeg"
                   alt="더제자교회 공동체 사진"

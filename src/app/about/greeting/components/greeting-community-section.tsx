@@ -144,10 +144,6 @@ export default function GreetingCommunitySection() {
                 initial="hidden"
                 animate={community.isInView ? "visible" : "hidden"}
                 custom={0.4 + index * 0.1}
-                whileHover={{
-                  scale: 1.06,
-                  transition: { duration: 0.2 }
-                }}
               >
                 {item}
               </motion.span>
