@@ -82,6 +82,17 @@ export default function SiteFooter() {
       {/* 하단: 카피라이트 */}
       <div className="section-shell mt-12 border-t border-white/10 pt-6 text-xs text-ivory/40">
         <p>Copyright (c) 2026 The 제자교회 All rights reserved provided by Palm Lab</p>
+        <p className="mt-2">
+          Animated icons by{" "}
+          <a
+            href="https://lordicon.com/"
+            target="_blank"
+            rel="noreferrer"
+            className="underline underline-offset-2 transition hover:text-ivory/70"
+          >
+            Lordicon.com
+          </a>
+        </p>
       </div>
     </footer>
   );
