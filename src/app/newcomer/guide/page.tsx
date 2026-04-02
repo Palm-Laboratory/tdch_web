@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import CoreValueCard from "./components/core-value-card";
 import NewcomerFaqAccordion from "./components/newcomer-faq-accordion";
 import NewcomerContactSection from "./components/newcomer-contact-section";
-import QuickLinkCard from "./components/quick-link-card";
 import TimelineStep from "./components/timeline-step";
 import Breadcrumb from "@/components/breadcrumb";
 import PageHeader from "@/components/page-header";
@@ -11,27 +10,6 @@ import SectionHeading from "@/components/section-heading";
 const newcomerIntroParagraphs = [
   "The 제자교회는 예수님의 지상명령에 따라 제자를 삼고, 제자를 삼는 제자를 양육합니다.",
   "필리핀 17년 선교 사역의 열매로 정립된 체계적인 제자훈련 시스템을 통해 4세대까지 재생산하는 제자를 세웁니다.",
-] as const;
-
-const quickLinks = [
-  {
-    href: "/newcomer/guide",
-    title: "새가족 안내",
-    description: "처음 오신 분들을 위한 환영 및 정착 안내",
-    active: true,
-  },
-  {
-    href: "/newcomer/care",
-    title: "새가족 양육",
-    description: "5주 과정으로 신앙의 기초를 다집니다",
-    active: false,
-  },
-  {
-    href: "/newcomer/disciples",
-    title: "제자 훈련",
-    description: "단계별 제자훈련을 소개합니다",
-    active: false,
-  },
 ] as const;
 
 const coreValues = [
@@ -136,23 +114,6 @@ export default function NewcomerGuidePage() {
               >
                 {paragraph}
               </p>
-            ))}
-          </div>
-        </section>
-
-        <section
-          aria-labelledby="newcomer-quick-links-title"
-          className="mt-20 md:mt-[68px]"
-        >
-          <SectionHeading
-            id="newcomer-quick-links-title"
-            label="quick links"
-            title="제자 양육 과정"
-          />
-
-          <div className="mt-8 grid gap-4 md:grid-cols-3 md:gap-5">
-            {quickLinks.map((item) => (
-              <QuickLinkCard key={item.href} {...item} />
             ))}
           </div>
         </section>
