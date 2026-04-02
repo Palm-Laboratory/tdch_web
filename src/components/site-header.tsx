@@ -200,7 +200,7 @@ export default function SiteHeader() {
           </nav>
 
           {/* 모바일 햄버거 버튼 & 전체 화면 메뉴 */}
-          <div className="lg:hidden flex items-center shrink-0">
+          <div className="relative z-10 flex shrink-0 items-center lg:hidden">
             <MobileNav isOpen={isMobileNavOpen} setIsOpen={setIsMobileNavOpen} />
           </div>
         </div>

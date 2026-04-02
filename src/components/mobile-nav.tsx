@@ -11,6 +11,14 @@ export default function MobileNav({ isOpen, setIsOpen }: { isOpen: boolean, setI
   const pathname = usePathname() ?? "";
   const { navMenuGroups } = useNavigation();
 
+  const openMenu = () => {
+    setIsOpen(true);
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -42,9 +50,12 @@ export default function MobileNav({ isOpen, setIsOpen }: { isOpen: boolean, setI
       {/* 햄버거 토글 버튼 */}
       <button
         type="button"
-        onClick={() => setIsOpen(true)}
-        className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-themeBlue/20 text-xl text-themeBlue transition hover:border-themeBlue/40 hover:bg-themeBlue/5"
+        onClick={openMenu}
+        onPointerUp={openMenu}
+        className="inline-flex min-h-11 min-w-11 touch-manipulation items-center justify-center rounded-xl border border-themeBlue/20 text-xl text-themeBlue transition hover:border-themeBlue/40 hover:bg-themeBlue/5"
         aria-label="메뉴 열기"
+        aria-expanded={isOpen}
+        aria-controls="mobile-site-nav"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -61,6 +72,7 @@ export default function MobileNav({ isOpen, setIsOpen }: { isOpen: boolean, setI
       {/* 전체화면 애니메이션 오버레이: Portal을 통해 최상단 body에 렌더링 (Hydration 에러 방지용 mounted 체크 추가) */}
       {mounted && typeof document !== "undefined" && createPortal(
         <div
+          id="mobile-site-nav"
           className={`fixed inset-0 z-[99999] bg-white transition-all duration-300 ease-in-out ${
             isOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible pointer-events-none -translate-y-2"
           }`}
@@ -68,15 +80,16 @@ export default function MobileNav({ isOpen, setIsOpen }: { isOpen: boolean, setI
         <div className="flex h-full flex-col pt-4 md:pt-6">
           {/* 헤더 영역 (로고 & 닫기 버튼) */}
           <div className="flex h-[60px] items-center justify-between px-4 md:px-6">
-            <Link href="/" onClick={() => setIsOpen(false)} className="shrink-0 pt-1 lg:hidden">
+            <Link href="/" onClick={closeMenu} className="shrink-0 pt-1 lg:hidden">
               <div className="text-left">
                 <p className="hidden text-[10px] font-semibold uppercase tracking-[0.18em] text-themeBlue/70 md:block">The Disciples Church</p>
                 <p className="whitespace-nowrap font-serif text-[24px] font-bold text-ink hover:text-themeBlue transition">The 제자교회</p>
               </div>
             </Link>
             <button
-              onClick={() => setIsOpen(false)}
-              className="inline-flex min-h-12 min-w-12 items-center justify-center rounded-xl bg-cedar/5 text-ink/70 transition hover:bg-cedar/10 hover:text-ink"
+              onClick={closeMenu}
+              onPointerUp={closeMenu}
+              className="inline-flex min-h-12 min-w-12 touch-manipulation items-center justify-center rounded-xl bg-cedar/5 text-ink/70 transition hover:bg-cedar/10 hover:text-ink"
               aria-label="메뉴 닫기"
             >
               <svg
