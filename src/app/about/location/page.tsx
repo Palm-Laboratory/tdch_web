@@ -1,18 +1,25 @@
 import type { Metadata } from "next";
 import NaverDynamicMap from "./components/naver-dynamic-map";
 import SectionHeading from "@/components/section-heading";
+import {
+  CHURCH_ADDRESS,
+  CHURCH_EMAIL,
+  CHURCH_LATITUDE,
+  CHURCH_LATITUDE_NUMBER,
+  CHURCH_LONGITUDE,
+  CHURCH_LONGITUDE_NUMBER,
+  CHURCH_PHONE,
+  KAKAO_MAP_URL,
+  NAVER_MAP_PUBLIC_CLIENT_ID,
+  NAVER_MAP_URL,
+  SITE_NAME,
+} from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "오시는 길",
-  description: "The 제자교회 오시는 길 안내입니다. 경기도 수원시 팔달구 경수대로425 지하1층(나인아트홀). 지하철, 버스 노선 및 주차 안내.",
+  description: `${SITE_NAME} 오시는 길 안내입니다. ${CHURCH_ADDRESS}. 지하철, 버스 노선 및 주차 안내.`,
 };
 
-const churchName = "The 제자교회";
-const addressFallback = "경기도 수원시 팔달구 경수대로425 지하1층(나인아트홀)";
-const latitudeFallback = "37.2642526267482";
-const longitudeFallback = "127.025125618372";
-const naverMapFallback =
-  "https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%EB%8F%84%20%EC%88%98%EC%9B%90%EC%8B%9C%20%ED%8C%94%EB%8B%AC%EA%B5%AC%20%EA%B2%BD%EC%88%98%EB%8C%80%EB%A1%9C425%20%EB%82%98%EC%9D%B8%EC%95%84%ED%8A%B8%ED%99%80/place/1394960485?c=15.00,0,0,0,dh&isCorrectAnswer=true&placePath=/home?from=map&fromPanelNum=1&additionalHeight=76&timestamp=202603132012&locale=ko&svcName=map_pcv5&searchText=%EA%B2%BD%EA%B8%B0%EB%8F%84%20%EC%88%98%EC%9B%90%EC%8B%9C%20%ED%8C%94%EB%8B%AC%EA%B5%AC%20%EA%B2%BD%EC%88%98%EB%8C%80%EB%A1%9C425%20%EB%82%98%EC%9D%B8%EC%95%84%ED%8A%B8%ED%99%80";
 const busRoutes = [
   { from: "수원역", routes: "51, 92, 92-1", stop: "권선초교 하차" },
   { from: "화서역", routes: "92", stop: "권선초교 하차" },
@@ -77,19 +84,6 @@ function InfoSection({
 }
 
 export default function LocationPage() {
-  const address = process.env.NEXT_PUBLIC_CHURCH_ADDRESS ?? addressFallback;
-  const phone = process.env.NEXT_PUBLIC_CHURCH_PHONE ?? "010-5252-8580";
-  const email = process.env.NEXT_PUBLIC_CHURCH_EMAIL ?? "timothy35@hanmail.net";
-  const naverMapUrl = process.env.NEXT_PUBLIC_NAVER_MAP_URL ?? naverMapFallback;
-  const latitude = process.env.NEXT_PUBLIC_CHURCH_LAT ?? latitudeFallback;
-  const longitude = process.env.NEXT_PUBLIC_CHURCH_LNG ?? longitudeFallback;
-  const naverMapClientId =
-    process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID ??
-    process.env.NAVER_MAP_CLIENT_ID;
-  const kakaoMapUrl =
-    process.env.NEXT_PUBLIC_KAKAO_MAP_URL ??
-    `https://map.kakao.com/link/search/${encodeURIComponent(address)}`;
-
   return (
     <div className="w-full overflow-x-hidden bg-white">
       <section id="map" className="relative overflow-hidden scroll-mt-28">
@@ -98,24 +92,24 @@ export default function LocationPage() {
           <div className="mt-10 overflow-hidden border border-cedar/12 bg-white">
             <div className="relative aspect-[16/11] w-full overflow-hidden md:aspect-[16/8] lg:aspect-[16/7]">
               <NaverDynamicMap
-                clientId={naverMapClientId}
-                latitude={Number(latitude)}
-                longitude={Number(longitude)}
-                title={churchName}
+                clientId={NAVER_MAP_PUBLIC_CLIENT_ID}
+                latitude={CHURCH_LATITUDE_NUMBER}
+                longitude={CHURCH_LONGITUDE_NUMBER}
+                title={SITE_NAME}
               />
 
               <div className="absolute inset-x-0 bottom-0 p-4 md:p-6">
                 <div className="rounded-[20px] border border-white/70 bg-white/88 px-4 py-3 text-ink shadow-[0_18px_42px_rgba(16,33,63,0.18)] backdrop-blur-md md:hidden">
                   <p className="type-body-small text-ink/72 text-center">
-                    {address}
+                    {CHURCH_ADDRESS}
                   </p>
                 </div>
                 <div className="hidden max-w-[25rem] rounded-[24px] border border-white/70 bg-white/88 px-5 py-4 text-ink shadow-[0_18px_42px_rgba(16,33,63,0.18)] backdrop-blur-md md:block md:px-6 md:py-5">
                   <h2 className="type-card-title font-serif font-bold text-ink">
-                    {churchName}
+                    {SITE_NAME}
                   </h2>
                   <p className="type-body mt-2 max-w-[32rem] text-ink/72">
-                    {address}
+                    {CHURCH_ADDRESS}
                   </p>
                 </div>
               </div>
@@ -126,8 +120,8 @@ export default function LocationPage() {
                 지도를 크게 확인하거나 길찾기를 시작하려면 아래 버튼을 사용해 주세요.
               </p>
               <div className="flex flex-wrap gap-2">
-                <MiniActionButton label="네이버 지도" href={naverMapUrl} />
-                <MiniActionButton label="카카오맵" href={kakaoMapUrl} />
+                <MiniActionButton label="네이버 지도" href={NAVER_MAP_URL} />
+                <MiniActionButton label="카카오맵" href={KAKAO_MAP_URL} />
               </div>
             </div>
           </div>
@@ -218,7 +212,7 @@ export default function LocationPage() {
                 <li className="flex items-center gap-4">
                   <span className="list-bullet list-bullet--navy shrink-0" />
                   <span>
-                    주소 : {address}
+                    주소 : {CHURCH_ADDRESS}
                   </span>
                 </li>
                 <li className="flex items-center gap-4">
@@ -226,8 +220,8 @@ export default function LocationPage() {
                   <span>
                     TEL :
                     {" "}
-                    <a href={`tel:${phone}`} className="transition hover:text-themeBlue">
-                      {phone}
+                    <a href={`tel:${CHURCH_PHONE}`} className="transition hover:text-themeBlue">
+                      {CHURCH_PHONE}
                     </a>
                   </span>
                 </li>
@@ -236,9 +230,15 @@ export default function LocationPage() {
                   <span>
                     EMAIL :
                     {" "}
-                    <a href={`mailto:${email}`} className="transition hover:text-themeBlue">
-                      {email}
+                    <a href={`mailto:${CHURCH_EMAIL}`} className="transition hover:text-themeBlue">
+                      {CHURCH_EMAIL}
                     </a>
+                  </span>
+                </li>
+                <li className="flex items-center gap-4">
+                  <span className="list-bullet list-bullet--navy shrink-0" />
+                  <span>
+                    좌표 : {CHURCH_LATITUDE}, {CHURCH_LONGITUDE}
                   </span>
                 </li>
               </ul>

@@ -3,10 +3,7 @@ import type { ReactNode } from "react";
 import type { MediaItemDto, SermonSiteKey, VideoDetailResponse } from "@/lib/media-api";
 import { formatDisplayDate } from "@/lib/media-api";
 import RelatedVideosList from "@/app/sermons/components/related-videos-list";
-
-const youtubeChannelUrl =
-  process.env.NEXT_PUBLIC_YOUTUBE_URL ??
-  "https://www.youtube.com/@%EB%8D%94%EC%A0%9C%EC%9E%90%EA%B5%90%ED%9A%8C";
+import { YOUTUBE_CHANNEL_URL } from "@/lib/site-config";
 
 interface SermonDetailPageProps {
   siteKey: SermonSiteKey;
@@ -117,7 +114,7 @@ export default function SermonDetailPage({
               목록으로 돌아가기
             </Link>
             <a
-              href={youtubeChannelUrl}
+              href={YOUTUBE_CHANNEL_URL}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center rounded-full border border-white/14 bg-white/6 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10"

@@ -1,5 +1,17 @@
 // src/components/json-ld.tsx
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/seo";
+import {
+  CHURCH_ADDRESS_LOCALITY,
+  CHURCH_ADDRESS_REGION,
+  CHURCH_ADDRESS_STREET,
+  CHURCH_COUNTRY,
+  CHURCH_EMAIL,
+  CHURCH_LATITUDE_NUMBER,
+  CHURCH_LONGITUDE_NUMBER,
+  CHURCH_PHONE,
+  CHURCH_POSTAL_CODE,
+  YOUTUBE_CHANNEL_URL,
+} from "@/lib/site-config";
 
 interface JsonLdProps {
   data: Record<string, unknown>;
@@ -24,22 +36,20 @@ export function ChurchJsonLd() {
     logo: `${SITE_URL}/images/logo/church_logo.png`,
     address: {
       "@type": "PostalAddress",
-      streetAddress: "경수대로425 지하1층(나인아트홀)",
-      addressLocality: "수원시",
-      addressRegion: "경기도",
-      postalCode: "16490",
-      addressCountry: "KR",
+      streetAddress: CHURCH_ADDRESS_STREET,
+      addressLocality: CHURCH_ADDRESS_LOCALITY,
+      addressRegion: CHURCH_ADDRESS_REGION,
+      postalCode: CHURCH_POSTAL_CODE,
+      addressCountry: CHURCH_COUNTRY,
     },
     geo: {
       "@type": "GeoCoordinates",
-      latitude: 37.2642526267482,
-      longitude: 127.025125618372,
+      latitude: CHURCH_LATITUDE_NUMBER,
+      longitude: CHURCH_LONGITUDE_NUMBER,
     },
-    telephone: "010-5252-8580",
-    email: "timothy35@hanmail.net",
-    sameAs: [
-      "https://www.youtube.com/@%EB%8D%94%EC%A0%9C%EC%9E%90%EA%B5%90%ED%9A%8C",
-    ],
+    telephone: CHURCH_PHONE,
+    email: CHURCH_EMAIL,
+    sameAs: [YOUTUBE_CHANNEL_URL],
   };
 
   return <JsonLd data={data} />;

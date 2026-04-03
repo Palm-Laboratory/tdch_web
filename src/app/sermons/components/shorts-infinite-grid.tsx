@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { PUBLIC_MEDIA_API_BASE_URL } from "@/lib/site-config";
 
 interface ShortsGridItem {
   youtubeVideoId: string;
@@ -25,10 +26,6 @@ interface MediaListResponseLite {
   totalPages: number;
   items: ShortsGridItem[];
 }
-
-const mediaApiBaseUrl =
-  process.env.NEXT_PUBLIC_MEDIA_API_BASE_URL ??
-  "http://localhost:8080";
 
 export default function ShortsInfiniteGrid({
   initialItems,
@@ -72,7 +69,7 @@ export default function ShortsInfiniteGrid({
 
       try {
         const response = await fetch(
-          `${mediaApiBaseUrl}/api/v1/media/menus/its-okay/videos?page=${nextPageRef.current}&size=${pageSize}`,
+          `${PUBLIC_MEDIA_API_BASE_URL}/api/v1/media/menus/its-okay/videos?page=${nextPageRef.current}&size=${pageSize}`,
           {
             headers: {
               Accept: "application/json",

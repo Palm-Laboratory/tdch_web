@@ -1,15 +1,23 @@
 // src/lib/seo.ts
+import {
+  SITE_DESCRIPTION as SITE_DESCRIPTION_VALUE,
+  SITE_NAME as SITE_NAME_VALUE,
+  SITE_TAGLINE as SITE_TAGLINE_VALUE,
+  SITE_URL as SITE_URL_VALUE,
+} from "@/lib/site-config";
 
-export const SITE_URL = "https://www.tdch.co.kr";
-export const SITE_NAME = "The 제자교회";
-export const SITE_DESCRIPTION = "성령으로 제자삼는 교회 — 경기도 수원시 팔달구 경수대로425 지하1층(나인아트홀)";
+export const SITE_URL = SITE_URL_VALUE;
+export const SITE_NAME = SITE_NAME_VALUE;
+export const SITE_DESCRIPTION = SITE_DESCRIPTION_VALUE;
+export const SITE_TAGLINE = SITE_TAGLINE_VALUE;
+
 export const SITE_LOCALE = "ko_KR";
 
 export const DEFAULT_OG_IMAGE = {
   url: `${SITE_URL}/images/logo/church_logo.png`,
   width: 1200,
   height: 630,
-  alt: "The 제자교회 — 성령으로 제자삼는 교회",
+  alt: `${SITE_NAME} — ${SITE_TAGLINE}`,
   type: "image/png",
 };
 

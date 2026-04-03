@@ -1,5 +1,6 @@
 import "server-only";
 import type { SermonCardData } from "@/lib/site-data";
+import { SERVER_MEDIA_API_BASE_URL } from "@/lib/server-config";
 
 export type SermonSiteKey = "messages" | "better-devotion" | "its-okay";
 
@@ -58,12 +59,6 @@ export interface VideoDetailResponse {
   tags: string[];
 }
 
-const DEFAULT_MEDIA_API_BASE_URL = "http://localhost:8080";
-const mediaApiBaseUrl =
-  process.env.MEDIA_API_BASE_URL ??
-  process.env.NEXT_PUBLIC_MEDIA_API_BASE_URL ??
-  DEFAULT_MEDIA_API_BASE_URL;
-
 export class MediaNotFoundError extends Error {
   constructor(message: string) {
     super(message);
@@ -72,7 +67,7 @@ export class MediaNotFoundError extends Error {
 }
 
 async function fetchMedia<T>(path: string): Promise<T> {
-  const response = await fetch(`${mediaApiBaseUrl}${path}`, {
+  const response = await fetch(`${SERVER_MEDIA_API_BASE_URL}${path}`, {
     headers: {
       Accept: "application/json",
     },
@@ -90,7 +85,7 @@ async function fetchMedia<T>(path: string): Promise<T> {
 }
 
 async function fetchRevalidatedMedia<T>(path: string, revalidateSeconds: number): Promise<T> {
-  const response = await fetch(`${mediaApiBaseUrl}${path}`, {
+  const response = await fetch(`${SERVER_MEDIA_API_BASE_URL}${path}`, {
     headers: {
       Accept: "application/json",
     },

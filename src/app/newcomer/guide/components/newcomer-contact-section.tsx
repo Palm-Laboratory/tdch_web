@@ -1,4 +1,10 @@
 import Link from "next/link";
+import {
+  CHURCH_EMAIL,
+  CHURCH_PHONE,
+  NEWCOMER_CONTACT_APPLY_TEXT,
+  NEWCOMER_CONTACT_DEPARTMENT,
+} from "@/lib/site-config";
 
 export default function NewcomerContactSection() {
   return (
@@ -16,10 +22,10 @@ export default function NewcomerContactSection() {
           </h2>
 
           <div className="mt-6 space-y-2 type-body leading-[1.5] tracking-[0.02em]">
-            <p><span className="font-bold text-[#c9a84c]">담당</span> <span className="ml-2 text-white">교육부</span></p>
-            <p><span className="font-bold text-[#c9a84c]">전화</span> <span className="ml-2 text-white">010-5252-8580</span></p>
-            <p><span className="font-bold text-[#c9a84c]">이메일</span> <span className="ml-2 text-white">timothy35@hanmail.net</span></p>
-            <p><span className="font-bold text-[#c9a84c]">신청</span> <span className="ml-2 text-white">홈페이지 또는 주일 안내데스크</span></p>
+            <p><span className="font-bold text-[#c9a84c]">담당</span> <span className="ml-2 text-white">{NEWCOMER_CONTACT_DEPARTMENT}</span></p>
+            <p><span className="font-bold text-[#c9a84c]">전화</span> <span className="ml-2 text-white">{CHURCH_PHONE}</span></p>
+            <p><span className="font-bold text-[#c9a84c]">이메일</span> <span className="ml-2 text-white">{CHURCH_EMAIL}</span></p>
+            <p><span className="font-bold text-[#c9a84c]">신청</span> <span className="ml-2 text-white">{NEWCOMER_CONTACT_APPLY_TEXT}</span></p>
           </div>
         </div>
 

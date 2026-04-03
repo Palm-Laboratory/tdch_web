@@ -3,16 +3,11 @@ import "server-only";
 import { fallbackNavigationResponse } from "@/lib/site-data";
 import type { NavigationResponse, NavMenuGroup } from "@/lib/navigation-types";
 import { toNavMenuGroups } from "@/lib/navigation-utils";
-
-const DEFAULT_MEDIA_API_BASE_URL = "http://localhost:8080";
-const mediaApiBaseUrl =
-  process.env.MEDIA_API_BASE_URL ??
-  process.env.NEXT_PUBLIC_MEDIA_API_BASE_URL ??
-  DEFAULT_MEDIA_API_BASE_URL;
+import { SERVER_MEDIA_API_BASE_URL } from "@/lib/server-config";
 
 export async function getNavigationResponse(): Promise<NavigationResponse> {
   try {
-    const response = await fetch(`${mediaApiBaseUrl}/api/v1/navigation`, {
+    const response = await fetch(`${SERVER_MEDIA_API_BASE_URL}/api/v1/navigation`, {
       headers: {
         Accept: "application/json",
       },

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import SectionHeading from "@/components/section-heading";
+import { GIVING_BANK, GIVING_OWNER } from "@/lib/site-config";
 import CopyAccountButton from "./components/copy-account-button";
 
 export const metadata: Metadata = {
@@ -26,11 +27,11 @@ const offeringTypeExamples = [
 function normalizeGivingAccount(raw: string, ownerFallback: string) {
   const normalized = raw.replace(/\s+/g, " ").trim();
   const accountNumberMatch = normalized.match(/\d[\d-]*/);
-  const accountNumber = accountNumberMatch?.[0] ?? "181-04-01160-381";
+  const accountNumber = accountNumberMatch?.[0] ?? "";
   const bankName = normalized
     .replace(/\s*예금주:.*$/, "")
     .replace(accountNumber, "")
-    .trim() || "하나은행";
+    .trim() || "계좌 정보 확인 필요";
 
   const ownerMatch = normalized.match(/예금주:\s*(.+)$/);
   const owner = ownerMatch?.[1]?.trim() || ownerFallback;
@@ -43,11 +44,7 @@ function normalizeGivingAccount(raw: string, ownerFallback: string) {
   };
 }
 
-const givingAccount = normalizeGivingAccount(
-  process.env.NEXT_PUBLIC_GIVING_BANK ??
-  "하나은행 181-04-01160-381 예금주:이진욱(The제자교회)",
-  process.env.NEXT_PUBLIC_GIVING_OWNER ?? "이진욱(The제자교회)"
-);
+const givingAccount = normalizeGivingAccount(GIVING_BANK, GIVING_OWNER);
 
 export default function GivingPage() {
   return (

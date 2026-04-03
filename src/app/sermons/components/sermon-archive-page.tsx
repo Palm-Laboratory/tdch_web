@@ -2,13 +2,10 @@ import SectionHeading from "@/components/section-heading";
 import SermonVideoCard from "@/app/sermons/components/sermon-video-card";
 import type { MediaItemDto, MediaListResponse, SermonSiteKey } from "@/lib/media-api";
 import { buildMediaDetailPath, buildMediaMeta } from "@/lib/media-api";
+import { YOUTUBE_CHANNEL_URL } from "@/lib/site-config";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-
-const youtubeChannelUrl =
-  process.env.NEXT_PUBLIC_YOUTUBE_URL ??
-  "https://www.youtube.com/@%EB%8D%94%EC%A0%9C%EC%9E%90%EA%B5%90%ED%9A%8C";
 
 interface SermonArchivePageProps {
   title: string;
@@ -137,7 +134,7 @@ export default function SermonArchivePage({
                   />
                 </div>
                 <a
-                  href={youtubeChannelUrl}
+                  href={YOUTUBE_CHANNEL_URL}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex self-end items-center gap-2 whitespace-nowrap text-[1.1rem] font-medium tracking-[-0.01em] text-ink transition hover:text-cedar"
