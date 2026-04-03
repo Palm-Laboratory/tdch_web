@@ -6,7 +6,7 @@ export const SITE_DESCRIPTION = "성령으로 제자삼는 교회 — 경기도 
 export const SITE_LOCALE = "ko_KR";
 
 export const DEFAULT_OG_IMAGE = {
-  url: `${SITE_URL}/og-image.png`,
+  url: `${SITE_URL}/images/logo/church_logo.png`,
   width: 1200,
   height: 630,
   alt: "The 제자교회 — 성령으로 제자삼는 교회",
