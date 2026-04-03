@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -13,6 +14,11 @@ import {
 import { getHomeMedia, toHomeSermonCards } from "@/lib/media-api";
 
 const gowunBatang = Gowun_Batang({ subsets: ["latin"], weight: ["400", "700"] });
+
+export const metadata: Metadata = {
+  title: "The 제자교회 — 성령으로 제자삼는 교회",
+  description: "성령으로 제자삼는 교회, The 제자교회입니다. 경기도 수원시 팔달구 경수대로425 지하1층(나인아트홀)에서 예배합니다.",
+};
 
 function SermonSectionContent({
   sermonCards,

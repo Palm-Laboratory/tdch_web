@@ -3,7 +3,7 @@ import ShortsArchivePage from "@/app/sermons/components/shorts-archive-page";
 import { getMediaList } from "@/lib/media-api";
 
 export const metadata: Metadata = {
-  title: "그래도 괜찮아 | The 제자교회",
+  title: "그래도 괜찮아",
   description: "The 제자교회 그래도 괜찮아 콘텐츠를 확인하실 수 있습니다.",
 };
 

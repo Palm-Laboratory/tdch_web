@@ -11,7 +11,7 @@ interface MessagesPageProps {
 }
 
 export const metadata: Metadata = {
-  title: "말씀 / 설교 | The 제자교회",
+  title: "말씀 / 설교",
   description: "The 제자교회 말씀과 설교 영상을 확인하실 수 있습니다.",
 };
 

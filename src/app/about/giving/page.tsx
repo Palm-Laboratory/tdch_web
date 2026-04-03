@@ -3,7 +3,7 @@ import SectionHeading from "@/components/section-heading";
 import CopyAccountButton from "./components/copy-account-button";
 
 export const metadata: Metadata = {
-  title: "헌금안내 | The 제자교회",
+  title: "헌금안내",
   description: "온라인 헌금 방법, 입금자명 작성 예시, 온라인 계좌 안내를 확인하실 수 있습니다.",
 };
 

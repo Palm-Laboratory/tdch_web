@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import SectionHeading from "@/components/section-heading";
 
 export const metadata: Metadata = {
-  title: "교회 연혁 | The 제자교회",
+  title: "교회 연혁",
   description:
     "The 제자교회의 교회 연혁을 확인하세요. 2026년 1월 개척을 시작으로 함께 써 내려갈 이야기.",
 };

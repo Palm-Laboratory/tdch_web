@@ -100,7 +100,7 @@ const timeOptions = [
 ] as const;
 
 export const metadata: Metadata = {
-  title: "새가족 양육 | The 제자교회",
+  title: "새가족 양육",
   description: "The 제자교회 새가족 양육 5주 과정과 침례 안내 페이지입니다.",
 };
 

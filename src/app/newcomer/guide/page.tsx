@@ -78,7 +78,7 @@ const newcomerFaqItems = [
 ] as const;
 
 export const metadata: Metadata = {
-  title: "새가족 안내 | The 제자교회",
+  title: "새가족 안내",
   description: "The 제자교회 새가족 안내와 제자 양육 비전을 소개합니다.",
 };
 

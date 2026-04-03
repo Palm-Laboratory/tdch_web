@@ -6,7 +6,7 @@ import ServiceNotice from "./components/service-notice";
 import ServiceTimesTable from "./components/service-times-table";
 
 export const metadata: Metadata = {
-  title: "예배 시간 안내 | The 제자교회",
+  title: "예배 시간 안내",
   description:
     "The 제자교회 주일예배, 수요예배, 새벽기도회, 금요기도회 등 예배 시간 안내 및 특별 예배 일정을 확인하세요.",
 };

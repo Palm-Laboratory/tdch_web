@@ -216,7 +216,7 @@ const applicationStages = [
 ] as const;
 
 export const metadata: Metadata = {
-  title: "제자 훈련 | The 제자교회",
+  title: "제자 훈련",
   description: "The 제자교회 제자훈련 3단계 로드맵, 교육 과정, 재생산 시스템과 신청 안내 페이지입니다.",
 };
 

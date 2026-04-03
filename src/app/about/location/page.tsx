@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import NaverDynamicMap from "./components/naver-dynamic-map";
 import SectionHeading from "@/components/section-heading";
+
+export const metadata: Metadata = {
+  title: "오시는 길",
+  description: "The 제자교회 오시는 길 안내입니다. 경기도 수원시 팔달구 경수대로425 지하1층(나인아트홀). 지하철, 버스 노선 및 주차 안내.",
+};
 
 const churchName = "The 제자교회";
 const addressFallback = "경기도 수원시 팔달구 경수대로425 지하1층(나인아트홀)";

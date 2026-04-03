@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { DM_Serif_Display, Gowun_Batang } from "next/font/google";
 import Reveal from "./components/reveal";
+
+export const metadata: Metadata = {
+  title: "담임목사 소개",
+  description: "The 제자교회 이진욱(Timothy Lee) 담임목사를 소개합니다. 17년간의 필리핀 선교 사역과 교육 과정, 사역 이력을 확인하세요.",
+};
 
 const gowunBatang = Gowun_Batang({
   subsets: ["latin"],

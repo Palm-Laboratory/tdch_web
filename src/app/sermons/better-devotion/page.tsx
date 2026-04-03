@@ -11,7 +11,7 @@ interface BetterDevotionPageProps {
 }
 
 export const metadata: Metadata = {
-  title: "더 좋은 묵상 | The 제자교회",
+  title: "더 좋은 묵상",
   description: "The 제자교회 더 좋은 묵상 콘텐츠를 확인하실 수 있습니다.",
 };
 
