@@ -35,10 +35,10 @@ npm run dev
 - `/news`, `/contact` 라우트는 현재 구현되어 있지 않습니다.
 - `/about`, `/sermons` 기본 진입 경로는 메뉴 데이터의 `defaultLandingHref` 기준으로 결정됩니다.
 
-## 단계 3) 배포 구성 (Vercel + Railway)
+## 단계 3) 배포 구성 (Vercel + Oracle VM)
 
 - 프론트엔드: Vercel
-- 백엔드 API / DB: Railway
+- 백엔드 API / DB: Oracle VM
 - GitHub Actions: PR/메인 브랜치에서 lint + build 검증
 - 프론트 배포: `main` 브랜치 푸시 후 Vercel이 자동 배포
 
@@ -46,7 +46,7 @@ npm run dev
 
 - 로컬 개발: `.env.local`
 - 프론트 운영: Vercel Project Settings > Environment Variables
-- 백엔드 운영: Railway service variables
+- 백엔드 운영: Oracle VM `/opt/tdch/.env`
 
 ## 단계 4) 운영 데이터 수정 위치
 
