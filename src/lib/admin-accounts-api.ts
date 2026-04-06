@@ -36,6 +36,7 @@ export interface CreateAdminAccountPayload {
 }
 
 export interface UpdateAdminAccountPayload {
+  username: string;
   displayName: string;
   role: AdminAccountRole;
   active: boolean;
@@ -73,6 +74,13 @@ export async function authenticateAdminCredentials(
     throw new AdminApiError(response.status, errorCode, errorMessage);
   }
 
+  return response.json() as Promise<AuthenticatedAdminAccount>;
+}
+
+export async function getCurrentAdminAccount(actorId: string): Promise<AuthenticatedAdminAccount> {
+  const response = await adminApiFetch("/api/v1/admin/auth/me", {
+    headers: { "X-Admin-Actor-Id": actorId },
+  });
   return response.json() as Promise<AuthenticatedAdminAccount>;
 }
 
@@ -155,6 +163,10 @@ export function toFriendlyAdminAccountMessage(error: unknown, fallback: string):
 
   if (message.includes("8자 이상")) {
     return "비밀번호는 8자 이상으로 입력해 주세요.";
+  }
+
+  if (message.includes("아이디, 이름, 비밀번호만 변경")) {
+    return "본인 계정에서는 아이디, 이름, 비밀번호만 변경할 수 있습니다.";
   }
 
   if (message.includes("자기 자신") || message.includes("본인")) {

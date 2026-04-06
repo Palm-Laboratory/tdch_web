@@ -124,6 +124,7 @@ export default async function AdminAccountDetailPage({ params }: AdminAccountDet
       <AdminAccountForm
         mode="edit"
         item={account}
+        isSelf={isSelf}
         createAction={createAdminAccountAction}
         updateAction={boundUpdateAction}
         deleteAction={isSelf ? undefined : boundDeleteAction}

@@ -72,12 +72,15 @@ export async function updateAdminAccountAction(
   const { actorId, session } = await requireSuperAdmin();
   if (!session) return buildMessageState("슈퍼 관리자만 계정을 수정할 수 있습니다.");
 
+  const username = String(formData.get("username") ?? "").trim().toLowerCase();
   const displayName = String(formData.get("displayName") ?? "").trim();
   const role = String(formData.get("role") ?? "") as AdminAccountRole;
   const active = formData.get("active") === "true";
   const password = String(formData.get("password") ?? "").trim() || null;
 
   const errors: AdminAccountFormState["errors"] = {};
+  if (!username) errors.username = "아이디를 입력해 주세요.";
+  else if (!/^[a-z0-9_-]+$/.test(username)) errors.username = "영소문자, 숫자, -, _ 만 사용 가능합니다.";
   if (!displayName) errors.displayName = "이름을 입력해 주세요.";
   if (role !== "SUPER_ADMIN" && role !== "ADMIN") errors.role = "올바른 권한을 선택해 주세요.";
   if (password !== null && password.length < 8) errors.password = "비밀번호는 8자 이상이어야 합니다.";
@@ -85,7 +88,7 @@ export async function updateAdminAccountAction(
   if (Object.keys(errors).length > 0) return { errors };
 
   try {
-    await updateAdminAccount(actorId, id, { displayName, role, active, password });
+    await updateAdminAccount(actorId, id, { username, displayName, role, active, password });
   } catch (error) {
     return buildMessageState(
       toFriendlyAdminAccountMessage(error, "계정을 저장하지 못했습니다. 입력한 내용을 확인한 뒤 다시 시도해 주세요."),
@@ -109,5 +112,4 @@ export async function deleteAdminAccountAction(id: number): Promise<void> {
   }
 
   revalidatePath("/admin/accounts");
-  redirect("/admin/accounts");
 }
