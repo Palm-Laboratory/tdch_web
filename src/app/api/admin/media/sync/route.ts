@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAdminSession } from "@/auth";
+import { getAdminSession, isAdminSession } from "@/auth";
 import {
   AdminApiError,
   type AdminMediaSyncResponse,
@@ -9,7 +9,7 @@ import {
 export async function POST() {
   const session = await getAdminSession();
 
-  if (!session?.user?.email || session.user.role !== "admin") {
+  if (!isAdminSession(session)) {
     return NextResponse.json(
       {
         code: "UNAUTHORIZED",

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { getAdminSession } from "@/auth";
+import { getAdminSession, isAdminSession } from "@/auth";
+import CredentialsLoginForm from "./credentials-login-form";
 import KakaoLoginButton from "./kakao-login-button";
 
 export const metadata: Metadata = {
@@ -12,6 +13,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   email_required: "카카오 계정에 이메일 정보가 없습니다. 카카오 계정 설정에서 이메일을 확인해 주세요.",
   unauthorized: "접근이 허용되지 않은 계정입니다. 관리자에게 문의해 주세요.",
   oauth_failed: "카카오 로그인 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.",
+  CredentialsSignin: "아이디 또는 비밀번호를 다시 확인해 주세요.",
   AccessDenied: "관리자 권한이 확인되지 않았습니다.",
   Callback: "로그인 콜백 처리 중 오류가 발생했습니다.",
   OAuthAccountNotLinked: "이미 다른 방식으로 연결된 계정입니다.",
@@ -26,7 +28,7 @@ interface LoginPageProps {
 export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
   const session = await getAdminSession();
 
-  if (session?.user?.email) {
+  if (isAdminSession(session)) {
     redirect("/admin");
   }
 
@@ -71,7 +73,14 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
             </div>
           )}
 
-          {/* 카카오 로그인 버튼 */}
+          <CredentialsLoginForm callbackUrl={safeCallbackUrl} />
+
+          <div className="my-6 flex items-center gap-3">
+            <div className="h-px flex-1 bg-white/[0.06]" />
+            <span className="text-[11px] uppercase tracking-[0.18em] text-white/25">or</span>
+            <div className="h-px flex-1 bg-white/[0.06]" />
+          </div>
+
           <KakaoLoginButton callbackUrl={safeCallbackUrl} />
 
           {/* 구분선 */}

@@ -51,6 +51,8 @@ export default async function BetterDevotionPage({ searchParams }: BetterDevotio
         showIntroCard={false}
         showLatestEmbed
         latestEmbedItem={latestResponse?.items[0] ?? null}
+        latestEmbedTitle="최신 영상"
+        latestEmbedSubtitle="LATEST VIDEO"
         showPlaylistRows
         playlistTitle="묵상 목록"
         playlistSubtitle="PLAYLIST"

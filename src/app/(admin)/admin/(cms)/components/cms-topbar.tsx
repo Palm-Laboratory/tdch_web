@@ -6,8 +6,12 @@ interface CmsTopbarProps {
 }
 
 export default function CmsTopbar({ session }: CmsTopbarProps) {
-  const displayName = session.user?.name?.trim() || session.user?.email || "관리자";
-  const email = session.user?.email ?? "";
+  const displayName =
+    session.user?.name?.trim() ||
+    session.user?.username ||
+    session.user?.email ||
+    "관리자";
+  const accountId = session.user?.email || session.user?.username || "";
   const initials = displayName.slice(0, 1).toUpperCase();
 
   return (
@@ -23,13 +27,16 @@ export default function CmsTopbar({ session }: CmsTopbarProps) {
           </div>
           <div className="hidden sm:block">
             <p className="text-[13px] font-semibold leading-none text-white">{displayName}</p>
-            <p className="mt-0.5 text-[11px] leading-none text-white/40">{email}</p>
+            <p className="mt-0.5 text-[11px] leading-none text-white/40">
+              {accountId}
+              {session.user?.accountRole === "SUPER_ADMIN" ? " · 슈퍼 관리자" : " · 관리자"}
+            </p>
           </div>
         </div>
 
         <div className="h-4 w-px bg-white/10" />
 
-        <SignOutButton />
+        <SignOutButton authProvider={session.user.authProvider} />
       </div>
     </header>
   );

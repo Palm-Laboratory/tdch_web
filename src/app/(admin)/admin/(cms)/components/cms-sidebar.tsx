@@ -74,24 +74,38 @@ const NAV_GROUPS = [
           </svg>
         ),
       },
-      {
-        href: "/admin/settings",
-        label: "시스템 설정",
-        exact: false,
-        icon: (
-          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
-            <circle cx="8.5" cy="8.5" r="2" stroke="currentColor" strokeWidth="1.5"/>
-            <path d="M8.5 1.5v1.3M8.5 14.2v1.3M1.5 8.5h1.3M14.2 8.5h1.3M3.55 3.55l.92.92M12.53 12.53l.92.92M3.55 13.45l.92-.92M12.53 4.47l.92-.92" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-          </svg>
-        ),
-      },
     ],
   },
 ];
 
-export default function CmsSidebar() {
+interface CmsSidebarProps {
+  canManageAccounts: boolean;
+}
+
+export default function CmsSidebar({ canManageAccounts }: CmsSidebarProps) {
   const pathname = usePathname();
   const currentPath = pathname ?? "";
+  const navGroups = NAV_GROUPS.map((group) =>
+    group.label === "운영" && canManageAccounts
+      ? {
+          ...group,
+          items: [
+            ...group.items,
+            {
+              href: "/admin/accounts",
+              label: "관리자 계정",
+              exact: false,
+              icon: (
+                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+                  <path d="M8.5 9.2a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2Z" stroke="currentColor" strokeWidth="1.5"/>
+                  <path d="M3 14.3c.9-2 3.1-3.3 5.5-3.3s4.6 1.3 5.5 3.3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+              ),
+            },
+          ],
+        }
+      : group
+  );
 
   const isActive = (href: string, exact: boolean) =>
     exact ? currentPath === href : currentPath.startsWith(href);
@@ -113,7 +127,7 @@ export default function CmsSidebar() {
 
       {/* 네비게이션 */}
       <nav className="flex-1 overflow-y-auto px-3 py-4">
-        {NAV_GROUPS.map((group) => (
+        {navGroups.map((group) => (
           <div key={group.label ?? "__root"} className="mb-5">
             {group.label && (
               <p className="mb-1.5 px-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-white/25">
