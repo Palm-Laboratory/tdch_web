@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import type { MediaItemDto, SermonSiteKey, VideoDetailResponse } from "@/lib/media-api";
 import { formatDisplayDate } from "@/lib/media-api";
-import RelatedVideosList from "@/app/sermons/components/related-videos-list";
+import RelatedVideosList from "@/app/(site)/sermons/components/related-videos-list";
 
 const youtubeChannelUrl =
   process.env.NEXT_PUBLIC_YOUTUBE_URL ??

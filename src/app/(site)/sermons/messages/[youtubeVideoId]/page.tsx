@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import SermonDetailPage from "@/app/sermons/components/sermon-detail-page";
+import SermonDetailPage from "@/app/(site)/sermons/components/sermon-detail-page";
 import { getMediaDetail, getMediaList, MediaNotFoundError } from "@/lib/media-api";
 import { SITE_URL, SITE_NAME, SITE_LOCALE } from "@/lib/seo";
 

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { MediaItemDto, VideoDetailResponse } from "@/lib/media-api";
-import ShortsDetailViewer from "@/app/sermons/components/shorts-detail-viewer";
+import ShortsDetailViewer from "@/app/(site)/sermons/components/shorts-detail-viewer";
 
 interface ShortsDetailPageProps {
   detail: VideoDetailResponse | null;

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import SermonArchivePage from "@/app/sermons/components/sermon-archive-page";
+import SermonArchivePage from "@/app/(site)/sermons/components/sermon-archive-page";
 import { getMediaList } from "@/lib/media-api";
 
 const PAGE_SIZE = 6;

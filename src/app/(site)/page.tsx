@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { Gowun_Batang } from "next/font/google";
 import AnimatedCards from "@/app/home/components/animated-cards";
 import MissionSection from "@/app/home/components/mission-section";
-import SermonVideoCard from "@/app/sermons/components/sermon-video-card";
+import SermonVideoCard from "@/app/(site)/sermons/components/sermon-video-card";
 
 import {
   quickMenuCards,

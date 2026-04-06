@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import SermonDetailPage from "@/app/sermons/components/sermon-detail-page";
+import ShortsDetailPage from "@/app/(site)/sermons/components/shorts-detail-page";
 import { getMediaDetail, getMediaList, MediaNotFoundError } from "@/lib/media-api";
 import { SITE_URL, SITE_NAME, SITE_LOCALE } from "@/lib/seo";
 
-interface BetterDevotionDetailPageProps {
+interface ItsOkayDetailPageProps {
   params: Promise<{
     youtubeVideoId: string;
   }>;
@@ -12,15 +12,15 @@ interface BetterDevotionDetailPageProps {
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata({ params }: BetterDevotionDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: ItsOkayDetailPageProps): Promise<Metadata> {
   const { youtubeVideoId } = await params;
 
   try {
     const detail = await getMediaDetail(youtubeVideoId);
-    const title = detail?.displayTitle || detail?.title || "더 좋은 묵상";
-    const description = [detail?.scripture, detail?.preacher, detail?.publishedAt?.slice(0, 10)]
+    const title = detail?.displayTitle || detail?.title || "그래도 괜찮아";
+    const description = [detail?.preacher, detail?.publishedAt?.slice(0, 10)]
       .filter(Boolean)
-      .join(" — ") || "The 제자교회 더 좋은 묵상 페이지입니다.";
+      .join(" — ") || "The 제자교회 그래도 괜찮아 페이지입니다.";
     const ogImage = detail?.thumbnailUrl
       ? { url: detail.thumbnailUrl, width: 1280, height: 720, alt: title }
       : undefined;
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: BetterDevotionDetailPageProps
       openGraph: {
         title: `${title} | ${SITE_NAME}`,
         description,
-        url: `${SITE_URL}/sermons/better-devotion/${youtubeVideoId}`,
+        url: `${SITE_URL}/sermons/its-okay/${youtubeVideoId}`,
         siteName: SITE_NAME,
         locale: SITE_LOCALE,
         type: "article",
@@ -46,15 +46,13 @@ export async function generateMetadata({ params }: BetterDevotionDetailPageProps
     };
   } catch {
     return {
-      title: "더 좋은 묵상",
-      description: "The 제자교회 더 좋은 묵상 페이지입니다.",
+      title: "그래도 괜찮아",
+      description: "The 제자교회 그래도 괜찮아 페이지입니다.",
     };
   }
 }
 
-export default async function BetterDevotionDetailPage({
-  params,
-}: BetterDevotionDetailPageProps) {
+export default async function ItsOkayDetailPage({ params }: ItsOkayDetailPageProps) {
   const { youtubeVideoId } = await params;
   let detail;
 
@@ -69,18 +67,14 @@ export default async function BetterDevotionDetailPage({
     throw error;
   }
 
-  const response = await getMediaList("better-devotion", 0, 10);
-  const relatedItems = (response?.items ?? [])
-    .filter((item) => item.youtubeVideoId !== youtubeVideoId)
-    .slice(0, 8);
+  const response = await getMediaList("its-okay", 0, 100);
+  const items = response?.items ?? [];
 
   return (
-    <SermonDetailPage
-      siteKey="better-devotion"
-      sectionTitle="더 좋은 묵상"
-      listHref="/sermons/better-devotion"
+    <ShortsDetailPage
+      listHref="/sermons/its-okay"
       detail={detail}
-      relatedItems={relatedItems}
+      playlistItems={items}
     />
   );
 }

@@ -1,5 +1,5 @@
 import type { MediaListResponse } from "@/lib/media-api";
-import ShortsInfiniteGrid from "@/app/sermons/components/shorts-infinite-grid";
+import ShortsInfiniteGrid from "@/app/(site)/sermons/components/shorts-infinite-grid";
 
 interface ShortsArchivePageProps {
   response: MediaListResponse | null;

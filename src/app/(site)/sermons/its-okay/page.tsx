@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ShortsArchivePage from "@/app/sermons/components/shorts-archive-page";
+import ShortsArchivePage from "@/app/(site)/sermons/components/shorts-archive-page";
 import { getMediaList } from "@/lib/media-api";
 
 export const metadata: Metadata = {
