@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { getAdminSession } from "@/auth";
 import KakaoLoginButton from "./kakao-login-button";
 
 export const metadata: Metadata = {
@@ -10,15 +12,34 @@ const ERROR_MESSAGES: Record<string, string> = {
   email_required: "카카오 계정에 이메일 정보가 없습니다. 카카오 계정 설정에서 이메일을 확인해 주세요.",
   unauthorized: "접근이 허용되지 않은 계정입니다. 관리자에게 문의해 주세요.",
   oauth_failed: "카카오 로그인 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.",
+  AccessDenied: "관리자 권한이 확인되지 않았습니다.",
+  Callback: "로그인 콜백 처리 중 오류가 발생했습니다.",
+  OAuthAccountNotLinked: "이미 다른 방식으로 연결된 계정입니다.",
+  OAuthCallback: "카카오 인증 응답을 처리하지 못했습니다.",
+  OAuthSignin: "카카오 로그인 시작 중 오류가 발생했습니다.",
 };
 
 interface LoginPageProps {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ callbackUrl?: string | string[]; error?: string | string[] }>;
 }
 
 export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
-  const { error } = await searchParams;
-  const errorMessage = error ? (ERROR_MESSAGES[error] ?? "로그인 중 오류가 발생했습니다.") : null;
+  const session = await getAdminSession();
+
+  if (session?.user?.email) {
+    redirect("/admin");
+  }
+
+  const { error, callbackUrl } = await searchParams;
+  const resolvedError = Array.isArray(error) ? error[0] : error;
+  const resolvedCallbackUrl = Array.isArray(callbackUrl) ? callbackUrl[0] : callbackUrl;
+  const safeCallbackUrl =
+    resolvedCallbackUrl && resolvedCallbackUrl.startsWith("/") && !resolvedCallbackUrl.startsWith("//")
+      ? resolvedCallbackUrl
+      : "/admin";
+  const errorMessage = resolvedError
+    ? (ERROR_MESSAGES[resolvedError] ?? "로그인 중 오류가 발생했습니다.")
+    : null;
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-4">
@@ -51,7 +72,7 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
           )}
 
           {/* 카카오 로그인 버튼 */}
-          <KakaoLoginButton />
+          <KakaoLoginButton callbackUrl={safeCallbackUrl} />
 
           {/* 구분선 */}
           <div className="mt-8 border-t border-white/[0.06]" />
@@ -60,6 +81,10 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
             이 페이지는 검색엔진에 노출되지 않습니다.
             <br />
             관리자 외 접근이 확인된 경우 즉시 차단됩니다.
+          </p>
+
+          <p className="mt-4 text-center text-[11px] text-white/25">
+            로그인 후 이동 경로: {safeCallbackUrl}
           </p>
         </div>
 

@@ -1,39 +1,55 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { signIn } from "next-auth/react";
 
-// TODO: next-auth 설치 후 아래 주석 해제하고 onClick 핸들러 교체
-// import { signIn } from "next-auth/react";
+interface KakaoLoginButtonProps {
+  callbackUrl: string;
+}
 
-export default function KakaoLoginButton() {
-  const [loading, setLoading] = useState(false);
+export default function KakaoLoginButton({ callbackUrl }: KakaoLoginButtonProps) {
+  const [hasStarted, setHasStarted] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const [fallbackError, setFallbackError] = useState<string | null>(null);
+  const loading = hasStarted || isPending;
 
   const handleLogin = async () => {
-    setLoading(true);
-    // TODO: next-auth 설치 후 아래 코드로 교체
-    // await signIn("kakao", { callbackUrl: "/admin" });
-    alert("next-auth 설치 후 연결됩니다.");
-    setLoading(false);
+    setFallbackError(null);
+    setHasStarted(true);
+
+    startTransition(() => {
+      void signIn("kakao", { callbackUrl }).catch(() => {
+        setHasStarted(false);
+        setFallbackError("카카오 로그인 시작 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+      });
+    });
   };
 
   return (
-    <button
-      onClick={handleLogin}
-      disabled={loading}
-      className="flex w-full items-center justify-center gap-3 rounded-xl bg-[#FEE500] px-5 py-3.5 text-sm font-semibold text-[#191919] transition-all duration-150 hover:bg-[#f5dc00] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
-    >
-      {loading ? (
-        <>
-          <LoadingSpinner />
-          <span>로그인 중...</span>
-        </>
-      ) : (
-        <>
-          <KakaoIcon />
-          <span>카카오로 로그인</span>
-        </>
-      )}
-    </button>
+    <div className="space-y-3">
+      <button
+        type="button"
+        onClick={handleLogin}
+        disabled={loading}
+        className="flex w-full items-center justify-center gap-3 rounded-xl bg-[#FEE500] px-5 py-3.5 text-sm font-semibold text-[#191919] transition-all duration-150 hover:bg-[#f5dc00] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {loading ? (
+          <>
+            <LoadingSpinner />
+            <span>카카오로 이동 중...</span>
+          </>
+        ) : (
+          <>
+            <KakaoIcon />
+            <span>카카오로 로그인</span>
+          </>
+        )}
+      </button>
+
+      {fallbackError ? (
+        <p className="text-center text-xs leading-5 text-red-300">{fallbackError}</p>
+      ) : null}
+    </div>
   );
 }
 

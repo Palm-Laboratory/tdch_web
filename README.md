@@ -48,6 +48,34 @@ npm run dev
 - 프론트 운영: Vercel Project Settings > Environment Variables
 - 백엔드 운영: Oracle VM `/opt/tdch/.env`
 
+## 관리자 카카오 로그인 설정
+
+관리자 로그인(`/admin/login`)이 실제로 동작하려면 `.env.local`의 placeholder 값을 실제 값으로 바꿔야 합니다.
+
+필수 값:
+
+- `AUTH_SECRET`: Auth.js 세션 서명 키
+- `KAKAO_CLIENT_ID`: 카카오 Developers REST API 키
+- `KAKAO_CLIENT_SECRET`: 카카오 Developers Client Secret
+- `ADMIN_ALLOWED_EMAILS`: 로그인 허용 이메일 목록. 쉼표로 구분
+- `ADMIN_SESSION_MAX_AGE_SECONDS`: 관리자 세션 유지 시간. 기본값 `28800`(8시간)
+
+로컬 Redirect URI:
+
+- `http://localhost:3000/api/auth/callback/kakao`
+
+운영 Redirect URI 예시:
+
+- `https://<your-domain>/api/auth/callback/kakao`
+
+확인 순서:
+
+1. `cp .env.example .env.local`
+2. `.env.local`의 관리자 로그인 관련 값을 실제 값으로 교체
+3. 카카오 Developers 콘솔에 Redirect URI 등록
+4. 카카오 계정 이메일을 `ADMIN_ALLOWED_EMAILS`에 추가
+5. `npm run dev` 후 `/admin/login`에서 로그인 확인
+
 ## 단계 4) 운영 데이터 수정 위치
 
 - 연락처/계좌/링크: `.env.local` (로컬) / Vercel Environment Variables (운영)
