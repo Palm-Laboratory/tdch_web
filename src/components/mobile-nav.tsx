@@ -117,6 +117,7 @@ export default function MobileNav({ isOpen, setIsOpen }: { isOpen: boolean, setI
                   <div className="mb-5 md:mb-6 md:border-b md:border-cedar/10 md:pb-4">
                     <Link
                       href={menuHref}
+                      onClick={closeMenu}
                       className="text-3xl md:text-xl md:font-bold font-black tracking-tight text-ink/90 transition hover:text-themeBlue"
                     >
                       {menu.label}
@@ -129,6 +130,7 @@ export default function MobileNav({ isOpen, setIsOpen }: { isOpen: boolean, setI
                       <li key={item.key}>
                         <Link
                           href={item.href}
+                          onClick={closeMenu}
                           className="block text-xl font-semibold text-ink/65 transition hover:text-themeBlue hover:translate-x-1 duration-200"
                         >
                           {item.label}
