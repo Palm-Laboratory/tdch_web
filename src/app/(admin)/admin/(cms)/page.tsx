@@ -172,23 +172,6 @@ export default async function AdminDashboardPage() {
           {/* YouTube 동기화 */}
           <YoutubeSyncCard />
 
-          {/* 시스템 정보 */}
-          <div className="rounded-2xl border border-white/[0.07] bg-white/[0.04] px-5 py-5">
-            <h3 className="text-[13px] font-semibold text-white/60">시스템</h3>
-            <div className="mt-4 space-y-3">
-              {[
-                { label: "프론트엔드", value: "Next.js 15" },
-                { label: "백엔드", value: "Spring Boot 3" },
-                { label: "인증", value: "Auth.js v4" },
-                { label: "배포", value: "Vercel + Railway" },
-              ].map((row) => (
-                <div key={row.label} className="flex items-center justify-between">
-                  <span className="text-[12px] text-white/35">{row.label}</span>
-                  <span className="text-[12px] font-medium text-white/70">{row.value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </div>

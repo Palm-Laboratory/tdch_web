@@ -91,9 +91,10 @@ const NAV_GROUPS = [
 
 export default function CmsSidebar() {
   const pathname = usePathname();
+  const currentPath = pathname ?? "";
 
   const isActive = (href: string, exact: boolean) =>
-    exact ? pathname === href : pathname.startsWith(href);
+    exact ? currentPath === href : currentPath.startsWith(href);
 
   return (
     <aside className="flex h-screen w-[220px] shrink-0 flex-col border-r border-white/[0.06] bg-[#080f1a]">

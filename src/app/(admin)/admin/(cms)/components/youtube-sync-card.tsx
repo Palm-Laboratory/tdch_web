@@ -23,21 +23,25 @@ export default function YoutubeSyncCard() {
     setErrorMessage(null);
 
     try {
-      // TODO: Route Handler(/api/admin/media/sync) 구현 후 연결
-      // const res = await fetch("/api/admin/media/sync", { method: "POST" });
-      // if (!res.ok) throw new Error(await res.text());
-      // const data: SyncResult = await res.json();
-      // setResult(data);
-
-      // 구현 전 임시 딜레이
-      await new Promise((r) => setTimeout(r, 1500));
-      setResult({
-        status: "ok",
-        totalPlaylists: 3,
-        succeededPlaylists: 3,
-        failedPlaylists: 0,
-        completedAt: new Date().toISOString(),
+      const response = await fetch("/api/admin/media/sync", {
+        method: "POST",
       });
+      const data = (await response.json()) as
+        | SyncResult
+        | {
+            code?: string;
+            message?: string;
+          };
+
+      if (!response.ok) {
+        const message =
+          "message" in data && typeof data.message === "string"
+            ? data.message
+            : "동기화 중 오류가 발생했습니다.";
+        throw new Error(message);
+      }
+
+      setResult(data as SyncResult);
       setStatus("success");
     } catch (err) {
       setErrorMessage(err instanceof Error ? err.message : "동기화 중 오류가 발생했습니다.");
@@ -62,7 +66,7 @@ export default function YoutubeSyncCard() {
           <p className="mt-2 text-xs leading-5 text-white/40">
             YouTube 플레이리스트를 수동으로 동기화합니다.
             <br />
-            자동 동기화는 30분마다 실행됩니다.
+            브라우저는 관리자 세션만 보내고, 서버가 안전하게 관리자 API를 호출합니다.
           </p>
         </div>
 
