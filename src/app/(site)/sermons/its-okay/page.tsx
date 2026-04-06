@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import ShortsArchivePage from "@/app/(site)/sermons/components/shorts-archive-page";
 import { getMediaList } from "@/lib/media-api";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "그래도 괜찮아",
   description: "The 제자교회 그래도 괜찮아 콘텐츠를 확인하실 수 있습니다.",
-};
+  path: "/sermons/its-okay",
+});
 
 export const dynamic = "force-dynamic";
 

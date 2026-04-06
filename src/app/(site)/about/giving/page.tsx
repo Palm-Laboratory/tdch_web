@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import SectionHeading from "@/components/section-heading";
+import { createPageMetadata } from "@/lib/seo";
+import { GIVING_BANK, GIVING_OWNER } from "@/lib/site-config";
 import CopyAccountButton from "./components/copy-account-button";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "헌금안내",
   description: "온라인 헌금 방법, 입금자명 작성 예시, 온라인 계좌 안내를 확인하실 수 있습니다.",
-};
+  path: "/about/giving",
+});
 
 const senderNameExamples = {
   description: "예) 홍길동 성도가 헌금을 하는 경우",
@@ -26,11 +29,11 @@ const offeringTypeExamples = [
 function normalizeGivingAccount(raw: string, ownerFallback: string) {
   const normalized = raw.replace(/\s+/g, " ").trim();
   const accountNumberMatch = normalized.match(/\d[\d-]*/);
-  const accountNumber = accountNumberMatch?.[0] ?? "181-04-01160-381";
+  const accountNumber = accountNumberMatch?.[0] ?? "";
   const bankName = normalized
     .replace(/\s*예금주:.*$/, "")
     .replace(accountNumber, "")
-    .trim() || "하나은행";
+    .trim() || "계좌 정보 확인 필요";
 
   const ownerMatch = normalized.match(/예금주:\s*(.+)$/);
   const owner = ownerMatch?.[1]?.trim() || ownerFallback;
@@ -43,11 +46,7 @@ function normalizeGivingAccount(raw: string, ownerFallback: string) {
   };
 }
 
-const givingAccount = normalizeGivingAccount(
-  process.env.NEXT_PUBLIC_GIVING_BANK ??
-  "하나은행 181-04-01160-381 예금주:이진욱(The제자교회)",
-  process.env.NEXT_PUBLIC_GIVING_OWNER ?? "이진욱(The제자교회)"
-);
+const givingAccount = normalizeGivingAccount(GIVING_BANK, GIVING_OWNER);
 
 export default function GivingPage() {
   return (

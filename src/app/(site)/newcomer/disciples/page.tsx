@@ -6,6 +6,7 @@ import DisciplesRoadmap from "./components/disciples-roadmap";
 import Breadcrumb from "@/components/breadcrumb";
 import PageHeader from "@/components/page-header";
 import SectionHeading from "@/components/section-heading";
+import { createPageMetadata } from "@/lib/seo";
 
 const cormorantGaramond = Cormorant_Garamond({
   subsets: ["latin"],
@@ -215,10 +216,11 @@ const applicationStages = [
   { id: "disciples-step-3", label: "3단계: 신앙 성숙 (12주)" },
 ] as const;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "제자 훈련",
   description: "The 제자교회 제자훈련 3단계 로드맵, 교육 과정, 재생산 시스템과 신청 안내 페이지입니다.",
-};
+  path: "/newcomer/disciples",
+});
 
 function PrincipleItem({
   number,

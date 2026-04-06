@@ -12,13 +12,24 @@ import {
   homeSermonList,
 } from "@/lib/site-data";
 import { getHomeMedia, toHomeSermonCards } from "@/lib/media-api";
+import {
+  CHURCH_ADDRESS,
+  SITE_ALTERNATE_NAME,
+  SITE_NAME,
+  SITE_TAGLINE,
+  YOUTUBE_CHANNEL_LABEL,
+  YOUTUBE_CHANNEL_URL,
+} from "@/lib/site-config";
+import { createPageMetadata } from "@/lib/seo";
 
 const gowunBatang = Gowun_Batang({ subsets: ["latin"], weight: ["400", "700"] });
 
-export const metadata: Metadata = {
-  title: "The 제자교회 — 성령으로 제자삼는 교회",
-  description: "성령으로 제자삼는 교회, The 제자교회입니다. 경기도 수원시 팔달구 경수대로425 지하1층(나인아트홀)에서 예배합니다.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: `${SITE_ALTERNATE_NAME} | ${SITE_NAME}`,
+  absoluteTitle: `${SITE_ALTERNATE_NAME} | ${SITE_NAME}`,
+  description: `${SITE_ALTERNATE_NAME}(${SITE_NAME})는 ${SITE_TAGLINE}를 비전으로 세워가는 교회입니다. ${CHURCH_ADDRESS}에서 예배합니다.`,
+  path: "/",
+});
 
 function SermonSectionContent({
   sermonCards,
@@ -72,10 +83,6 @@ function HomeSermonSectionFallback({ youtubeUrl }: { youtubeUrl: string }) {
 }
 
 export default function Home() {
-  const youtubeUrl =
-    process.env.NEXT_PUBLIC_YOUTUBE_URL ??
-    "https://www.youtube.com/@%EB%8D%94%EC%A0%9C%EC%9E%90%EA%B5%90%ED%9A%8C";
-
   return (
     <div className="flex w-full flex-col pb-0 pt-0 overflow-x-hidden">
       {/* 1. 히어로 섹션 */}
@@ -97,6 +104,9 @@ export default function Home() {
                 {/* 비전 텍스트 카드 */}
                 <div className="w-full space-y-4 rounded-2xl bg-black/30 px-6 py-6 text-ivory backdrop-blur-md md:space-y-5 md:px-7 md:py-7 lg:space-y-6 lg:py-8">
                   <p className="chip w-fit bg-gold/30 text-ivory text-xs">VISION</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-ivory/78 md:text-sm">
+                    {SITE_ALTERNATE_NAME} | {SITE_NAME}
+                  </p>
                   <h1 className="font-yeongwol text-[3rem] leading-[1.2] tracking-wide md:text-6xl lg:text-7xl lg:tracking-wider xl:text-8xl">
                     성령으로
                     <br />
@@ -140,12 +150,12 @@ export default function Home() {
                     <p className="mt-1 text-[1.72rem] font-bold leading-none tracking-[-0.01em]">오시는 길</p>
                     <p className="mt-1 text-[1.02rem] font-medium leading-none text-ink/65">Location</p>
                     <p className="mt-2 text-sm font-medium leading-snug text-ink/65">
-                      경기도 수원시 팔달구<br />경수대로425 지하1층<br />(나인아트홀)
+                      {CHURCH_ADDRESS}
                     </p>
                   </Link>
 
                   <a
-                    href={youtubeUrl}
+                    href={YOUTUBE_CHANNEL_URL}
                     id="hero-youtube-card"
                     target="_blank"
                     rel="noreferrer"
@@ -157,7 +167,7 @@ export default function Home() {
                       target="#hero-youtube-card"
                       style={{ width: "72px", height: "72px" }}
                     ></lord-icon>
-                    <p className="mt-1 text-[1.48rem] font-bold leading-none tracking-[-0.01em]">The 제자티비</p>
+                    <p className="mt-1 text-[1.48rem] font-bold leading-none tracking-[-0.01em]">{YOUTUBE_CHANNEL_LABEL}</p>
                     <p className="mt-1 text-[0.94rem] font-medium leading-none text-ink/65">Youtube Channel</p>
                   </a>
                 </div>
@@ -189,9 +199,9 @@ export default function Home() {
 
           <div className="h-3 md:h-4" />
 
-          <Suspense fallback={<HomeSermonSectionFallback youtubeUrl={youtubeUrl} />}>
-            <HomeSermonSection youtubeUrl={youtubeUrl} />
-          </Suspense>
+          <Suspense fallback={<HomeSermonSectionFallback youtubeUrl={YOUTUBE_CHANNEL_URL} />}>
+              <HomeSermonSection youtubeUrl={YOUTUBE_CHANNEL_URL} />
+            </Suspense>
         </div>
       </section>
 

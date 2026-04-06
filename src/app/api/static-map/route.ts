@@ -1,21 +1,21 @@
 import { NextRequest } from "next/server";
+import {
+  DEFAULT_CHURCH_LATITUDE,
+  DEFAULT_CHURCH_LONGITUDE,
+  NAVER_STATIC_MAP_CLIENT_ID,
+  NAVER_STATIC_MAP_CLIENT_SECRET,
+} from "@/lib/server-config";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const defaultLatitude = "37.2642526267482";
-const defaultLongitude = "127.025125618372";
-
 export async function GET(request: NextRequest) {
-  const clientId = process.env.NAVER_MAP_CLIENT_ID;
-  const clientSecret = process.env.NAVER_MAP_CLIENT_SECRET;
-
-  if (!clientId || !clientSecret) {
+  if (!NAVER_STATIC_MAP_CLIENT_ID || !NAVER_STATIC_MAP_CLIENT_SECRET) {
     return new Response("Static map credentials are missing.", { status: 503 });
   }
 
-  const lat = request.nextUrl.searchParams.get("lat") ?? defaultLatitude;
-  const lng = request.nextUrl.searchParams.get("lng") ?? defaultLongitude;
+  const lat = request.nextUrl.searchParams.get("lat") ?? DEFAULT_CHURCH_LATITUDE;
+  const lng = request.nextUrl.searchParams.get("lng") ?? DEFAULT_CHURCH_LONGITUDE;
 
   const params = new URLSearchParams({
     w: "1280",
@@ -33,8 +33,8 @@ export async function GET(request: NextRequest) {
     `https://maps.apigw.ntruss.com/map-static/v2/raster?${params.toString()}`,
     {
       headers: {
-        "x-ncp-apigw-api-key-id": clientId,
-        "x-ncp-apigw-api-key": clientSecret,
+        "x-ncp-apigw-api-key-id": NAVER_STATIC_MAP_CLIENT_ID,
+        "x-ncp-apigw-api-key": NAVER_STATIC_MAP_CLIENT_SECRET,
       },
       cache: "no-store",
     }

@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
 import SectionHeading from "@/components/section-heading";
 import { serviceTimes } from "@/lib/site-data";
+import { createPageMetadata } from "@/lib/seo";
 import MobileServiceCard from "./components/mobile-service-card";
 import ServiceNotice from "./components/service-notice";
 import ServiceTimesTable from "./components/service-times-table";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "예배 시간 안내",
   description:
     "The 제자교회 주일예배, 수요예배, 새벽기도회, 금요기도회 등 예배 시간 안내 및 특별 예배 일정을 확인하세요.",
-};
+  path: "/about/service-times",
+});
 
 function formatSchedule(day: string, time: string, ampm: string) {
   const period = ampm === "AM" ? "오전" : "오후";

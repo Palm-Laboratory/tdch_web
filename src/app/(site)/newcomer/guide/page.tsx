@@ -6,6 +6,7 @@ import TimelineStep from "./components/timeline-step";
 import Breadcrumb from "@/components/breadcrumb";
 import PageHeader from "@/components/page-header";
 import SectionHeading from "@/components/section-heading";
+import { createPageMetadata } from "@/lib/seo";
 
 const newcomerIntroParagraphs = [
   "The 제자교회는 예수님의 지상명령에 따라 제자를 삼고, 제자를 삼는 제자를 양육합니다.",
@@ -77,10 +78,11 @@ const newcomerFaqItems = [
   },
 ] as const;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "새가족 안내",
   description: "The 제자교회 새가족 안내와 제자 양육 비전을 소개합니다.",
-};
+  path: "/newcomer/guide",
+});
 
 // 페이지 UI 마크업 시작
 export default function NewcomerGuidePage() {

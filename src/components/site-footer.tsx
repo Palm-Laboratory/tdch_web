@@ -1,10 +1,9 @@
-const phone = process.env.NEXT_PUBLIC_CHURCH_PHONE ?? "010-5252-8580";
-const email = process.env.NEXT_PUBLIC_CHURCH_EMAIL ?? "timothy35@hanmail.net";
-const address =
-  process.env.NEXT_PUBLIC_CHURCH_ADDRESS ?? "경기도 수원시 팔달구 경수대로425 지하1층(나인아트홀), The 제자교회";
-const youtube =
-  process.env.NEXT_PUBLIC_YOUTUBE_URL ??
-  "https://www.youtube.com/@%EB%8D%94%EC%A0%9C%EC%9E%90%EA%B5%90%ED%9A%8C";
+import {
+  CHURCH_ADDRESS,
+  CHURCH_EMAIL,
+  CHURCH_PHONE,
+  YOUTUBE_CHANNEL_URL,
+} from "@/lib/site-config";
 
 export default function SiteFooter() {
   return (
@@ -17,12 +16,12 @@ export default function SiteFooter() {
             <p className="font-serif text-2xl font-semibold text-ivory">The 제자교회</p>
           </div>
           <div className="space-y-1 text-xs text-ivory/50">
-            <p>{address}</p>
+            <p>{CHURCH_ADDRESS}</p>
             <p>
-              <span className="mr-2 inline-block w-8 text-ivory/30">TEL</span> {phone}
+              <span className="mr-2 inline-block w-8 text-ivory/30">TEL</span> {CHURCH_PHONE}
             </p>
             <p>
-              <span className="mr-2 inline-block w-8 text-ivory/30">EMAIL</span> {email}
+              <span className="mr-2 inline-block w-8 text-ivory/30">EMAIL</span> {CHURCH_EMAIL}
             </p>
           </div>
         </div>
@@ -66,7 +65,7 @@ export default function SiteFooter() {
           </a>
           {/* YouTube */}
           <a
-            href={youtube}
+            href={YOUTUBE_CHANNEL_URL}
             target="_blank"
             rel="noreferrer"
             className="flex h-10 w-10 items-center justify-center rounded-full bg-white/5 text-ivory/60 transition hover:bg-white/10 hover:text-white"

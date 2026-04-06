@@ -97,7 +97,7 @@ export default function MissionSection() {
                         </div>
                     </div>
 
-                    <div className="hidden w-full min-[1025px]:block">
+                    <div className="hidden w-full min-[1025px]:flex min-[1025px]:flex-col min-[1025px]:items-center">
                         <div className={`${gowunBatang.className} flex max-w-[820px] flex-col items-center text-center text-black`}>
                             <h3 className="type-section-title font-bold leading-none md:text-[2.9rem]">우리의 사명</h3>
                             <p className="mt-2 type-subsection-title leading-none">our mission</p>

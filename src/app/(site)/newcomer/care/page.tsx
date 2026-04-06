@@ -8,6 +8,7 @@ import VerseCard from "./components/verse-card";
 import Breadcrumb from "@/components/breadcrumb";
 import PageHeader from "@/components/page-header";
 import SectionHeading from "@/components/section-heading";
+import { createPageMetadata } from "@/lib/seo";
 
 const overviewStats = [
   { title: "5주", label: "기간" },
@@ -99,10 +100,11 @@ const timeOptions = [
   { id: "wednesday-7pm", label: "수요일 저녁 7시", defaultChecked: false },
 ] as const;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "새가족 양육",
   description: "The 제자교회 새가족 양육 5주 과정과 침례 안내 페이지입니다.",
-};
+  path: "/newcomer/care",
+});
 
 export default function NewcomerCarePage() {
   return (

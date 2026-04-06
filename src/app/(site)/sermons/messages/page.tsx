@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import SermonArchivePage from "@/app/(site)/sermons/components/sermon-archive-page";
 import { getMediaList } from "@/lib/media-api";
+import { createPageMetadata } from "@/lib/seo";
 
 const PAGE_SIZE = 6;
 
@@ -10,12 +11,19 @@ interface MessagesPageProps {
   }>;
 }
 
-export const metadata: Metadata = {
-  title: "말씀 / 설교",
-  description: "The 제자교회 말씀과 설교 영상을 확인하실 수 있습니다.",
-};
-
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ searchParams }: MessagesPageProps): Promise<Metadata> {
+  const resolvedSearchParams = await searchParams;
+  const currentPage = parsePageParam(resolvedSearchParams?.page);
+  const path = currentPage > 1 ? `/sermons/messages?page=${currentPage}` : "/sermons/messages";
+
+  return createPageMetadata({
+    title: "말씀 / 설교",
+    description: "The 제자교회 말씀과 설교 영상을 확인하실 수 있습니다.",
+    path,
+  });
+}
 
 export default async function MessagesPage({ searchParams }: MessagesPageProps) {
   const resolvedSearchParams = await searchParams;
