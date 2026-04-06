@@ -2,14 +2,16 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { getAdminNavigationItems, type AdminNavigationItem } from "@/lib/admin-navigation-api";
 import NavigationFilterBar from "./navigation-filter-bar";
+import LoadMoreButton from "./load-more-button";
 
+// 페이지에 불러올 컨텐츠 개수
 const PAGE_SIZE = 10;
 
 type StatusFilter = "all" | "visible" | "hidden";
 
 interface AdminNavigationPageProps {
   searchParams?: Promise<{
-    page?: string | string[];
+    limit?: string | string[];
     status?: string | string[];
     search?: string | string[];
   }>;
@@ -19,23 +21,14 @@ function getFirst(val: string | string[] | undefined): string {
   return Array.isArray(val) ? (val[0] ?? "") : (val ?? "");
 }
 
-function buildHref(page: number, status: StatusFilter, search: string) {
-  const params = new URLSearchParams();
-  if (page > 1) params.set("page", String(page));
-  if (status && status !== "all") params.set("status", status);
-  if (search) params.set("search", search);
-  const qs = params.toString();
-  return qs ? `/admin/navigation?${qs}` : "/admin/navigation";
-}
-
 // ────────────────────────────────────────────
 // 링크 타입 뱃지
 // ────────────────────────────────────────────
 const LINK_TYPE_META: Record<string, { label: string; bg: string; text: string }> = {
-  INTERNAL:    { label: "내부",     bg: "bg-blue-500/10",   text: "text-blue-600" },
-  EXTERNAL:    { label: "외부",     bg: "bg-orange-500/10", text: "text-orange-600" },
-  ANCHOR:      { label: "앵커",     bg: "bg-purple-500/10", text: "text-purple-600" },
-  CONTENT_REF: { label: "콘텐츠",   bg: "bg-teal-500/10",   text: "text-teal-600" },
+  INTERNAL: { label: "내부", bg: "bg-blue-500/10", text: "text-blue-600" },
+  EXTERNAL: { label: "외부", bg: "bg-orange-500/10", text: "text-orange-600" },
+  ANCHOR: { label: "앵커", bg: "bg-purple-500/10", text: "text-purple-600" },
+  CONTENT_REF: { label: "콘텐츠", bg: "bg-teal-500/10", text: "text-teal-600" },
 };
 
 function LinkTypeBadge({ type }: { type: string }) {
@@ -44,41 +37,6 @@ function LinkTypeBadge({ type }: { type: string }) {
     <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold ${meta.bg} ${meta.text}`}>
       {meta.label}
     </span>
-  );
-}
-
-// ────────────────────────────────────────────
-// 페이지네이션 링크
-// ────────────────────────────────────────────
-function PaginationLink({
-  href,
-  label,
-  active = false,
-  disabled = false,
-}: {
-  href: string;
-  label: string;
-  active?: boolean;
-  disabled?: boolean;
-}) {
-  if (disabled) {
-    return (
-      <span className="inline-flex h-8 min-w-8 items-center justify-center rounded-lg border border-[#e2e8f0] bg-[#f1f5f9] px-3 text-[12px] text-[#b0bec5]">
-        {label}
-      </span>
-    );
-  }
-  return (
-    <Link
-      href={href}
-      className={`inline-flex h-8 min-w-8 items-center justify-center rounded-lg border px-3 text-[12px] transition ${
-        active
-          ? "border-[#3f74c7] bg-[#edf4ff] font-semibold text-[#2d5da8]"
-          : "border-[#e2e8f0] bg-white text-[#5d6f86] hover:border-[#bfd0ea] hover:text-[#132033]"
-      }`}
-    >
-      {label}
-    </Link>
   );
 }
 
@@ -93,9 +51,9 @@ export default async function AdminNavigationPage({ searchParams }: AdminNavigat
     rawStatus === "visible" || rawStatus === "hidden" ? rawStatus : "all";
   const currentSearch = getFirst(resolved?.search).trim();
 
-  const rawPage = getFirst(resolved?.page);
-  const parsedPage = Number.parseInt(rawPage || "1", 10);
-  const currentPage = Number.isFinite(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+  const rawLimit = getFirst(resolved?.limit);
+  const parsedLimit = Number.parseInt(rawLimit || "0", 10);
+  const currentLimit = parsedLimit > 0 ? parsedLimit : PAGE_SIZE;
 
   // 데이터 패치
   const { groups } = await getAdminNavigationItems(true);
@@ -116,15 +74,8 @@ export default async function AdminNavigationPage({ searchParams }: AdminNavigat
   });
 
   const totalCount = filtered.length;
-  const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
-  const safePage = Math.min(currentPage, totalPages);
-  const startIndex = (safePage - 1) * PAGE_SIZE;
-  const pagedItems = filtered.slice(startIndex, startIndex + PAGE_SIZE);
-
-  // 페이지네이션 범위 (최대 5개 버튼)
-  const pageRange = Array.from({ length: totalPages }, (_, i) => i + 1).filter(
-    (p) => p === 1 || p === totalPages || Math.abs(p - safePage) <= 2,
-  );
+  const visibleItems = filtered.slice(0, currentLimit);
+  const hasMore = currentLimit < totalCount;
 
   return (
     <div className="space-y-5">
@@ -132,17 +83,17 @@ export default async function AdminNavigationPage({ searchParams }: AdminNavigat
       <nav className="flex items-center gap-1.5 text-[12px] text-[#8fa3bb]">
         <Link href="/admin" className="flex items-center transition hover:text-[#3f74c7]">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" className="mr-1">
-            <path d="M1.5 7.5L7 2l5.5 5.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M3 6.5V12h3V9h2v3h3V6.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M1.5 7.5L7 2l5.5 5.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M3 6.5V12h3V9h2v3h3V6.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
           홈
         </Link>
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-          <path d="M4.5 2.5l3 3-3 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M4.5 2.5l3 3-3 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
         <span className="text-[#4a6484]">운영</span>
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-          <path d="M4.5 2.5l3 3-3 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M4.5 2.5l3 3-3 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
         <span className="font-medium text-[#132033]">내비게이션 메뉴</span>
       </nav>
@@ -155,7 +106,7 @@ export default async function AdminNavigationPage({ searchParams }: AdminNavigat
           className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#3f74c7] px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#4a82d7]"
         >
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-            <path d="M6.5 1v11M1 6.5h11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+            <path d="M6.5 1v11M1 6.5h11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
           </svg>
           메뉴 추가
         </Link>
@@ -189,7 +140,7 @@ export default async function AdminNavigationPage({ searchParams }: AdminNavigat
               </tr>
             </thead>
             <tbody>
-              {pagedItems.length === 0 ? (
+              {visibleItems.length === 0 ? (
                 <tr>
                   <td colSpan={9} className="px-5 py-12 text-center">
                     <p className="text-[13px] font-semibold text-[#132033]">
@@ -205,15 +156,15 @@ export default async function AdminNavigationPage({ searchParams }: AdminNavigat
                   </td>
                 </tr>
               ) : (
-                pagedItems.map((item: AdminNavigationItem, idx: number) => {
-                  const rowNum = startIndex + idx + 1;
+                visibleItems.map((item: AdminNavigationItem, idx: number) => {
+                  const rowNum = idx + 1;
                   const visibleChildren = item.children.filter((c) => c.visible).length;
                   const updatedAt = item.updatedAt
                     ? new Date(item.updatedAt).toLocaleDateString("ko-KR", {
-                        year: "numeric",
-                        month: "2-digit",
-                        day: "2-digit",
-                      })
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })
                     : "-";
 
                   return (
@@ -229,11 +180,10 @@ export default async function AdminNavigationPage({ searchParams }: AdminNavigat
                       {/* 상태 */}
                       <td className="px-5 py-4 align-middle">
                         <span
-                          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${
-                            item.visible
+                          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${item.visible
                               ? "bg-emerald-50 text-emerald-600"
                               : "bg-[#f1f5f9] text-[#8fa3bb]"
-                          }`}
+                            }`}
                         >
                           {item.visible ? "사용 중" : "숨김"}
                         </span>
@@ -281,8 +231,8 @@ export default async function AdminNavigationPage({ searchParams }: AdminNavigat
                           className="inline-flex h-8 items-center gap-1 rounded-lg border border-[#bfd0ea] bg-[#edf4ff] px-3 text-[12px] font-medium text-[#2d5da8] transition hover:border-[#a9c0e4] hover:bg-[#e4efff]"
                         >
                           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                            <circle cx="6" cy="6" r="2" stroke="currentColor" strokeWidth="1.2"/>
-                            <path d="M1 6C2.5 3 4.5 1.5 6 1.5S9.5 3 11 6c-1.5 3-3.5 4.5-5 4.5S2.5 9 1 6z" stroke="currentColor" strokeWidth="1.2"/>
+                            <circle cx="6" cy="6" r="2" stroke="currentColor" strokeWidth="1.2" />
+                            <path d="M1 6C2.5 3 4.5 1.5 6 1.5S9.5 3 11 6c-1.5 3-3.5 4.5-5 4.5S2.5 9 1 6z" stroke="currentColor" strokeWidth="1.2" />
                           </svg>
                           상세보기
                         </Link>
@@ -294,41 +244,27 @@ export default async function AdminNavigationPage({ searchParams }: AdminNavigat
             </tbody>
           </table>
         </div>
-      </div>
 
-      {/* ── 페이지네이션 ── */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-1.5 pt-2">
-          <PaginationLink
-            href={buildHref(safePage - 1, currentStatus, currentSearch)}
-            label="이전"
-            disabled={safePage <= 1}
-          />
-          {pageRange.map((page, i) => {
-            const prev = pageRange[i - 1];
-            return (
-              <>
-                {prev !== undefined && page - prev > 1 && (
-                  <span key={`ellipsis-${page}`} className="px-1 text-[12px] text-[#b0bec5]">
-                    …
-                  </span>
-                )}
-                <PaginationLink
-                  key={page}
-                  href={buildHref(page, currentStatus, currentSearch)}
-                  label={String(page)}
-                  active={page === safePage}
-                />
-              </>
-            );
-          })}
-          <PaginationLink
-            href={buildHref(safePage + 1, currentStatus, currentSearch)}
-            label="다음"
-            disabled={safePage >= totalPages}
-          />
-        </div>
-      )}
+        {/* ── 더 보기 버튼 (테이블 하단, 테두리 안쪽) ── */}
+        {hasMore && (
+          <div className="border-t border-[#f0f4f8] px-5 py-4">
+            <Suspense fallback={null}>
+              <LoadMoreButton
+                currentLimit={currentLimit}
+                totalCount={totalCount}
+                pageSize={PAGE_SIZE}
+              />
+            </Suspense>
+          </div>
+        )}
+
+        {/* ── 모두 불러온 경우 카운트 표시 ── */}
+        {!hasMore && totalCount > PAGE_SIZE && (
+          <div className="border-t border-[#f0f4f8] px-5 py-3 text-center">
+            <p className="text-[11px] text-[#a0b0c3]">전체 {totalCount}건 모두 표시됨</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
