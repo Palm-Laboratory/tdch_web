@@ -14,21 +14,21 @@ const missionCards = [
         englishLead: "T",
         englishRest: "EACHING",
         koreanTitle: "가르치는 사명",
-        description: "T사역의 목적은 궁극적으로 제자훈련의 철학으로 하나님께서 직접 세우신 두 공동체인 교회와 가정을 살리는 것입니다.",
+        description: "강단에서 진리를 가르치셨고, 말씀으로 세상을 살아가는 힘을 주셨습니다.",
         tone: "light" as const,
     },
     {
         englishLead: "H",
         englishRest: "EALING",
         koreanTitle: "치유하는 사명",
-        description: "H사역의 목적은 기도로 하나님과 소통하는 개인과 공동체를 만들어 이 땅에 하나님의 나라가 임하게 하는 것입니다.",
+        description: "부서진 사람 앞에서 무릎을 꿇으셨고, 사랑으로 그 마음을 회복시키셨습니다.",
         tone: "dark" as const,
     },
     {
         englishLead: "E",
         englishRest: "VANGELIZING",
         koreanTitle: "전파하는 사명",
-        description: "E사역의 목적은 살리는 것, 전도로 한 사람을 분립 개척으로 생태계를, 선교로 열방을 살리는 것입니다.",
+        description: "아무도 찾지 않는 사람에게 먼저 찾아가셔서 삶으로 복음을 전하셨습니다.",
         tone: "light" as const,
     },
 ];
@@ -62,7 +62,7 @@ export default function MissionSection() {
 
     return (
         <div className="relative z-10 section-shell">
-            <section className="px-2 py-2 text-center" ref={headingRef}>
+            <section className="hidden min-[1025px]:block px-2 py-2 text-center" ref={headingRef}>
                 <h2
                     className={`${gowunBatang.className} text-[2rem] font-bold leading-[1.25] tracking-[0.02em] text-black md:text-[3rem] md:leading-[1.18]`}
                     style={{
@@ -89,8 +89,8 @@ export default function MissionSection() {
                             <Image
                                 src="/images/our_mission.png"
                                 alt="The 제자교회 사명 - 가르치는 사명, 치유하는 사명, 전파하는 사명"
-                                width={800}
-                                height={600}
+                                width={1000}
+                                height={800}
                                 className="h-auto w-full object-contain"
                                 priority={false}
                             />
@@ -115,17 +115,17 @@ export default function MissionSection() {
                                 return (
                                     <article key={card.koreanTitle} className="flex flex-col items-center">
                                         <div
-                                            className={`mission-chevron ${isDark ? "mission-chevron--dark" : ""} ${gowunBatang.className} flex min-h-[126px] w-full max-w-[290px] flex-col items-center justify-center px-8 text-center`}
+                                            className={`mission-chevron ${isDark ? "mission-chevron--dark" : ""} ${gowunBatang.className} flex min-h-[136px] w-full max-w-[290px] flex-col items-center justify-center px-8 text-center`}
                                         >
                                             <div className="flex items-end justify-center leading-none uppercase">
                                                 <span className="type-page-title font-bold tracking-[0.03em]">{card.englishLead}</span>
                                                 <span className="mb-[0.36rem] type-card-title tracking-[0.03em]">{card.englishRest}</span>
                                             </div>
-                                            <p className="mt-2 type-card-title leading-none">{card.koreanTitle}</p>
+                                            <p className="mt-2 text-[20px] md:text-[28px] mb-[16px] leading-none">{card.koreanTitle}</p>
                                         </div>
 
                                         <div
-                                            className={`mission-copy-card ${isDark ? "mission-copy-card--dark" : ""} ${gowunBatang.className} mt-10 flex min-h-[164px] w-full max-w-[290px] items-center px-5 py-6 text-left type-lead leading-[1.55] md:px-6`}
+                                            className={`mission-copy-card ${isDark ? "mission-copy-card--dark" : ""} ${gowunBatang.className} mt-10 flex min-h-[144px] w-full max-w-[290px] items-center px-5 py-6 text-left type-lead leading-[1.55] md:px-6`}
                                         >
                                             <p>{card.description}</p>
                                         </div>
