@@ -84,7 +84,7 @@ const baptismMeaning = [
 ] as const;
 
 const baptismSchedule = [
-  "매월 마지막 주일",
+  "일정은 추후에 공지",
   "담임 목사 + 전도자(양육 교사) 함께 집례",
   "온 몸을 물에 담그는 침수례",
   "침례 후 환영 및 축하",
@@ -96,8 +96,8 @@ const applicationNotes = [
 ] as const;
 
 const timeOptions = [
-  { id: "sunday-1pm", label: "주일 오후 1시", defaultChecked: true },
-  { id: "wednesday-7pm", label: "수요일 저녁 7시", defaultChecked: false },
+  { id: "sunday-1pm", label: "주일 반", defaultChecked: true },
+  { id: "wednesday-7pm", label: "주중 반", defaultChecked: false },
 ] as const;
 
 export const metadata: Metadata = createPageMetadata({
@@ -251,7 +251,7 @@ export default function NewcomerCarePage() {
           aria-labelledby="newcomer-care-apply-title"
         >
           <div className="rounded-[12px] bg-[#1a2744] p-6 md:flex md:items-start md:justify-between md:gap-10 md:p-9">
-            <div className="md:max-w-[226px]">
+            <div className="md:max-w-[300px]">
               <SectionHeading
                 id="newcomer-care-apply-title"
                 label="apply"

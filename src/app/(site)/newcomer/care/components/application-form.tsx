@@ -21,7 +21,7 @@ export default function ApplicationForm({ timeOptions }: ApplicationFormProps) {
 
         <fieldset className="border-0 p-0">
           <legend className="type-label font-medium tracking-[0.08em] text-white/50">
-            희망시간
+            희망 요일
           </legend>
           <div className="mt-[10px] flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-4">
             {timeOptions.map((option) => (
