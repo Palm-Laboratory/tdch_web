@@ -31,7 +31,7 @@ export default function DisciplesCurriculum({
 
   return (
     <div className="space-y-7">
-      <div className="overflow-hidden rounded-[28px] border border-black/20 bg-white">
+      <div className="overflow-hidden rounded-[12px] border border-black/20 bg-white">
         <div className="grid grid-cols-3">
           {stages.map((stage, index) => {
             const isActive = index === selectedIndex;
@@ -45,7 +45,7 @@ export default function DisciplesCurriculum({
                 type="button"
                 aria-pressed={isActive}
                 onClick={() => setSelectedIndex(index)}
-                className={`min-h-[96px] px-3 py-4 text-center transition-colors md:min-h-[104px] md:py-5 ${activeClassName} ${index < stages.length - 1 ? "border-r border-black/10" : ""}`}
+                className={`px-3 py-5 text-center transition-colors ${activeClassName} ${index < stages.length - 1 ? "border-r border-black/10" : ""}`}
               >
                 <p className="text-[1.125rem] font-black leading-none tracking-[0.02em] md:text-[1.25rem]">
                   {stage.level}
@@ -69,10 +69,10 @@ export default function DisciplesCurriculum({
 
       <div className="overflow-hidden rounded-[12px] border border-[#7a7060]/30 bg-white">
         <div className="grid grid-cols-[64px_minmax(0,1fr)] md:grid-cols-[80px_minmax(0,1fr)]">
-          <div className="flex h-10 items-center rounded-tl-[12px] bg-[#1a2744] px-4">
+          <div className="flex items-center rounded-tl-[12px] bg-[#1a2744] px-4 py-2">
             <p className="type-body-small tracking-[0.08em] text-white">주차</p>
           </div>
-          <div className="flex h-10 items-center rounded-tr-[12px] bg-[#1a2744] px-4 md:px-6">
+          <div className="flex items-center rounded-tr-[12px] bg-[#1a2744] px-4 py-2 md:px-6">
             <p className="type-body-small tracking-[0.08em] text-white">과목</p>
           </div>
         </div>

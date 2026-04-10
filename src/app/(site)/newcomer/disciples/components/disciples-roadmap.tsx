@@ -103,14 +103,14 @@ function NewcomerCard({ item }: { item: NewcomerRoadmapItem }) {
         {item.duration}
       </p>
 
-      <article className="mt-3 min-h-[116px] rounded-[14px] border border-black/10 bg-white px-5 py-5 shadow-[0_2px_10px_rgba(16,33,63,0.03)] md:min-h-[132px] md:px-7 md:py-7">
+      <article className="mt-3 rounded-[14px] border border-black/10 bg-white px-5 py-5 shadow-[0_2px_10px_rgba(16,33,63,0.03)] md:px-7 md:py-5">
         <h3 className="type-card-title font-bold leading-none tracking-[-0.02em] text-[#1a2744]">
           {item.title}
         </h3>
 
-        <div className="mt-4 flex flex-wrap items-center gap-3 md:mt-5 md:gap-4">
+        <div className="mt-3 flex flex-wrap items-center gap-3">
           {item.tags.map((tag, index) => (
-            <div key={tag} className="flex items-center gap-3 md:gap-4">
+            <div key={tag} className="flex items-center gap-3">
               <span
                 className={`rounded-[6px] px-3 py-2 type-label font-bold leading-none tracking-[0.02em] md:px-4 md:py-[10px] md:type-body-small ${index === item.activeTagIndex
                   ? "bg-[#1a2744] text-white"
@@ -139,19 +139,19 @@ function StepCard({ item }: { item: StepRoadmapItem }) {
         {item.duration}
       </p>
 
-      <article className="relative mt-3 min-h-[112px] overflow-hidden rounded-[14px] border border-black/10 bg-white px-5 py-5 shadow-[0_2px_10px_rgba(16,33,63,0.03)] md:min-h-[126px] md:px-7 md:py-6">
+      <article className="relative mt-3 overflow-hidden rounded-[14px] border border-black/10 bg-white px-5 py-5 shadow-[0_2px_10px_rgba(16,33,63,0.03)] md:px-7 md:py-5">
         <span className="absolute inset-y-0 left-0 w-[3px] bg-[#1a2744]" />
 
         <div className="pl-3 md:pl-4">
           <h3 className="type-card-title font-bold leading-none tracking-[-0.02em] text-[#1a2744]">
             {item.title}
           </h3>
-          <p className="mt-3 type-body-small leading-[1.6] tracking-[0.02em] text-[#7a7060] md:mt-4">
+          <p className="mt-3 type-body-small leading-[1.6] tracking-[0.02em] text-[#7a7060]">
             {item.details.join(" · ")}
           </p>
 
           {item.badge ? (
-            <span className="mt-4 inline-flex rounded-[6px] bg-[#f7f7f4] px-3 py-2 type-label font-bold leading-none tracking-[0.02em] text-[#1a2744] md:mt-5 md:px-4 md:py-[10px] md:type-body-small">
+            <span className="mt-3 inline-flex rounded-[6px] bg-[#f7f7f4] px-3 py-2 type-label font-bold leading-none tracking-[0.02em] text-[#1a2744] md:px-4 md:py-[10px] md:type-body-small">
               {item.badge}
             </span>
           ) : null}
@@ -163,11 +163,11 @@ function StepCard({ item }: { item: StepRoadmapItem }) {
 
 function GoalCard({ item }: { item: GoalRoadmapItem }) {
   return (
-    <article className="min-h-[110px] rounded-[14px] bg-[#d1ad45] px-6 py-6 text-white shadow-[0_2px_10px_rgba(16,33,63,0.05)] md:min-h-[136px] md:px-8 md:py-7">
+    <article className="rounded-[14px] bg-[#d1ad45] px-6 py-5 text-white shadow-[0_2px_10px_rgba(16,33,63,0.05)] md:px-8 md:py-5">
       <p className="type-body-small uppercase leading-none tracking-[0.34em] text-white/95">
         GOAL
       </p>
-      <h3 className="mt-5 type-card-title font-bold leading-none tracking-[-0.02em] md:mt-7">
+      <h3 className="mt-3 type-card-title font-bold leading-none tracking-[-0.02em]">
         {item.title}
       </h3>
     </article>
@@ -232,7 +232,7 @@ export default function DisciplesRoadmap({
         </div>
       </div>
 
-      <div className="mt-8 rounded-[16px] bg-[#f8f7f4] px-5 py-6 text-center md:px-8 md:py-7">
+      <div className="mt-8 rounded-[16px] bg-[#f8f7f4] px-5 py-5 text-center md:px-5 md:py-5">
         <p className="type-body leading-[1.6] tracking-[0.02em] text-[#888580]">
           총 기간: 5주 + 36주 =
           <span className="font-bold text-[#1a2744]"> 41주</span>

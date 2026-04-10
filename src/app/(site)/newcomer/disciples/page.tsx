@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import DisciplesApplicationForm from "./components/disciples-application-form";
 import DisciplesCurriculum from "./components/disciples-curriculum";
 import DisciplesRoadmap from "./components/disciples-roadmap";
+import ClassStructureCard from "../care/components/class-structure-card";
 import Breadcrumb from "@/components/breadcrumb";
 import PageHeader from "@/components/page-header";
 import SectionHeading from "@/components/section-heading";
@@ -189,6 +190,37 @@ const multiplicationStages = [
   },
 ] as const;
 
+const classStructure = [
+  {
+    minute: 10,
+    title: "환영 및 교제",
+    details: ["찬양", "지난주 나눔", "출석 확인"],
+    widthClassName: "w-2/12",
+    toneClassName: "bg-[#dccaae]",
+  },
+  {
+    minute: 30,
+    title: "말씀 공부",
+    details: ["교재 함께 읽기", "핵심 내용 설명", "질의응답"],
+    widthClassName: "w-6/12",
+    toneClassName: "bg-[#1a2744]",
+  },
+  {
+    minute: 15,
+    title: "나눔 및 적용",
+    details: ["나눔 질문 토의", "개인 적용", "실천 과제 안내"],
+    widthClassName: "w-3/12",
+    toneClassName: "bg-[#b8955a]",
+  },
+  {
+    minute: 5,
+    title: "기도",
+    details: ["서로를 위한 기도", "파송 기도"],
+    widthClassName: "w-1/12",
+    toneClassName: "bg-[#d9d9d9]",
+  },
+] as const;
+
 const annualSchedule = [
   ["1기", "1-3월"],
   ["2기", "4-6월"],
@@ -236,7 +268,7 @@ function PrincipleItem({
   details: readonly string[];
 }) {
   return (
-    <article className="flex gap-4 border-b border-black/10 py-6 first:pt-0 last:border-b-0 last:pb-0 md:gap-7 md:py-7">
+    <article className="flex gap-4 border-b border-black/10 py-5 first:pt-0 last:border-b-0 last:pb-0 md:gap-7 md:py-5">
       <div className="flex items-start pt-2">
         <span className={`${cormorantGaramond.className} text-[2rem] leading-none tracking-[0.08em] text-[#c9a84c] md:text-[2.25rem]`}>
           {number}
@@ -337,7 +369,7 @@ export default function NewcomerDisciplesPage() {
           <SectionHeading id="disciples-intro-title" label="Discipleship" title="제자훈련" />
 
           <blockquote className="mt-8 rounded-r-[12px] border-l-[3px] border-[#8c7a5b] bg-[#f7f7f4] px-6 py-7 md:px-7 md:py-8">
-            <p className="type-body font-[var(--font-section-title)] leading-[1.9] tracking-[0.01em] text-[#1a2744]">
+            <p className="font-['Nanum_Myeongjo',serif] text-[16px] font-bold leading-[24px] tracking-[0.01em] text-[#1a2744]">
               &quot;또 네가 많은 증인 앞에서 내게 들은 바를 충성된 사람들에게 부탁하라
               그들이 또 다른 사람들을 가르칠 수 있으리라&quot;
             </p>
@@ -387,6 +419,73 @@ export default function NewcomerDisciplesPage() {
               stages={curriculumStages}
               weekNumberClassName={cormorantGaramond.className}
             />
+          </div>
+        </section>
+
+        <section
+          aria-labelledby="disciples-class-structure-title"
+          className="mt-20 md:mt-[68px]"
+        >
+          <SectionHeading
+            id="disciples-class-structure-title"
+            label="class structure"
+            title="매주 60분 수업 구조"
+          />
+
+          <div className="mt-8">
+            <div className="flex h-[9px] w-full overflow-hidden rounded-full">
+              {classStructure.map((item, index) => {
+                const edgeClassName = index === 0
+                  ? "rounded-l-full"
+                  : index === classStructure.length - 1
+                    ? "rounded-r-full"
+                    : "";
+
+                return (
+                  <div
+                    key={item.title}
+                    className={`${item.widthClassName} ${item.toneClassName} ${edgeClassName}`}
+                  />
+                );
+              })}
+            </div>
+
+            <div className="mt-6 border-b border-black/10 pb-6 md:pb-6">
+              <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:hidden">
+                {classStructure.map((item) => (
+                  <div key={item.title} className="relative">
+                    <ClassStructureCard
+                      minute={item.minute}
+                      title={item.title}
+                      details={item.details}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="hidden items-start justify-between md:flex">
+                {classStructure.map((item, index) => (
+                  <div key={item.title} className="flex items-start">
+                    {index > 0 ? (
+                      <span className="mr-9 mt-[30px] shrink-0 text-[#b8955a]">
+                        →
+                      </span>
+                    ) : null}
+                    <div className="w-fit">
+                      <ClassStructureCard
+                        minute={item.minute}
+                        title={item.title}
+                        details={item.details}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <p className="mt-4 type-label leading-none tracking-[0.02em] text-[#888580]">
+              총 <span className="font-bold text-[#1a2744]">60분</span> · 소그룹 2-3명
+            </p>
           </div>
         </section>
 

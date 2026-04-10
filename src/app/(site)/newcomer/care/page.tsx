@@ -4,6 +4,7 @@ import BulletList from "./components/bullet-list";
 import ClassStructureCard from "./components/class-structure-card";
 import CurriculumTable from "./components/curriculum-table";
 import OverviewStat from "./components/overview-stat";
+import PracticeAssignmentSection from "./components/practice-assignment-section";
 import VerseCard from "./components/verse-card";
 import Breadcrumb from "@/components/breadcrumb";
 import PageHeader from "@/components/page-header";
@@ -190,21 +191,37 @@ export default function NewcomerCarePage() {
               })}
             </div>
 
-            <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 border-b border-black/10 pb-6 md:grid-cols-4 md:gap-x-4 md:pb-6">
-              {classStructure.map((item, index) => (
-                <div key={item.title} className="relative">
-                  {index > 0 ? (
-                    <span className="absolute -left-5 top-[30px] hidden text-[#b8955a] md:block">
-                      →
-                    </span>
-                  ) : null}
-                  <ClassStructureCard
-                    minute={item.minute}
-                    title={item.title}
-                    details={item.details}
-                  />
-                </div>
-              ))}
+            <div className="mt-6 border-b border-black/10 pb-6 md:pb-6">
+              <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:hidden">
+                {classStructure.map((item) => (
+                  <div key={item.title} className="relative">
+                    <ClassStructureCard
+                      minute={item.minute}
+                      title={item.title}
+                      details={item.details}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="hidden items-start justify-between md:flex">
+                {classStructure.map((item, index) => (
+                  <div key={item.title} className="flex items-start">
+                    {index > 0 ? (
+                      <span className="mr-9 mt-[30px] shrink-0 text-[#b8955a]">
+                        →
+                      </span>
+                    ) : null}
+                    <div className="w-fit">
+                      <ClassStructureCard
+                        minute={item.minute}
+                        title={item.title}
+                        details={item.details}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <p className="mt-4 type-label leading-none tracking-[0.02em] text-[#888580]">
@@ -213,6 +230,8 @@ export default function NewcomerCarePage() {
             </p>
           </div>
         </section>
+
+        <PracticeAssignmentSection />
 
         <section
           aria-labelledby="newcomer-care-baptism-title"

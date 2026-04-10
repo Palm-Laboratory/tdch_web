@@ -17,7 +17,7 @@ export default function ClassStructureCard({
   details,
 }: ClassStructureCardProps) {
   return (
-    <article className="relative flex flex-col items-center gap-3 text-center">
+    <article className="relative flex flex-col items-start gap-3 text-left">
       <div className="flex items-end gap-1">
         <span
           className={`${cormorantGaramond.className} type-section-title font-bold leading-none text-[#c9a84c]`}
@@ -29,7 +29,7 @@ export default function ClassStructureCard({
       <h3 className="type-body font-bold leading-none tracking-[-0.01em] text-[#1a2744]">
         {title}
       </h3>
-      <div className="flex flex-col gap-2 type-label leading-none text-[#888580]">
+      <div className="flex flex-col items-start gap-3 type-label leading-none text-[#888580]">
         {details.map((detail) => (
           <p key={detail}>{detail}</p>
         ))}

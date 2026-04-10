@@ -11,7 +11,7 @@ export default function NewcomerContactSection() {
     <section className="mt-20 md:mt-[68px]" aria-labelledby="newcomer-contact-title">
       <div className="rounded-[16px] bg-[#1a2744] px-6 py-8 md:flex md:items-end md:justify-between md:px-9 md:py-9">
         <div>
-          <p className="type-lead font-semibold uppercase tracking-[0.42em] text-[#c9a84c]">
+          <p className="type-lead font-semibold uppercase tracking-[3px] text-[#c9a84c]">
             Contact
           </p>
           <h2

@@ -41,9 +41,14 @@ export default function NewcomerFaqAccordion({
                 });
               }}
             >
-              <h3 className="type-card-title font-medium leading-[1.34] tracking-[-0.03em] text-ink md:type-block-title">
-                {item.question}
-              </h3>
+              <div className="flex items-center gap-2 md:gap-3">
+                <span className="shrink-0 text-[14px] font-normal leading-[1.34] text-[#c9a84c]">
+                  Q.
+                </span>
+                <h3 className="type-card-title font-medium leading-[1.34] tracking-[-0.03em] text-ink md:type-block-title">
+                  {item.question}
+                </h3>
+              </div>
               <span
                 aria-hidden="true"
                 className={`flex h-5 w-5 shrink-0 items-center justify-center type-subsection-title leading-none ${isOpen ? "text-[#7a7060]" : "text-[#c9a84c]"}`}
@@ -56,8 +61,10 @@ export default function NewcomerFaqAccordion({
               <div className="pb-5 pr-10 md:pb-6">
                 <ul className="flex flex-col gap-2">
                   {(Array.isArray(item.answer) ? item.answer : [item.answer]).map((answerLine) => (
-                    <li key={answerLine} className="flex items-start gap-2">
-                      <span className="mt-[0.55rem] h-[4px] w-[4px] shrink-0 rounded-full bg-[#7a7060]" />
+                    <li key={answerLine} className="flex items-start gap-2 md:gap-3">
+                      <span className="shrink-0 text-[14px] font-normal leading-[1.7] text-[#c9a84c]">
+                        A.
+                      </span>
                       <span className="type-body whitespace-pre-wrap leading-[1.7] tracking-[0.02em] text-[#7a7060]">
                         {answerLine}
                       </span>

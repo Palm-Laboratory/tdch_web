@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import CoreValueCard from "./components/core-value-card";
+import NewcomerBenefitsSection from "./components/newcomer-benefits-section";
 import NewcomerFaqAccordion from "./components/newcomer-faq-accordion";
 import NewcomerContactSection from "./components/newcomer-contact-section";
 import TimelineStep from "./components/timeline-step";
@@ -100,7 +101,7 @@ export default function NewcomerGuidePage() {
           <SectionHeading id="newcomer-intro-title" label="newcomer" title="새가족 안내" />
 
           <blockquote className="mt-8 rounded-r-[12px] border-l-[3px] border-[#8c7a5b] bg-[#f7f7f4] px-5 py-6 md:px-[30px] md:py-7">
-            <p className="type-lead font-[var(--font-section-title)] leading-[1.9] tracking-[-0.01em] text-[#1a2744]">
+            <p className="font-['Nanum_Myeongjo',serif] text-[16px] font-bold leading-[24px] tracking-[-0.01em] text-[#1a2744]">
               &quot;그러므로 너희는 가서 모든 민족을 제자로 삼아 아버지와 아들과 성령의 이름으로 침례를 베풀고 내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라&quot;
             </p>
             <p className="mt-4 type-body font-medium tracking-[0.08em] text-[#7a7060]">
@@ -134,14 +135,26 @@ export default function NewcomerGuidePage() {
             우리는 필리핀 산타로사 꿈의교회에서 약 17년간의 선교 사역을 마치고 한국으로 돌아와 2026년 개척한 교회입니다.
           </p>
 
-          <div className="mt-5">
-            <h3 className="type-card-title font-bold leading-none tracking-[0.02em] text-[#1a2744]">
+          <div className="mt-7">
+            <h3 className="text-[18px] font-normal leading-[1] tracking-[3px] text-[#c9a84c]">
               5대 핵심가치
             </h3>
-            <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-5 md:gap-5">
-              {coreValues.map((item) => (
-                <CoreValueCard key={item.number} {...item} />
+            <div className="mt-3 border-y border-black/10 py-4 md:py-5">
+              <div className="grid grid-cols-2 gap-y-0 md:grid-cols-5">
+              {coreValues.map((item, index) => (
+                <CoreValueCard
+                  key={item.number}
+                  {...item}
+                  className={
+                    index === coreValues.length - 1
+                      ? "col-span-2 border-t border-black/10 md:col-span-1 md:border-t-0 md:border-r-0"
+                      : index >= 2
+                        ? "border-t border-black/10 border-r border-black/10 md:border-t-0"
+                        : "border-r border-black/10"
+                  }
+                />
               ))}
+              </div>
             </div>
           </div>
         </section>
@@ -168,6 +181,8 @@ export default function NewcomerGuidePage() {
             ))}
           </div>
         </section>
+
+        <NewcomerBenefitsSection />
 
         <section
           aria-labelledby="newcomer-faq-title"

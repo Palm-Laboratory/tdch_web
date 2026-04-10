@@ -9,22 +9,28 @@ interface CoreValueCardProps {
   number: string;
   title: string;
   description: string;
+  className?: string;
 }
 
 export default function CoreValueCard({
   number,
   title,
   description,
+  className = "",
 }: CoreValueCardProps) {
   return (
-    <article className="flex min-h-[120px] flex-col items-center rounded-[10px] border-t-[3px] border-[#c9a84c] bg-[#f8f7f4] px-3 py-[18px] text-center">
-      <p className={`${cormorantGaramond.className} text-[1.125rem] font-bold leading-none tracking-[0.08em] text-[#c9a84c]`}>
+    <article
+      className={`flex min-h-[132px] flex-col items-center justify-start px-5 py-5 text-center tracking-[0.02em] md:min-h-[154px] md:px-6 md:py-4 ${className}`}
+    >
+      <p
+        className={`${cormorantGaramond.className} text-[2.5rem] font-bold leading-none tracking-[0.06em] text-[rgba(26,39,68,0.05)] md:text-[3.25rem]`}
+      >
         {number}
       </p>
-      <h3 className="mt-1 type-body font-black leading-[1.3] tracking-[0.02em] text-[#1a2744]">
+      <h3 className="mt-2 type-body font-bold leading-none tracking-[0.02em] text-[#1a2744] md:text-[0.95rem]">
         {title}
       </h3>
-      <p className="mt-2 whitespace-pre-line type-body-small leading-[1.5] tracking-[0.02em] text-[#7a7060]">
+      <p className="mt-4 whitespace-pre-line type-body-small leading-[1.65] tracking-[0.02em] text-[#7a7060]">
         {description}
       </p>
     </article>
