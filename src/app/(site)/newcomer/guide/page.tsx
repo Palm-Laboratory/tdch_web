@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import CoreValueCard from "./components/core-value-card";
-import NewcomerBenefitsSection from "./components/newcomer-benefits-section";
 import NewcomerFaqAccordion from "./components/newcomer-faq-accordion";
 import NewcomerContactSection from "./components/newcomer-contact-section";
 import TimelineStep from "./components/timeline-step";
@@ -70,10 +69,6 @@ const newcomerFaqItems = [
       "물론입니다! 새가족 양육은 바로 그런 분들을 위한 과정입니다. 하나님, 인간, 예수님, 교회, 제자에 대해 차근차근 배우게 됩니다.",
   },
   {
-    question: "양육비는 얼마인가요?",
-    answer: "모든 양육은 무료입니다. 교재도 무료로 제공됩니다.",
-  },
-  {
     question: "혼자 오기 부담스러워요.",
     answer: "가족, 친구와 함께 오셔도 좋습니다. 담당 교사가 친절하게 안내해 드립니다.",
   },
@@ -141,19 +136,19 @@ export default function NewcomerGuidePage() {
             </h3>
             <div className="mt-3 border-y border-black/10 py-4 md:py-5">
               <div className="grid grid-cols-2 gap-y-0 md:grid-cols-5">
-              {coreValues.map((item, index) => (
-                <CoreValueCard
-                  key={item.number}
-                  {...item}
-                  className={
-                    index === coreValues.length - 1
-                      ? "col-span-2 border-t border-black/10 md:col-span-1 md:border-t-0 md:border-r-0"
-                      : index >= 2
-                        ? "border-t border-black/10 border-r border-black/10 md:border-t-0"
-                        : "border-r border-black/10"
-                  }
-                />
-              ))}
+                {coreValues.map((item, index) => (
+                  <CoreValueCard
+                    key={item.number}
+                    {...item}
+                    className={
+                      index === coreValues.length - 1
+                        ? "col-span-2 border-t border-black/10 md:col-span-1 md:border-t-0 md:border-r-0"
+                        : index >= 2
+                          ? "border-t border-black/10 border-r border-black/10 md:border-t-0"
+                          : "border-r border-black/10"
+                    }
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -181,8 +176,6 @@ export default function NewcomerGuidePage() {
             ))}
           </div>
         </section>
-
-        <NewcomerBenefitsSection />
 
         <section
           aria-labelledby="newcomer-faq-title"
