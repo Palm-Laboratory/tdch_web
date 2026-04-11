@@ -34,17 +34,6 @@ export default function ServiceTimesPage() {
     "모든 주일 예배는 온라인 송출을 병행합니다.",
     "예배시간 10분 전에 오셔서 예배를 준비해주세요.",
     "매달 마지막 주 금요일은 선교 기도회로 진행됩니다.",
-    <>
-      나인아트홀 대관 문의 031-238-6685 |{" "}
-      <a
-        href="https://www.nine9ent.com/ARTHALL"
-        target="_blank"
-        rel="noreferrer"
-        className="text-ink underline underline-offset-2"
-      >
-        https://www.nine9ent.com/ARTHALL
-      </a>
-    </>,
   ];
 
   return (
