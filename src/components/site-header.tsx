@@ -18,6 +18,7 @@ export default function SiteHeader() {
   const currentPathname = resolvedPathname || pathname || "";
   const hideOnMobile = /^\/sermons\/its-okay\/[^/]+$/.test(currentPathname);
   const isHomePage = currentPathname === "/";
+  const shouldUseMobileHomeTheme = isHomePage || currentPathname === "";
   const previousScrollYRef = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
 
@@ -133,7 +134,9 @@ export default function SiteHeader() {
     <header
       ref={headerRef}
       className={`${hideOnMobile ? "hidden md:block" : ""} fixed inset-x-0 top-0 z-50 transition-[transform,box-shadow,background-color] duration-300 lg:sticky
-        ${isHomePage ? "border-b border-transparent bg-transparent backdrop-blur-none lg:border-cedar/10 lg:bg-[#ffffff] lg:backdrop-blur-lg" : "border-b border-cedar/10 bg-[#ffffff] backdrop-blur-lg"}
+        ${shouldUseMobileHomeTheme
+          ? "border-b border-transparent bg-transparent backdrop-blur-none lg:border-cedar/10 lg:bg-[#ffffff] lg:backdrop-blur-lg"
+          : "border-b border-cedar/10 bg-[#ffffff] backdrop-blur-lg"}
         ${isHiddenOnMobile ? "-translate-y-full pointer-events-none lg:translate-y-0 lg:pointer-events-auto" : "translate-y-0"}
         ${isCondensed ? "shadow-[0_10px_30px_rgba(16,33,63,0.08)]" : ""}
       `}
@@ -151,7 +154,7 @@ export default function SiteHeader() {
             className="transition-[transform,font-size] duration-300 lg:static lg:max-w-none lg:shrink-0 lg:translate-x-0 lg:translate-y-0"
           >
             <div className="lg:hidden">
-              {isHomePage ? (
+              {shouldUseMobileHomeTheme ? (
                 <div className="flex flex-col">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/80">
                     The Disciples Church
@@ -231,7 +234,11 @@ export default function SiteHeader() {
 
           {/* 모바일 햄버거 버튼 & 전체 화면 메뉴 */}
           <div className="relative z-10 flex shrink-0 items-center lg:hidden">
-            <MobileNav isOpen={isMobileNavOpen} setIsOpen={setIsMobileNavOpen} isTransparent={isHomePage} />
+            <MobileNav
+              isOpen={isMobileNavOpen}
+              setIsOpen={setIsMobileNavOpen}
+              isTransparent={shouldUseMobileHomeTheme}
+            />
           </div>
         </div>
       </div>
