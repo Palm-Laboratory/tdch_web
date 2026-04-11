@@ -28,6 +28,107 @@
 - 같은 역할의 텍스트는 가능한 한 같은 토큰을 사용합니다.
 - 페이지별 특수 타이포는 기본 토큰 위에 최소한으로 덧씌웁니다.
 
+## 폰트 사용 규칙
+
+- 기본 본문은 `font-sans`를 사용합니다.
+- 일반 serif 계열은 `font-serif`를 사용합니다.
+- 페이지/섹션 제목용 serif 계열은 `font-section-title`을 사용합니다.
+
+지양:
+
+- `font-[var(--font-sans)]`
+- `font-[var(--font-serif)]`
+- CSS variable을 Tailwind arbitrary value로 직접 참조하는 패턴
+
+## 폰트 추가 및 등록 방법
+
+새 폰트는 CSS variable을 직접 참조해서 쓰지 말고, 아래 순서로 등록합니다.
+
+### 1. `src/app/layout.tsx`에 폰트 variable 추가
+
+Google Font 예시:
+
+```tsx
+import { Noto_Sans_KR } from "next/font/google";
+
+const sans = Noto_Sans_KR({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["400", "500", "700"],
+});
+```
+
+Local Font 예시:
+
+```tsx
+import localFont from "next/font/local";
+
+const yeongwol = localFont({
+  src: "./fonts/YeongwolTTF.ttf",
+  variable: "--font-yeongwol",
+  display: "swap",
+});
+```
+
+### 2. `body` 또는 루트에 variable class를 연결
+
+```tsx
+<body className={`${sans.variable} ${yeongwol.variable} font-sans antialiased`}>
+```
+
+- variable class는 루트에서 한 번만 주입합니다.
+- 기본 본문 폰트는 `font-sans`처럼 Tailwind 클래스로 선택합니다.
+
+### 3. `tailwind.config.ts`에 `fontFamily` 등록
+
+```ts
+fontFamily: {
+  sans: ["var(--font-sans)", "sans-serif"],
+  serif: ["var(--font-serif)", "serif"],
+  "section-title": ["var(--font-section-title)", "serif"],
+  yeongwol: ["var(--font-yeongwol)", "sans-serif"],
+}
+```
+
+등록 후 사용 클래스:
+
+- `font-sans`
+- `font-serif`
+- `font-section-title`
+- `font-yeongwol`
+
+### 4. 컴포넌트에서는 Tailwind 폰트 클래스만 사용
+
+권장:
+
+```tsx
+<h2 className="type-section-title font-section-title font-bold">
+  새가족 안내
+</h2>
+```
+
+지양:
+
+```tsx
+<h2 className="type-section-title font-[var(--font-section-title)] font-bold">
+  새가족 안내
+</h2>
+```
+
+### 5. 새 폰트가 반복 사용되면 역할까지 같이 정의
+
+- 단순 장식용 1회성 폰트면 로컬 예외로 끝낼 수 있습니다.
+- 페이지/섹션/카드처럼 반복되는 역할이면 `fontFamily`와 `type-*` 조합까지 같이 정리합니다.
+- 같은 역할에서 새 폰트가 반복되면 문서와 공용 컴포넌트도 함께 갱신합니다.
+
+### 체크리스트
+
+- `layout.tsx`에 `variable` 등록 완료
+- 루트에 `${font.variable}` 연결 완료
+- `tailwind.config.ts`의 `fontFamily` 등록 완료
+- 컴포넌트에서 `font-*` 클래스로만 사용 중
+- `font-[var(--font-...)]` 패턴이 남아 있지 않음
+
 ## 전역 타입 토큰
 
 정의 위치:
@@ -89,7 +190,7 @@
 ### 페이지 대표 타이틀
 
 ```tsx
-<h1 className={`${nanumMyeongjo.className} type-page-title font-extrabold text-white`}>
+<h1 className="type-page-title font-section-title font-extrabold text-white">
   당신이 여기 있어서,
   <br />
   정말 다행입니다.
@@ -99,7 +200,7 @@
 ### 섹션 타이틀
 
 ```tsx
-<h2 className={`${gowunBatang.className} type-section-title font-bold text-[#22345c]`}>
+<h2 className="type-section-title font-section-title font-bold text-[#22345c]">
   산타로사에서의 17년
 </h2>
 ```
@@ -107,7 +208,7 @@
 ### 카드 제목
 
 ```tsx
-<h3 className="type-card-title font-bold text-black">
+<h3 className="type-card-title font-section-title font-bold text-black">
   상처가 뭔지 압니다
 </h3>
 ```
@@ -158,7 +259,7 @@
 
 다음 속성은 상황에 따라 같이 조합합니다.
 
-- `font-family`
+- `font-family class`
 - `font-weight`
 - `tracking`
 - `color`
@@ -167,7 +268,7 @@
 예:
 
 ```tsx
-<h2 className={`${nanumMyeongjo.className} type-section-title font-bold tracking-[0.01em] text-[#1a2744]`}>
+<h2 className="type-section-title font-section-title font-bold tracking-[0.01em] text-[#1a2744]">
   예수님이 하신 세 가지
 </h2>
 ```
@@ -178,6 +279,7 @@
 - `text-[1.83rem]`, `text-[1.91rem]` 같은 임의 값의 과도한 누적
 - 루트 `font-size`를 바꿔 전체 Tailwind scale을 흔드는 방식
 - 본문에 과도한 fluid typography를 적용해 읽기 기준이 흔들리는 패턴
+- `font-[var(--font-sans)]`, `font-[var(--font-serif)]`처럼 폰트를 직접 변수 참조로 쓰는 패턴
 
 ## 현재 적용 페이지
 

@@ -11,6 +11,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-sans)", "sans-serif"],
         serif: ["var(--font-serif)", "serif"],
+        "section-title": ["var(--font-section-title)", "serif"],
         yeongwol: ["var(--font-yeongwol)", "sans-serif"]
       },
       colors: {
@@ -32,7 +33,13 @@ const config: Config = {
         moss: "#2f6f9e",
         clay: "#3f74c7",
         gold: "#6ca6f0",
-        themeBlue: "#1c2f48"
+        themeBlue: "#1c2f48",
+        site: {
+          surface: "#f8f7f4",
+          ink: "#1a2744",
+          muted: "#7a7060",
+          gold: "#c9a84c"
+        }
       },
       boxShadow: {
         soft: "0 12px 40px rgba(16, 33, 63, 0.14)"

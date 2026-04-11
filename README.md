@@ -184,6 +184,8 @@ npm run dev
 - 제목은 `base`, `md`, 필요 시 `lg`에서만 단계적으로 키웁니다.
 - `clamp()`, `vw`, `zoom`, 브라우저 자동 스케일에 의존한 타이포는 새 코드에서 기본 전략으로 사용하지 않습니다.
 - 한 페이지 안에서는 동일한 역할의 텍스트가 같은 축을 사용해야 합니다.
+- 폰트는 Tailwind에 등록된 클래스만 사용합니다. `font-sans`, `font-serif`, `font-section-title`
+- `font-[var(--font-sans)]`, `font-[var(--font-serif)]` 같은 arbitrary value 직접 참조는 새 코드에서 사용하지 않습니다.
 
 권장 타입 스케일:
 
@@ -217,12 +219,12 @@ npm run dev
 
 권장 적용 예시:
 
-- 페이지 대표 타이틀: `className="type-page-title ..."`
-- 섹션 타이틀: `className="type-section-title ..."`
+- 페이지 대표 타이틀: `className="type-page-title font-section-title ..."`
+- 섹션 타이틀: `className="type-section-title font-section-title ..."`
 - 중간 제목: `className="type-subsection-title ..."`
 - 블록 제목: `className="type-block-title ..."`
-- 카드 제목: `className="type-card-title ..."`
-- 본문: `className="type-body ..."`
+- 카드 제목: `className="type-card-title font-section-title ..."`
+- 본문: `className="type-body font-sans ..."`
 - 강조 본문: `className="type-lead ..."`
 - 라벨: `className="type-label ..."`
 
@@ -231,6 +233,7 @@ npm run dev
 - 같은 역할의 제목인데 페이지마다 `1.68rem`, `1.82rem`, `1.91rem`처럼 제각각 쓰는 패턴
 - 루트 `font-size`를 바꿔 Tailwind 전체 scale을 흔드는 방식
 - 본문에 과도한 fluid typography를 넣어 읽기 기준이 흔들리는 패턴
+- `font-[var(--font-sans)]`, `font-[var(--font-serif)]`처럼 폰트를 직접 변수 참조로 쓰는 패턴
 
 ## 반응형 기준
 

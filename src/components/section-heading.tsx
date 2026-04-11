@@ -16,17 +16,17 @@ export default function SectionHeading({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
-        <p className="text-[0.625rem] font-semibold uppercase tracking-[0.28em] text-[#c9a84c] md:text-[0.6875rem]">
+        <p className="type-label font-semibold uppercase tracking-[0.28em] text-site-gold">
           {label}
         </p>
         <HeadingTag
           id={id}
-          className={`font-[var(--font-serif)] text-[1.75rem] font-bold leading-none tracking-[-0.02em] md:text-[2rem] ${inverted ? "text-white" : "text-[#1a2744]"}`}
+          className={`type-section-title font-section-title font-bold tracking-[-0.02em] ${inverted ? "text-white" : "text-site-ink"}`}
         >
           {title}
         </HeadingTag>
       </div>
-      <div className="h-px w-9 bg-[#c9a84c]" />
+      <div className="h-px w-9 bg-site-gold" />
     </div>
   );
 }

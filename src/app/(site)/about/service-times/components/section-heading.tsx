@@ -11,10 +11,10 @@ export default function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <div className="mb-5">
-      <p className="type-label mb-2 font-semibold uppercase tracking-[0.2em] text-[#C9A84C]">
+      <p className="type-label mb-2 font-semibold uppercase tracking-[0.2em] text-site-gold">
         {subtitle}
       </p>
-      <HeadingTag className="type-section-title font-bold tracking-[0.01em] text-ink">
+      <HeadingTag className="type-section-title font-section-title font-bold tracking-[0.01em] text-ink">
         {title}
       </HeadingTag>
     </div>

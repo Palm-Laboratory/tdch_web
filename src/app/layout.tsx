@@ -43,7 +43,7 @@ export default function RootLayout({
     <html lang="ko" suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className={`${sans.variable} ${serif.variable} ${sectionTitle.variable} ${yeongwol.variable} font-[var(--font-sans)] antialiased`}
+        className={`${sans.variable} ${serif.variable} ${sectionTitle.variable} ${yeongwol.variable} font-sans antialiased`}
       >
         <Script src="https://cdn.lordicon.com/lordicon.js" strategy="afterInteractive" />
         {children}
