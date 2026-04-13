@@ -12,13 +12,13 @@ export default function SiteHeader() {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [isCondensed, setIsCondensed] = useState(false);
   const [isHiddenOnMobile, setIsHiddenOnMobile] = useState(false);
-  const [resolvedPathname, setResolvedPathname] = useState("");
+  const [resolvedPathname, setResolvedPathname] = useState<string | null>(null);
   const { navMenuGroups } = useNavigation();
   const pathname = usePathname();
-  const currentPathname = resolvedPathname || pathname || "";
+  const currentPathname = resolvedPathname ?? pathname ?? "";
+  const hasResolvedPathname = resolvedPathname !== null || Boolean(pathname);
   const hideOnMobile = /^\/sermons\/its-okay\/[^/]+$/.test(currentPathname);
   const isHomePage = currentPathname === "/";
-  const hideOnHomePage = isHomePage;
   const previousScrollYRef = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
 
@@ -28,6 +28,10 @@ export default function SiteHeader() {
     const browserPathname = window.location.pathname;
     setResolvedPathname(pathname ?? browserPathname);
   }, [pathname]);
+
+  if (!hasResolvedPathname || isHomePage) {
+    return null;
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -132,7 +136,7 @@ export default function SiteHeader() {
   return (
     <header
       ref={headerRef}
-      className={`${hideOnMobile ? "hidden md:block" : ""} ${hideOnHomePage ? "hidden" : ""} fixed inset-x-0 top-0 z-50 transition-[transform,box-shadow,background-color] duration-300 lg:sticky
+      className={`${hideOnMobile ? "hidden md:block" : ""} fixed inset-x-0 top-0 z-50 transition-[transform,box-shadow,background-color] duration-300 lg:sticky
         border-b border-cedar/10 bg-[#ffffff] backdrop-blur-lg
         ${isHiddenOnMobile ? "-translate-y-full pointer-events-none lg:translate-y-0 lg:pointer-events-auto" : "translate-y-0"}
         ${isCondensed ? "shadow-[0_10px_30px_rgba(16,33,63,0.08)]" : ""}
