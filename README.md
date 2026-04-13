@@ -186,6 +186,8 @@ npm run dev
 - 한 페이지 안에서는 동일한 역할의 텍스트가 같은 축을 사용해야 합니다.
 - 폰트는 Tailwind에 등록된 클래스만 사용합니다. `font-sans`, `font-serif`, `font-section-title`
 - `font-[var(--font-sans)]`, `font-[var(--font-serif)]` 같은 arbitrary value 직접 참조는 새 코드에서 사용하지 않습니다.
+- 새 폰트를 추가할 때는 `layout.tsx`의 `next/font` variable 선언 -> 루트 연결 -> `tailwind.config.ts`의 `fontFamily` 등록 순서를 따릅니다.
+- 상세 절차와 예시는 [Typography Policy](docs/typography-policy.md)의 `폰트 추가 및 등록 방법`을 기준으로 합니다.
 
 권장 타입 스케일:
 
