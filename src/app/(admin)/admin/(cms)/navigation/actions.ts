@@ -30,7 +30,7 @@ function parseNullableNumber(val: FormDataEntryValue | null): number | null {
   return Number.isFinite(n) ? n : null;
 }
 
-const VALID_LINK_TYPES: AdminNavigationLinkType[] = ["INTERNAL", "ANCHOR", "EXTERNAL", "CONTENT_REF"];
+const VALID_LINK_TYPES: AdminNavigationLinkType[] = ["INTERNAL", "ANCHOR", "EXTERNAL"];
 
 function buildMessageState(message: string): NavigationFormState {
   return {
@@ -72,10 +72,6 @@ function toFriendlyNavigationMessage(error: unknown, fallback: string): string {
 
   if (message.includes("기본 랜딩")) {
     return "기본 이동 메뉴 설정이 올바르지 않습니다. 같은 상위 메뉴에서는 하나만 선택할 수 있습니다.";
-  }
-
-  if (message.includes("CONTENT_REF") || message.includes("targetMediaCollectionId")) {
-    return "콘텐츠 연결 설정을 다시 확인해 주세요.";
   }
 
   if (message.includes("ANCHOR")) {
@@ -127,10 +123,6 @@ function parsePayload(formData: FormData): {
   if (!href) errors.href = "연결 주소를 입력해주세요.";
   if (!VALID_LINK_TYPES.includes(linkType as AdminNavigationLinkType))
     errors.linkType = "올바른 링크 타입을 선택해주세요.";
-  if (linkType === "CONTENT_REF" && !parseNullableNumber(formData.get("targetMediaCollectionId"))) {
-    errors.targetMediaCollectionId = "연결할 미디어 컬렉션을 선택해주세요.";
-  }
-
   const navigationSetId = parseNullableNumber(formData.get("navigationSetId"));
   if (!navigationSetId) {
     errors.navigationSetId = "메뉴 세트 정보가 누락되었습니다.";
@@ -147,7 +139,6 @@ function parsePayload(formData: FormData): {
       href,
       matchPath: parseNullableString(formData.get("matchPath")),
       linkType: linkType as AdminNavigationLinkType,
-      targetMediaCollectionId: parseNullableNumber(formData.get("targetMediaCollectionId")),
       visible: parseBoolean(formData.get("visible")),
       headerVisible: parseBoolean(formData.get("headerVisible")),
       mobileVisible: parseBoolean(formData.get("mobileVisible")),

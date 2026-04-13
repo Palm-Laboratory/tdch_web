@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getAdminMediaCollections, getAdminNavigationItems, getAdminNavigationSets } from "@/lib/admin-navigation-api";
+import { getAdminNavigationItems, getAdminNavigationSets } from "@/lib/admin-navigation-api";
 import NavigationForm from "../_components/navigation-form";
 import { createNavigationItemAction } from "../actions";
 
@@ -23,10 +23,9 @@ export default async function NavigationNewPage({ searchParams }: NavigationNewP
   const rawSetKey = Array.isArray(resolved?.setKey) ? resolved.setKey[0] : (resolved?.setKey ?? "main");
   const currentSetKey = rawSetKey || "main";
 
-  const [{ groups }, { sets }, { items: mediaCollections }] = await Promise.all([
+  const [{ groups }, { sets }] = await Promise.all([
     getAdminNavigationItems(true, currentSetKey),
     getAdminNavigationSets(),
-    getAdminMediaCollections(),
   ]);
 
   // 현재 세트 정보
@@ -69,7 +68,6 @@ export default async function NavigationNewPage({ searchParams }: NavigationNewP
         mode="new"
         navigationSetId={currentSet.id}
         parentOptions={parentOptions}
-        mediaCollectionOptions={mediaCollections}
         createAction={createNavigationItemAction}
       />
     </div>

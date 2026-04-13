@@ -5,67 +5,10 @@ import { usePathname } from "next/navigation";
 
 const NAV_GROUPS = [
   {
-    label: null,
-    items: [
-      {
-        href: "/admin",
-        label: "대시보드",
-        exact: true,
-        icon: (
-          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
-            <rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-            <rect x="1" y="10" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-            <rect x="10" y="1" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-            <rect x="10" y="10" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-        ),
-      },
-    ],
-  },
-  {
-    label: "콘텐츠",
-    items: [
-      {
-        href: "/admin/media/messages",
-        label: "설교 영상",
-        exact: false,
-        badge: "messages",
-        icon: (
-          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
-            <rect x="1" y="3" width="15" height="11" rx="2" stroke="currentColor" strokeWidth="1.5" />
-            <path d="M6.5 6.2l4 2.3-4 2.3V6.2z" fill="currentColor" />
-          </svg>
-        ),
-      },
-      {
-        href: "/admin/media/its-okay",
-        label: "그래도 괜찮아",
-        exact: false,
-        badge: "its-okay",
-        icon: (
-          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
-            <path d="M8.5 2C5.46 2 3 4.46 3 7.5c0 1.74.82 3.29 2.1 4.28L4.5 15l3.2-1.6a5.49 5.49 0 0 0 .8.06c3.04 0 5.5-2.46 5.5-5.5C14 4.46 11.54 2 8.5 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-          </svg>
-        ),
-      },
-      {
-        href: "/admin/media/better-devotion",
-        label: "더 좋은 묵상",
-        exact: false,
-        badge: "better-devotion",
-        icon: (
-          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
-            <path d="M3 4h11M3 8h8M3 12h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-        ),
-      },
-    ],
-  },
-  {
     label: "운영",
     items: [
       {
-        href: "/admin/navigation",
+        href: "/admin",
         label: "내비게이션",
         exact: false,
         icon: (

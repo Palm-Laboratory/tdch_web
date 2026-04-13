@@ -2,9 +2,7 @@ import "server-only";
 
 import { adminApiFetch } from "@/lib/admin-api";
 
-export type AdminNavigationLinkType = "INTERNAL" | "ANCHOR" | "EXTERNAL" | "CONTENT_REF";
-
-// ── Navigation Set ────────────────────────────────────────────────────────────
+export type AdminNavigationLinkType = "INTERNAL" | "ANCHOR" | "EXTERNAL";
 
 export interface AdminNavigationSet {
   id: number;
@@ -18,8 +16,6 @@ export interface AdminNavigationSetsResponse {
   sets: AdminNavigationSet[];
 }
 
-// ── Navigation Item ───────────────────────────────────────────────────────────
-
 export interface AdminNavigationItem {
   id: number;
   navigationSetId: number;
@@ -29,7 +25,6 @@ export interface AdminNavigationItem {
   href: string;
   matchPath: string | null;
   linkType: AdminNavigationLinkType;
-  targetMediaCollectionId: number | null;
   visible: boolean;
   headerVisible: boolean;
   mobileVisible: boolean;
@@ -45,27 +40,11 @@ export interface AdminNavigationTreeResponse {
   groups: AdminNavigationItem[];
 }
 
-export interface AdminMediaCollection {
-  id: number;
-  collectionKey: string;
-  title: string;
-  defaultPath: string;
-  contentKind: string;
-  active: boolean;
-}
-
-export interface AdminMediaCollectionsResponse {
-  items: AdminMediaCollection[];
-}
-
-// ── Read ──────────────────────────────────────────────────────────────────────
-
 export async function getAdminNavigationSets(): Promise<AdminNavigationSetsResponse> {
   try {
     const response = await adminApiFetch("/api/v1/admin/navigation/sets");
     return response.json() as Promise<AdminNavigationSetsResponse>;
   } catch {
-    // 엔드포인트 미구현 시 기본 세트로 fallback
     return { sets: [{ id: 1, setKey: "main", label: "메인 사이트 메뉴", description: null, active: true }] };
   }
 }
@@ -84,13 +63,6 @@ export async function getAdminNavigationItem(id: number): Promise<AdminNavigatio
   return response.json() as Promise<AdminNavigationItem>;
 }
 
-export async function getAdminMediaCollections(): Promise<AdminMediaCollectionsResponse> {
-  const response = await adminApiFetch("/api/v1/admin/navigation/media-collections");
-  return response.json() as Promise<AdminMediaCollectionsResponse>;
-}
-
-// ── CRUD ──────────────────────────────────────────────────────────────────────
-
 export interface NavigationItemPayload {
   navigationSetId: number;
   parentId?: number | null;
@@ -99,7 +71,6 @@ export interface NavigationItemPayload {
   href: string;
   matchPath?: string | null;
   linkType: AdminNavigationLinkType;
-  targetMediaCollectionId?: number | null;
   visible: boolean;
   headerVisible: boolean;
   mobileVisible: boolean;

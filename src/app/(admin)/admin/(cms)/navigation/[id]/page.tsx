@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
-  getAdminMediaCollections,
   getAdminNavigationItem,
   getAdminNavigationItems,
   getAdminNavigationSets,
@@ -33,11 +32,10 @@ export default async function NavigationDetailPage({ params }: NavigationDetailP
   if (!Number.isFinite(id) || id <= 0) notFound();
 
   // 병렬 패치
-  const [itemResult, groupsResult, setsResult, mediaCollectionsResult] = await Promise.allSettled([
+  const [itemResult, groupsResult, setsResult] = await Promise.allSettled([
     getAdminNavigationItem(id),
     getAdminNavigationItems(true),
     getAdminNavigationSets(),
-    getAdminMediaCollections(),
   ]);
 
   if (itemResult.status === "rejected") {
@@ -49,7 +47,6 @@ export default async function NavigationDetailPage({ params }: NavigationDetailP
   const item = itemResult.value;
   const allGroups = groupsResult.status === "fulfilled" ? groupsResult.value.groups : [];
   const sets = setsResult.status === "fulfilled" ? setsResult.value.sets : [];
-  const mediaCollectionOptions = mediaCollectionsResult.status === "fulfilled" ? mediaCollectionsResult.value.items : [];
 
   // 현재 세트 키 확인
   const currentSet = sets.find((s) => s.id === item.navigationSetId);
@@ -117,7 +114,6 @@ export default async function NavigationDetailPage({ params }: NavigationDetailP
         navigationSetId={item.navigationSetId}
         item={item}
         parentOptions={parentOptions}
-        mediaCollectionOptions={mediaCollectionOptions}
         createAction={createNavigationItemAction}
         updateAction={boundUpdateAction}
         deleteAction={boundDeleteAction}

@@ -32,7 +32,6 @@ const LINK_TYPE_META: Record<string, { label: string; cls: string }> = {
   INTERNAL:    { label: "내부",   cls: "bg-blue-50 text-blue-600" },
   EXTERNAL:    { label: "외부",   cls: "bg-orange-50 text-orange-600" },
   ANCHOR:      { label: "앵커",   cls: "bg-purple-50 text-purple-600" },
-  CONTENT_REF: { label: "콘텐츠", cls: "bg-teal-50 text-teal-600" },
 };
 
 function LinkTypeBadge({ type }: { type: string }) {
