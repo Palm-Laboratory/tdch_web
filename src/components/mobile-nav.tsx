@@ -51,7 +51,6 @@ export default function MobileNav({ isOpen, setIsOpen, isTransparent = false }: 
       <button
         type="button"
         onClick={openMenu}
-        onPointerUp={openMenu}
         className={`inline-flex min-h-11 min-w-11 touch-manipulation items-center justify-center rounded-xl border text-xl transition
           ${isTransparent
             ? "border-white/30 text-white hover:border-white/50 hover:bg-white/10"
@@ -91,8 +90,8 @@ export default function MobileNav({ isOpen, setIsOpen, isTransparent = false }: 
               </div>
             </Link>
             <button
+              type="button"
               onClick={closeMenu}
-              onPointerUp={closeMenu}
               className="inline-flex min-h-12 min-w-12 touch-manipulation items-center justify-center rounded-xl bg-cedar/5 text-ink/70 transition hover:bg-cedar/10 hover:text-ink"
               aria-label="메뉴 닫기"
             >
