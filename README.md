@@ -21,13 +21,13 @@ npm run dev
 - `/about/service-times` 예배 시간 안내
 - `/about/location` 오시는 길/문의
 - `/about/history` 교회 연혁
+- `/about/giving` 헌금 안내
 - `/sermons/messages` 말씀/설교
 - `/sermons/better-devotion` 더 좋은 묵상
 - `/sermons/its-okay` 그래도 괜찮아
 - `/newcomer` 새가족 안내
 - `/newcomer/care` 새가족 양육
 - `/newcomer/curriculum` 교육 과정
-- `/about/giving` 헌금 안내
 
 메모:
 
