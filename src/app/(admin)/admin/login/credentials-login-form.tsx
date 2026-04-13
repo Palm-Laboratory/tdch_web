@@ -83,15 +83,9 @@ export default function CredentialsLoginForm({ callbackUrl }: CredentialsLoginFo
         type="submit"
         disabled={isPending}
         className="flex h-11 w-full items-center justify-center rounded-xl bg-[#6ca6f0] text-sm font-semibold text-[#08121f] transition hover:bg-[#82b4f3] disabled:cursor-not-allowed disabled:opacity-60"
+        aria-busy={isPending}
       >
-        {isPending ? (
-          <>
-            <LoadingSpinner />
-            <span>로그인 중...</span>
-          </>
-        ) : (
-          "관리자 계정 로그인"
-        )}
+        {isPending ? <LoadingSpinner /> : "로그인"}
       </button>
 
       {fallbackError ? (
@@ -104,11 +98,12 @@ export default function CredentialsLoginForm({ callbackUrl }: CredentialsLoginFo
 function LoadingSpinner() {
   return (
     <svg
-      className="mr-2 h-4 w-4 animate-spin"
+      className="h-5 w-5 animate-spin"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      aria-hidden="true"
+      role="progressbar"
+      aria-label="로그인 처리 중"
     >
       <circle
         className="opacity-25"
