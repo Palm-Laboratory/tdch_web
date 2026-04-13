@@ -45,7 +45,7 @@ export default function NewcomerFaqAccordion({
                 <span className="shrink-0 text-[14px] font-normal leading-[1.34] text-[#c9a84c]">
                   Q.
                 </span>
-                <h3 className="type-card-title font-medium leading-[1.34] tracking-[-0.03em] text-ink md:type-block-title">
+                <h3 className="type-accordion-title font-bold tracking-[-0.03em] text-ink">
                   {item.question}
                 </h3>
               </div>
