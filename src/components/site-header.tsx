@@ -19,6 +19,7 @@ export default function SiteHeader() {
   const hasResolvedPathname = resolvedPathname !== null || Boolean(pathname);
   const hideOnMobile = /^\/sermons\/its-okay\/[^/]+$/.test(currentPathname);
   const isHomePage = currentPathname === "/";
+  const shouldRenderHeader = hasResolvedPathname && !isHomePage;
   const previousScrollYRef = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
 
@@ -29,11 +30,11 @@ export default function SiteHeader() {
     setResolvedPathname(pathname ?? browserPathname);
   }, [pathname]);
 
-  if (!hasResolvedPathname || isHomePage) {
-    return null;
-  }
-
   useEffect(() => {
+    if (!shouldRenderHeader) {
+      return;
+    }
+
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const previousScrollY = previousScrollYRef.current;
@@ -85,9 +86,14 @@ export default function SiteHeader() {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
     };
-  }, [isMobileNavOpen]);
+  }, [isMobileNavOpen, shouldRenderHeader]);
 
   useEffect(() => {
+    if (!shouldRenderHeader) {
+      document.documentElement.style.removeProperty("--site-header-height");
+      return;
+    }
+
     const headerElement = headerRef.current;
 
     if (!headerElement) {
@@ -117,9 +123,13 @@ export default function SiteHeader() {
       window.removeEventListener("resize", updateHeaderHeight);
       document.documentElement.style.removeProperty("--site-header-height");
     };
-  }, [hideOnMobile]);
+  }, [hideOnMobile, shouldRenderHeader]);
 
   useEffect(() => {
+    if (!shouldRenderHeader) {
+      return;
+    }
+
     // 상세 쇼츠 페이지에서 돌아온 직후에도 헤더가 화면 밖에 남지 않도록
     // 경로가 바뀌면 모바일 숨김 상태를 즉시 초기화한다.
     previousScrollYRef.current = window.scrollY;
@@ -131,7 +141,11 @@ export default function SiteHeader() {
     }
 
     setIsCondensed(window.innerWidth >= 1024 && window.scrollY > 24);
-  }, [currentPathname]);
+  }, [currentPathname, shouldRenderHeader]);
+
+  if (!shouldRenderHeader) {
+    return null;
+  }
 
   return (
     <header

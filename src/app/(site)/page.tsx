@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
-import { Gowun_Batang } from "next/font/google";
 import AnimatedCards from "@/app/home/components/animated-cards";
 import MissionSection from "@/app/home/components/mission-section";
 import SermonVideoCard from "@/app/(site)/sermons/components/sermon-video-card";
@@ -21,9 +20,8 @@ import {
   YOUTUBE_CHANNEL_LABEL,
   YOUTUBE_CHANNEL_URL,
 } from "@/lib/site-config";
+import { gowunBatang } from "@/lib/fonts";
 import { createPageMetadata } from "@/lib/seo";
-
-const gowunBatang = Gowun_Batang({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = createPageMetadata({
   title: `${SITE_ALTERNATE_NAME} | ${SITE_NAME}`,

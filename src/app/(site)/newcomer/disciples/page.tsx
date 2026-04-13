@@ -1,4 +1,3 @@
-import { Cormorant_Garamond } from "next/font/google";
 import type { Metadata } from "next";
 import DisciplesApplicationForm from "./components/disciples-application-form";
 import DisciplesCurriculum from "./components/disciples-curriculum";
@@ -7,12 +6,8 @@ import ClassStructureCard from "../care/components/class-structure-card";
 import Breadcrumb from "@/components/breadcrumb";
 import PageHeader from "@/components/page-header";
 import SectionHeading from "@/components/section-heading";
+import { cormorantGaramond } from "@/lib/fonts";
 import { createPageMetadata } from "@/lib/seo";
-
-const cormorantGaramond = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["600", "700"],
-});
 
 const discipleshipPrinciples = [
   {

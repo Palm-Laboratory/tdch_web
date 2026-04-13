@@ -1,13 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { Gowun_Batang } from "next/font/google";
 import { useEffect, useRef, useState } from "react";
-
-const gowunBatang = Gowun_Batang({
-    subsets: ["latin"],
-    weight: ["400", "700"],
-});
+import { gowunBatang } from "@/lib/fonts";
 
 const missionCards = [
     {

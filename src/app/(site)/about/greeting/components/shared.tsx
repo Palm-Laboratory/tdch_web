@@ -1,14 +1,6 @@
-import { Nanum_Myeongjo, Original_Surfer } from "next/font/google";
+import { nanumMyeongjo, originalSurfer } from "@/lib/fonts";
 
-export const originalSurfer = Original_Surfer({
-  subsets: ["latin"],
-  weight: "400"
-});
-
-export const nanumMyeongjo = Nanum_Myeongjo({
-  subsets: ["latin"],
-  weight: ["400", "700", "800"]
-});
+export { nanumMyeongjo, originalSurfer };
 
 export const sectionNumberClass =
   `${originalSurfer.className} type-display-number pointer-events-none absolute left-[-10px] top-[-28px] tracking-normal`;

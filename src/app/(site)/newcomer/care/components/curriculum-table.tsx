@@ -1,9 +1,4 @@
-import { Cormorant_Garamond } from "next/font/google";
-
-const cormorantGaramond = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["600", "700"],
-});
+import { cormorantGaramond } from "@/lib/fonts";
 
 interface CurriculumWeek {
   week: string;
