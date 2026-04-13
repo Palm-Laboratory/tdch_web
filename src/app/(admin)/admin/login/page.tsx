@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getAdminSession, isAdminSession } from "@/auth";
 import CredentialsLoginForm from "./credentials-login-form";
-import KakaoLoginButton from "./kakao-login-button";
 
 export const metadata: Metadata = {
   title: "관리자 로그인",
@@ -74,14 +73,6 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
           )}
 
           <CredentialsLoginForm callbackUrl={safeCallbackUrl} />
-
-          <div className="my-6 flex items-center gap-3">
-            <div className="h-px flex-1 bg-white/[0.06]" />
-            <span className="text-[11px] uppercase tracking-[0.18em] text-white/25">or</span>
-            <div className="h-px flex-1 bg-white/[0.06]" />
-          </div>
-
-          <KakaoLoginButton callbackUrl={safeCallbackUrl} />
 
           {/* 구분선 */}
           <div className="mt-8 border-t border-white/[0.06]" />
