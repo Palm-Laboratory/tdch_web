@@ -135,7 +135,7 @@ export default function SermonDetailPage({
   const scriptureReference = buildScriptureReference(detail);
   const scriptureBody = buildScriptureBody(detail);
   const autoplayEmbedUrl = buildAutoplayEmbedUrl(detail.embedUrl);
-  const showScriptureSection = siteKey === "messages";
+  const showScriptureSection = Boolean(scriptureReference || scriptureBody);
 
   return (
     <section className="mx-auto max-w-[1520px] px-4 pb-10 pt-4 md:px-8 md:pb-14 md:pt-6">
