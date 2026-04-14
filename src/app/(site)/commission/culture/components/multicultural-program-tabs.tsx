@@ -68,9 +68,9 @@ const worshipInfo = [
 ] as const;
 
 const worshipScheduleCards = [
-  "화요일 오전 10-12시 (주부반)",
-  "화요일 오전 10-12시 (주부반)",
-  "화요일 오전 10-12시 (주부반)",
+  ["설날", "음력 1월 1일"],
+  ["추석", "음력 8월 15일"],
+  ["성탄절", "12월 25일"],
 ] as const;
 
 const gospelRows = [
@@ -208,10 +208,13 @@ function MulticulturalWorshipPanel() {
       <div>
         <p className="text-[12px] font-medium tracking-[0.08em] text-[#c9a84c]">특별 예배</p>
         <div className="mt-5 space-y-3">
-          {worshipScheduleCards.map((card, index) => (
-            <div key={`${card}-${index}`} className="rounded-[8px] bg-[#f8f7f4] px-5 py-[18px] text-[16px] tracking-[0.02em] text-[#888580]">
-              <span className="font-bold text-[#1a2744]">화요일</span>
-              <span className="ml-3">{card.replace("화요일 ", "")}</span>
+          {worshipScheduleCards.map(([title, date], index) => (
+            <div
+              key={`${title}-${date}-${index}`}
+              className="flex items-center justify-between rounded-[8px] bg-[#f8f7f4] px-5 py-[18px] text-[16px] tracking-[0.02em] text-[#888580]"
+            >
+              <span className="font-bold text-[#1a2744]">{title}</span>
+              <span>{date}</span>
             </div>
           ))}
         </div>

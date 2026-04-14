@@ -106,7 +106,7 @@ export default function PracticeAssignmentSection() {
                     <span className="text-[14px] font-normal leading-[14px] text-[#c9a84c]">
                       {item.weekLabel}
                     </span>
-                    <h3 className="type-accordion-title font-bold text-[#1a2744]">
+                    <h3 className="type-accordion-title font-medium text-[#1a2744]">
                       {item.title}
                     </h3>
                   </div>
