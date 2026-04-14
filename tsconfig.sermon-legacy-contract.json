@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["src/app/(site)/sermons/legacy-sermon-wrapper-contract.test.ts"],
+  "exclude": ["node_modules"]
+}

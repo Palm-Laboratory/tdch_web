@@ -1,22 +1,20 @@
 import type { Metadata } from "next";
-import ShortsArchivePage from "@/app/(site)/sermons/components/shorts-archive-page";
-import { getMediaList } from "@/lib/media-api";
-import { createPageMetadata } from "@/lib/seo";
-
-export const metadata: Metadata = createPageMetadata({
-  title: "그래도 괜찮아",
-  description: "The 제자교회 그래도 괜찮아 콘텐츠를 확인하실 수 있습니다.",
-  path: "/sermons/its-okay",
-});
+import SermonListPage, {
+  generateMetadata as generateDynamicMetadata,
+} from "@/app/(site)/sermons/[slug]/page";
+import {
+  buildLegacySermonListParams,
+  type LegacySermonListWrapperProps,
+} from "@/app/(site)/sermons/legacy-route-compatibility";
 
 export const dynamic = "force-dynamic";
 
-export default async function ItsOkayPage() {
-  const response = await getMediaList("its-okay", 0, 24);
+export async function generateMetadata({
+  searchParams,
+}: LegacySermonListWrapperProps): Promise<Metadata> {
+  return generateDynamicMetadata(buildLegacySermonListParams("its-okay", searchParams));
+}
 
-  return (
-    <div className="pb-20">
-      <ShortsArchivePage siteKey="its-okay" response={response} />
-    </div>
-  );
+export default async function ItsOkayPage({ searchParams }: LegacySermonListWrapperProps) {
+  return SermonListPage(buildLegacySermonListParams("its-okay", searchParams));
 }
