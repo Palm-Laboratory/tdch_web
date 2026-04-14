@@ -17,6 +17,17 @@ const NAV_GROUPS = [
           </svg>
         ),
       },
+      {
+        href: "/admin/media",
+        label: "예배 영상",
+        exact: false,
+        icon: (
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <rect x="2.25" y="3" width="12.5" height="11" rx="2" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M7 6.25 11 8.5 7 10.75V6.25Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
+          </svg>
+        ),
+      },
     ],
   },
 ];
