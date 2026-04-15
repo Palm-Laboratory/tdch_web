@@ -13,10 +13,93 @@ import {
 } from "@/lib/admin-media-api";
 import DiscoverPlaylistsButton from "./_components/discover-playlists-button";
 import AdminMediaSyncButton from "./_components/admin-media-sync-button";
+import AdminMediaFilterForm from "./_components/admin-media-filter-form";
 import { discoverAdminPlaylistsAction, runAdminMediaSyncAction } from "./actions";
 
 function Badge({ label, cls }: { label: string; cls: string }) {
   return <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${cls}`}>{label}</span>;
+}
+
+type StatusFilter = "all" | "draft" | "published" | "inactive";
+type SyncFilter = "all" | "enabled" | "disabled";
+
+interface AdminMediaPageProps {
+  searchParams?: Promise<{
+    status?: string | string[];
+    sync?: string | string[];
+    search?: string | string[];
+  }>;
+}
+
+interface AdminMediaFilters {
+  status: StatusFilter;
+  sync: SyncFilter;
+  search: string;
+}
+
+function getFirst(value: string | string[] | undefined): string {
+  return Array.isArray(value) ? (value[0] ?? "") : (value ?? "");
+}
+
+function normalizeStatus(value: string): StatusFilter {
+  if (value === "draft" || value === "published" || value === "inactive") {
+    return value;
+  }
+
+  return "all";
+}
+
+function normalizeSync(value: string): SyncFilter {
+  if (value === "enabled" || value === "disabled") {
+    return value;
+  }
+
+  return "all";
+}
+
+function getAdminMediaFilters(searchParams?: { status?: string | string[]; sync?: string | string[]; search?: string | string[] }): AdminMediaFilters {
+  const status = normalizeStatus(getFirst(searchParams?.status).trim().toLowerCase());
+  const sync = normalizeSync(getFirst(searchParams?.sync).trim().toLowerCase());
+  const search = getFirst(searchParams?.search).trim();
+
+  return { status, sync, search };
+}
+
+function matchesStatusFilter(item: AdminPlaylist, status: StatusFilter): boolean {
+  return (
+    status === "all" ||
+    (status === "draft" && item.status === "DRAFT") ||
+    (status === "published" && item.status === "PUBLISHED") ||
+    (status === "inactive" && item.status === "INACTIVE")
+  );
+}
+
+function matchesSyncFilter(item: AdminPlaylist, sync: SyncFilter): boolean {
+  return sync === "all" || (sync === "enabled" && item.syncEnabled) || (sync === "disabled" && !item.syncEnabled);
+}
+
+function matchesSearchFilter(item: AdminPlaylist, search: string): boolean {
+  const loweredSearch = search.toLowerCase();
+
+  return (
+    !loweredSearch ||
+    item.menuName.toLowerCase().includes(loweredSearch) ||
+    item.siteKey.toLowerCase().includes(loweredSearch) ||
+    item.slug.toLowerCase().includes(loweredSearch) ||
+    item.youtubePlaylistId.toLowerCase().includes(loweredSearch)
+  );
+}
+
+function filterAdminPlaylists(playlists: AdminPlaylist[], filters: AdminMediaFilters): AdminPlaylist[] {
+  return playlists.filter((item) => matchesStatusFilter(item, filters.status) && matchesSyncFilter(item, filters.sync) && matchesSearchFilter(item, filters.search));
+}
+
+function countByStatus(playlists: AdminPlaylist[], status: AdminPlaylist["status"]): number {
+  return playlists.filter((item) => item.status === status).length;
+}
+
+function countEnabledSync(playlists: AdminPlaylist[]): number {
+  return playlists.filter((item) => item.syncEnabled).length;
 }
 
 function PlaylistRow({ item, rowNum }: { item: AdminPlaylist; rowNum: number }) {
@@ -75,9 +158,10 @@ function PlaylistRow({ item, rowNum }: { item: AdminPlaylist; rowNum: number }) 
   );
 }
 
-export default async function AdminMediaPage(props: Record<string, never>) {
-  void props;
+export default async function AdminMediaPage({ searchParams }: AdminMediaPageProps) {
   const session = await getAdminSession();
+  const resolvedSearchParams = await searchParams;
+  const { status: currentStatus, sync: currentSync, search: currentSearch } = getAdminMediaFilters(resolvedSearchParams);
 
   if (!isAdminSession(session)) {
     redirect("/admin/login?callbackUrl=/admin/media");
@@ -85,14 +169,21 @@ export default async function AdminMediaPage(props: Record<string, never>) {
 
   const actorId = session.user.id ?? "";
   const [{ data: playlists }, syncJobs] = await Promise.all([
-    getAdminPlaylists(actorId, { page: 1, size: 100, sort: "menuName", order: "asc" }),
+    getAdminPlaylists(actorId, {
+      search: currentSearch || undefined,
+      page: 1,
+      size: 100,
+      sort: "menuName",
+      order: "asc",
+    }),
     getAdminSyncJobs(actorId),
   ]);
 
-  const draftCount = playlists.filter((item) => item.status === "DRAFT").length;
-  const publishedCount = playlists.filter((item) => item.status === "PUBLISHED").length;
-  const inactiveCount = playlists.filter((item) => item.status === "INACTIVE").length;
-  const syncEnabledCount = playlists.filter((item) => item.syncEnabled).length;
+  const filteredPlaylists = filterAdminPlaylists(playlists, { status: currentStatus, sync: currentSync, search: currentSearch });
+  const draftCount = countByStatus(filteredPlaylists, "DRAFT");
+  const publishedCount = countByStatus(filteredPlaylists, "PUBLISHED");
+  const inactiveCount = countByStatus(filteredPlaylists, "INACTIVE");
+  const syncEnabledCount = countEnabledSync(filteredPlaylists);
   const latestSyncJob = syncJobs.data[0] ?? null;
   const latestSyncJobStatusMeta = latestSyncJob ? getAdminSyncJobStatusMeta(latestSyncJob.status) : null;
 
@@ -129,9 +220,16 @@ export default async function AdminMediaPage(props: Record<string, never>) {
         </div>
       </div>
 
+      <AdminMediaFilterForm
+        currentStatus={currentStatus}
+        currentSync={currentSync}
+        currentSearch={currentSearch}
+        currentPath="/admin/media"
+      />
+
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
         {[
-          { label: "전체 메뉴", value: playlists.length, tone: "bg-white border-[#e2e8f0]" },
+          { label: "전체 메뉴", value: filteredPlaylists.length, tone: "bg-white border-[#e2e8f0]" },
           { label: "초안", value: draftCount, tone: "bg-[#fffaf0] border-[#fde7c7]" },
           { label: "게시", value: publishedCount, tone: "bg-[#f0fdf4] border-[#dcfce7]" },
           { label: "비활성", value: inactiveCount, tone: "bg-[#f8fafc] border-[#e2e8f0]" },
@@ -208,8 +306,15 @@ export default async function AdminMediaPage(props: Record<string, never>) {
                     <p className="mt-1 text-[12px] text-[#8fa3bb]">우측 상단 버튼으로 미연결 재생목록을 먼저 불러오세요.</p>
                   </td>
                 </tr>
+              ) : filteredPlaylists.length === 0 ? (
+                <tr>
+                  <td colSpan={9} className="px-5 py-12 text-center">
+                    <p className="text-[13px] font-semibold text-[#132033]">검색 결과가 없습니다.</p>
+                    <p className="mt-1 text-[12px] text-[#8fa3bb]">상태, Sync, 검색어를 다시 조정해 보세요.</p>
+                  </td>
+                </tr>
               ) : (
-                playlists.map((item, index) => <PlaylistRow key={item.id} item={item} rowNum={index + 1} />)
+                filteredPlaylists.map((item, index) => <PlaylistRow key={item.id} item={item} rowNum={index + 1} />)
               )}
             </tbody>
           </table>
