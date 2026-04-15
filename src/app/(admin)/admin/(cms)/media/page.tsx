@@ -2,49 +2,40 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getAdminSession, isAdminSession } from "@/auth";
 import {
+  ADMIN_CONTENT_KIND_META,
+  ADMIN_PLAYLIST_STATUS_META,
+  formatAdminMediaDate,
   getAdminPlaylists,
   getAdminSyncJobs,
-  type AdminContentKind,
   type AdminPlaylist,
-  type AdminPlaylistStatus,
 } from "@/lib/admin-media-api";
 import DiscoverPlaylistsButton from "./_components/discover-playlists-button";
 import { discoverAdminPlaylistsAction } from "./actions";
-
-const STATUS_META: Record<AdminPlaylistStatus, { label: string; cls: string }> = {
-  DRAFT: { label: "초안", cls: "bg-[#fff7ed] text-[#c2410c]" },
-  PUBLISHED: { label: "게시", cls: "bg-[#ecfdf5] text-[#047857]" },
-  INACTIVE: { label: "비활성", cls: "bg-[#f1f5f9] text-[#64748b]" },
-};
-
-const KIND_META: Record<AdminContentKind, { label: string; cls: string }> = {
-  LONG_FORM: { label: "롱폼", cls: "bg-[#eff6ff] text-[#1d4ed8]" },
-  SHORT: { label: "숏폼", cls: "bg-[#f5f3ff] text-[#7c3aed]" },
-};
 
 function Badge({ label, cls }: { label: string; cls: string }) {
   return <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${cls}`}>{label}</span>;
 }
 
 function PlaylistRow({ item, rowNum }: { item: AdminPlaylist; rowNum: number }) {
-  const discoveredAt = item.discoveredAt
-    ? new Date(item.discoveredAt).toLocaleDateString("ko-KR", { year: "numeric", month: "2-digit", day: "2-digit" })
-    : "—";
-  const lastSyncedAt = item.lastSyncedAt
-    ? new Date(item.lastSyncedAt).toLocaleDateString("ko-KR", { year: "numeric", month: "2-digit", day: "2-digit" })
-    : "미동기화";
+  const discoveredAt = formatAdminMediaDate(item.discoveredAt, "—");
+  const lastSyncedAt = formatAdminMediaDate(item.lastSyncedAt, "미동기화");
 
   return (
     <tr className="border-b border-[#f0f4f8] transition hover:bg-[#fafcff]">
       <td className="px-5 py-4 align-middle text-[13px] text-[#5d6f86]">{rowNum}</td>
       <td className="px-5 py-4 align-middle">
-        <Badge {...STATUS_META[item.status]} />
+        <Badge {...ADMIN_PLAYLIST_STATUS_META[item.status]} />
       </td>
       <td className="px-5 py-4 align-middle">
-        <Badge {...KIND_META[item.contentKind]} />
+        <Badge {...ADMIN_CONTENT_KIND_META[item.contentKind]} />
       </td>
       <td className="px-5 py-4 align-middle">
-        <p className="text-[13px] font-semibold text-[#0f1c2e]">{item.menuName}</p>
+        <Link
+          href={`/admin/media/${encodeURIComponent(item.siteKey)}`}
+          className="text-[13px] font-semibold text-[#0f1c2e] transition hover:text-[#3f74c7]"
+        >
+          {item.menuName}
+        </Link>
         <p className="mt-0.5 text-[11px] text-[#8fa3bb]">
           {item.siteKey} / {item.slug}
         </p>
@@ -81,7 +72,8 @@ function PlaylistRow({ item, rowNum }: { item: AdminPlaylist; rowNum: number }) 
   );
 }
 
-export default async function AdminMediaPage() {
+export default async function AdminMediaPage(props: Record<string, never>) {
+  void props;
   const session = await getAdminSession();
 
   if (!isAdminSession(session)) {
