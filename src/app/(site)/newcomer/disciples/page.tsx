@@ -6,7 +6,8 @@ import ClassStructureCard from "../care/components/class-structure-card";
 import Breadcrumb from "@/components/breadcrumb";
 import PageHeader from "@/components/page-header";
 import SectionHeading from "@/components/section-heading";
-import { cormorantGaramond } from "@/lib/fonts";
+import ScriptureQuoteCard from "@/components/scripture-quote-card";
+import { cormorantGaramond, nanumMyeongjo } from "@/lib/fonts";
 import { createPageMetadata } from "@/lib/seo";
 
 const discipleshipPrinciples = [
@@ -276,10 +277,12 @@ function PrincipleItem({
         >
           {englishTitle}
         </p>
-        <h3 className="mt-2 type-body font-bold leading-none tracking-[0.02em] text-[#1a2744]">
+        <h3
+          className={`${nanumMyeongjo.className} mt-2 type-lead font-bold leading-none tracking-[0.02em] text-[#1a2744]`}
+        >
           {title}
         </h3>
-        <p className="mt-3 type-body-small leading-[1.7] tracking-[0.02em] text-[#7a7060]">
+        <p className="mt-2 type-body-small leading-[1.7] tracking-[0.02em] text-[#7a7060]">
           {details.join(" · ")}
         </p>
       </div>
@@ -288,22 +291,19 @@ function PrincipleItem({
 }
 
 function GenerationCard({
-  year,
   generation,
   items,
   highlight = false,
 }: {
-  year: string;
   generation: string;
   items: readonly string[];
   highlight?: boolean;
 }) {
   return (
-    <article className="flex flex-col items-center px-4 py-3 text-center md:px-6 md:py-4">
-      <p className="type-label tracking-[0.08em] text-[#888580]">{year}</p>
-      <div className="mt-3 flex items-end justify-center gap-1">
+    <article className="flex flex-col items-center px-7 text-center">
+      <div className="flex items-end justify-center gap-1">
         <span
-          className={`${cormorantGaramond.className} text-[2.75rem] leading-none tracking-[0.08em] ${highlight ? "text-[#c9a84c]" : "text-[#1a2744]"}`}
+          className={`${cormorantGaramond.className} type-section-title font-bold leading-none tracking-[0.08em] ${highlight ? "text-[#c9a84c]" : "text-[#1a2744]"}`}
         >
           {generation}
         </span>
@@ -363,15 +363,12 @@ export default function NewcomerDisciplesPage() {
         <section aria-labelledby="disciples-intro-title">
           <SectionHeading id="disciples-intro-title" label="Discipleship" title="제자훈련" />
 
-          <blockquote className="mt-8 rounded-r-[12px] border-l-[3px] border-[#8c7a5b] bg-[#f7f7f4] px-6 py-7 md:px-7 md:py-8">
-            <p className="font-['Nanum_Myeongjo',serif] text-[16px] font-bold leading-[24px] tracking-[0.01em] text-[#1a2744]">
-              &quot;또 네가 많은 증인 앞에서 내게 들은 바를 충성된 사람들에게 부탁하라
-              그들이 또 다른 사람들을 가르칠 수 있으리라&quot;
-            </p>
-            <p className="mt-4 type-body-small font-medium tracking-[0.08em] text-[#7a7060]">
-              디모데후서 2:2
-            </p>
-          </blockquote>
+          <ScriptureQuoteCard
+            quote="또 네가 많은 증인 앞에서 내게 들은 바를 충성된 사람들에게 부탁하라 그들이 또 다른 사람들을 가르칠 수 있으리라"
+            reference="디모데후서 2:2"
+            className="mt-8 px-6 py-7 md:px-7 md:py-8"
+            quoteClassName={`${nanumMyeongjo.className} tracking-[0.01em]`}
+          />
         </section>
 
         <section

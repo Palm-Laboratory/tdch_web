@@ -127,7 +127,7 @@ function TabButton({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`border-b-2 px-1 pb-4 text-[14px] font-bold tracking-[0.04em] transition ${
+      className={`type-body-small border-b-2 px-1 pb-4 font-bold tracking-[0.04em] transition ${
         active ? "border-[#0f2044] text-[#0f2044]" : "border-transparent text-[#888580]"
       }`}
     >
@@ -140,7 +140,7 @@ function BulletList({ items }: { items: readonly string[] }) {
   return (
     <div className="space-y-3">
       {items.map((item) => (
-        <div key={item} className="flex items-start gap-2 text-[14px] tracking-[0.02em] text-[#4a4845]">
+        <div key={item} className="type-body-small flex items-start gap-2 tracking-[0.02em] text-[#4a4845]">
           <span className="pt-1 text-[#888580]">·</span>
           <span className="leading-[1.65]">{item}</span>
         </div>
@@ -160,9 +160,9 @@ function KoreanEducationPanel() {
               index < koreanEducationCourses.length - 1 ? "border-b border-[#d0cdca] md:border-b-0 md:border-r" : ""
             }`}
           >
-            <p className="text-[12px] font-bold tracking-[0.08em] text-[#c9a84c]">{course.level}</p>
-            <h3 className="mt-4 text-[18px] font-bold tracking-[0.02em] text-[#0f2044]">{course.title}</h3>
-            <div className="mt-4 space-y-2 text-[14px] tracking-[0.02em] text-[#4a4845]">
+            <p className="type-label font-bold tracking-[0.08em] text-[#c9a84c]">{course.level}</p>
+            <h3 className="mt-4 type-card-title font-section-title font-bold tracking-[0.02em] text-[#0f2044]">{course.title}</h3>
+            <div className="mt-4 space-y-2 type-body-small tracking-[0.02em] text-[#4a4845]">
               {course.details.map(([label, value]) => (
                 <p key={label} className="leading-[1.65]">
                   <span className="text-[#888580]">{label}</span> {value}
@@ -174,11 +174,11 @@ function KoreanEducationPanel() {
       </div>
 
       <div className="rounded-[8px] bg-[#f8f7f4] px-5 py-5 md:flex md:items-center md:gap-12">
-        <div className="flex items-center gap-3 text-[16px] tracking-[0.02em] text-[#888580]">
+        <div className="type-body flex items-center gap-3 tracking-[0.02em] text-[#888580]">
           <span className="font-bold text-[#1a2744]">화요일</span>
           <span>오전 10-12시 (주부반)</span>
         </div>
-        <div className="mt-3 flex items-center gap-3 text-[16px] tracking-[0.02em] text-[#888580] md:mt-0">
+        <div className="type-body mt-3 flex items-center gap-3 tracking-[0.02em] text-[#888580] md:mt-0">
           <span className="font-bold text-[#1a2744]">토요일</span>
           <span>오후 2-4시 (주말반)</span>
         </div>
@@ -191,27 +191,27 @@ function MulticulturalWorshipPanel() {
   return (
     <div className="grid gap-8 md:grid-cols-[1.08fr_0.92fr] md:gap-8">
       <div>
-        <p className="text-[12px] font-medium tracking-[0.08em] text-[#c9a84c]">정기 예배</p>
+        <p className="type-label font-medium tracking-[0.08em] text-[#c9a84c]">정기 예배</p>
         <div className="mt-5 space-y-0">
           {worshipInfo.map(([label, value], index) => (
             <div
               key={label}
               className={`py-5 ${index === 0 ? "border-t border-[#d0cdca]" : "border-t border-[#f2f0ec]"}`}
             >
-              <p className="text-[14px] font-bold tracking-[0.08em] text-[#1a2744]">{label}</p>
-              <p className="mt-2 text-[15px] leading-[1.7] tracking-[0.02em] text-[#4a4845]">{value}</p>
+              <p className="type-body-small font-bold tracking-[0.08em] text-[#1a2744]">{label}</p>
+              <p className="type-body mt-2 leading-[1.7] tracking-[0.02em] text-[#4a4845]">{value}</p>
             </div>
           ))}
         </div>
       </div>
 
       <div>
-        <p className="text-[12px] font-medium tracking-[0.08em] text-[#c9a84c]">특별 예배</p>
+        <p className="type-label font-medium tracking-[0.08em] text-[#c9a84c]">특별 예배</p>
         <div className="mt-5 space-y-3">
           {worshipScheduleCards.map(([title, date], index) => (
             <div
               key={`${title}-${date}-${index}`}
-              className="flex items-center justify-between rounded-[8px] bg-[#f8f7f4] px-5 py-[18px] text-[16px] tracking-[0.02em] text-[#888580]"
+              className="type-body flex items-center justify-between rounded-[8px] bg-[#f8f7f4] px-5 py-[18px] tracking-[0.02em] text-[#888580]"
             >
               <span className="font-bold text-[#1a2744]">{title}</span>
               <span>{date}</span>
@@ -234,9 +234,9 @@ function GospelOutreachPanel() {
           }`}
         >
           <div className="md:w-[180px] md:shrink-0">
-            <h3 className="text-[18px] font-bold tracking-[0.02em] text-[#0f2044]">{title}</h3>
+            <h3 className="type-card-title font-section-title font-bold tracking-[0.02em] text-[#0f2044]">{title}</h3>
           </div>
-          <p className="text-[16px] leading-[1.75] tracking-[0.02em] text-[#888580]">{description}</p>
+          <p className="type-body leading-[1.75] tracking-[0.02em] text-[#888580]">{description}</p>
         </div>
       ))}
     </div>
@@ -252,7 +252,7 @@ function ColumnPanel({
     <div className="grid gap-8 md:grid-cols-3 md:gap-10">
       {columns.map((column) => (
         <div key={column.title}>
-          <p className="text-[12px] font-medium tracking-[0.08em] text-[#c9a84c]">{column.title}</p>
+          <p className="type-label font-medium tracking-[0.08em] text-[#c9a84c]">{column.title}</p>
           <div className="mt-4">
             <BulletList items={column.items} />
           </div>
@@ -267,14 +267,14 @@ function CulturalExchangePanel() {
     <div className="grid gap-8 md:grid-cols-[0.92fr_1.08fr] md:gap-10">
       <div className="space-y-8">
         <div>
-          <p className="text-[12px] font-medium tracking-[0.08em] text-[#c9a84c]">다문화 축제 (연 1회)</p>
+          <p className="type-label font-medium tracking-[0.08em] text-[#c9a84c]">다문화 축제 (연 1회)</p>
           <div className="mt-4">
             <BulletList items={festivalItems} />
           </div>
         </div>
 
         <div>
-          <p className="text-[12px] font-medium tracking-[0.08em] text-[#c9a84c]">정기 모임</p>
+          <p className="type-label font-medium tracking-[0.08em] text-[#c9a84c]">정기 모임</p>
           <div className="mt-4">
             <BulletList items={gatheringItems} />
           </div>
@@ -282,12 +282,12 @@ function CulturalExchangePanel() {
       </div>
 
       <div>
-        <p className="text-[12px] font-medium tracking-[0.08em] text-[#c9a84c]">한국 문화 체험</p>
+        <p className="type-label font-medium tracking-[0.08em] text-[#c9a84c]">한국 문화 체험</p>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           {cultureExperiences.map((item) => (
             <div
               key={item}
-              className="flex items-center justify-center rounded-[8px] bg-[#f8f7f4] px-5 py-4 text-center text-[15px] font-bold tracking-[0.02em] text-[#0f2044]"
+              className="type-body flex items-center justify-center rounded-[8px] bg-[#f8f7f4] px-5 py-4 text-center font-bold tracking-[0.02em] text-[#0f2044]"
             >
               {item}
             </div>

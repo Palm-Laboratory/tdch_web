@@ -6,6 +6,8 @@ import TimelineStep from "./components/timeline-step";
 import Breadcrumb from "@/components/breadcrumb";
 import PageHeader from "@/components/page-header";
 import SectionHeading from "@/components/section-heading";
+import ScriptureQuoteCard from "@/components/scripture-quote-card";
+import { nanumMyeongjo } from "@/lib/fonts";
 import { createPageMetadata } from "@/lib/seo";
 
 const newcomerIntroParagraphs = [
@@ -95,14 +97,13 @@ export default function NewcomerGuidePage() {
         <section aria-labelledby="newcomer-intro-title">
           <SectionHeading id="newcomer-intro-title" label="newcomer" title="새가족 안내" />
 
-          <blockquote className="mt-8 rounded-r-[12px] border-l-[3px] border-[#8c7a5b] bg-[#f7f7f4] px-5 py-6 md:px-[30px] md:py-7">
-            <p className="font-['Nanum_Myeongjo',serif] text-[16px] font-bold leading-[24px] tracking-[-0.01em] text-[#1a2744]">
-              &quot;그러므로 너희는 가서 모든 민족을 제자로 삼아 아버지와 아들과 성령의 이름으로 침례를 베풀고 내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라&quot;
-            </p>
-            <p className="mt-4 type-body font-medium tracking-[0.08em] text-[#7a7060]">
-              마태복음 28:19-20
-            </p>
-          </blockquote>
+          <ScriptureQuoteCard
+            quote="그러므로 너희는 가서 모든 민족을 제자로 삼아 아버지와 아들과 성령의 이름으로 침례를 베풀고 내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라"
+            reference="마태복음 28:19-20"
+            className="mt-8"
+            quoteClassName={nanumMyeongjo.className}
+            referenceClassName="type-body"
+          />
 
           <div className="mt-6 max-w-[727px] space-y-2">
             {newcomerIntroParagraphs.map((paragraph) => (

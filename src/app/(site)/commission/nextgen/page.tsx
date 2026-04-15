@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import SectionHeading from "@/components/section-heading";
+import ScriptureQuoteCard from "@/components/scripture-quote-card";
 import NextgenProgramTabs from "./components/nextgen-program-tabs";
-import { cormorantGaramond } from "@/lib/fonts";
+import { cormorantGaramond, nanumMyeongjo } from "@/lib/fonts";
 import { createPageMetadata } from "@/lib/seo";
 
 const introQuote = {
@@ -163,32 +164,11 @@ export const metadata: Metadata = createPageMetadata({
   path: "/commission/nextgen",
 });
 
-function QuoteCard({
-  text,
-  reference,
-  className = "",
-}: {
-  text: string;
-  reference: string;
-  className?: string;
-}) {
-  return (
-    <blockquote
-      className={`rounded-r-[12px] border-l-[3px] border-[#8c7a5b] bg-[#f7f7f4] px-5 py-5 md:px-7 md:py-[18px] ${className}`}
-    >
-      <p className="font-['Nanum_Myeongjo',serif] text-[13px] font-bold leading-6 tracking-[-0.01em] text-[#1a2744]">
-        &quot;{text}&quot;
-      </p>
-      <p className="mt-3 text-[12px] font-medium tracking-[0.08em] text-[#7a7060]">{reference}</p>
-    </blockquote>
-  );
-}
-
 function GoldButton({ href, children }: { href: string; children: ReactNode }) {
   return (
     <Link
       href={href}
-      className="inline-flex items-center justify-center rounded-[8px] bg-[#c9a84c] px-[18px] py-[14px] text-[14px] font-bold tracking-[0.04em] text-white transition hover:bg-[#b79436]"
+      className="type-body-small inline-flex items-center justify-center rounded-[8px] bg-[#c9a84c] px-[18px] py-[14px] font-bold tracking-[0.04em] text-white transition hover:bg-[#b79436]"
     >
       <span>{children}</span>
       <span className="ml-1">→</span>
@@ -225,7 +205,7 @@ export default function CommissionNextgenPage() {
           신앙의 계승, 미래의 리더
         </p>
 
-        <QuoteCard text={introQuote.text} reference={introQuote.reference} className="mt-4" />
+        <ScriptureQuoteCard quote={introQuote.text} reference={introQuote.reference} className="mt-4" />
       </section>
 
       <SectionBlock label="next generation" title="다음세대 사역의 3대 목표" className="mt-20 md:mt-[68px]">
@@ -239,28 +219,36 @@ export default function CommissionNextgenPage() {
           </p>
         </div>
 
-        <div className="mt-8 divide-y divide-[#ebe6de]">
+        <div className="mt-8">
           {goals.map((goal) => (
-            <div
+            <article
               key={goal.number}
-              className="flex flex-col gap-5 py-6 md:flex-row md:items-center md:gap-0 md:py-5"
+              className="flex gap-4 border-b border-black/10 py-5 first:pt-0 last:border-b-0 last:pb-0 md:gap-7 md:py-5"
             >
-              <div className="flex items-center md:w-[112px] md:shrink-0">
+              <div className="flex items-start pt-2">
                 <span
-                  className={`${cormorantGaramond.className} text-[34px] leading-6 tracking-[0.04em] text-[#c9a84c] md:text-[36px]`}
+                  className={`${cormorantGaramond.className} text-[2rem] leading-none tracking-[0.08em] text-[#c9a84c] md:text-[2.25rem]`}
                 >
                   {goal.number}
                 </span>
               </div>
 
-              <div className="border-l border-[#d8d1c9] pl-5 md:flex-1 md:pl-6">
-                <p className={`${cormorantGaramond.className} text-[12px] not-italic tracking-[0.08em] text-[#888580]`}>
+              <div className="border-l border-black/10 pl-4 md:pl-6">
+                <p
+                  className={`${cormorantGaramond.className} type-body-small tracking-[0.12em] text-[#888580]`}
+                >
                   {goal.label}
                 </p>
-                <p className="mt-2 text-[16px] font-bold tracking-[0.02em] text-[#1a2744]">{goal.title}</p>
-                <p className="mt-3 text-[14px] leading-[1.7] tracking-[0.02em] text-[#888580]">{goal.description}</p>
+                <h3
+                  className={`${nanumMyeongjo.className} mt-2 type-lead font-bold leading-none tracking-[0.02em] text-[#1a2744]`}
+                >
+                  {goal.title}
+                </h3>
+                <p className="mt-2 type-body-small leading-[1.7] tracking-[0.02em] text-[#7a7060]">
+                  {goal.description}
+                </p>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </SectionBlock>
@@ -268,32 +256,36 @@ export default function CommissionNextgenPage() {
       <SectionBlock label="bible verses" title="성경적 근거" className="mt-20 md:mt-[68px]">
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           {scriptureCards.map((card) => (
-            <QuoteCard key={card.reference} text={card.text} reference={card.reference} />
+            <ScriptureQuoteCard key={card.reference} quote={card.text} reference={card.reference} />
           ))}
         </div>
       </SectionBlock>
 
       <SectionBlock label="family crisis" title="다음세대 위기" className="mt-20 md:mt-[68px]">
         <div className="mt-8 rounded-[12px] bg-[#1a2744] px-6 py-7 text-center text-white md:px-10 md:py-8">
-          <p className="font-['Noto_Serif_KR',serif] text-[22px] font-black tracking-[0.02em]">
+          <p className="type-section-title font-section-title font-bold tracking-[0.02em]">
             &quot;청소년 10명 중 7명 교회 이탈&quot;
           </p>
-          <p className="mt-3 text-[12px] tracking-[0.08em] text-white/70">20-30대 이탈률 급증 · 다음세대 신앙 공백</p>
+          <p className="type-body mt-3 tracking-[0.08em] text-white/70">20-30대 이탈률 급증 · 다음세대 신앙 공백</p>
         </div>
 
         <div className="mt-6 flex flex-col items-center">
           <div className="h-6 w-px bg-[#d8d0c2]" />
-          <p className="text-[12px] font-medium tracking-[0.08em] text-[#7a7060]">원인</p>
+          <p className="type-label font-medium tracking-[0.08em] text-[#7a7060]">원인</p>
         </div>
 
         <div className="mt-4 grid gap-8 border-y border-[#ece6db] py-6 md:grid-cols-3 md:gap-10 md:px-4">
           {crisisReasons.map((item) => (
             <article key={item.number} className="text-center">
-              <p className={`${cormorantGaramond.className} text-[14px] uppercase tracking-[0.16em] text-[#c9a84c]`}>
+              <p className="type-label-fixed font-section-title font-bold tracking-[0.16em] text-[#c9a84c]">
                 {item.number}
               </p>
-              <h3 className="mt-2 text-[16px] font-bold tracking-[0.02em] text-[#0f2044]">{item.title}</h3>
-              <div className="mt-4 space-y-1 text-[12px] leading-[1.5] tracking-[0.04em] text-[#888580]">
+              <h3
+                className={`${nanumMyeongjo.className} mt-2 type-lead font-bold tracking-[0.02em] text-[#0f2044]`}
+              >
+                {item.title}
+              </h3>
+              <div className="mt-4 space-y-1 type-body-small leading-[1.5] tracking-[0.04em] text-[#888580]">
                 {item.details.map((detail) => (
                   <p key={detail}>{detail}</p>
                 ))}
@@ -304,7 +296,7 @@ export default function CommissionNextgenPage() {
 
         <div className="mt-6 flex flex-col items-center">
           <div className="h-6 w-px bg-[#d8d0c2]" />
-          <p className="text-[12px] font-medium tracking-[0.08em] text-[#7a7060]">해결</p>
+          <p className="type-label font-medium tracking-[0.08em] text-[#7a7060]">해결</p>
           <div className="mt-4 text-center">
             <p className="type-card-title font-section-title font-bold tracking-[0.02em] text-[#111111]">
               &quot;가정에서 시작되는 신앙 회복&quot;
@@ -322,14 +314,16 @@ export default function CommissionNextgenPage() {
               }`}
             >
               <div className="flex items-center justify-center gap-5 md:w-[260px] md:shrink-0 md:justify-end">
-                <span className={`${cormorantGaramond.className} w-[28px] text-right text-[20px] text-[#d0cdca]`}>
+                <span className="type-label-fixed w-[28px] text-right font-section-title font-bold tracking-[0.16em] text-[#c9a84c]">
                   {step.number}
                 </span>
-                <h3 className="w-[132px] text-left text-[16px] font-bold tracking-[0.02em] text-[#0f2044]">
+                <h3
+                  className={`${nanumMyeongjo.className} type-lead w-[132px] text-left font-bold tracking-[0.02em] text-[#0f2044]`}
+                >
                   {step.title}
                 </h3>
               </div>
-              <p className="text-[15px] leading-[1.7] tracking-[0.02em] text-[#888580] md:w-[520px] md:text-left">
+              <p className="type-body-small leading-[1.7] tracking-[0.02em] text-[#888580] md:w-[520px] md:text-left">
                 {step.description}
               </p>
             </div>
@@ -342,7 +336,7 @@ export default function CommissionNextgenPage() {
       </SectionBlock>
 
       <SectionBlock label="parent education" title="부모 교육" className="mt-20 md:mt-[68px]">
-        <p className="mt-5 text-[14px] leading-[1.8] tracking-[0.02em] text-[#4f4a42]">
+        <p className="mt-5 type-body-small leading-[1.8] tracking-[0.02em] text-[#4f4a42]">
           신앙 계승의 핵심은 가정입니다. 쉐마 교육의 4가지 실천으로 가정에서 신앙을 전수합니다.
         </p>
 
@@ -353,19 +347,23 @@ export default function CommissionNextgenPage() {
               className="flex flex-col gap-3 border-b border-[#e5ded3] px-2 py-5 md:min-h-[78px] md:flex-row md:items-center md:gap-0 md:px-2"
             >
               <div className="flex items-center md:w-[112px] md:shrink-0 md:justify-center">
-                <span className={`${cormorantGaramond.className} text-[30px] font-bold tracking-[0.06em] text-[#c9a84c]/60`}>
+                <span className={`${cormorantGaramond.className} text-[30px] font-bold leading-none tracking-[0.06em] text-[#c9a84c]/60`}>
                   {practice.number}
                 </span>
               </div>
               <div className="hidden self-stretch w-px bg-[#e1ddd6] md:block" />
 
               <div className="md:w-[280px] md:shrink-0 md:px-9">
-                <p className="text-[16px] font-bold tracking-[0.02em] text-[#1a2744]">{practice.title}</p>
-                <p className="mt-1 text-[14px] tracking-[0.02em] text-[#7a7060]">{practice.frequency}</p>
+                <p
+                  className={`${nanumMyeongjo.className} type-lead font-bold leading-none tracking-[0.02em] text-[#1a2744]`}
+                >
+                  {practice.title}
+                </p>
+                <p className="mt-1 type-body-small tracking-[0.02em] text-[#7a7060]">{practice.frequency}</p>
               </div>
               <div className="hidden self-stretch w-px bg-[#e1ddd6] md:block" />
 
-              <p className="text-[14px] leading-[1.8] tracking-[0.02em] text-[#7a7060] md:px-9">
+              <p className="type-body-small leading-[1.8] tracking-[0.02em] text-[#7a7060] md:px-9">
                 {practice.description}
               </p>
             </div>
@@ -373,8 +371,8 @@ export default function CommissionNextgenPage() {
         </div>
 
         <div className="mt-8 rounded-[12px] bg-[#f8f7f4] px-6 py-[18px]">
-          <p className="text-[12px] font-bold tracking-[0.12em] text-[#b08e30]">부모 교육 프로그램</p>
-          <div className="mt-4 grid gap-3 text-[14px] tracking-[0.02em] text-[#4a4845] md:grid-cols-2">
+          <p className="type-label font-bold tracking-[0.12em] text-[#b08e30]">부모 교육 프로그램</p>
+          <div className="mt-4 grid gap-3 type-body-small tracking-[0.02em] text-[#4a4845] md:grid-cols-2">
             {parentPrograms.map((item) => (
               <div key={item} className="flex items-start gap-2">
                 <span className="pt-[2px] text-[#c9a84c]">·</span>
@@ -386,39 +384,37 @@ export default function CommissionNextgenPage() {
       </SectionBlock>
 
       <SectionBlock label="yearly roadmap" title="연간 일정" className="mt-20 md:mt-[68px]">
-        <div className="mt-8 overflow-hidden rounded-[12px] border border-[#d0cdca]">
-          <div className="grid grid-cols-2 md:grid-cols-4">
-            {calendarItems.map((item, index) => (
-              <div
+        <div className="mt-8 overflow-hidden rounded-[12px] border border-[#d0cdca] md:grid md:grid-cols-4">
+          {calendarItems.map((item, index) => (
+              <article
                 key={`${item.monthEng}-${item.monthKr}`}
-                className={`border-[#d0cdca] px-4 py-[18px] ${
-                  index % 4 !== 3 ? "md:border-r" : ""
-                } ${index % 2 === 0 ? "border-r md:border-r" : ""} ${index < 8 ? "border-b" : ""} ${
+                className={`px-4 py-[18px] ${
                   item.tone === "cream" ? "bg-[#f8f7f4]" : "bg-white"
+                } ${index % 4 !== 3 ? "md:border-r md:border-[#d0cdca]" : ""} ${
+                  index < 8 ? "border-b border-[#d0cdca]" : ""
                 }`}
               >
-                <p className={`${cormorantGaramond.className} text-[22px] font-bold text-[#c9a84c]`}>{item.monthEng}</p>
-                <p className="mt-2 text-[15px] font-bold tracking-[0.02em] text-[#0f2044]">{item.monthKr}</p>
-                <p className="mt-2 text-[12px] leading-[1.4] tracking-[0.02em] text-[#888580]">{item.label}</p>
-              </div>
+                <p className={`${cormorantGaramond.className} text-[22px] tracking-[0.04em] text-[#c9a84c]`}>{item.monthEng}</p>
+                <h3 className="type-card-title font-section-title font-bold tracking-[0.02em] text-[#0f2044]">{item.monthKr}</h3>
+                <p className="mt-2 type-body-small leading-[1.55] tracking-[0.02em] text-[#888580]">{item.label}</p>
+              </article>
             ))}
-          </div>
         </div>
       </SectionBlock>
 
       <SectionBlock label="teacher recruit" title="교사 모집" className="mt-20 md:mt-[68px]">
-        <p className="mt-5 text-[14px] leading-[1.8] tracking-[0.02em] text-black">
+        <p className="mt-5 type-body-small leading-[1.8] tracking-[0.02em] text-black">
           다음세대는 교회와 가정이 함께 세웁니다. 예배와 양육의 현장에서 다음세대를 품을 교사를 모집합니다.
         </p>
 
         <div className="mt-8 overflow-hidden rounded-[16px] border border-[#d0cdca] md:grid md:grid-cols-[1fr_auto_1fr]">
           <div className="px-7 py-7">
-            <p className="text-[12px] font-bold tracking-[0.12em] text-[#c9a84c]">자격 조건</p>
+            <p className="type-label font-bold tracking-[0.12em] text-[#c9a84c]">자격 조건</p>
             <div className="mt-5 space-y-4">
               {teacherRequirements.map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <span className="h-4 w-4 rounded-[4px] border border-black/10" />
-                  <span className="text-[14px] font-medium tracking-[0.02em] text-[#888580]">{item}</span>
+                  <span className="type-body-small font-medium tracking-[0.02em] text-[#888580]">{item}</span>
                 </div>
               ))}
             </div>
@@ -427,14 +423,14 @@ export default function CommissionNextgenPage() {
           <div className="hidden bg-[#d0cdca] md:block md:w-px" />
 
           <div className="bg-[#f8f7f4] px-7 py-7">
-            <p className="text-[12px] font-bold tracking-[0.12em] text-[#c9a84c]">혜택</p>
+            <p className="type-label font-bold tracking-[0.12em] text-[#c9a84c]">혜택</p>
             <div className="mt-5 space-y-4">
               {teacherBenefits.map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <span className="text-[14px] font-bold leading-none text-[#c9a84c]">
                     ✓
                   </span>
-                  <span className="text-[14px] font-medium tracking-[0.02em] text-[#888580]">{item}</span>
+                  <span className="type-body-small font-medium tracking-[0.02em] text-[#888580]">{item}</span>
                 </div>
               ))}
             </div>
@@ -449,14 +445,14 @@ export default function CommissionNextgenPage() {
       <section className="mt-20 md:mt-[68px]" aria-labelledby="commission-nextgen-support-title">
         <div className="flex flex-col gap-8 rounded-[12px] bg-[#1a2744] px-6 py-8 md:flex-row md:items-end md:justify-between md:px-9 md:py-9">
           <div>
-            <p className="text-[12px] font-bold uppercase tracking-[0.28em] text-[#c9a84c]">support</p>
+            <p className="type-label font-bold uppercase tracking-[0.28em] text-[#c9a84c]">support</p>
             <h2
               id="commission-nextgen-support-title"
-              className="mt-4 text-[24px] font-black tracking-[0.02em] text-white"
+              className="mt-4 type-subsection-title font-section-title font-extrabold tracking-[0.02em] text-white"
             >
               다음세대 사역 후원
             </h2>
-            <div className="mt-5 max-w-[340px] space-y-3 text-[12px] font-medium tracking-[0.02em] text-white/60">
+            <div className="mt-5 max-w-[340px] space-y-3 type-body-small font-medium tracking-[0.02em] text-white/60">
               {supportItems.map((item) => (
                 <div key={item} className="flex items-start gap-1.5">
                   <span>·</span>

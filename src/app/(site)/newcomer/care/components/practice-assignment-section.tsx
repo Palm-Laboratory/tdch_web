@@ -80,7 +80,7 @@ export default function PracticeAssignmentSection() {
             label="practice"
             title="실천 과제"
           />
-          <p className="mt-8 max-w-[787px] text-[15px] font-normal leading-[24px] tracking-[0.02em] text-[#1a2744]">
+          <p className="mt-8 max-w-[787px] type-body font-normal leading-[1.7] tracking-[0.02em] text-[#1a2744]">
             매주 주어지는 과제를 통해 배운 것을 삶에 적용합니다.
           </p>
         </div>

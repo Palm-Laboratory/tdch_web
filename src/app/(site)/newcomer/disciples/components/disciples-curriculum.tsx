@@ -47,7 +47,7 @@ export default function DisciplesCurriculum({
                 onClick={() => setSelectedIndex(index)}
                 className={`px-3 py-5 text-center transition-colors ${activeClassName} ${index < stages.length - 1 ? "border-r border-black/10" : ""}`}
               >
-                <p className="text-[1.125rem] font-black leading-none tracking-[0.02em] md:text-[1.25rem]">
+                <p className="text-[1.125rem] font-black leading-none tracking-[0.02em]">
                   {stage.level}
                 </p>
                 <p className="mt-2 text-[1rem] leading-none tracking-[0.02em] md:mt-3 md:text-[1.125rem]">

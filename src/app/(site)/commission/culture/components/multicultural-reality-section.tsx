@@ -72,7 +72,7 @@ function AccordionItem({
           <span className="flex h-5 w-5 items-center justify-center rounded-full border border-[#0f2044] text-[10px] font-bold text-[#0f2044]">
             {number}
           </span>
-          <span className="text-[16px] font-bold tracking-[0.02em] text-[#0f2044] md:text-[18px]">{title}</span>
+          <span className="type-accordion-title font-bold tracking-[0.02em] text-[#0f2044]">{title}</span>
         </div>
         <span className="text-[22px] leading-none text-[#c9a84c]">{open ? "×" : "+"}</span>
       </button>
@@ -80,7 +80,7 @@ function AccordionItem({
       {open ? (
         <div className="space-y-4 px-4 py-5">
           {items.map((item) => (
-            <div key={item} className="flex items-start gap-3 text-[14px] tracking-[0.02em] text-[#4a4845]">
+            <div key={item} className="type-body-small flex items-start gap-3 tracking-[0.02em] text-[#4a4845]">
               <span className="pt-1 text-[#c9a84c]">·</span>
               <span className="leading-[1.7]">{item}</span>
             </div>
@@ -115,10 +115,10 @@ export default function MulticulturalRealitySection() {
                 index < stats.length - 1 ? "md:border-r md:border-[#d0cdca]" : ""
               }`}
             >
-              <p className="font-['Noto_Serif_KR',serif] text-[26px] font-black tracking-[0.02em] text-[#0f2044] md:text-[34px]">
+              <p className="type-subsection-title font-section-title font-black tracking-[0.02em] text-[#0f2044]">
                 {stat.value}
               </p>
-              <p className="text-[14px] tracking-[0.02em] text-[#0f2044]">{stat.label}</p>
+              <p className="type-body-small tracking-[0.02em] text-[#0f2044]">{stat.label}</p>
             </div>
           ))}
         </div>
@@ -126,7 +126,7 @@ export default function MulticulturalRealitySection() {
 
       <div className="mt-8 flex flex-col gap-10 md:flex-row md:items-start md:gap-[58px]">
         <div className="md:w-[265px] md:shrink-0">
-          <p className="text-[12px] font-bold uppercase tracking-[0.28em] text-[#c9a84c]">출신국 순위</p>
+          <p className="type-label font-bold uppercase tracking-[0.28em] text-[#c9a84c]">출신국 순위</p>
           <div className="mt-4">
             {countryRanks.map((item, index) => (
               <div
@@ -136,14 +136,14 @@ export default function MulticulturalRealitySection() {
                 }`}
               >
                 <span className={`${cormorantGaramond.className} w-4 text-[18px] text-[#d0cdca]`}>{item.rank}</span>
-                <span className="text-[16px] font-bold tracking-[0.02em] text-[#0f2044]">{item.country}</span>
+                <span className="type-body font-bold tracking-[0.02em] text-[#0f2044]">{item.country}</span>
               </div>
             ))}
           </div>
         </div>
 
         <div className="flex-1">
-          <p className="text-[12px] font-bold uppercase tracking-[0.28em] text-[#c9a84c]">주요 어려움</p>
+          <p className="type-label font-bold uppercase tracking-[0.28em] text-[#c9a84c]">주요 어려움</p>
           <div className="mt-4 space-y-2">
             {difficulties.map((item) => (
               <AccordionItem

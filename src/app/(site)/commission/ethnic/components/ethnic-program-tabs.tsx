@@ -103,7 +103,7 @@ function BulletList({ items, className = "" }: { items: string[]; className?: st
   return (
     <div className={`space-y-3 ${className}`}>
       {items.map((item) => (
-        <div key={item} className="flex items-start gap-2 text-[14px] tracking-[0.02em] text-[#4a4845]">
+        <div key={item} className="type-body-small flex items-start gap-2 tracking-[0.02em] text-[#4a4845]">
           <span className="pt-[2px] text-[#888580]">·</span>
           <span className="leading-[1.6]">{item}</span>
         </div>
@@ -133,7 +133,7 @@ export default function EthnicProgramTabs() {
                 key={key}
                 type="button"
                 onClick={() => setActiveKey(key)}
-                className={`border-b-2 px-1 pb-4 text-[14px] font-bold tracking-[0.04em] transition ${
+                className={`type-body-small border-b-2 px-1 pb-4 font-bold tracking-[0.04em] transition ${
                   isActive ? "border-[#0f2044] text-[#0f2044]" : "border-transparent text-[#888580]"
                 }`}
                 aria-pressed={isActive}
@@ -149,9 +149,9 @@ export default function EthnicProgramTabs() {
         <div className="mt-8 grid gap-8 md:grid-cols-3 md:gap-10">
           {activeTab.columns.map((column) => (
             <div key={column.title}>
-              <p className="text-[12px] font-medium tracking-[0.08em] text-[#c9a84c]">{column.title}</p>
+              <p className="type-label font-medium tracking-[0.08em] text-[#c9a84c]">{column.title}</p>
               {column.lines ? (
-                <div className="mt-4 space-y-2 text-[14px] tracking-[0.02em] text-[#4a4845]">
+                <div className="mt-4 space-y-2 type-body-small tracking-[0.02em] text-[#4a4845]">
                   {column.lines.map((line) => (
                     <p key={line} className="leading-[1.6]">
                       {line}
@@ -169,7 +169,7 @@ export default function EthnicProgramTabs() {
         <div className="mt-8">
           <div className="grid gap-8 md:grid-cols-2 md:gap-10">
             <div>
-              <p className="text-[12px] font-medium tracking-[0.08em] text-[#c9a84c]">{shortTermPrimary.title}</p>
+              <p className="type-label font-medium tracking-[0.08em] text-[#c9a84c]">{shortTermPrimary.title}</p>
               <div className="mt-4 overflow-hidden rounded-[8px] border border-[#d0cdca]">
                 {shortTermPrimaryLines?.map((line, index) => {
                   const [label, ...valueParts] = line.split(" ");
@@ -180,10 +180,10 @@ export default function EthnicProgramTabs() {
                         index < shortTermPrimaryLines.length - 1 ? "border-b border-[#d0cdca]" : ""
                       }`}
                     >
-                      <div className="w-[72px] shrink-0 bg-[#f8f7f4] px-4 py-3 text-[12px] font-medium tracking-[0.02em] text-[#888580]">
+                      <div className="type-body-small w-[72px] shrink-0 bg-[#f8f7f4] px-4 py-3 font-medium tracking-[0.02em] text-[#888580]">
                         {label}
                       </div>
-                      <div className="flex-1 px-4 py-3 text-[12px] tracking-[0.02em] text-[#4a4845]">
+                      <div className="type-body-small flex-1 px-4 py-3 tracking-[0.02em] text-[#4a4845]">
                         {valueParts.join(" ")}
                       </div>
                     </div>
@@ -193,11 +193,11 @@ export default function EthnicProgramTabs() {
             </div>
 
             <div className="space-y-8">
-              <p className="text-[12px] font-medium tracking-[0.08em] text-[#c9a84c]">선교 훈련</p>
+              <p className="type-label font-medium tracking-[0.08em] text-[#c9a84c]">선교 훈련</p>
 
               {shortTermTraining ? (
                 <div>
-                  <p className="text-[16px] font-bold tracking-[0.02em] text-[#0f2044]">
+                  <p className="type-body font-bold tracking-[0.02em] text-[#0f2044]">
                     {shortTermTraining.title}
                   </p>
                   {shortTermTraining.bullets ? (
@@ -208,7 +208,7 @@ export default function EthnicProgramTabs() {
 
               {shortTermFollowUp ? (
                 <div>
-                  <p className="text-[16px] font-bold tracking-[0.02em] text-[#0f2044]">
+                  <p className="type-body font-bold tracking-[0.02em] text-[#0f2044]">
                     {shortTermFollowUp.title}
                   </p>
                   {shortTermFollowUp.bullets ? (
@@ -219,10 +219,10 @@ export default function EthnicProgramTabs() {
 
               {activeTab.callout ? (
                 <div className="rounded-[16px] bg-[#f8f7f4] px-6 py-5">
-                  <h3 className="text-[16px] font-bold tracking-[0.02em] text-[#1a2744]">
+                  <h3 className="type-body font-bold tracking-[0.02em] text-[#1a2744]">
                     {activeTab.callout.title}
                   </h3>
-                  <p className="mt-3 text-[14px] tracking-[0.02em] text-[#888580]">
+                  <p className="mt-3 type-body-small tracking-[0.02em] text-[#888580]">
                     {activeTab.callout.description}
                   </p>
                 </div>
@@ -242,9 +242,9 @@ export default function EthnicProgramTabs() {
               }`}
             >
               <div className="md:w-[180px] md:shrink-0">
-                <p className="text-[16px] font-bold tracking-[0.04em] text-[#0f2044]">{row.title}</p>
+                <p className="type-body font-bold tracking-[0.04em] text-[#0f2044]">{row.title}</p>
               </div>
-              <p className="text-[15px] leading-[1.7] tracking-[0.02em] text-[#888580]">{row.description}</p>
+              <p className="type-body-small text-[15px] leading-[1.7] tracking-[0.02em] text-[#888580]">{row.description}</p>
             </div>
           ))}
         </div>

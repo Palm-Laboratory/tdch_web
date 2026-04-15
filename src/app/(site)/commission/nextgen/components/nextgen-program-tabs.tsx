@@ -138,7 +138,7 @@ export default function NextgenProgramTabs() {
                 key={tab.key}
                 type="button"
                 onClick={() => setActiveKey(tab.key)}
-                className={`border-b-2 px-1 pb-4 text-[14px] font-bold tracking-[0.04em] transition ${
+                className={`type-body-small border-b-2 px-1 pb-4 font-bold tracking-[0.04em] transition ${
                   isActive ? "border-[#0f2044] text-[#0f2044]" : "border-transparent text-[#888580]"
                 }`}
                 aria-pressed={isActive}
@@ -157,7 +157,7 @@ export default function NextgenProgramTabs() {
             {activeTab.title}
           </h3>
           <p
-            className={`mt-4 whitespace-pre-line text-[14px] leading-5 tracking-[0.04em] text-[#888580] ${activeTab.descriptionClassName ?? ""}`}
+            className={`type-body-small mt-4 whitespace-pre-line leading-5 tracking-[0.04em] text-[#888580] ${activeTab.descriptionClassName ?? ""}`}
           >
             &quot;{activeTab.description}&quot;
           </p>
@@ -166,10 +166,10 @@ export default function NextgenProgramTabs() {
         <div className={`grid flex-1 gap-8 ${activeTab.sections.length >= 3 ? "md:grid-cols-3 md:gap-10" : "md:grid-cols-2 md:gap-12"}`}>
           {activeTab.sections.map((section) => (
             <div key={section.label}>
-              <p className="text-[12px] font-medium tracking-[0.08em] text-[#c9a84c]">{section.label}</p>
+              <p className="type-label font-medium tracking-[0.08em] text-[#c9a84c]">{section.label}</p>
               <div className="mt-3 space-y-3">
                 {section.items.map((item) => (
-                  <div key={item} className="flex items-start gap-2 text-[12px] tracking-[0.04em]">
+                  <div key={item} className="type-body-small flex items-start gap-2 tracking-[0.04em]">
                     <span className="pt-[2px] text-[#888580]">·</span>
                     <span className="leading-[1.45] text-[#4a4845]">{item}</span>
                   </div>

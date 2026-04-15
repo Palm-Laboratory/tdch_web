@@ -5,10 +5,11 @@ import ClassStructureCard from "./components/class-structure-card";
 import CurriculumTable from "./components/curriculum-table";
 import OverviewStat from "./components/overview-stat";
 import PracticeAssignmentSection from "./components/practice-assignment-section";
-import VerseCard from "./components/verse-card";
 import Breadcrumb from "@/components/breadcrumb";
 import PageHeader from "@/components/page-header";
 import SectionHeading from "@/components/section-heading";
+import ScriptureQuoteCard from "@/components/scripture-quote-card";
+import { nanumMyeongjo } from "@/lib/fonts";
 import { createPageMetadata } from "@/lib/seo";
 
 const overviewStats = [
@@ -121,7 +122,12 @@ export default function NewcomerCarePage() {
         <section aria-labelledby="newcomer-care-intro-title">
           <SectionHeading id="newcomer-care-intro-title" label="5 weeks" title="새가족 양육" />
           <div className="mt-8">
-            <VerseCard />
+            <ScriptureQuoteCard
+              quote="그러므로 누구든지 나의 이 말을 듣고 행하는 자는 그 집을 반석 위에 지은 지혜로운 사람 같으리니"
+              reference="마태복음 7:24"
+              quoteClassName={nanumMyeongjo.className}
+              referenceClassName="type-body"
+            />
           </div>
         </section>
 
@@ -141,7 +147,7 @@ export default function NewcomerCarePage() {
             ))}
           </div>
 
-          <p className="mt-[18px] max-w-[727px] type-body-small leading-[1.7] tracking-[0.02em] text-[#1a2744]">
+          <p className="mt-[18px] max-w-[727px] type-body font-normal leading-[1.7] tracking-[0.02em] text-[#1a2744]">
             새롭게 신앙을 시작하시는 분들을 위한 5주 집중 양육 과정입니다.
             <br className="hidden md:block" />
             소그룹(2-5명) 또는 일대일로 진행되며, 침례 및 정식 교인 등록이 목표입니다.

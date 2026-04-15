@@ -97,14 +97,14 @@ function RoadmapIcon({
 function NewcomerCard({ item }: { item: NewcomerRoadmapItem }) {
   return (
     <div>
-      <p className="type-label uppercase tracking-[0.34em] text-[#888580] md:type-body-small">
+      <p className="type-label uppercase tracking-[3px] text-[#888580] md:type-body-small">
         {item.label}
         <span className="mx-3 tracking-[0.12em]">·</span>
         {item.duration}
       </p>
 
       <article className="mt-3 rounded-[14px] border border-black/10 bg-white px-5 py-5 shadow-[0_2px_10px_rgba(16,33,63,0.03)] md:px-7 md:py-5">
-        <h3 className="type-card-title font-bold leading-none tracking-[-0.02em] text-[#1a2744]">
+        <h3 className="type-card-title font-bold leading-none tracking-[-0.02em] text-[#1a2744] md:text-[1.125rem]">
           {item.title}
         </h3>
 
@@ -133,7 +133,7 @@ function NewcomerCard({ item }: { item: NewcomerRoadmapItem }) {
 function StepCard({ item }: { item: StepRoadmapItem }) {
   return (
     <div>
-      <p className="type-label uppercase tracking-[0.34em] text-[#888580] md:type-body-small">
+      <p className="type-label uppercase tracking-[3px] text-[#888580] md:type-body-small">
         {item.label}
         <span className="mx-3 tracking-[0.12em]">·</span>
         {item.duration}
@@ -143,7 +143,7 @@ function StepCard({ item }: { item: StepRoadmapItem }) {
         <span className="absolute inset-y-0 left-0 w-[3px] bg-[#1a2744]" />
 
         <div className="pl-3 md:pl-4">
-          <h3 className="type-card-title font-bold leading-none tracking-[-0.02em] text-[#1a2744]">
+          <h3 className="type-card-title font-bold leading-none tracking-[-0.02em] text-[#1a2744] md:text-[1.125rem]">
             {item.title}
           </h3>
           <p className="mt-3 type-body-small leading-[1.6] tracking-[0.02em] text-[#7a7060]">
@@ -164,10 +164,10 @@ function StepCard({ item }: { item: StepRoadmapItem }) {
 function GoalCard({ item }: { item: GoalRoadmapItem }) {
   return (
     <article className="rounded-[14px] bg-[#d1ad45] px-6 py-5 text-white shadow-[0_2px_10px_rgba(16,33,63,0.05)] md:px-8 md:py-5">
-      <p className="type-body-small uppercase leading-none tracking-[0.34em] text-white/95">
+      <p className="type-body-small uppercase leading-none tracking-[3px] text-white/95">
         GOAL
       </p>
-      <h3 className="mt-3 type-card-title font-bold leading-none tracking-[-0.02em]">
+      <h3 className="mt-3 type-card-title font-bold leading-none tracking-[-0.02em] md:text-[1.125rem]">
         {item.title}
       </h3>
     </article>
@@ -210,7 +210,7 @@ export default function DisciplesRoadmap({
           </p>
           <h2
             id={id}
-            className="font-[var(--font-serif)] text-[1.75rem] font-bold leading-none tracking-[-0.02em] text-[#1a2744] md:text-[2rem]"
+            className="type-section-title font-section-title font-bold leading-none tracking-[-0.02em] text-[#1a2744]"
           >
             전체 로드맵
           </h2>

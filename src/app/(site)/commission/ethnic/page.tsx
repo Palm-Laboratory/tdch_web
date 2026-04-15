@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import SectionHeading from "@/components/section-heading";
-import { cormorantGaramond, gowunBatang } from "@/lib/fonts";
+import ScriptureQuoteCard from "@/components/scripture-quote-card";
+import { cormorantGaramond, nanumMyeongjo } from "@/lib/fonts";
 import { createPageMetadata } from "@/lib/seo";
 import EthnicProgramTabs from "./components/ethnic-program-tabs";
 
@@ -268,27 +269,6 @@ const ctaCards = [
   },
 ] as const;
 
-function QuoteCard({
-  text,
-  reference,
-  className = "",
-}: {
-  text: string;
-  reference: string;
-  className?: string;
-}) {
-  return (
-    <blockquote
-      className={`rounded-r-[12px] border-l-[3px] border-[#8c7a5b] bg-[#f7f7f4] px-5 py-5 md:px-7 md:py-[18px] ${className}`}
-    >
-      <p className="font-['Nanum_Myeongjo',serif] text-[13px] font-bold leading-6 tracking-[-0.01em] text-[#1a2744]">
-        &quot;{text}&quot;
-      </p>
-      <p className="mt-3 text-[12px] font-medium tracking-[0.08em] text-[#7a7060]">{reference}</p>
-    </blockquote>
-  );
-}
-
 function GoldButton({
   href,
   children,
@@ -301,7 +281,7 @@ function GoldButton({
   return (
     <Link
       href={href}
-      className={`inline-flex items-center justify-center rounded-[8px] bg-[#c9a84c] px-[18px] py-[14px] text-[14px] font-bold tracking-[0.04em] text-white transition hover:bg-[#b79436] ${className}`}
+      className={`type-body-small inline-flex items-center justify-center rounded-[8px] bg-[#c9a84c] px-[18px] py-[14px] font-bold tracking-[0.04em] text-white transition hover:bg-[#b79436] ${className}`}
     >
       <span>{children}</span>
       <span className="ml-1">→</span>
@@ -332,7 +312,7 @@ function BulletLines({ items, className = "" }: { items: readonly string[]; clas
   return (
     <div className={`space-y-3 ${className}`}>
       {items.map((item) => (
-        <div key={item} className="flex items-start gap-2 text-[14px] tracking-[0.02em] text-[#4a4845]">
+        <div key={item} className="type-body-small flex items-start gap-2 tracking-[0.02em] text-[#4a4845]">
           <span className="pt-[2px] text-[#888580]">·</span>
           <span className="leading-[1.6]">{item}</span>
         </div>
@@ -343,7 +323,7 @@ function BulletLines({ items, className = "" }: { items: readonly string[]; clas
 
 function StaticCheckbox({ label }: { label: string }) {
   return (
-    <label className="flex items-center gap-3 text-[14px] tracking-[0.02em] text-[#4a4845]">
+    <label className="type-body-small flex items-center gap-3 tracking-[0.02em] text-[#4a4845]">
       <span className="h-4 w-4 rounded-[4px] border border-[#d0cdca] bg-white" />
       <span>{label}</span>
     </label>
@@ -358,7 +338,7 @@ export default function CommissionEthnicPage() {
 
         <p className="mt-6 type-body leading-[1.7] tracking-[0.02em] text-black">땅 끝까지, 모든 민족에게</p>
 
-        <QuoteCard text={introQuote.text} reference={introQuote.reference} className="mt-4" />
+        <ScriptureQuoteCard quote={introQuote.text} reference={introQuote.reference} className="mt-4" />
       </section>
 
       <SectionBlock label="vision" title="다민족 선교의 3대 목표" className="mt-20 md:mt-[68px]">
@@ -372,28 +352,36 @@ export default function CommissionEthnicPage() {
           </p>
         </div>
 
-        <div className="mt-8 divide-y divide-[#ebe6de]">
+        <div className="mt-8">
           {goals.map((goal) => (
-            <div
+            <article
               key={goal.number}
-              className="flex flex-col gap-5 py-6 md:flex-row md:items-center md:gap-0 md:py-5"
+              className="flex gap-4 border-b border-black/10 py-5 first:pt-0 last:border-b-0 last:pb-0 md:gap-7 md:py-5"
             >
-              <div className="flex items-center md:w-[112px] md:shrink-0">
+              <div className="flex items-start pt-2">
                 <span
-                  className={`${cormorantGaramond.className} text-[34px] leading-6 tracking-[0.04em] text-[#c9a84c] md:text-[36px]`}
+                  className={`${cormorantGaramond.className} text-[2rem] leading-none tracking-[0.08em] text-[#c9a84c] md:text-[2.25rem]`}
                 >
                   {goal.number}
                 </span>
               </div>
 
-              <div className="border-l border-[#d8d1c9] pl-5 md:flex-1 md:pl-6">
-                <p className={`${cormorantGaramond.className} text-[12px] not-italic tracking-[0.08em] text-[#888580]`}>
+              <div className="border-l border-black/10 pl-4 md:pl-6">
+                <p
+                  className={`${cormorantGaramond.className} type-body-small tracking-[0.12em] text-[#888580]`}
+                >
                   {goal.label}
                 </p>
-                <p className="mt-2 text-[16px] font-bold tracking-[0.02em] text-[#1a2744]">{goal.title}</p>
-                <p className="mt-3 text-[14px] leading-[1.7] tracking-[0.02em] text-[#888580]">{goal.description}</p>
+                <h3
+                  className={`${nanumMyeongjo.className} mt-2 type-lead font-bold leading-none tracking-[0.02em] text-[#1a2744]`}
+                >
+                  {goal.title}
+                </h3>
+                <p className="mt-2 type-body-small leading-[1.7] tracking-[0.02em] text-[#7a7060]">
+                  {goal.description}
+                </p>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </SectionBlock>
@@ -401,7 +389,7 @@ export default function CommissionEthnicPage() {
       <SectionBlock label="biblical basis" title="성경적 근거" className="mt-20 md:mt-[68px]">
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           {scriptureCards.map((card) => (
-            <QuoteCard key={card.reference} text={card.text} reference={card.reference} />
+            <ScriptureQuoteCard key={card.reference} quote={card.text} reference={card.reference} />
           ))}
         </div>
       </SectionBlock>
@@ -415,11 +403,11 @@ export default function CommissionEthnicPage() {
                 stat.emphasized ? "bg-[#f8f7f4]" : "bg-white"
               } ${index < globalStats.length - 1 ? "border-b border-[#d0cdca] md:border-b-0 md:border-r" : ""}`}
             >
-              <p className="text-[11px] tracking-[0.08em] text-[#888580]">{stat.label}</p>
-              <h3 className="mt-3 font-section-title text-[34px] font-black tracking-[-0.02em] text-[#0f2044] md:text-[40px]">
+              <p className="type-label tracking-[0.08em] text-[#888580]">{stat.label}</p>
+              <h3 className="mt-3 type-subsection-title font-section-title font-black tracking-[0.02em] text-[#0f2044]">
                 {stat.title}
               </h3>
-              <div className="mt-4 space-y-2 text-[14px] tracking-[0.02em] text-[#888580]">
+              <div className="mt-4 space-y-2 type-body-small tracking-[0.02em] text-[#888580]">
                 {stat.lines.map((line) => (
                   <p key={line}>{line}</p>
                 ))}
@@ -430,7 +418,7 @@ export default function CommissionEthnicPage() {
 
         <div className="mt-8 grid gap-4 md:grid-cols-[1fr_1.05fr]">
           <div className="rounded-[16px] bg-[#f2f0ec] px-6 py-7">
-            <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-[#c9a84c]">10/40 창 (Window)</p>
+            <p className="type-label font-bold uppercase tracking-[0.22em] text-[#c9a84c]">10/40 창 (Window)</p>
             <BulletLines
               items={[
                 "북위 10도-40도 사이 지역",
@@ -443,9 +431,9 @@ export default function CommissionEthnicPage() {
           </div>
 
           <div className="rounded-[16px] bg-[#1a2744] px-6 py-7 text-white">
-            <p className="text-[12px] font-bold tracking-[0.22em] text-[#c9a84c]">긴급성</p>
-            <h3 className="mt-5 font-section-title text-[20px] font-black tracking-[0.02em]">매일 15만 명 사망</h3>
-            <p className="mt-4 text-[15px] leading-[1.8] tracking-[0.02em] text-white/60">
+            <p className="type-label font-bold tracking-[0.22em] text-[#c9a84c]">긴급성</p>
+            <h3 className="mt-5 type-card-title font-section-title font-extrabold tracking-[0.02em]">매일 15만 명 사망</h3>
+            <p className="mt-4 type-body-small leading-[1.8] tracking-[0.02em] text-white/60">
               그 중 약 10만명이
               <br />
               복음을 한번도 듣지 못한 채 세상을 떠납니다.
@@ -470,7 +458,7 @@ export default function CommissionEthnicPage() {
                 2025
               </p>
             </div>
-            <h3 className="mt-5 text-[16px] font-bold tracking-[0.04em] text-[#4a4840]">{missionHistory[0].title}</h3>
+            <h3 className="mt-5 type-body font-bold tracking-[0.04em] text-[#4a4840]">{missionHistory[0].title}</h3>
             <BulletLines items={missionHistory[0].items} className="mt-6" />
           </div>
 
@@ -490,17 +478,17 @@ export default function CommissionEthnicPage() {
                 2026
               </p>
               <span className="h-px w-[18px] bg-[#0f2044]" />
-              <p className={`${gowunBatang.className} text-[24px] font-bold leading-none tracking-[0.04em] text-[#0f2044]`}>
+              <p className="type-card-title font-section-title font-bold leading-none tracking-[0.04em] text-[#0f2044]">
                 현재
               </p>
             </div>
-            <h3 className="mt-5 text-[16px] font-bold tracking-[0.04em] text-[#4a4840]">{missionHistory[1].title}</h3>
+            <h3 className="mt-5 type-body font-bold tracking-[0.04em] text-[#4a4840]">{missionHistory[1].title}</h3>
             <BulletLines items={missionHistory[1].items} className="mt-6" />
           </div>
         </div>
 
         <div className="mt-10 border-t border-[#d0cdca] pt-8">
-          <p className="text-[12px] font-bold tracking-[0.22em] text-[#c9a84c]">선교에서 배운 교훈</p>
+          <p className="type-label font-bold tracking-[0.22em] text-[#c9a84c]">선교에서 배운 교훈</p>
           <div className="mt-5 overflow-hidden rounded-[12px] border border-[#d0cdca] md:grid md:grid-cols-4">
             {missionLessons.map((lesson, index) => (
               <article
@@ -512,10 +500,10 @@ export default function CommissionEthnicPage() {
                 <p className={`${cormorantGaramond.className} text-[20px] tracking-[0.1em] text-[#c9a84c]`}>
                   {lesson.number}
                 </p>
-                <h3 className="mt-2 font-section-title text-[18px] font-bold tracking-[0.02em] text-[#0f2044]">
+                <h3 className="mt-2 type-card-title font-section-title font-bold tracking-[0.02em] text-[#0f2044]">
                   {lesson.title}
                 </h3>
-                <div className="text-[14px] leading-[1.6] tracking-[0.02em] text-[#888580]">
+                <div className="type-body-small leading-[1.6] tracking-[0.02em] text-[#888580]">
                   {lesson.lines.map((line, lineIndex) => (
                     <p key={line} className={lineIndex === 0 ? "mt-3" : "mt-1"}>
                       {line}
@@ -538,9 +526,9 @@ export default function CommissionEthnicPage() {
               }`}
             >
               <div className="md:w-[220px] md:shrink-0">
-                <p className="text-[11px] tracking-[0.24em] text-[#c9a84c] uppercase">{missionary.label}</p>
-                <h3 className="mt-3 text-[20px] font-bold tracking-[0.02em] text-[#0f2044]">{missionary.title}</h3>
-                <p className="mt-2 text-[13px] tracking-[0.02em] text-[#888580]">{missionary.subtitle}</p>
+                <p className="type-label tracking-[0.24em] text-[#c9a84c] uppercase">{missionary.label}</p>
+                <h3 className="mt-3 type-card-title font-section-title font-bold tracking-[0.02em] text-[#0f2044]">{missionary.title}</h3>
+                <p className="mt-2 type-body-small tracking-[0.02em] text-[#888580]">{missionary.subtitle}</p>
               </div>
               <BulletLines items={missionary.items} className="flex-1" />
             </div>
@@ -560,7 +548,7 @@ export default function CommissionEthnicPage() {
                 <p className={`${cormorantGaramond.className} text-[12px] tracking-[0.28em] text-[#c9a84c] uppercase`}>
                   {field.label}
                 </p>
-                <h3 className="mt-2 font-section-title text-[20px] font-black tracking-[0.02em] text-white">
+                <h3 className="mt-2 type-card-title font-section-title font-extrabold tracking-[0.02em] text-white">
                   {field.title}
                 </h3>
               </div>
@@ -568,7 +556,7 @@ export default function CommissionEthnicPage() {
               <div className="space-y-3 px-4 py-[14px]">
                 {"details" in field && field.details ? (
                   <>
-                    <div className="space-y-3 text-[13px] tracking-[0.02em]">
+                    <div className="space-y-3 type-body-small tracking-[0.02em]">
                       {field.details.map(([label, value]) => (
                         <div key={label} className="flex gap-4">
                           <span className="w-10 shrink-0 text-[#888580]">{label}</span>
@@ -577,8 +565,8 @@ export default function CommissionEthnicPage() {
                       ))}
                     </div>
                     <div className="border-t border-[#f0ece5] pt-3">
-                      <p className="text-[11px] font-medium tracking-[0.18em] text-[#c9a84c]">{field.sectionLabel}</p>
-                      <p className="mt-3 text-[13px] leading-[1.55] tracking-[0.02em] text-[#4a4845]">{field.sectionBody}</p>
+                      <p className="type-label font-medium tracking-[0.18em] text-[#c9a84c]">{field.sectionLabel}</p>
+                      <p className="mt-3 type-body-small leading-[1.55] tracking-[0.02em] text-[#4a4845]">{field.sectionBody}</p>
                     </div>
                   </>
                 ) : null}
@@ -586,7 +574,7 @@ export default function CommissionEthnicPage() {
                 {"groups" in field && field.groups
                   ? field.groups.map((group, index) => (
                       <div key={group.title} className={index > 0 ? "border-t border-[#f0ece5] pt-3" : ""}>
-                        <p className="text-[12px] font-medium tracking-[0.08em] text-[#c9a84c]">{group.title}</p>
+                        <p className="type-label font-medium tracking-[0.08em] text-[#c9a84c]">{group.title}</p>
                         <BulletLines items={group.items} className="mt-3 !space-y-2" />
                       </div>
                     ))
@@ -607,9 +595,9 @@ export default function CommissionEthnicPage() {
               }`}
             >
               <div className="md:w-[220px] md:shrink-0">
-                <p className="text-[11px] tracking-[0.24em] text-[#c9a84c] uppercase">{item.label}</p>
-                <h3 className="mt-3 text-[20px] font-bold tracking-[0.02em] text-[#0f2044]">{item.title}</h3>
-                <p className="mt-2 text-[13px] tracking-[0.02em] text-[#888580]">{item.subtitle}</p>
+                <p className="type-label tracking-[0.24em] text-[#c9a84c] uppercase">{item.label}</p>
+                <h3 className="mt-3 type-card-title font-section-title font-bold tracking-[0.02em] text-[#0f2044]">{item.title}</h3>
+                <p className="mt-2 type-body-small tracking-[0.02em] text-[#888580]">{item.subtitle}</p>
               </div>
               <BulletLines items={item.items} className="flex-1" />
             </div>
@@ -631,8 +619,8 @@ export default function CommissionEthnicPage() {
                 }`}
               >
                 <p className={`${cormorantGaramond.className} text-[22px] tracking-[0.04em] text-[#c9a84c]`}>{eng}</p>
-                <h3 className="text-[22px] font-bold tracking-[0.02em] text-[#0f2044]">{kr}</h3>
-                <p className="mt-2 text-[13px] leading-[1.55] tracking-[0.02em] text-[#888580]">{desc}</p>
+                <h3 className="type-card-title font-section-title font-bold tracking-[0.02em] text-[#0f2044]">{kr}</h3>
+                <p className="mt-2 type-body-small leading-[1.55] tracking-[0.02em] text-[#888580]">{desc}</p>
               </article>
             );
           })}
@@ -650,10 +638,10 @@ export default function CommissionEthnicPage() {
           <div className="grid gap-10 bg-white p-7 md:grid-cols-2">
             <div className="space-y-10">
               <div>
-                <p className="text-[12px] font-bold tracking-[0.08em] text-[#c9a84c]">기본 정보</p>
+                <p className="type-label font-bold tracking-[0.08em] text-[#c9a84c]">기본 정보</p>
                 <div className="mt-5 space-y-4">
                   <div>
-                    <label className="text-[12px] font-medium tracking-[0.02em] text-[#888580]">이름</label>
+                    <label className="type-body-small font-medium tracking-[0.02em] text-[#888580]">이름</label>
                     <input
                       value=""
                       readOnly
@@ -662,7 +650,7 @@ export default function CommissionEthnicPage() {
                     />
                   </div>
                   <div>
-                    <label className="text-[12px] font-medium tracking-[0.02em] text-[#888580]">연락처</label>
+                    <label className="type-body-small font-medium tracking-[0.02em] text-[#888580]">연락처</label>
                     <input
                       value=""
                       readOnly
@@ -674,7 +662,7 @@ export default function CommissionEthnicPage() {
               </div>
 
               <div>
-                <p className="text-[12px] font-bold tracking-[0.08em] text-[#c9a84c]">참여 방법</p>
+                <p className="type-label font-bold tracking-[0.08em] text-[#c9a84c]">참여 방법</p>
                 <div className="mt-5 space-y-4">
                   {participationMethods.map((item) => (
                     <StaticCheckbox key={item} label={item} />
@@ -685,7 +673,7 @@ export default function CommissionEthnicPage() {
 
             <div className="flex flex-col justify-between gap-10">
               <div>
-                <p className="text-[12px] font-bold tracking-[0.08em] text-[#c9a84c]">관심 지역</p>
+                <p className="type-label font-bold tracking-[0.08em] text-[#c9a84c]">관심 지역</p>
                 <div className="mt-5 space-y-4">
                   {interestRegions.map((item) => (
                     <StaticCheckbox key={item} label={item} />
@@ -700,7 +688,7 @@ export default function CommissionEthnicPage() {
               </div>
 
               <div className="border-t border-[#f0ece5] pt-5">
-                <div className="space-y-2 text-[12px] font-medium tracking-[0.02em] text-[#888580]">
+                <div className="space-y-2 type-body-small font-medium tracking-[0.02em] text-[#888580]">
                   <p>담당자가 연락드립니다.</p>
                   <p>선교부 문의: 선교 위원회</p>
                 </div>
@@ -715,10 +703,10 @@ export default function CommissionEthnicPage() {
 
       <section className="mt-20 md:mt-[68px]" aria-labelledby="commission-ethnic-cta-title">
         <div className="rounded-[12px] bg-[#1a2744] px-6 py-9 md:px-9 md:py-9">
-          <p className="text-[12px] font-bold uppercase tracking-[0.28em] text-[#c9a84c]">join us</p>
+          <p className="type-label font-bold uppercase tracking-[0.28em] text-[#c9a84c]">join us</p>
           <h2
             id="commission-ethnic-cta-title"
-            className="mt-3 text-[28px] font-section-title font-black tracking-[0.02em] text-white"
+            className="mt-3 type-subsection-title font-section-title font-extrabold tracking-[0.02em] text-white"
           >
             모든 민족이 제자가 되는 그날까지
           </h2>
@@ -729,8 +717,8 @@ export default function CommissionEthnicPage() {
                 <p className={`${cormorantGaramond.className} text-[10px] tracking-[0.3em] uppercase text-[#c9a84c]`}>
                   {card.label}
                 </p>
-                <h3 className="mt-2 text-[18px] font-bold tracking-[0.02em] text-white">{card.title}</h3>
-                <p className="mt-2 text-[12px] tracking-[0.02em] text-white/50">{card.description}</p>
+                <h3 className="mt-2 type-card-title font-section-title font-bold tracking-[0.02em] text-white md:text-[1.125rem]">{card.title}</h3>
+                <p className="mt-2 type-body-small tracking-[0.02em] text-white/50">{card.description}</p>
               </article>
             ))}
           </div>

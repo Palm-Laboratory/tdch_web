@@ -2,8 +2,8 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import Link from "next/link";
 import SectionHeading from "@/components/section-heading";
+import ScriptureQuoteCard from "@/components/scripture-quote-card";
 import { cormorantGaramond } from "@/lib/fonts";
-import { gowunBatang } from "@/lib/fonts";
 import { CHURCH_EMAIL, CHURCH_PHONE } from "@/lib/site-config";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -178,16 +178,12 @@ export default function CommissionSummaryPage() {
           title="지상명령"
         />
 
-        <blockquote className="mt-8 rounded-r-[12px] border-l-[3px] border-[#8c7a5b] bg-[#f7f7f4] px-5 py-6 md:px-[30px] md:py-7">
-          <p className="font-['Nanum_Myeongjo',serif] text-[14px] font-bold leading-[24px] tracking-[-0.01em] text-[#1a2744] md:text-[15px]">
-            &quot;그러므로 너희는 가서 모든 민족을 제자로 삼아 아버지와 아들과 성령의
-            이름으로 침례를 베풀고 내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라
-            볼지어다 내가 세상 끝날까지 너희와 항상 함께 있으리라&quot;
-          </p>
-          <p className="mt-4 text-[12px] font-medium tracking-[0.08em] text-[#7a7060]">
-            마태복음 28:19-20
-          </p>
-        </blockquote>
+        <ScriptureQuoteCard
+          quote="그러므로 너희는 가서 모든 민족을 제자로 삼아 아버지와 아들과 성령의 이름으로 침례를 베풀고 내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라 볼지어다 내가 세상 끝날까지 너희와 항상 함께 있으리라"
+          reference="마태복음 28:19-20"
+          className="mt-8"
+          quoteClassName="text-[14px] md:text-[15px]"
+        />
 
         <div className="mt-6 max-w-[780px] space-y-3">
           <p className="type-body leading-[1.7] tracking-[0.02em] text-[#1a2744]">
@@ -207,7 +203,7 @@ export default function CommissionSummaryPage() {
           title="3D 선교 비전"
         />
 
-        <p className="mt-5 max-w-[720px] text-[14px] leading-[1.8] tracking-[0.02em] text-[#4f4a42]">
+        <p className="mt-5 max-w-[720px] type-body leading-[1.8] tracking-[0.02em] text-[#4f4a42]">
           &quot;모든 민족을 제자로&quot; - 지상명령의 부르심에 따라 더 제자교회는 세 방향으로
           사명을 감당합니다.
         </p>
@@ -225,11 +221,11 @@ export default function CommissionSummaryPage() {
                     ›
                   </span>
                 </span>
-                <span className="flex min-w-0 flex-1 flex-col gap-1">
-                  <span className="text-[11px] uppercase tracking-[0.28em] text-[#c9a84c]/75">
+                <span className="flex min-w-0 flex-1 flex-col gap-3">
+                  <span className="type-label font-semibold uppercase tracking-[0.28em] text-[#c9a84c]/75">
                     {item.label}
                   </span>
-                  <span className="font-[var(--font-serif)] text-[22px] font-bold leading-none tracking-[0.02em] text-[#2c2424]">
+                  <span className="type-card-title font-section-title font-bold leading-none tracking-[0.02em] text-[#2c2424]">
                     {item.title}
                   </span>
                   <span className="type-body-small leading-[1.55] tracking-[0.02em] text-[#6e6464]">
@@ -267,13 +263,13 @@ export default function CommissionSummaryPage() {
           title="지상명령 범위"
         />
 
-        <blockquote className="mt-8 rounded-r-[12px] border-l-[3px] border-[#8c7a5b] bg-[#f7f7f4] px-5 py-4 md:px-[28px]">
-          <p className="text-[12px] leading-[1.8] tracking-[0.02em] text-[#4b463e]">
-            &quot;오직 성령이 너희에게 임하시면 너희가 권능을 받고 예루살렘과 온 유대와
-            사마리아와 땅 끝까지 이르러 내 증인이 되리라&quot;
-          </p>
-          <p className="mt-2 text-[12px] tracking-[0.08em] text-[#8d7f67]">사도행전 1:8</p>
-        </blockquote>
+        <ScriptureQuoteCard
+          quote="오직 성령이 너희에게 임하시면 너희가 권능을 받고 예루살렘과 온 유대와 사마리아와 땅 끝까지 이르러 내 증인이 되리라"
+          reference="사도행전 1:8"
+          className="mt-8 py-4 md:px-[28px]"
+          quoteClassName="text-[12px] leading-[1.8] tracking-[0.02em] text-[#4b463e]"
+          referenceClassName="mt-2 text-[#8d7f67]"
+        />
 
         <div className="mt-8 border-b border-[#eee6db] pb-5 md:flex md:items-center md:gap-10">
           <MissionRingDiagram />
@@ -288,14 +284,14 @@ export default function CommissionSummaryPage() {
                   />
                 </span>
                 <div>
-                  <h3 className="font-[var(--font-serif)] text-[18px] font-bold tracking-[0.02em] text-[#1a2744]">
+                  <h3 className="type-card-title font-section-title font-bold tracking-[0.02em] text-[#1a2744]">
                     {item.title}
                   </h3>
                   <div className="mt-2 space-y-1">
                     {item.lines.map((line) => (
                       <p
                         key={line}
-                        className="text-[12px] leading-[1.45] tracking-[0.02em] text-[#6d6558]"
+                        className="type-body-small leading-[1.45] tracking-[0.02em] text-[#6d6558]"
                       >
                         {line}
                       </p>
@@ -319,23 +315,23 @@ export default function CommissionSummaryPage() {
           <div>
             <div className="flex items-center gap-2">
               <p
-                className={`${cormorantGaramond.className} text-[26px] font-bold leading-none tracking-[0.04em] text-[#0f2044]`}
+                className={`${cormorantGaramond.className} text-[30px] font-bold leading-none tracking-[0.04em] text-[#0f2044]`}
               >
                 2009
               </p>
               <span className="h-px w-[18px] bg-[#0f2044]" />
               <p
-                className={`${cormorantGaramond.className} text-[26px] font-bold leading-none tracking-[0.04em] text-[#0f2044]`}
+                className={`${cormorantGaramond.className} text-[30px] font-bold leading-none tracking-[0.04em] text-[#0f2044]`}
               >
                 2025
               </p>
             </div>
-            <p className="mt-5 text-[16px] font-bold tracking-[0.04em] text-[#4a4840]">
+            <p className="mt-5 type-body font-bold tracking-[0.04em] text-[#4a4840]">
               필리핀 산타로사 꿈의교회
             </p>
             <ul className="mt-6 space-y-3">
               {historyLeftItems.map((item) => (
-                <li key={item} className="flex items-start gap-2 text-[14px] tracking-[0.02em] text-[#4a4840]">
+                <li key={item} className="type-body-small flex items-start gap-2 tracking-[0.02em] text-[#4a4840]">
                   <span className="mt-[5px] text-[#c9a84c]">·</span>
                   <span>{item}</span>
                 </li>
@@ -354,21 +350,21 @@ export default function CommissionSummaryPage() {
           <div>
             <div className="flex items-center gap-2">
               <p
-                className={`${cormorantGaramond.className} text-[26px] font-bold leading-none tracking-[0.04em] text-[#0f2044]`}
+                className={`${cormorantGaramond.className} text-[30px] font-bold leading-none tracking-[0.04em] text-[#0f2044]`}
               >
                 2026
               </p>
               <span className="h-px w-[18px] bg-[#0f2044]" />
-              <p className={`${gowunBatang.className} text-[24px] font-bold leading-none tracking-[0.04em] text-[#0f2044]`}>
+              <p className="type-card-title font-section-title font-bold leading-none tracking-[0.04em] text-[#0f2044]">
                 현재
               </p>
             </div>
-            <p className="mt-5 text-[16px] font-bold tracking-[0.04em] text-[#4a4840]">
+            <p className="mt-5 type-body font-bold tracking-[0.04em] text-[#4a4840]">
               한국 더 제자교회 (수원/동탄/용인)
             </p>
             <ul className="mt-6 space-y-3">
               {historyRightItems.map((item) => (
-                <li key={item} className="flex items-start gap-2 text-[14px] tracking-[0.02em] text-[#4a4840]">
+                <li key={item} className="type-body-small flex items-start gap-2 tracking-[0.02em] text-[#4a4840]">
                   <span className="mt-[5px] text-[#c9a84c]">·</span>
                   <span>{item}</span>
                 </li>
@@ -393,22 +389,17 @@ export default function CommissionSummaryPage() {
                 className={`px-4 text-center md:px-6 ${index < participateItems.length - 1 ? "md:border-r md:border-[#ece5da]" : ""
                   }`}
               >
-                <p
-                  className={`${cormorantGaramond.className} text-[18px] tracking-[0.16em] text-[#c9a84c]`}
-                >
-                  {item.number}
-                </p>
-                <h3 className="mt-2 font-[var(--font-serif)] text-[20px] font-bold text-[#1a2744]">
-                  {item.title}
-                </h3>
-                <p className="mt-1 text-[10px] uppercase tracking-[0.28em] text-[#d0cdca]">
+                <p className="type-label-fixed font-semibold uppercase tracking-[0.28em] text-[#c9a84c]">
                   {item.label}
                 </p>
+                <h3 className="mt-3 type-card-title font-section-title font-bold text-[#1a2744]">
+                  {item.title}
+                </h3>
                 <div className="mt-4 space-y-1.5">
                   {item.details.map((detail) => (
                     <p
                       key={detail}
-                      className="text-[12px] leading-[1.5] tracking-[0.02em] text-[#6d6558]"
+                      className="type-body-xsmall leading-[1.5] tracking-[0.02em] text-[#6d6558]"
                     >
                       {detail}
                     </p>
@@ -423,17 +414,17 @@ export default function CommissionSummaryPage() {
       <section className="mt-20 md:mt-[68px]" aria-labelledby="commission-contact-title">
         <div className="rounded-[16px] bg-[#1a2744] px-6 py-8 md:flex md:items-end md:justify-between md:px-9 md:py-9">
           <div>
-            <p className="text-[14px] font-semibold uppercase tracking-[0.32em] text-[#c9a84c]">
+            <p className="type-label font-semibold uppercase tracking-[0.32em] text-[#c9a84c]">
               Contact
             </p>
             <h2
               id="commission-contact-title"
-              className="mt-4 font-[var(--font-serif)] text-[28px] font-bold leading-none tracking-[0.02em] text-white"
+              className="mt-4 type-subsection-title font-section-title font-bold leading-none tracking-[0.02em] text-white"
             >
               문의
             </h2>
 
-            <div className="mt-6 space-y-2 text-[14px] tracking-[0.02em]">
+            <div className="mt-6 space-y-2 type-body-small tracking-[0.02em]">
               <p>
                 <span className="text-white/60">전화</span>
                 <span className="ml-3 text-white/85">{CHURCH_PHONE}</span>
@@ -448,11 +439,11 @@ export default function CommissionSummaryPage() {
           <div className="mt-6 flex flex-col items-start gap-2 md:mt-0 md:items-end">
             <Link
               href="/about/location"
-              className="inline-flex h-11 items-center justify-center rounded-[8px] bg-[#c9a84c] px-5 text-[14px] font-bold tracking-[0.05em] text-white transition hover:bg-[#d4b261]"
+              className="type-body-small inline-flex h-11 items-center justify-center rounded-[8px] bg-[#c9a84c] px-5 font-bold tracking-[0.05em] text-white transition hover:bg-[#d4b261]"
             >
               지금 참여하기 →
             </Link>
-            <p className="text-[12px] tracking-[0.02em] text-white/55">
+            <p className="type-body-small tracking-[0.02em] text-white/55">
               선교 문의: 선교 위원회
             </p>
           </div>

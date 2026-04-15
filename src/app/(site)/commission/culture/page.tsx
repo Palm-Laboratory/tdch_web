@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import SectionHeading from "@/components/section-heading";
+import ScriptureQuoteCard from "@/components/scripture-quote-card";
 import { createPageMetadata } from "@/lib/seo";
-import { cormorantGaramond } from "@/lib/fonts";
+import { cormorantGaramond, nanumMyeongjo } from "@/lib/fonts";
 import MulticulturalProgramTabs from "./components/multicultural-program-tabs";
 import MulticulturalRealitySection from "./components/multicultural-reality-section";
 
@@ -86,32 +87,11 @@ const volunteerItems = [
 
 const supportItems = ["한국어 교재비", "생활 지원 기금", "자녀 장학금", "문화 행사비"] as const;
 
-function QuoteCard({
-  text,
-  reference,
-  className = "",
-}: {
-  text: string;
-  reference: string;
-  className?: string;
-}) {
-  return (
-    <blockquote
-      className={`rounded-r-[12px] border-l-[3px] border-[#8c7a5b] bg-[#f7f7f4] px-5 py-5 md:px-7 md:py-[18px] ${className}`}
-    >
-      <p className="font-['Nanum_Myeongjo',serif] text-[13px] font-bold leading-6 tracking-[-0.01em] text-[#1a2744]">
-        &quot;{text}&quot;
-      </p>
-      <p className="mt-3 text-[12px] font-medium tracking-[0.08em] text-[#7a7060]">{reference}</p>
-    </blockquote>
-  );
-}
-
 function GoldButton({ href, children }: { href: string; children: ReactNode }) {
   return (
     <Link
       href={href}
-      className="inline-flex items-center justify-center rounded-[8px] bg-[#c9a84c] px-[18px] py-[14px] text-[14px] font-bold tracking-[0.04em] text-white transition hover:bg-[#b79436]"
+      className="type-body-small inline-flex items-center justify-center rounded-[8px] bg-[#c9a84c] px-[18px] py-[14px] font-bold tracking-[0.04em] text-white transition hover:bg-[#b79436]"
     >
       <span>{children}</span>
       <span className="ml-1">→</span>
@@ -146,7 +126,7 @@ export default function CommissionCulturePage() {
 
         <p className="mt-6 type-body leading-[1.7] tracking-[0.02em] text-black">함께 사는 세상, 서로 섬기는 교회</p>
 
-        <QuoteCard text={introQuote.text} reference={introQuote.reference} className="mt-4" />
+        <ScriptureQuoteCard quote={introQuote.text} reference={introQuote.reference} className="mt-4" />
       </section>
 
       <SectionBlock label="vision" title="다문화 사역의 3대 목표" className="mt-20 md:mt-[68px]">
@@ -159,28 +139,36 @@ export default function CommissionCulturePage() {
           </p>
         </div>
 
-        <div className="mt-8 divide-y divide-[#ebe6de]">
+        <div className="mt-8">
           {goals.map((goal) => (
-            <div
+            <article
               key={goal.number}
-              className="flex flex-col gap-5 py-6 md:flex-row md:items-center md:gap-0 md:py-5"
+              className="flex gap-4 border-b border-black/10 py-5 first:pt-0 last:border-b-0 last:pb-0 md:gap-7 md:py-5"
             >
-              <div className="flex items-center md:w-[112px] md:shrink-0">
+              <div className="flex items-start pt-2">
                 <span
-                  className={`${cormorantGaramond.className} text-[34px] leading-6 tracking-[0.04em] text-[#c9a84c] md:text-[36px]`}
+                  className={`${cormorantGaramond.className} text-[2rem] leading-none tracking-[0.08em] text-[#c9a84c] md:text-[2.25rem]`}
                 >
                   {goal.number}
                 </span>
               </div>
 
-              <div className="border-l border-[#d8d1c9] pl-5 md:flex-1 md:pl-6">
-                <p className={`${cormorantGaramond.className} text-[12px] not-italic tracking-[0.08em] text-[#888580]`}>
+              <div className="border-l border-black/10 pl-4 md:pl-6">
+                <p
+                  className={`${cormorantGaramond.className} type-body-small tracking-[0.12em] text-[#888580]`}
+                >
                   {goal.label}
                 </p>
-                <p className="mt-2 text-[16px] font-bold tracking-[0.02em] text-[#1a2744]">{goal.title}</p>
-                <p className="mt-3 text-[14px] leading-[1.7] tracking-[0.02em] text-[#888580]">{goal.description}</p>
+                <h3
+                  className={`${nanumMyeongjo.className} mt-2 type-lead font-bold leading-none tracking-[0.02em] text-[#1a2744]`}
+                >
+                  {goal.title}
+                </h3>
+                <p className="mt-2 type-body-small leading-[1.7] tracking-[0.02em] text-[#7a7060]">
+                  {goal.description}
+                </p>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </SectionBlock>
@@ -188,7 +176,7 @@ export default function CommissionCulturePage() {
       <SectionBlock label="biblical basis" title="성경적 근거" className="mt-20 md:mt-[68px]">
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           {scriptureCards.map((card) => (
-            <QuoteCard key={card.reference} text={card.text} reference={card.reference} />
+            <ScriptureQuoteCard key={card.reference} quote={card.text} reference={card.reference} />
           ))}
         </div>
       </SectionBlock>
@@ -200,7 +188,7 @@ export default function CommissionCulturePage() {
       </SectionBlock>
 
       <SectionBlock label="mission experience" title="필리핀 선교 경험" className="mt-20 md:mt-[68px]">
-        <p className="mt-5 text-[14px] leading-[1.8] tracking-[0.02em] text-[#4f4a42]">
+        <p className="mt-5 type-body-small leading-[1.8] tracking-[0.02em] text-[#4f4a42]">
           산타로사 꿈의교회 17년 — 한국·필리핀 다문화 가정 10여 가정을 섬기며 배운 것들입니다.
         </p>
 
@@ -214,9 +202,9 @@ export default function CommissionCulturePage() {
             >
               <div className="flex items-center gap-5 md:w-[170px] md:shrink-0">
                 <span className={`${cormorantGaramond.className} text-[20px] text-[#d0cdca]`}>{lesson.number}</span>
-                <h3 className="text-[18px] font-bold tracking-[0.02em] text-[#0f2044]">{lesson.title}</h3>
+                <h3 className="type-card-title font-section-title font-bold tracking-[0.02em] text-[#0f2044]">{lesson.title}</h3>
               </div>
-              <p className="text-[15px] leading-[1.75] tracking-[0.02em] text-[#888580]">{lesson.description}</p>
+              <p className="type-body-small text-[15px] leading-[1.75] tracking-[0.02em] text-[#888580]">{lesson.description}</p>
             </div>
           ))}
         </div>
@@ -225,12 +213,12 @@ export default function CommissionCulturePage() {
       <SectionBlock label="participate" title="참여 방법" className="mt-20 md:mt-[68px]">
         <div className="mt-8 overflow-hidden rounded-[16px] border border-[#d0cdca] bg-[#f8f7f4] md:flex md:items-end md:justify-between md:px-9 md:py-9">
           <div className="px-6 py-7 md:w-[440px] md:px-0 md:py-0">
-            <p className="text-[12px] font-bold tracking-[0.12em] text-[#c9a84c]">봉사자 모집</p>
+            <p className="type-label font-bold tracking-[0.12em] text-[#c9a84c]">봉사자 모집</p>
             <div className="mt-5 space-y-4">
               {volunteerItems.map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <span className="h-4 w-4 rounded-[4px] border border-[#d0cdca] bg-white" />
-                  <span className="text-[14px] font-medium tracking-[0.02em] text-[#4a4845]">{item}</span>
+                  <span className="type-body-small font-medium tracking-[0.02em] text-[#4a4845]">{item}</span>
                 </div>
               ))}
             </div>
@@ -245,14 +233,14 @@ export default function CommissionCulturePage() {
       <section className="mt-20 md:mt-[68px]" aria-labelledby="commission-culture-support-title">
         <div className="flex flex-col gap-8 rounded-[12px] bg-[#1a2744] px-6 py-8 md:flex-row md:items-end md:justify-between md:px-9 md:py-9">
           <div>
-            <p className="text-[12px] font-bold uppercase tracking-[0.28em] text-[#c9a84c]">support</p>
+            <p className="type-label font-bold uppercase tracking-[0.28em] text-[#c9a84c]">support</p>
             <h2
               id="commission-culture-support-title"
-              className="mt-4 text-[24px] font-black tracking-[0.02em] text-white"
+              className="mt-4 type-subsection-title font-section-title font-extrabold tracking-[0.02em] text-white"
             >
               다문화 사역 후원
             </h2>
-            <div className="mt-5 max-w-[340px] space-y-3 text-[12px] font-medium tracking-[0.02em] text-white/60">
+            <div className="mt-5 max-w-[340px] space-y-3 type-body-small font-medium tracking-[0.02em] text-white/60">
               {supportItems.map((item) => (
                 <div key={item} className="flex items-start gap-1.5">
                   <span>·</span>
