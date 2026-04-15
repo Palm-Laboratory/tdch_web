@@ -8,10 +8,8 @@ import type { NavigationFormState } from "../actions";
 // ── 타입 ─────────────────────────────────────────────────────────────────────
 interface NavigationFormProps {
   mode: "new" | "edit";
-  /** 소속 세트 ID — 신규 생성 시 필수, 수정 시 item에서 추출 */
-  navigationSetId: number;
   item?: AdminNavigationItem;
-  parentOptions: Pick<AdminNavigationItem, "id" | "label" | "menuKey">[];
+  parentOptions: Pick<AdminNavigationItem, "id" | "label">[];
   createAction: (prev: NavigationFormState, formData: FormData) => Promise<NavigationFormState>;
   updateAction?: (prev: NavigationFormState, formData: FormData) => Promise<NavigationFormState>;
   deleteAction?: () => Promise<void>;
@@ -172,7 +170,6 @@ function BottomToast({
 // ── 메인 폼 ──────────────────────────────────────────────────────────────────
 export default function NavigationForm({
   mode,
-  navigationSetId,
   item,
   parentOptions,
   createAction,
@@ -245,9 +242,6 @@ export default function NavigationForm({
 
   return (
     <form action={formAction} className="space-y-5">
-      {/* navigationSetId — hidden */}
-      <input type="hidden" name="navigationSetId" value={navigationSetId} />
-
       {/* ── 기본 정보 ── */}
       <SectionCard title="기본 정보">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -260,18 +254,6 @@ export default function NavigationForm({
               placeholder="예) 설교 영상"
               error={state.errors?.label}
             />
-          </div>
-
-          {/* 메뉴 키 */}
-          <div>
-            <FieldLabel required>메뉴 키</FieldLabel>
-            <TextInput
-              name="menuKey"
-              defaultValue={item?.menuKey}
-              placeholder="예) sermon-video"
-              error={state.errors?.menuKey}
-            />
-            <p className="mt-1 text-[11px] text-[#8fa3bb]">영소문자, 숫자, -, _ 만 사용 가능</p>
           </div>
 
           {/* 링크 타입 */}
@@ -307,7 +289,7 @@ export default function NavigationForm({
               <option value="">없음 (1depth)</option>
               {parentOptions.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {p.label} ({p.menuKey})
+                  {p.label}
                 </option>
               ))}
             </select>

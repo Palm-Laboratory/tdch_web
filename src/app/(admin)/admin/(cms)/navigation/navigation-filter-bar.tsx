@@ -75,7 +75,7 @@ export default function NavigationFilterBar({
           <input
             type="text"
             defaultValue={currentSearch}
-            placeholder="메뉴명 또는 키를 입력하세요."
+            placeholder="메뉴명 또는 연결 주소를 입력하세요."
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 updateParams({ search: (e.target as HTMLInputElement).value });

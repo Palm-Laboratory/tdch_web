@@ -62,10 +62,6 @@ function toFriendlyNavigationMessage(error: unknown, fallback: string): string {
     return "메뉴 수정 기능이 아직 서버에 반영되지 않았습니다. 잠시 후 다시 시도해 주세요.";
   }
 
-  if (message.includes("이미 사용 중인 menuKey")) {
-    return "이미 사용 중인 메뉴 키입니다. 다른 메뉴 키를 입력해 주세요.";
-  }
-
   if (message.includes("상위 메뉴는 1depth")) {
     return "상위 메뉴는 1단계 메뉴만 선택할 수 있습니다.";
   }
@@ -113,28 +109,19 @@ function parsePayload(formData: FormData): {
   const errors: Partial<Record<string, string>> = {};
 
   const label = (formData.get("label") as string | null)?.trim() ?? "";
-  const menuKey = (formData.get("menuKey") as string | null)?.trim() ?? "";
   const href = (formData.get("href") as string | null)?.trim() ?? "";
   const linkType = (formData.get("linkType") as string | null) ?? "";
 
   if (!label) errors.label = "메뉴명을 입력해주세요.";
-  if (!menuKey) errors.menuKey = "메뉴 키를 입력해주세요.";
-  else if (!/^[a-z0-9_-]+$/.test(menuKey)) errors.menuKey = "영소문자, 숫자, -, _ 만 사용 가능합니다.";
   if (!href) errors.href = "연결 주소를 입력해주세요.";
   if (!VALID_LINK_TYPES.includes(linkType as AdminNavigationLinkType))
     errors.linkType = "올바른 링크 타입을 선택해주세요.";
-  const navigationSetId = parseNullableNumber(formData.get("navigationSetId"));
-  if (!navigationSetId) {
-    errors.navigationSetId = "메뉴 세트 정보가 누락되었습니다.";
-  }
 
   if (Object.keys(errors).length > 0) return { errors };
 
   return {
     payload: {
-      navigationSetId: navigationSetId!,
       parentId: parseNullableNumber(formData.get("parentId")),
-      menuKey,
       label,
       href,
       matchPath: parseNullableString(formData.get("matchPath")),

@@ -4,27 +4,14 @@ import { adminApiFetch } from "@/lib/admin-api";
 
 export type AdminNavigationLinkType = "INTERNAL" | "ANCHOR" | "EXTERNAL";
 
-export interface AdminNavigationSet {
-  id: number;
-  setKey: string;
-  label: string;
-  description: string | null;
-  active: boolean;
-}
-
-export interface AdminNavigationSetsResponse {
-  sets: AdminNavigationSet[];
-}
-
 export interface AdminNavigationItem {
   id: number;
-  navigationSetId: number;
   parentId: number | null;
-  menuKey: string;
   label: string;
   href: string;
   matchPath: string | null;
   linkType: AdminNavigationLinkType;
+  contentSiteKey?: string | null;
   visible: boolean;
   headerVisible: boolean;
   mobileVisible: boolean;
@@ -40,20 +27,8 @@ export interface AdminNavigationTreeResponse {
   groups: AdminNavigationItem[];
 }
 
-export async function getAdminNavigationSets(): Promise<AdminNavigationSetsResponse> {
-  try {
-    const response = await adminApiFetch("/api/v1/admin/navigation/sets");
-    return response.json() as Promise<AdminNavigationSetsResponse>;
-  } catch {
-    return { sets: [{ id: 1, setKey: "main", label: "메인 사이트 메뉴", description: null, active: true }] };
-  }
-}
-
-export async function getAdminNavigationItems(
-  includeHidden = true,
-  setKey = "main",
-): Promise<AdminNavigationTreeResponse> {
-  const params = new URLSearchParams({ includeHidden: includeHidden ? "true" : "false", setKey });
+export async function getAdminNavigationItems(includeHidden = true): Promise<AdminNavigationTreeResponse> {
+  const params = new URLSearchParams({ includeHidden: includeHidden ? "true" : "false" });
   const response = await adminApiFetch(`/api/v1/admin/navigation/items?${params.toString()}`);
   return response.json() as Promise<AdminNavigationTreeResponse>;
 }
@@ -64,9 +39,7 @@ export async function getAdminNavigationItem(id: number): Promise<AdminNavigatio
 }
 
 export interface NavigationItemPayload {
-  navigationSetId: number;
   parentId?: number | null;
-  menuKey: string;
   label: string;
   href: string;
   matchPath?: string | null;

@@ -91,7 +91,7 @@ npm run dev
 
 - 연락처/계좌/링크: `.env.local` (로컬) / Vercel Environment Variables (운영)
 - 예배시간/공지 기본 데이터: `src/lib/site-data.ts`
-- 사이트 메뉴 원본: 백엔드 `site_navigation_item` + `GET /api/v1/navigation`
+- 사이트 메뉴 원본: 백엔드 `site_navigation` + `GET /api/v1/navigation`
 - 프론트 fallback 메뉴: `src/lib/site-data.ts` 의 `fallbackNavigationResponse`
 - 설교/미디어 데이터: `MEDIA_API_BASE_URL` 로 연결된 백엔드 API
 
