@@ -4,6 +4,7 @@ import { getAdminSession, isAdminSession } from "@/auth";
 import { AdminApiError } from "@/lib/admin-api";
 import {
   ADMIN_CONTENT_KIND_META,
+  ADMIN_PLAYLIST_OPERATION_STATUS_META,
   ADMIN_PLAYLIST_STATUS_META,
   formatAdminMediaDate,
   formatAdminMediaDateTime,
@@ -111,6 +112,7 @@ export default async function AdminMediaDetailPage({
   ]);
   const saveAction = updateAdminMediaDetailAction.bind(null, siteKey);
   const videos = videosResponse.data;
+  const operationStatusMeta = ADMIN_PLAYLIST_OPERATION_STATUS_META[playlist.operationStatus];
 
   return (
     <div className="space-y-5">
@@ -136,8 +138,17 @@ export default async function AdminMediaDetailPage({
         <div className="flex flex-wrap items-center gap-2">
           <Badge {...ADMIN_PLAYLIST_STATUS_META[playlist.status]} />
           <Badge {...ADMIN_CONTENT_KIND_META[playlist.contentKind]} />
+          <Badge label={operationStatusMeta.label} cls={operationStatusMeta.cls} />
         </div>
       </div>
+
+      <section className="rounded-2xl border border-[#e2e8f0] bg-[#f8fafc] px-5 py-4 shadow-sm">
+        <h2 className="text-[14px] font-bold text-[#0f1c2e]">운영 안내</h2>
+        <p className="mt-2 text-[13px] text-[#45576e]">{operationStatusMeta.description}</p>
+        {playlist.operationStatus === "SYNC_FAILED" && playlist.lastSyncErrorMessage ? (
+          <p className="mt-1 text-[12px] text-[#8fa3bb]">최근 오류: {playlist.lastSyncErrorMessage}</p>
+        ) : null}
+      </section>
 
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1.3fr)_minmax(320px,0.7fr)]">
         <AdminMediaDetailForm playlist={playlist} saveAction={saveAction} />

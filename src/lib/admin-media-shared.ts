@@ -1,5 +1,6 @@
 export type AdminPlaylistStatus = "DRAFT" | "PUBLISHED" | "INACTIVE";
 export type AdminContentKind = "LONG_FORM" | "SHORT";
+export type AdminPlaylistOperationStatus = "SYNC_DISABLED" | "SYNC_FAILED" | "READY" | "PENDING_SYNC";
 
 export const ADMIN_PLAYLIST_STATUS_META = {
   DRAFT: { label: "초안", cls: "bg-[#fff7ed] text-[#c2410c]" },
@@ -18,6 +19,29 @@ export const ADMIN_SYNC_JOB_STATUS_META = {
   FAILED: { label: "실패", cls: "bg-rose-50 text-rose-700" },
   RUNNING: { label: "실행 중", cls: "bg-sky-50 text-sky-700" },
 } as const satisfies Record<string, { label: string; cls: string }>;
+
+export const ADMIN_PLAYLIST_OPERATION_STATUS_META = {
+  SYNC_DISABLED: {
+    label: "Sync 꺼짐",
+    cls: "bg-slate-100 text-slate-700",
+    description: "정기 sync 대상에서 제외되어 있습니다.",
+  },
+  SYNC_FAILED: {
+    label: "점검 필요",
+    cls: "bg-rose-50 text-rose-700",
+    description: "최근 sync 실패를 먼저 확인해야 합니다.",
+  },
+  READY: {
+    label: "정상 운영",
+    cls: "bg-emerald-50 text-emerald-700",
+    description: "최근 sync 기준으로 운영 상태가 정상입니다.",
+  },
+  PENDING_SYNC: {
+    label: "첫 sync 대기",
+    cls: "bg-amber-50 text-amber-700",
+    description: "아직 유효한 sync 이력이 없습니다.",
+  },
+} as const satisfies Record<AdminPlaylistOperationStatus, { label: string; cls: string; description: string }>;
 
 export function getAdminSyncJobStatusMeta(status: string): { label: string; cls: string } {
   return ADMIN_SYNC_JOB_STATUS_META[status as keyof typeof ADMIN_SYNC_JOB_STATUS_META] ?? {
@@ -49,6 +73,7 @@ export interface AdminPlaylist {
   lastSyncFailedAt: string | null;
   lastSyncErrorMessage: string | null;
   discoverySource: string | null;
+  operationStatus: AdminPlaylistOperationStatus;
 }
 
 export interface AdminPlaylistListResponse {
@@ -88,6 +113,7 @@ export interface AdminPlaylistDetailResponse {
   lastSyncFailedAt: string | null;
   lastSyncErrorMessage: string | null;
   discoverySource: string | null;
+  operationStatus: AdminPlaylistOperationStatus;
 }
 
 export interface AdminPlaylistDiscoveryItem {

@@ -37,6 +37,7 @@ const _assertPlaylist: AdminPlaylist = {
   lastSyncFailedAt: null,
   lastSyncErrorMessage: null,
   discoverySource: null,
+  operationStatus: "READY",
 };
 void _assertPlaylist;
 

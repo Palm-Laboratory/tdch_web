@@ -3,6 +3,7 @@ import "server-only";
 import { AdminApiError, adminApiFetch } from "@/lib/admin-api";
 export {
   ADMIN_CONTENT_KIND_META,
+  ADMIN_PLAYLIST_OPERATION_STATUS_META,
   ADMIN_PLAYLIST_STATUS_META,
   ADMIN_SYNC_JOB_STATUS_META,
   formatAdminMediaDate,

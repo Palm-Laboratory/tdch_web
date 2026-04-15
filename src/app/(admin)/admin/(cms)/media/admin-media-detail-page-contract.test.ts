@@ -45,6 +45,7 @@ const _assertFormProps: AdminMediaDetailFormProps = {
     lastSyncFailedAt: null,
     lastSyncErrorMessage: null,
     discoverySource: null,
+    operationStatus: "READY",
   } satisfies AdminPlaylistDetailResponse,
   saveAction: updateAdminMediaDetailAction.bind(null, "sermons"),
 };

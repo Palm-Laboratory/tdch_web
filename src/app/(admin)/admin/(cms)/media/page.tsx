@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getAdminSession, isAdminSession } from "@/auth";
 import {
   ADMIN_CONTENT_KIND_META,
+  ADMIN_PLAYLIST_OPERATION_STATUS_META,
   ADMIN_PLAYLIST_STATUS_META,
   formatAdminMediaDateTime,
   formatAdminMediaDate,
@@ -192,6 +193,7 @@ function PlaylistRow({ item, rowNum }: { item: AdminPlaylist; rowNum: number }) 
   const lastSyncedAt = formatAdminMediaDate(item.lastSyncedAt, "미동기화");
   const lastSyncSucceededAt = formatAdminMediaDateTime(item.lastSyncSucceededAt, "—");
   const lastSyncFailedAt = formatAdminMediaDateTime(item.lastSyncFailedAt, "—");
+  const operationStatusMeta = ADMIN_PLAYLIST_OPERATION_STATUS_META[item.operationStatus];
 
   return (
     <tr className="border-b border-[#f0f4f8] transition hover:bg-[#fafcff]">
@@ -219,6 +221,10 @@ function PlaylistRow({ item, rowNum }: { item: AdminPlaylist; rowNum: number }) 
       <td className="px-5 py-4 align-middle text-[12px] text-[#5d6f86]">
         <p>{item.itemCount}개</p>
         <p className="mt-0.5 text-[11px] text-[#8fa3bb]">정렬 {item.sortOrder}</p>
+      </td>
+      <td className="px-5 py-4 align-middle">
+        <Badge label={operationStatusMeta.label} className={operationStatusMeta.cls} />
+        <p className="mt-1 text-[11px] text-[#8fa3bb]">{operationStatusMeta.description}</p>
       </td>
       <td className="px-5 py-4 align-middle">
         <span
@@ -330,7 +336,7 @@ export default async function AdminMediaPage({ searchParams }: AdminMediaPagePro
           <table className="min-w-full border-collapse text-left">
             <thead>
               <tr className="border-b border-[#edf2f7] bg-[#f8fafc]">
-                {["번호", "상태", "유형", "메뉴 / slug", "YouTube Playlist", "영상 수", "Sync", "노출", "발견일"].map((header) => (
+                {["번호", "상태", "유형", "메뉴 / slug", "YouTube Playlist", "영상 수", "운영 상태", "Sync", "노출", "발견일"].map((header) => (
                   <th key={header} className="whitespace-nowrap px-5 py-3.5 text-[11px] font-semibold tracking-wide text-[#55697f]">
                     {header}
                   </th>
@@ -340,14 +346,14 @@ export default async function AdminMediaPage({ searchParams }: AdminMediaPagePro
             <tbody>
               {playlists.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="px-5 py-12 text-center">
+                  <td colSpan={10} className="px-5 py-12 text-center">
                     <p className="text-[13px] font-semibold text-[#132033]">등록된 예배 영상 메뉴가 없습니다.</p>
                     <p className="mt-1 text-[12px] text-[#8fa3bb]">우측 상단 버튼으로 미연결 재생목록을 먼저 불러오세요.</p>
                   </td>
                 </tr>
               ) : filteredPlaylists.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="px-5 py-12 text-center">
+                  <td colSpan={10} className="px-5 py-12 text-center">
                     <p className="text-[13px] font-semibold text-[#132033]">검색 결과가 없습니다.</p>
                     <p className="mt-1 text-[12px] text-[#8fa3bb]">상태, Sync, 검색어를 다시 조정해 보세요.</p>
                   </td>
