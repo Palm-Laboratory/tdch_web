@@ -4,7 +4,10 @@ import { AdminApiError, adminApiFetch } from "@/lib/admin-api";
 export {
   ADMIN_CONTENT_KIND_META,
   ADMIN_PLAYLIST_STATUS_META,
+  ADMIN_SYNC_JOB_STATUS_META,
   formatAdminMediaDate,
+  formatAdminMediaDateTime,
+  getAdminSyncJobStatusMeta,
 } from "@/lib/admin-media-shared";
 export type {
   AdminContentKind,
@@ -14,6 +17,7 @@ export type {
   AdminPlaylistDiscoveryResponse,
   AdminPlaylistListResponse,
   AdminPlaylistStatus,
+  AdminSyncJobDetailResponse,
   AdminSyncJob,
   AdminSyncJobListResponse,
   AdminVideo,
@@ -27,12 +31,29 @@ import type {
   AdminPlaylistDetailResponse,
   AdminPlaylistDiscoveryResponse,
   AdminPlaylistListResponse,
+  AdminSyncJobDetailResponse,
   AdminSyncJobListResponse,
   AdminVideoListResponse,
   AdminVideoMetadataResponse,
   UpdateAdminPlaylistPayload,
   UpdateAdminVideoMetadataPayload,
 } from "@/lib/admin-media-shared";
+
+async function fetchAdminMediaJson<T>(
+  actorId: string,
+  path: string,
+  init?: RequestInit,
+): Promise<T> {
+  const headers = new Headers(init?.headers);
+  headers.set("X-Admin-Actor-Id", actorId);
+
+  const response = await adminApiFetch(path, {
+    ...init,
+    headers,
+  });
+
+  return response.json() as Promise<T>;
+}
 
 export async function getAdminPlaylists(
   actorId: string,
@@ -53,38 +74,33 @@ export async function getAdminPlaylists(
   if (params?.sort) query.set("sort", params.sort);
   if (params?.order) query.set("order", params.order);
 
-  const response = await adminApiFetch(`/api/v1/admin/media/playlists${query.size ? `?${query.toString()}` : ""}`, {
-    headers: { "X-Admin-Actor-Id": actorId },
-  });
-
-  return response.json() as Promise<AdminPlaylistListResponse>;
+  return fetchAdminMediaJson<AdminPlaylistListResponse>(
+    actorId,
+    `/api/v1/admin/media/playlists${query.size ? `?${query.toString()}` : ""}`,
+  );
 }
 
 export async function getAdminPlaylist(
   actorId: string,
   siteKey: string,
 ): Promise<AdminPlaylistDetailResponse> {
-  const response = await adminApiFetch(`/api/v1/admin/media/playlists/${encodeURIComponent(siteKey)}`, {
-    headers: { "X-Admin-Actor-Id": actorId },
-  });
-
-  return response.json() as Promise<AdminPlaylistDetailResponse>;
+  return fetchAdminMediaJson<AdminPlaylistDetailResponse>(
+    actorId,
+    `/api/v1/admin/media/playlists/${encodeURIComponent(siteKey)}`,
+  );
 }
 
 export async function discoverAdminPlaylists(
   actorId: string,
   payload?: { channelId?: string | null },
 ): Promise<AdminPlaylistDiscoveryResponse> {
-  const response = await adminApiFetch("/api/v1/admin/media/playlists/discover", {
+  return fetchAdminMediaJson<AdminPlaylistDiscoveryResponse>(actorId, "/api/v1/admin/media/playlists/discover", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "X-Admin-Actor-Id": actorId,
     },
     body: JSON.stringify(payload ?? {}),
   });
-
-  return response.json() as Promise<AdminPlaylistDiscoveryResponse>;
 }
 
 export async function updateAdminPlaylist(
@@ -92,24 +108,24 @@ export async function updateAdminPlaylist(
   siteKey: string,
   payload: UpdateAdminPlaylistPayload,
 ): Promise<AdminPlaylistDetailResponse> {
-  const response = await adminApiFetch(`/api/v1/admin/media/playlists/${encodeURIComponent(siteKey)}`, {
+  return fetchAdminMediaJson<AdminPlaylistDetailResponse>(actorId, `/api/v1/admin/media/playlists/${encodeURIComponent(siteKey)}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      "X-Admin-Actor-Id": actorId,
     },
     body: JSON.stringify(payload),
   });
-
-  return response.json() as Promise<AdminPlaylistDetailResponse>;
 }
 
 export async function getAdminSyncJobs(actorId: string): Promise<AdminSyncJobListResponse> {
-  const response = await adminApiFetch("/api/v1/admin/media/sync-jobs", {
-    headers: { "X-Admin-Actor-Id": actorId },
-  });
+  return fetchAdminMediaJson<AdminSyncJobListResponse>(actorId, "/api/v1/admin/media/sync-jobs");
+}
 
-  return response.json() as Promise<AdminSyncJobListResponse>;
+export async function getAdminSyncJob(
+  actorId: string,
+  jobId: string | number,
+): Promise<AdminSyncJobDetailResponse> {
+  return fetchAdminMediaJson<AdminSyncJobDetailResponse>(actorId, `/api/v1/admin/media/sync-jobs/${encodeURIComponent(String(jobId))}`);
 }
 
 export async function getAdminPlaylistVideos(
@@ -130,25 +146,20 @@ export async function getAdminPlaylistVideos(
   if (params?.page) query.set("page", String(params.page));
   if (params?.size) query.set("size", String(params.size));
 
-  const response = await adminApiFetch(
+  return fetchAdminMediaJson<AdminVideoListResponse>(
+    actorId,
     `/api/v1/admin/media/playlists/${encodeURIComponent(siteKey)}/videos${query.size ? `?${query.toString()}` : ""}`,
-    {
-      headers: { "X-Admin-Actor-Id": actorId },
-    },
   );
-
-  return response.json() as Promise<AdminVideoListResponse>;
 }
 
 export async function getAdminVideoMetadata(
   actorId: string,
   youtubeVideoId: string,
 ): Promise<AdminVideoMetadataResponse> {
-  const response = await adminApiFetch(`/api/v1/admin/media/videos/${encodeURIComponent(youtubeVideoId)}/metadata`, {
-    headers: { "X-Admin-Actor-Id": actorId },
-  });
-
-  return response.json() as Promise<AdminVideoMetadataResponse>;
+  return fetchAdminMediaJson<AdminVideoMetadataResponse>(
+    actorId,
+    `/api/v1/admin/media/videos/${encodeURIComponent(youtubeVideoId)}/metadata`,
+  );
 }
 
 export async function updateAdminVideoMetadata(
@@ -156,16 +167,17 @@ export async function updateAdminVideoMetadata(
   youtubeVideoId: string,
   payload: UpdateAdminVideoMetadataPayload,
 ): Promise<AdminVideoMetadataResponse> {
-  const response = await adminApiFetch(`/api/v1/admin/media/videos/${encodeURIComponent(youtubeVideoId)}/metadata`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Admin-Actor-Id": actorId,
+  return fetchAdminMediaJson<AdminVideoMetadataResponse>(
+    actorId,
+    `/api/v1/admin/media/videos/${encodeURIComponent(youtubeVideoId)}/metadata`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
     },
-    body: JSON.stringify(payload),
-  });
-
-  return response.json() as Promise<AdminVideoMetadataResponse>;
+  );
 }
 
 export function toFriendlyAdminMediaMessage(error: unknown, fallback: string): string {

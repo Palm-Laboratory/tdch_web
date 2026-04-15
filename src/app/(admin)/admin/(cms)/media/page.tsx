@@ -4,7 +4,9 @@ import { getAdminSession, isAdminSession } from "@/auth";
 import {
   ADMIN_CONTENT_KIND_META,
   ADMIN_PLAYLIST_STATUS_META,
+  formatAdminMediaDateTime,
   formatAdminMediaDate,
+  getAdminSyncJobStatusMeta,
   getAdminPlaylists,
   getAdminSyncJobs,
   type AdminPlaylist,
@@ -91,6 +93,7 @@ export default async function AdminMediaPage(props: Record<string, never>) {
   const inactiveCount = playlists.filter((item) => item.status === "INACTIVE").length;
   const syncEnabledCount = playlists.filter((item) => item.syncEnabled).length;
   const latestSyncJob = syncJobs.data[0] ?? null;
+  const latestSyncJobStatusMeta = latestSyncJob ? getAdminSyncJobStatusMeta(latestSyncJob.status) : null;
 
   return (
     <div className="space-y-5">
@@ -144,10 +147,13 @@ export default async function AdminMediaPage(props: Record<string, never>) {
             <p className="mt-1 text-[12px] text-[#8fa3bb]">정기 sync와 수동 sync의 최신 실행 결과입니다.</p>
           </div>
           {latestSyncJob ? (
-            <Badge
-              label={latestSyncJob.status}
-              cls={latestSyncJob.status === "SUCCEEDED" ? "bg-emerald-50 text-emerald-600" : "bg-[#fff7ed] text-[#c2410c]"}
-            />
+            <Link
+              href={`/admin/media/sync-jobs/${latestSyncJob.id}`}
+              className="transition hover:opacity-80"
+              aria-label="최근 sync 상세 보기"
+            >
+              <Badge label={latestSyncJobStatusMeta?.label ?? latestSyncJob.status} cls={latestSyncJobStatusMeta?.cls ?? "bg-[#f1f5f9] text-[#64748b]"} />
+            </Link>
           ) : (
             <Badge label="이력 없음" cls="bg-[#f1f5f9] text-[#64748b]" />
           )}
@@ -156,7 +162,7 @@ export default async function AdminMediaPage(props: Record<string, never>) {
           <div className="mt-4 grid gap-4 sm:grid-cols-4">
             <div>
               <p className="text-[11px] text-[#8fa3bb]">시작 시각</p>
-              <p className="mt-1 text-[13px] text-[#132033]">{new Date(latestSyncJob.startedAt).toLocaleString("ko-KR")}</p>
+              <p className="mt-1 text-[13px] text-[#132033]">{formatAdminMediaDateTime(latestSyncJob.startedAt, "—")}</p>
             </div>
             <div>
               <p className="text-[11px] text-[#8fa3bb]">대상 재생목록</p>

@@ -12,6 +12,20 @@ export const ADMIN_CONTENT_KIND_META = {
   SHORT: { label: "숏폼", cls: "bg-[#f5f3ff] text-[#7c3aed]" },
 } as const satisfies Record<AdminContentKind, { label: string; cls: string }>;
 
+export const ADMIN_SYNC_JOB_STATUS_META = {
+  SUCCEEDED: { label: "성공", cls: "bg-emerald-50 text-emerald-600" },
+  PARTIAL_FAILED: { label: "부분 실패", cls: "bg-amber-50 text-amber-700" },
+  FAILED: { label: "실패", cls: "bg-rose-50 text-rose-700" },
+  RUNNING: { label: "실행 중", cls: "bg-sky-50 text-sky-700" },
+} as const satisfies Record<string, { label: string; cls: string }>;
+
+export function getAdminSyncJobStatusMeta(status: string): { label: string; cls: string } {
+  return ADMIN_SYNC_JOB_STATUS_META[status as keyof typeof ADMIN_SYNC_JOB_STATUS_META] ?? {
+    label: status,
+    cls: "bg-[#f1f5f9] text-[#64748b]",
+  };
+}
+
 export interface AdminPlaylist {
   id: number;
   menuName: string;
@@ -104,6 +118,34 @@ export interface AdminSyncJobListResponse {
   data: AdminSyncJob[];
 }
 
+export interface AdminSyncJobItem {
+  id: number;
+  status: string;
+  siteKey: string | null;
+  menuName: string | null;
+  youtubePlaylistId: string | null;
+  processedItems: number;
+  insertedVideos: number;
+  updatedVideos: number;
+  deactivatedPlaylistVideos: number;
+  errorMessage: string | null;
+  startedAt: string;
+  finishedAt: string | null;
+}
+
+export interface AdminSyncJobDetailResponse {
+  id: number;
+  triggerType: string;
+  status: string;
+  startedAt: string;
+  finishedAt: string | null;
+  totalPlaylists: number;
+  succeededPlaylists: number;
+  failedPlaylists: number;
+  errorSummary: string | null;
+  items: AdminSyncJobItem[];
+}
+
 export interface AdminVideo {
   youtubeVideoId: string;
   position: number;
@@ -191,5 +233,19 @@ export function formatAdminMediaDate(value: string | null, fallback: string): st
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
+  });
+}
+
+export function formatAdminMediaDateTime(value: string | null, fallback: string): string {
+  if (!value) {
+    return fallback;
+  }
+
+  return new Date(value).toLocaleString("ko-KR", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
   });
 }
