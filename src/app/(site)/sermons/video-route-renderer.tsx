@@ -6,8 +6,8 @@ import ShortsArchivePage from "@/app/(site)/sermons/components/shorts-archive-pa
 import ShortsDetailPage from "@/app/(site)/sermons/components/shorts-detail-page";
 import { VideoJsonLd } from "@/components/json-ld";
 import {
-  getMediaDetail,
   getMediaListStrict,
+  getOwnedMediaDetail,
   MediaListResponse,
   MediaNotFoundError,
   VideoDetailResponse,
@@ -119,15 +119,16 @@ export async function generateVideoDetailMetadata({
   try {
     const [preview, detail] = await Promise.all([
       loadMediaListOrNotFound(slug, 0, 1),
-      loadMediaDetailOrNotFound(youtubeVideoId),
+      loadOwnedMediaDetailOrNotFound(slug, youtubeVideoId),
     ]);
+    const detailTitle = resolveDetailTitle(detail);
 
     return createVideoMetadata({
-      title: detail.displayTitle || detail.title || preview.menu.name,
+      title: detailTitle || preview.menu.name,
       description: buildVideoDescription(preview, detail),
       path,
       ogImage: detail.thumbnailUrl
-        ? { url: detail.thumbnailUrl, width: 1280, height: 720, alt: detail.displayTitle || detail.title }
+        ? { url: detail.thumbnailUrl, width: 1280, height: 720, alt: detailTitle }
         : undefined,
       publishedTime: detail.publishedAt,
     });
@@ -150,7 +151,8 @@ export async function renderVideoDetailPage({
   youtubeVideoId: string;
 }) {
   const preview = await loadMediaPreview(slug);
-  const detail = await loadMediaDetailOrNotFound(youtubeVideoId);
+  const detail = await loadOwnedMediaDetailOrNotFound(slug, youtubeVideoId);
+  const detailTitle = resolveDetailTitle(detail);
   const detailPath = buildVideoDetailPath(rootHref, youtubeVideoId);
   const listHref = buildVideoListPath(rootHref);
 
@@ -159,7 +161,7 @@ export async function renderVideoDetailPage({
     return (
       <>
         <VideoJsonLd
-          title={detail.displayTitle || detail.title}
+          title={detailTitle}
           description={buildVideoDescription(preview, detail)}
           path={detailPath}
           thumbnailUrl={detail.thumbnailUrl}
@@ -186,7 +188,7 @@ export async function renderVideoDetailPage({
   return (
     <>
       <VideoJsonLd
-        title={detail.displayTitle || detail.title}
+        title={detailTitle}
         description={buildVideoDescription(preview, detail)}
         path={detailPath}
         thumbnailUrl={detail.thumbnailUrl}
@@ -238,11 +240,14 @@ async function loadLongFormResponse(slug: string, currentPage: number): Promise<
   return loadMediaListOrNotFound(slug, currentPage - 1, LONG_FORM_PAGE_SIZE);
 }
 
-async function loadMediaDetailOrNotFound(youtubeVideoId: string): Promise<VideoDetailResponse> {
+async function loadOwnedMediaDetailOrNotFound(
+  slug: string,
+  youtubeVideoId: string,
+): Promise<VideoDetailResponse> {
   try {
-    const detail = await getMediaDetail(youtubeVideoId);
+    const detail = await getOwnedMediaDetail(slug, youtubeVideoId);
     if (!detail) {
-      throw new Error(`Media detail missing for ${youtubeVideoId}`);
+      throw new Error(`Media detail missing for ${slug}/${youtubeVideoId}`);
     }
     return detail;
   } catch (error) {
@@ -272,4 +277,8 @@ function buildVideoDescription(
     baseSegments.filter(Boolean).join(" — ") ||
     `The 제자교회 ${preview.menu.name} 상세 페이지입니다.`
   );
+}
+
+function resolveDetailTitle(detail: VideoDetailResponse): string {
+  return detail.displayTitle || detail.title;
 }

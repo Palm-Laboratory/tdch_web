@@ -67,31 +67,28 @@ export class MediaNotFoundError extends Error {
 }
 
 async function fetchMedia<T>(path: string): Promise<T> {
-  const response = await fetch(`${SERVER_MEDIA_API_BASE_URL}${path}`, {
+  return requestMedia(path, {
     headers: {
       Accept: "application/json",
     },
     cache: "no-store",
   });
-
-  if (!response.ok) {
-    if (response.status === 404) {
-      throw new MediaNotFoundError(`Media API resource not found: ${path}`);
-    }
-    throw new Error(`Media API request failed: ${response.status} ${response.statusText}`);
-  }
-
-  return response.json() as Promise<T>;
 }
 
 async function fetchRevalidatedMedia<T>(path: string, revalidateSeconds: number): Promise<T> {
-  const response = await fetch(`${SERVER_MEDIA_API_BASE_URL}${path}`, {
+  return requestMedia(path, {
     headers: {
       Accept: "application/json",
     },
     next: {
       revalidate: revalidateSeconds,
     },
+  });
+}
+
+async function requestMedia<T>(path: string, init: RequestInit & { next?: { revalidate: number } }): Promise<T> {
+  const response = await fetch(`${SERVER_MEDIA_API_BASE_URL}${path}`, {
+    ...init,
   });
 
   if (!response.ok) {
@@ -142,6 +139,21 @@ export async function getMediaDetail(youtubeVideoId: string): Promise<VideoDetai
       throw error;
     }
     console.error(`Failed to fetch media detail for ${youtubeVideoId}.`, error);
+    return null;
+  }
+}
+
+export async function getOwnedMediaDetail(
+  slug: SermonSiteKey,
+  youtubeVideoId: string,
+): Promise<VideoDetailResponse | null> {
+  try {
+    return await fetchMedia<VideoDetailResponse>(`/api/v1/media/menus/${slug}/videos/${youtubeVideoId}`);
+  } catch (error) {
+    if (error instanceof MediaNotFoundError) {
+      throw error;
+    }
+    console.error(`Failed to fetch owned media detail for ${slug}/${youtubeVideoId}.`, error);
     return null;
   }
 }
