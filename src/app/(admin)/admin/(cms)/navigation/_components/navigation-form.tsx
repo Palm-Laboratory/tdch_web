@@ -2,7 +2,12 @@
 
 import { useActionState, useEffect, useTransition, useState } from "react";
 import { useRouter } from "next/navigation";
-import type { AdminNavigationItem, AdminNavigationLinkType } from "@/lib/admin-navigation-api";
+import type {
+  AdminNavigationItem,
+  AdminNavigationEditableLinkType,
+  AdminNavigationMenuType,
+  AdminNavigationContentKindFilter,
+} from "@/lib/admin-navigation-api";
 import type { NavigationFormState } from "../actions";
 
 // ── 타입 ─────────────────────────────────────────────────────────────────────
@@ -16,10 +21,23 @@ interface NavigationFormProps {
 }
 
 // ── 상수 ─────────────────────────────────────────────────────────────────────
-const LINK_TYPES: { value: AdminNavigationLinkType; label: string; desc: string }[] = [
+const LINK_TYPES: { value: AdminNavigationEditableLinkType; label: string; desc: string }[] = [
   { value: "INTERNAL", label: "내부",   desc: "사이트 내부 페이지" },
   { value: "EXTERNAL", label: "외부",   desc: "외부 URL (새 탭)" },
   { value: "ANCHOR",   label: "앵커",   desc: "페이지 내 앵커 (#)" },
+];
+
+const MENU_TYPES: { value: AdminNavigationMenuType; label: string; desc: string }[] = [
+  { value: "STATIC_PAGE", label: "일반 페이지", desc: "고정 페이지 링크" },
+  { value: "BOARD_PAGE", label: "게시판", desc: "게시판/목록 페이지" },
+  { value: "VIDEO_PAGE", label: "영상 페이지", desc: "영상 메뉴 루트" },
+];
+
+const VIDEO_ROOT_OPTIONS = [{ value: "sermons", label: "예배 영상" }] as const;
+const VIDEO_CONTENT_KIND_FILTER_OPTIONS: { value: AdminNavigationContentKindFilter | ""; label: string }[] = [
+  { value: "", label: "전체 영상" },
+  { value: "LONG_FORM", label: "말씀/설교" },
+  { value: "SHORT", label: "짧은 영상" },
 ];
 
 // ── 공통 UI 컴포넌트 ─────────────────────────────────────────────────────────
@@ -181,6 +199,7 @@ export default function NavigationForm({
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [toast, setToast] = useState<{ id: number; message: string } | null>(null);
   const [selectedParentId, setSelectedParentId] = useState(item?.parentId ? String(item.parentId) : "");
+  const [selectedMenuType, setSelectedMenuType] = useState<AdminNavigationMenuType>(item?.menuType ?? "STATIC_PAGE");
   const [defaultLandingChecked, setDefaultLandingChecked] = useState(item?.defaultLanding ?? false);
   const [visibleChecked, setVisibleChecked] = useState(item?.visible ?? true);
   const [headerVisibleChecked, setHeaderVisibleChecked] = useState(item?.headerVisible ?? true);
@@ -191,9 +210,12 @@ export default function NavigationForm({
   const action = mode === "edit" && updateAction ? updateAction : createAction;
   const [state, formAction, isPending] = useActionState<NavigationFormState, FormData>(action, {});
 
-  const [linkType, setLinkType] = useState<AdminNavigationLinkType>(
-    item?.linkType ?? "INTERNAL",
+  const [linkType, setLinkType] = useState<AdminNavigationEditableLinkType>(
+    item?.linkType === "EXTERNAL" || item?.linkType === "ANCHOR" ? item.linkType : "INTERNAL",
   );
+  const isStaticPage = selectedMenuType === "STATIC_PAGE";
+  const isBoardPage = selectedMenuType === "BOARD_PAGE";
+  const isVideoPage = selectedMenuType === "VIDEO_PAGE";
 
   useEffect(() => {
     if (!state.message) {
@@ -224,6 +246,12 @@ export default function NavigationForm({
       setBreadcrumbVisibleChecked(false);
     }
   }, [visibleChecked]);
+
+  useEffect(() => {
+    if (!isStaticPage) {
+      setLinkType("INTERNAL");
+    }
+  }, [isStaticPage]);
 
   function handleDelete() {
     if (!deleteAction) return;
@@ -256,24 +284,55 @@ export default function NavigationForm({
             />
           </div>
 
-          {/* 링크 타입 */}
+          {/* 메뉴 타입 */}
           <div>
-            <FieldLabel required>링크 타입</FieldLabel>
+            <FieldLabel required>메뉴 타입</FieldLabel>
             <select
-              name="linkType"
-              value={linkType}
-              onChange={(e) => setLinkType(e.target.value as AdminNavigationLinkType)}
+              name="menuType"
+              value={selectedMenuType}
+              onChange={(e) => setSelectedMenuType(e.target.value as AdminNavigationMenuType)}
               className={`h-9 w-full rounded-lg border px-3 text-[13px] text-[#132033]
                 bg-[#f8fafc] focus:border-[#3f74c7] focus:outline-none focus:ring-1 focus:ring-[#3f74c7]/40 transition
-                ${state.errors?.linkType ? "border-red-400" : "border-[#d1dbe6]"}`}
+                ${state.errors?.menuType ? "border-red-400" : "border-[#d1dbe6]"}`}
             >
-              {LINK_TYPES.map((t) => (
+              {MENU_TYPES.map((t) => (
                 <option key={t.value} value={t.value}>
                   {t.label} — {t.desc}
                 </option>
               ))}
             </select>
-            <FieldError message={state.errors?.linkType} />
+            <FieldError message={state.errors?.menuType} />
+          </div>
+
+          {/* 링크 타입 */}
+          <div>
+            <FieldLabel required>링크 타입</FieldLabel>
+            {isStaticPage ? (
+              <>
+                <select
+                  name="linkType"
+                  value={linkType}
+                  onChange={(e) => setLinkType(e.target.value as AdminNavigationEditableLinkType)}
+                  className={`h-9 w-full rounded-lg border px-3 text-[13px] text-[#132033]
+                    bg-[#f8fafc] focus:border-[#3f74c7] focus:outline-none focus:ring-1 focus:ring-[#3f74c7]/40 transition
+                    ${state.errors?.linkType ? "border-red-400" : "border-[#d1dbe6]"}`}
+                >
+                  {LINK_TYPES.map((t) => (
+                    <option key={t.value} value={t.value}>
+                      {t.label} — {t.desc}
+                    </option>
+                  ))}
+                </select>
+                <FieldError message={state.errors?.linkType} />
+              </>
+            ) : (
+              <>
+                <input type="hidden" name="linkType" value="INTERNAL" />
+                <div className="rounded-lg border border-[#d1dbe6] bg-[#f3f5f8] px-3 py-2.5 text-[13px] text-[#5d6f86]">
+                  내부 페이지로 자동 설정됩니다.
+                </div>
+              </>
+            )}
           </div>
 
           {/* 상위 메뉴 */}
@@ -297,27 +356,144 @@ export default function NavigationForm({
 
           {/* 연결 주소 */}
           <div className="sm:col-span-2">
-            <FieldLabel required>연결 주소 (href)</FieldLabel>
+            <FieldLabel required={!isVideoPage}>
+              {isVideoPage ? "루트 경로" : isBoardPage ? "게시판 경로" : "연결 주소 (href)"}
+            </FieldLabel>
             <TextInput
+              key={`href-${selectedMenuType}`}
               name="href"
-              defaultValue={item?.href}
-              placeholder="예) /media/messages"
+              defaultValue={item?.href ?? (isVideoPage ? "/sermons" : "")}
+              placeholder={
+                isVideoPage
+                  ? "영상 페이지에서는 자동으로 설정됩니다."
+                  : isBoardPage
+                    ? "예) /boards/notices"
+                    : "예) /about"
+              }
+              disabled={isVideoPage}
               error={state.errors?.href}
             />
           </div>
 
           {/* 매치 경로 */}
-          <div className="sm:col-span-2">
-            <FieldLabel>매치 경로 (match_path)</FieldLabel>
-            <TextInput
-              name="matchPath"
-              defaultValue={item?.matchPath ?? ""}
-              placeholder="예) /about/location (비우면 href 사용)"
-            />
-            <p className="mt-1 text-[11px] text-[#8fa3bb]">
-              현재 보고 있는 페이지와 메뉴를 연결할 기준 경로입니다. 보통은 비워두고, 앵커 메뉴처럼 href에 #이 들어갈 때만 hash 없는 경로를 입력합니다.
-            </p>
-          </div>
+          {!isVideoPage && (
+            <div className="sm:col-span-2">
+              <FieldLabel>{isBoardPage ? "매치 경로 (선택)" : "매치 경로 (match_path)"}</FieldLabel>
+              <TextInput
+                key={`match-${selectedMenuType}`}
+                name="matchPath"
+                defaultValue={item?.matchPath ?? ""}
+                placeholder={isBoardPage ? "비우면 게시판 경로를 그대로 사용합니다." : "예) /about/location (비우면 href 사용)"}
+              />
+              <p className="mt-1 text-[11px] text-[#8fa3bb]">
+                {isBoardPage
+                  ? "보통은 비워두고, 게시판 상세를 별도 패턴으로 매칭해야 할 때만 사용합니다."
+                  : "현재 보고 있는 페이지와 메뉴를 연결할 기준 경로입니다. 보통은 비워두고, 앵커 메뉴처럼 href에 #이 들어갈 때만 hash 없는 경로를 입력합니다."}
+              </p>
+            </div>
+          )}
+
+          {isStaticPage && (
+            <div className="sm:col-span-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <FieldLabel>정적 페이지 키 (선택)</FieldLabel>
+                <TextInput
+                  name="pageKey"
+                  defaultValue={item?.pageKey ?? ""}
+                  placeholder="예) about"
+                />
+              </div>
+              <div>
+                <FieldLabel>정적 페이지 경로 (선택)</FieldLabel>
+                <TextInput
+                  name="pagePath"
+                  defaultValue={item?.pagePath ?? ""}
+                  placeholder="예) /about"
+                />
+              </div>
+            </div>
+          )}
+
+          {isBoardPage && (
+            <div className="sm:col-span-2 rounded-2xl border border-[#e9edf3] bg-[#f8fafc] p-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <FieldLabel required>게시판 종류</FieldLabel>
+                  <TextInput
+                    name="boardKey"
+                    defaultValue={item?.boardKey ?? ""}
+                    placeholder="예) notices"
+                    error={state.errors?.boardKey}
+                  />
+                </div>
+                <div>
+                  <FieldLabel>카테고리 키 (선택)</FieldLabel>
+                  <TextInput
+                    name="categoryKey"
+                    defaultValue={item?.categoryKey ?? ""}
+                    placeholder="예) sunday"
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <FieldLabel>목록 경로</FieldLabel>
+                  <TextInput
+                    name="listPath"
+                    defaultValue={item?.listPath ?? item?.href ?? ""}
+                    placeholder="비우면 게시판 경로를 그대로 사용합니다."
+                  />
+                  <p className="mt-1 text-[11px] text-[#8fa3bb]">
+                    별도 입력이 없으면 위 게시판 경로를 그대로 목록 경로로 사용합니다.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {isVideoPage && (
+            <div className="sm:col-span-2 rounded-2xl border border-[#e9edf3] bg-[#f8fafc] p-4">
+              <input type="hidden" name="landingMode" value="ROOT" />
+              <div className="space-y-3">
+                <div>
+                  <FieldLabel required>연결된 영상 관리 영역</FieldLabel>
+                  <select
+                    name="videoRootKey"
+                    defaultValue={item?.videoRootKey ?? "sermons"}
+                    className="h-9 w-full rounded-lg border border-[#d1dbe6] bg-white px-3 text-[13px] text-[#132033]
+                      focus:border-[#3f74c7] focus:outline-none focus:ring-1 focus:ring-[#3f74c7]/40 transition"
+                  >
+                    {VIDEO_ROOT_OPTIONS.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="mt-1 text-[11px] text-[#8fa3bb]">
+                    실제 영상 목록과 개별 영상 데이터는 미디어 관리 시스템에서 유지됩니다.
+                  </p>
+                  <FieldError message={state.errors?.videoRootKey} />
+                </div>
+
+                <div>
+                  <FieldLabel>노출할 영상 범위</FieldLabel>
+                  <select
+                    name="contentKindFilter"
+                    defaultValue={item?.contentKindFilter ?? ""}
+                    className="h-9 w-full rounded-lg border border-[#d1dbe6] bg-white px-3 text-[13px] text-[#132033]
+                      focus:border-[#3f74c7] focus:outline-none focus:ring-1 focus:ring-[#3f74c7]/40 transition"
+                  >
+                    {VIDEO_CONTENT_KIND_FILTER_OPTIONS.map((option) => (
+                      <option key={option.value || "ALL"} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="mt-1 text-[11px] text-[#8fa3bb]">
+                    비워두면 연결된 영상 메뉴 전체를 노출합니다.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </SectionCard>
 

@@ -2,7 +2,11 @@ import "server-only";
 
 import { adminApiFetch } from "@/lib/admin-api";
 
-export type AdminNavigationLinkType = "INTERNAL" | "ANCHOR" | "EXTERNAL";
+export type AdminNavigationLinkType = "INTERNAL" | "ANCHOR" | "EXTERNAL" | "CONTENT_REF";
+export type AdminNavigationEditableLinkType = Exclude<AdminNavigationLinkType, "CONTENT_REF">;
+export type AdminNavigationMenuType = "STATIC_PAGE" | "BOARD_PAGE" | "VIDEO_PAGE";
+export type AdminNavigationVideoLandingMode = "ROOT";
+export type AdminNavigationContentKindFilter = "LONG_FORM" | "SHORT";
 
 export interface AdminNavigationItem {
   id: number;
@@ -11,7 +15,16 @@ export interface AdminNavigationItem {
   href: string;
   matchPath: string | null;
   linkType: AdminNavigationLinkType;
+  menuType: AdminNavigationMenuType;
   contentSiteKey?: string | null;
+  pageKey?: string | null;
+  pagePath?: string | null;
+  boardKey?: string | null;
+  listPath?: string | null;
+  categoryKey?: string | null;
+  videoRootKey?: string | null;
+  landingMode?: AdminNavigationVideoLandingMode | null;
+  contentKindFilter?: AdminNavigationContentKindFilter | null;
   visible: boolean;
   headerVisible: boolean;
   mobileVisible: boolean;
@@ -43,7 +56,16 @@ export interface NavigationItemPayload {
   label: string;
   href: string;
   matchPath?: string | null;
-  linkType: AdminNavigationLinkType;
+  linkType: AdminNavigationEditableLinkType;
+  menuType: AdminNavigationMenuType;
+  pageKey?: string | null;
+  pagePath?: string | null;
+  boardKey?: string | null;
+  listPath?: string | null;
+  categoryKey?: string | null;
+  videoRootKey?: string | null;
+  landingMode?: AdminNavigationVideoLandingMode | null;
+  contentKindFilter?: AdminNavigationContentKindFilter | null;
   visible: boolean;
   headerVisible: boolean;
   mobileVisible: boolean;

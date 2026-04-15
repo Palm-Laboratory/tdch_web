@@ -27,10 +27,26 @@ const LINK_TYPE_META: Record<string, { label: string; cls: string }> = {
   INTERNAL: { label: "내부", cls: "bg-blue-50 text-blue-600" },
   EXTERNAL: { label: "외부", cls: "bg-orange-50 text-orange-600" },
   ANCHOR: { label: "앵커", cls: "bg-purple-50 text-purple-600" },
+  CONTENT_REF: { label: "콘텐츠", cls: "bg-sky-50 text-sky-600" },
+};
+
+const MENU_TYPE_META: Record<string, { label: string; cls: string }> = {
+  STATIC_PAGE: { label: "일반", cls: "bg-slate-100 text-slate-600" },
+  BOARD_PAGE: { label: "게시판", cls: "bg-amber-50 text-amber-700" },
+  VIDEO_PAGE: { label: "영상", cls: "bg-rose-50 text-rose-600" },
 };
 
 function LinkTypeBadge({ type }: { type: string }) {
   const meta = LINK_TYPE_META[type] ?? { label: type, cls: "bg-gray-100 text-gray-600" };
+  return (
+    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold ${meta.cls}`}>
+      {meta.label}
+    </span>
+  );
+}
+
+function MenuTypeBadge({ type }: { type: string }) {
+  const meta = MENU_TYPE_META[type] ?? { label: type, cls: "bg-gray-100 text-gray-600" };
   return (
     <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold ${meta.cls}`}>
       {meta.label}
@@ -58,6 +74,9 @@ function RootRow({ item, rowNum }: { item: AdminNavigationItem; rowNum: number }
       </td>
       <td className="px-5 py-4 align-middle">
         <p className="text-[13px] font-semibold text-[#0f1c2e]">{item.label}</p>
+        <div className="mt-1">
+          <MenuTypeBadge type={item.menuType} />
+        </div>
       </td>
       <td className="max-w-[180px] px-5 py-4 align-middle">
         <p className="truncate text-[12px] text-[#31445f]">{item.href}</p>
@@ -105,6 +124,9 @@ function ChildRow({ item, isLast }: { item: AdminNavigationItem; isLast: boolean
       </td>
       <td className="py-3 pl-7 pr-4 align-middle">
         <p className="text-[12px] font-medium text-[#374151]">{item.label}</p>
+        <div className="mt-1">
+          <MenuTypeBadge type={item.menuType} />
+        </div>
       </td>
       <td className="max-w-[180px] px-4 py-3 align-middle">
         <p className="truncate text-[12px] text-[#4a6484]">{item.href}</p>

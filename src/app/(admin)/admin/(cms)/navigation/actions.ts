@@ -6,7 +6,10 @@ import {
   createAdminNavigationItem,
   updateAdminNavigationItem,
   deleteAdminNavigationItem,
-  type AdminNavigationLinkType,
+  type AdminNavigationEditableLinkType,
+  type AdminNavigationMenuType,
+  type AdminNavigationVideoLandingMode,
+  type AdminNavigationContentKindFilter,
 } from "@/lib/admin-navigation-api";
 import { AdminApiError } from "@/lib/admin-api";
 
@@ -30,7 +33,11 @@ function parseNullableNumber(val: FormDataEntryValue | null): number | null {
   return Number.isFinite(n) ? n : null;
 }
 
-const VALID_LINK_TYPES: AdminNavigationLinkType[] = ["INTERNAL", "ANCHOR", "EXTERNAL"];
+const VALID_LINK_TYPES: AdminNavigationEditableLinkType[] = ["INTERNAL", "ANCHOR", "EXTERNAL"];
+const VALID_MENU_TYPES: AdminNavigationMenuType[] = ["STATIC_PAGE", "BOARD_PAGE", "VIDEO_PAGE"];
+const VALID_VIDEO_ROOT_KEYS = ["sermons"] as const;
+const DEFAULT_VIDEO_LANDING_MODE: AdminNavigationVideoLandingMode = "ROOT";
+const VALID_VIDEO_CONTENT_KIND_FILTERS: AdminNavigationContentKindFilter[] = ["LONG_FORM", "SHORT"];
 
 function buildMessageState(message: string): NavigationFormState {
   return {
@@ -111,11 +118,36 @@ function parsePayload(formData: FormData): {
   const label = (formData.get("label") as string | null)?.trim() ?? "";
   const href = (formData.get("href") as string | null)?.trim() ?? "";
   const linkType = (formData.get("linkType") as string | null) ?? "";
+  const menuType = (formData.get("menuType") as string | null) ?? "STATIC_PAGE";
+  const pageKey = parseNullableString(formData.get("pageKey"));
+  const pagePath = parseNullableString(formData.get("pagePath"));
+  const boardKey = parseNullableString(formData.get("boardKey"));
+  const listPath = parseNullableString(formData.get("listPath"));
+  const categoryKey = parseNullableString(formData.get("categoryKey"));
+  const videoRootKey = parseNullableString(formData.get("videoRootKey"));
+  const landingMode = (formData.get("landingMode") as string | null) ?? DEFAULT_VIDEO_LANDING_MODE;
+  const rawContentKindFilter = parseNullableString(formData.get("contentKindFilter"));
+  const contentKindFilter =
+    rawContentKindFilter && VALID_VIDEO_CONTENT_KIND_FILTERS.includes(rawContentKindFilter as AdminNavigationContentKindFilter)
+      ? (rawContentKindFilter as AdminNavigationContentKindFilter)
+      : null;
+  const isVideoPage = menuType === "VIDEO_PAGE";
+  const isBoardPage = menuType === "BOARD_PAGE";
 
   if (!label) errors.label = "메뉴명을 입력해주세요.";
-  if (!href) errors.href = "연결 주소를 입력해주세요.";
-  if (!VALID_LINK_TYPES.includes(linkType as AdminNavigationLinkType))
+  if (!VALID_MENU_TYPES.includes(menuType as AdminNavigationMenuType))
+    errors.menuType = "올바른 메뉴 타입을 선택해주세요.";
+  if (!isVideoPage && !href) errors.href = "연결 주소를 입력해주세요.";
+  if (!VALID_LINK_TYPES.includes(linkType as AdminNavigationEditableLinkType))
     errors.linkType = "올바른 링크 타입을 선택해주세요.";
+  if (isBoardPage && !boardKey) {
+    errors.boardKey = "게시판 종류를 입력해주세요.";
+  }
+  if (isVideoPage) {
+    if (!videoRootKey || !VALID_VIDEO_ROOT_KEYS.includes(videoRootKey as (typeof VALID_VIDEO_ROOT_KEYS)[number])) {
+      errors.videoRootKey = "올바른 영상 루트 메뉴를 선택해주세요.";
+    }
+  }
 
   if (Object.keys(errors).length > 0) return { errors };
 
@@ -123,9 +155,18 @@ function parsePayload(formData: FormData): {
     payload: {
       parentId: parseNullableNumber(formData.get("parentId")),
       label,
-      href,
-      matchPath: parseNullableString(formData.get("matchPath")),
-      linkType: linkType as AdminNavigationLinkType,
+      href: isVideoPage ? "/sermons" : href,
+      matchPath: isVideoPage ? "/sermons" : parseNullableString(formData.get("matchPath")),
+      linkType: (isBoardPage || isVideoPage ? "INTERNAL" : linkType) as AdminNavigationEditableLinkType,
+      menuType: menuType as AdminNavigationMenuType,
+      pageKey: menuType === "STATIC_PAGE" ? pageKey : null,
+      pagePath: menuType === "STATIC_PAGE" ? pagePath : null,
+      boardKey: isBoardPage ? boardKey : null,
+      listPath: isBoardPage ? (listPath ?? href) : null,
+      categoryKey: isBoardPage ? categoryKey : null,
+      videoRootKey: isVideoPage ? videoRootKey : null,
+      landingMode: isVideoPage ? (landingMode as AdminNavigationVideoLandingMode) : null,
+      contentKindFilter: isVideoPage ? contentKindFilter : null,
       visible: parseBoolean(formData.get("visible")),
       headerVisible: parseBoolean(formData.get("headerVisible")),
       mobileVisible: parseBoolean(formData.get("mobileVisible")),
