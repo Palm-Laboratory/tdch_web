@@ -104,6 +104,55 @@ export interface AdminSyncJobListResponse {
   data: AdminSyncJob[];
 }
 
+export interface AdminVideo {
+  youtubeVideoId: string;
+  position: number;
+  visible: boolean;
+  featured: boolean;
+  displayTitle: string;
+  displayThumbnailUrl: string;
+  displayPublishedDate: string;
+  originalTitle: string;
+  publishedAt: string;
+  thumbnailUrl: string;
+  preacher: string | null;
+  scripture: string | null;
+  pinnedRank: number | null;
+}
+
+export interface AdminVideoListResponse {
+  data: AdminVideo[];
+  pagination: {
+    page: number;
+    size: number;
+    totalElements: number;
+    totalPages: number;
+  };
+}
+
+export interface AdminVideoMetadataResponse {
+  youtubeVideoId: string;
+  originalTitle: string;
+  originalDescription: string;
+  publishedAt: string;
+  watchUrl: string;
+  embedUrl: string;
+  lastSyncedAt: string | null;
+  visible: boolean;
+  featured: boolean;
+  pinnedRank: number | null;
+  manualTitle: string | null;
+  manualThumbnailUrl: string | null;
+  manualPublishedDate: string | null;
+  manualKind: string | null;
+  preacher: string | null;
+  scripture: string | null;
+  scriptureBody: string | null;
+  serviceType: string | null;
+  summary: string | null;
+  tags: string[];
+}
+
 export interface UpdateAdminPlaylistPayload {
   menuName: string;
   slug: string;
@@ -115,6 +164,22 @@ export interface UpdateAdminPlaylistPayload {
   navigationVisible: boolean;
   sortOrder: number;
   description?: string | null;
+}
+
+export interface UpdateAdminVideoMetadataPayload {
+  visible: boolean;
+  featured: boolean;
+  pinnedRank?: number | null;
+  manualTitle?: string | null;
+  manualThumbnailUrl?: string | null;
+  manualPublishedDate?: string | null;
+  manualKind?: string | null;
+  preacher?: string | null;
+  scripture?: string | null;
+  scriptureBody?: string | null;
+  serviceType?: string | null;
+  summary?: string | null;
+  tags: string[];
 }
 
 export function formatAdminMediaDate(value: string | null, fallback: string): string {

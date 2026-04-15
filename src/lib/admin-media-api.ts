@@ -1,125 +1,38 @@
 import "server-only";
 
 import { AdminApiError, adminApiFetch } from "@/lib/admin-api";
+export {
+  ADMIN_CONTENT_KIND_META,
+  ADMIN_PLAYLIST_STATUS_META,
+  formatAdminMediaDate,
+} from "@/lib/admin-media-shared";
+export type {
+  AdminContentKind,
+  AdminPlaylist,
+  AdminPlaylistDetailResponse,
+  AdminPlaylistDiscoveryItem,
+  AdminPlaylistDiscoveryResponse,
+  AdminPlaylistListResponse,
+  AdminPlaylistStatus,
+  AdminSyncJob,
+  AdminSyncJobListResponse,
+  AdminVideo,
+  AdminVideoListResponse,
+  AdminVideoMetadataResponse,
+  UpdateAdminPlaylistPayload,
+  UpdateAdminVideoMetadataPayload,
+} from "@/lib/admin-media-shared";
 
-export type AdminPlaylistStatus = "DRAFT" | "PUBLISHED" | "INACTIVE";
-export type AdminContentKind = "LONG_FORM" | "SHORT";
-
-export const ADMIN_PLAYLIST_STATUS_META = {
-  DRAFT: { label: "초안", cls: "bg-[#fff7ed] text-[#c2410c]" },
-  PUBLISHED: { label: "게시", cls: "bg-[#ecfdf5] text-[#047857]" },
-  INACTIVE: { label: "비활성", cls: "bg-[#f1f5f9] text-[#64748b]" },
-} as const satisfies Record<AdminPlaylistStatus, { label: string; cls: string }>;
-
-export const ADMIN_CONTENT_KIND_META = {
-  LONG_FORM: { label: "롱폼", cls: "bg-[#eff6ff] text-[#1d4ed8]" },
-  SHORT: { label: "숏폼", cls: "bg-[#f5f3ff] text-[#7c3aed]" },
-} as const satisfies Record<AdminContentKind, { label: string; cls: string }>;
-
-export interface AdminPlaylist {
-  id: number;
-  menuName: string;
-  siteKey: string;
-  slug: string;
-  contentKind: AdminContentKind;
-  status: AdminPlaylistStatus;
-  active: boolean;
-  navigationVisible: boolean;
-  sortOrder: number;
-  description: string | null;
-  discoveredAt: string | null;
-  publishedAt: string | null;
-  lastModifiedBy: number | null;
-  youtubePlaylistId: string;
-  itemCount: number;
-  syncEnabled: boolean;
-  lastSyncedAt: string | null;
-}
-
-export interface AdminPlaylistListResponse {
-  data: AdminPlaylist[];
-  pagination: {
-    page: number;
-    size: number;
-    totalElements: number;
-    totalPages: number;
-  };
-}
-
-export interface AdminPlaylistDetailResponse {
-  id: number;
-  menuName: string;
-  siteKey: string;
-  slug: string;
-  contentKind: AdminContentKind;
-  status: AdminPlaylistStatus;
-  active: boolean;
-  navigationVisible: boolean;
-  sortOrder: number;
-  description: string | null;
-  discoveredAt: string | null;
-  publishedAt: string | null;
-  lastModifiedBy: number | null;
-  youtubePlaylistId: string;
-  youtubeTitle: string;
-  youtubeDescription: string;
-  channelTitle: string;
-  thumbnailUrl: string;
-  itemCount: number;
-  syncEnabled: boolean;
-  lastSyncedAt: string | null;
-}
-
-export interface AdminPlaylistDiscoveryItem {
-  siteKey: string;
-  menuName: string;
-  slug: string;
-  contentKind: AdminContentKind;
-  status: AdminPlaylistStatus;
-  navigationVisible: boolean;
-  youtubePlaylistId: string;
-  youtubeTitle: string;
-  channelTitle: string | null;
-  itemCount: number;
-  syncEnabled: boolean;
-}
-
-export interface AdminPlaylistDiscoveryResponse {
-  discoveredCount: number;
-  skippedCount: number;
-  items: AdminPlaylistDiscoveryItem[];
-}
-
-export interface UpdateAdminPlaylistPayload {
-  menuName: string;
-  slug: string;
-  contentKind: AdminContentKind;
-  youtubePlaylistId?: string | null;
-  syncEnabled: boolean;
-  active: boolean;
-  status: AdminPlaylistStatus;
-  navigationVisible: boolean;
-  sortOrder: number;
-  description?: string | null;
-}
-
-export interface AdminSyncJob {
-  id: number;
-  triggerType: string;
-  status: string;
-  startedAt: string;
-  finishedAt: string | null;
-  totalPlaylists: number;
-  succeededPlaylists: number;
-  failedPlaylists: number;
-  itemCount: number;
-  failedItemCount: number;
-  errorSummary: string | null;
-}
-
-export interface AdminSyncJobListResponse {
-  data: AdminSyncJob[];
-}
+import type {
+  AdminPlaylistDetailResponse,
+  AdminPlaylistDiscoveryResponse,
+  AdminPlaylistListResponse,
+  AdminSyncJobListResponse,
+  AdminVideoListResponse,
+  AdminVideoMetadataResponse,
+  UpdateAdminPlaylistPayload,
+  UpdateAdminVideoMetadataPayload,
+} from "@/lib/admin-media-shared";
 
 export async function getAdminPlaylists(
   actorId: string,
@@ -199,6 +112,62 @@ export async function getAdminSyncJobs(actorId: string): Promise<AdminSyncJobLis
   return response.json() as Promise<AdminSyncJobListResponse>;
 }
 
+export async function getAdminPlaylistVideos(
+  actorId: string,
+  siteKey: string,
+  params?: {
+    visible?: string;
+    featured?: string;
+    search?: string;
+    page?: number;
+    size?: number;
+  },
+): Promise<AdminVideoListResponse> {
+  const query = new URLSearchParams();
+  if (params?.visible) query.set("visible", params.visible);
+  if (params?.featured) query.set("featured", params.featured);
+  if (params?.search) query.set("search", params.search);
+  if (params?.page) query.set("page", String(params.page));
+  if (params?.size) query.set("size", String(params.size));
+
+  const response = await adminApiFetch(
+    `/api/v1/admin/media/playlists/${encodeURIComponent(siteKey)}/videos${query.size ? `?${query.toString()}` : ""}`,
+    {
+      headers: { "X-Admin-Actor-Id": actorId },
+    },
+  );
+
+  return response.json() as Promise<AdminVideoListResponse>;
+}
+
+export async function getAdminVideoMetadata(
+  actorId: string,
+  youtubeVideoId: string,
+): Promise<AdminVideoMetadataResponse> {
+  const response = await adminApiFetch(`/api/v1/admin/media/videos/${encodeURIComponent(youtubeVideoId)}/metadata`, {
+    headers: { "X-Admin-Actor-Id": actorId },
+  });
+
+  return response.json() as Promise<AdminVideoMetadataResponse>;
+}
+
+export async function updateAdminVideoMetadata(
+  actorId: string,
+  youtubeVideoId: string,
+  payload: UpdateAdminVideoMetadataPayload,
+): Promise<AdminVideoMetadataResponse> {
+  const response = await adminApiFetch(`/api/v1/admin/media/videos/${encodeURIComponent(youtubeVideoId)}/metadata`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Admin-Actor-Id": actorId,
+    },
+    body: JSON.stringify(payload),
+  });
+
+  return response.json() as Promise<AdminVideoMetadataResponse>;
+}
+
 export function toFriendlyAdminMediaMessage(error: unknown, fallback: string): string {
   if (!(error instanceof AdminApiError)) {
     return fallback;
@@ -222,21 +191,12 @@ export function toFriendlyAdminMediaMessage(error: unknown, fallback: string): s
   if (message.includes("youtubePlaylistId")) {
     return message;
   }
+  if (message.includes("youtubeVideoId")) {
+    return message;
+  }
   if (message.includes("channel")) {
     return "유튜브 채널 설정을 확인한 뒤 다시 시도해 주세요.";
   }
 
   return fallback;
-}
-
-export function formatAdminMediaDate(value: string | null, fallback: string): string {
-  if (!value) {
-    return fallback;
-  }
-
-  return new Date(value).toLocaleDateString("ko-KR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
 }

@@ -7,7 +7,9 @@ import {
   ADMIN_PLAYLIST_STATUS_META,
   formatAdminMediaDate,
   getAdminPlaylist,
+  getAdminPlaylistVideos,
   type AdminPlaylistDetailResponse,
+  type AdminVideo,
 } from "@/lib/admin-media-api";
 import AdminMediaDetailForm from "./_components/admin-media-detail-form";
 import { updateAdminMediaDetailAction } from "./actions";
@@ -31,6 +33,36 @@ function SectionTitle({ title, description }: { title: string; description: stri
       <h2 className="text-[14px] font-bold text-[#0f1c2e]">{title}</h2>
       <p className="mt-1 text-[12px] text-[#8fa3bb]">{description}</p>
     </div>
+  );
+}
+
+function VideoRow({ siteKey, video }: { siteKey: string; video: AdminVideo }) {
+  return (
+    <tr className="border-b border-[#f0f4f8] transition hover:bg-[#fafcff]">
+      <td className="px-5 py-4 align-middle text-[12px] text-[#5d6f86]">{video.position + 1}</td>
+      <td className="px-5 py-4 align-middle">
+        <Link
+          href={`/admin/media/${encodeURIComponent(siteKey)}/videos/${encodeURIComponent(video.youtubeVideoId)}`}
+          className="text-[13px] font-semibold text-[#0f1c2e] transition hover:text-[#3f74c7]"
+        >
+          {video.displayTitle}
+        </Link>
+        <p className="mt-0.5 text-[11px] text-[#8fa3bb]">{video.originalTitle}</p>
+      </td>
+      <td className="px-5 py-4 align-middle text-[12px] text-[#5d6f86]">{video.displayPublishedDate}</td>
+      <td className="px-5 py-4 align-middle text-[12px] text-[#5d6f86]">{video.preacher || "—"}</td>
+      <td className="px-5 py-4 align-middle">
+        <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${video.visible ? "bg-emerald-50 text-emerald-600" : "bg-[#f1f5f9] text-[#8fa3bb]"}`}>
+          {video.visible ? "노출" : "숨김"}
+        </span>
+      </td>
+      <td className="px-5 py-4 align-middle">
+        <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${video.featured ? "bg-[#eff6ff] text-[#1d4ed8]" : "bg-[#f1f5f9] text-[#8fa3bb]"}`}>
+          {video.featured ? "대표" : "일반"}
+        </span>
+      </td>
+      <td className="px-5 py-4 align-middle text-[12px] text-[#5d6f86]">{video.pinnedRank ?? "—"}</td>
+    </tr>
   );
 }
 
@@ -58,8 +90,12 @@ export default async function AdminMediaDetailPage({
 
   const { siteKey } = await params;
   const actorId = session.user.id ?? "";
-  const playlist = await loadPlaylist(actorId, siteKey);
+  const [playlist, videosResponse] = await Promise.all([
+    loadPlaylist(actorId, siteKey),
+    getAdminPlaylistVideos(actorId, siteKey, { page: 1, size: 20 }),
+  ]);
   const saveAction = updateAdminMediaDetailAction.bind(null, siteKey);
+  const videos = videosResponse.data;
 
   return (
     <div className="space-y-5">
@@ -124,6 +160,39 @@ export default async function AdminMediaDetailPage({
           </section>
         </div>
       </div>
+
+      <section className="overflow-hidden rounded-2xl border border-[#e2e8f0] bg-white shadow-sm">
+        <div className="flex items-center justify-between gap-4 border-b border-[#edf2f7] px-5 py-4">
+          <div>
+            <h2 className="text-[14px] font-bold text-[#0f1c2e]">영상 메타데이터</h2>
+            <p className="mt-1 text-[12px] text-[#8fa3bb]">최근 {videos.length}개 영상을 보고 개별 메타데이터 편집 화면으로 이동합니다.</p>
+          </div>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full border-collapse text-left">
+            <thead>
+              <tr className="border-b border-[#edf2f7] bg-[#f8fafc]">
+                {["순번", "영상", "표시 날짜", "설교자", "노출", "대표", "고정"].map((header) => (
+                  <th key={header} className="whitespace-nowrap px-5 py-3.5 text-[11px] font-semibold tracking-wide text-[#55697f]">
+                    {header}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {videos.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="px-5 py-10 text-center text-[13px] text-[#5d6f86]">
+                    아직 sync된 영상이 없습니다.
+                  </td>
+                </tr>
+              ) : (
+                videos.map((video) => <VideoRow key={video.youtubeVideoId} siteKey={siteKey} video={video} />)
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
   );
 }
