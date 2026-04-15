@@ -29,7 +29,7 @@ interface MediaListResponseLite {
 }
 
 export default function ShortsInfiniteGrid({
-  siteKey,
+  siteKey: slug,
   initialItems,
   initialPage,
   totalPages,
@@ -71,7 +71,7 @@ export default function ShortsInfiniteGrid({
 
       try {
         const response = await fetch(
-          `${PUBLIC_MEDIA_API_BASE_URL}/api/v1/media/menus/${siteKey}/videos?page=${nextPageRef.current}&size=${pageSize}`,
+          `${PUBLIC_MEDIA_API_BASE_URL}/api/v1/media/menus/${slug}/videos?page=${nextPageRef.current}&size=${pageSize}`,
           {
             headers: {
               Accept: "application/json",
@@ -101,7 +101,7 @@ export default function ShortsInfiniteGrid({
         setIsLoading(false);
       }
     };
-  }, [pageSize, siteKey]);
+  }, [pageSize, slug]);
 
   useEffect(() => {
     if (!hasMore || isLoading || loadError) {
@@ -137,7 +137,7 @@ export default function ShortsInfiniteGrid({
         {items.map((item) => (
           <Link
             key={item.youtubeVideoId}
-            href={`/sermons/${siteKey}/${item.youtubeVideoId}`}
+            href={`/sermons/${slug}/${item.youtubeVideoId}`}
             className="group block lg:w-[210px]"
           >
             <div className="relative aspect-[9/16] w-full overflow-hidden rounded-[8px] bg-black lg:h-[315px] lg:aspect-auto">

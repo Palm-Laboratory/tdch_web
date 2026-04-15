@@ -114,26 +114,24 @@ export async function getHomeMedia(): Promise<HomeMediaResponse | null> {
 }
 
 export async function getMediaList(
-  siteKey: SermonSiteKey,
+  slug: SermonSiteKey,
   page = 0,
   size = 24,
 ): Promise<MediaListResponse | null> {
   try {
-    return await getMediaListStrict(siteKey, page, size);
+    return await getMediaListStrict(slug, page, size);
   } catch (error) {
-    console.error(`Failed to fetch media list for ${siteKey}.`, error);
+    console.error(`Failed to fetch media list for ${slug}.`, error);
     return null;
   }
 }
 
 export async function getMediaListStrict(
-  siteKey: SermonSiteKey,
+  slug: SermonSiteKey,
   page = 0,
   size = 24,
 ): Promise<MediaListResponse> {
-  return fetchMedia<MediaListResponse>(
-    `/api/v1/media/menus/${siteKey}/videos?page=${page}&size=${size}`,
-  );
+  return fetchMedia<MediaListResponse>(buildMediaListPath(slug, page, size));
 }
 
 export async function getMediaDetail(youtubeVideoId: string): Promise<VideoDetailResponse | null> {
@@ -148,8 +146,8 @@ export async function getMediaDetail(youtubeVideoId: string): Promise<VideoDetai
   }
 }
 
-export function buildMediaDetailPath(siteKey: SermonSiteKey, youtubeVideoId: string): string {
-  return `/sermons/${siteKey}/${youtubeVideoId}`;
+export function buildMediaDetailPath(slug: SermonSiteKey, youtubeVideoId: string): string {
+  return `/sermons/${slug}/${youtubeVideoId}`;
 }
 
 export function toHomeSermonCards(
@@ -184,4 +182,8 @@ export function buildMediaMeta(item: MediaItemDto): string {
 
 export function formatDisplayDate(dateText: string): string {
   return dateText.replaceAll("-", ".");
+}
+
+function buildMediaListPath(slug: SermonSiteKey, page: number, size: number): string {
+  return `/api/v1/media/menus/${slug}/videos?page=${page}&size=${size}`;
 }
