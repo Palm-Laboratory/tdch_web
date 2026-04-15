@@ -42,16 +42,20 @@ async function parseUpstreamError(response: Response) {
   }
 }
 
+export function buildAdminApiHeaders(initHeaders: HeadersInit | undefined, adminSyncKey: string): Record<string, string> {
+  const headers = new Headers(initHeaders);
+  headers.set("Accept", "application/json");
+  headers.set("X-Admin-Key", adminSyncKey);
+
+  return Object.fromEntries(headers.entries());
+}
+
 export async function adminApiFetch(path: string, init?: RequestInit) {
   ensureAdminSyncKey();
 
   const response = await fetch(`${SERVER_MEDIA_API_BASE_URL}${path}`, {
     ...init,
-    headers: {
-      Accept: "application/json",
-      "X-Admin-Key": ADMIN_SYNC_KEY,
-      ...init?.headers,
-    },
+    headers: buildAdminApiHeaders(init?.headers, ADMIN_SYNC_KEY),
     cache: "no-store",
   });
 
