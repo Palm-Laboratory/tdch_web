@@ -306,7 +306,6 @@ npm run dev
 현재 적용 예시:
 
 - `narrow`: `src/app/newcomer/page.tsx`, `src/app/about/giving/page.tsx`
-- `wide`: `src/app/sermons/layout.tsx`
 
 ## 새 화면 체크리스트
 

@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense } from "react";
 import AnimatedCards from "@/app/home/components/animated-cards";
 import MissionSection from "@/app/home/components/mission-section";
-import SermonVideoCard from "@/app/(site)/sermons/components/sermon-video-card";
 import HomeHeroHeader from "@/components/home-hero-header";
 
 import {
   quickMenuCards,
-  homeSermonList,
 } from "@/lib/site-data";
-import { getHomeMedia, toHomeSermonCards } from "@/lib/media-api";
-import { getNavMenuGroups } from "@/lib/navigation-api";
 import {
   CHURCH_ADDRESS,
   SITE_ALTERNATE_NAME,
@@ -23,8 +18,6 @@ import {
 } from "@/lib/site-config";
 import { gowunBatang } from "@/lib/fonts";
 import { createPageMetadata } from "@/lib/seo";
-import { buildVideoDetailPath, findVideoRootHrefBySiteKey } from "@/lib/video-route-utils";
-import type { NavMenuGroup } from "@/lib/navigation-types";
 
 export const metadata: Metadata = createPageMetadata({
   title: `${SITE_ALTERNATE_NAME} | ${SITE_NAME}`,
@@ -32,76 +25,6 @@ export const metadata: Metadata = createPageMetadata({
   description: `${SITE_ALTERNATE_NAME}(${SITE_NAME})는 ${SITE_TAGLINE}를 비전으로 세워가는 교회입니다. ${CHURCH_ADDRESS}에서 예배합니다.`,
   path: "/",
 });
-
-function SermonSectionContent({
-  sermonCards,
-  youtubeUrl,
-  moreHref,
-}: {
-  sermonCards: typeof homeSermonList;
-  youtubeUrl: string;
-  moreHref: string;
-}) {
-  return (
-    <div>
-      <div className="space-y-8">
-        <div className="flex items-end justify-between">
-          <div className="text-center">
-            <h2 className="font-serif text-3xl font-semibold text-ink md:text-4xl">말씀</h2>
-            <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-cedar/70">Sermon</p>
-          </div>
-          <Link href={moreHref} className="text-sm font-semibold text-cedar transition hover:text-clay">
-            더보기 &rarr;
-          </Link>
-        </div>
-
-        <section className="grid gap-4 md:grid-cols-2">
-          {sermonCards.map((sermon, i) => (
-            <SermonVideoCard
-              key={`${sermon.title}-${i}`}
-              href={sermon.href || youtubeUrl}
-              thumbnail={sermon.thumbnail}
-              thumbnailAlt={sermon.thumbnailAlt}
-              category={sermon.category}
-              type={sermon.type}
-              title={sermon.title}
-              meta={`${sermon.scripture} | ${sermon.pastor}`}
-              date={sermon.date}
-            />
-          ))}
-        </section>
-      </div>
-    </div>
-  );
-}
-
-async function HomeSermonSection({ youtubeUrl }: { youtubeUrl: string }) {
-  const [homeMedia, navMenuGroups] = await Promise.all([
-    getHomeMedia(),
-    getNavMenuGroups(),
-  ]);
-  const moreHref = getPrimaryVideoGroupHref(navMenuGroups) ?? youtubeUrl;
-  const sermonCards = toHomeSermonCards(homeMedia?.latestSermons, homeSermonList, (item) => {
-    const siteKey = item.menuSiteKey ?? item.menuSlug;
-    if (!siteKey) {
-      return undefined;
-    }
-
-    const rootHref = findVideoRootHrefBySiteKey(siteKey, navMenuGroups);
-    return rootHref ? buildVideoDetailPath(rootHref, item.youtubeVideoId) : undefined;
-  });
-
-  return <SermonSectionContent sermonCards={sermonCards} youtubeUrl={youtubeUrl} moreHref={moreHref} />;
-}
-
-function HomeSermonSectionFallback({ youtubeUrl }: { youtubeUrl: string }) {
-  return <SermonSectionContent sermonCards={homeSermonList} youtubeUrl={youtubeUrl} moreHref={youtubeUrl} />;
-}
-
-function getPrimaryVideoGroupHref(groups: NavMenuGroup[]): string | undefined {
-  const videoGroup = groups.find((group) => group.items.some((item) => item.contentSiteKey));
-  return videoGroup?.href;
-}
 
 export default function Home() {
   return (
@@ -224,11 +147,6 @@ export default function Home() {
           {/* 퀵 메뉴 */}
           <AnimatedCards cards={quickMenuCards} />
 
-          <div className="h-3 md:h-4" />
-
-          <Suspense fallback={<HomeSermonSectionFallback youtubeUrl={YOUTUBE_CHANNEL_URL} />}>
-            <HomeSermonSection youtubeUrl={YOUTUBE_CHANNEL_URL} />
-          </Suspense>
         </div>
       </section>
 

@@ -2,35 +2,13 @@ import "server-only";
 
 import type { NavigationResponse, NavMenuGroup } from "@/lib/navigation-types";
 import { toNavMenuGroups } from "@/lib/navigation-utils";
-import { SERVER_MEDIA_API_BASE_URL } from "@/lib/server-config";
 
 const EMPTY_NAVIGATION_RESPONSE: NavigationResponse = {
   groups: [],
 };
 
 export async function getNavigationResponse(): Promise<NavigationResponse> {
-  try {
-    const response = await fetch(`${SERVER_MEDIA_API_BASE_URL}/api/v1/navigation`, {
-      headers: {
-        Accept: "application/json",
-      },
-      next: {
-        revalidate: 300,
-      },
-    });
-
-    if (!response.ok) {
-      console.warn(
-        `Navigation API request failed: ${response.status} ${response.statusText}. Returning empty navigation.`,
-      );
-      return EMPTY_NAVIGATION_RESPONSE;
-    }
-
-    return response.json() as Promise<NavigationResponse>;
-  } catch (error) {
-    console.warn("Failed to fetch navigation. Returning empty navigation.", error);
-    return EMPTY_NAVIGATION_RESPONSE;
-  }
+  return EMPTY_NAVIGATION_RESPONSE;
 }
 
 export async function getNavMenuGroups(): Promise<NavMenuGroup[]> {

@@ -22,7 +22,6 @@ export const metadata: Metadata = {
     "팔달구교회",
     "침례교회",
     "제자훈련",
-    "예배영상",
     "교회홈페이지",
   ],
   formatDetection: {
