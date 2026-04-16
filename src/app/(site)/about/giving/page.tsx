@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import SectionHeading from "@/components/section-heading";
+import { redirectToCanonicalStaticPathIfNeeded } from "@/lib/canonical-menu-path";
 import { createPageMetadata } from "@/lib/seo";
 import { GIVING_BANK, GIVING_OWNER } from "@/lib/site-config";
 import CopyAccountButton from "./components/copy-account-button";
@@ -48,7 +49,9 @@ function normalizeGivingAccount(raw: string, ownerFallback: string) {
 
 const givingAccount = normalizeGivingAccount(GIVING_BANK, GIVING_OWNER);
 
-export default function GivingPage() {
+export default async function GivingPage() {
+  await redirectToCanonicalStaticPathIfNeeded("about.giving", "/about/giving");
+
   return (
     <div className="section-shell section-shell--narrow pt-10 pb-20 md:pt-16">
       <section className="mb-4 md:mb-8">

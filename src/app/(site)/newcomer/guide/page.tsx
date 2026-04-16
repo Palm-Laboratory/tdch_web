@@ -7,6 +7,7 @@ import Breadcrumb from "@/components/breadcrumb";
 import PageHeader from "@/components/page-header";
 import SectionHeading from "@/components/section-heading";
 import ScriptureQuoteCard from "@/components/scripture-quote-card";
+import { redirectToCanonicalStaticPathIfNeeded } from "@/lib/canonical-menu-path";
 import { nanumMyeongjo } from "@/lib/fonts";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -83,7 +84,9 @@ export const metadata: Metadata = createPageMetadata({
 });
 
 // 페이지 UI 마크업 시작
-export default function NewcomerGuidePage() {
+export default async function NewcomerGuidePage() {
+  await redirectToCanonicalStaticPathIfNeeded("newcomer.guide", "/newcomer/guide");
+
   return (
     <div className="flex w-full flex-col">
       <PageHeader

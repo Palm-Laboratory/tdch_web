@@ -9,7 +9,17 @@ const NAV_GROUPS = [
     label: "운영",
     items: [
       {
-        href: "/admin",
+        href: "/admin/menu",
+        label: "메뉴 관리",
+        exact: false,
+        icon: (
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <path d="M3 4.25h11M3 8.5h11M3 12.75h11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        ),
+      },
+      {
+        href: "/admin/accounts",
         label: "관리자 계정",
         exact: false,
         icon: (
@@ -48,8 +58,13 @@ export default function CmsSidebar({ canManageAccounts, operatorEntries = [] }: 
       : group
   );
 
-  const isActive = (href: string, exact: boolean) =>
-    exact ? currentPath === href : currentPath.startsWith(href);
+  const isActive = (href: string, exact: boolean) => {
+    if (exact) {
+      return currentPath === href;
+    }
+
+    return currentPath === href || currentPath.startsWith(`${href}/`);
+  };
 
   return (
     <aside className="flex h-screen w-[220px] shrink-0 flex-col border-r border-white/[0.06] bg-[#080f1a]">

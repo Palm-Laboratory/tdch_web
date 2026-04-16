@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import NaverDynamicMap from "./components/naver-dynamic-map";
 import SectionHeading from "@/components/section-heading";
+import { redirectToCanonicalStaticPathIfNeeded } from "@/lib/canonical-menu-path";
 import {
   CHURCH_ADDRESS,
   CHURCH_EMAIL,
@@ -85,7 +86,9 @@ function InfoSection({
   );
 }
 
-export default function LocationPage() {
+export default async function LocationPage() {
+  await redirectToCanonicalStaticPathIfNeeded("about.location", "/about/location");
+
   return (
     <div className="w-full overflow-x-hidden bg-white">
       <section id="map" className="relative overflow-hidden scroll-mt-28">

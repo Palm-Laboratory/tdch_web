@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Reveal from "./components/reveal";
+import { redirectToCanonicalStaticPathIfNeeded } from "@/lib/canonical-menu-path";
 import { dmSerifDisplay, gowunBatang } from "@/lib/fonts";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -481,7 +482,9 @@ function PastorFinalSection() {
   );
 }
 
-export default function PastorPage() {
+export default async function PastorPage() {
+  await redirectToCanonicalStaticPathIfNeeded("about.pastor", "/about/pastor");
+
   return (
     <div className="w-full bg-white">
       <PastorHeroSection />

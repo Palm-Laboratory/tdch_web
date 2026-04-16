@@ -9,6 +9,7 @@ import Breadcrumb from "@/components/breadcrumb";
 import PageHeader from "@/components/page-header";
 import SectionHeading from "@/components/section-heading";
 import ScriptureQuoteCard from "@/components/scripture-quote-card";
+import { redirectToCanonicalStaticPathIfNeeded } from "@/lib/canonical-menu-path";
 import { nanumMyeongjo } from "@/lib/fonts";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -108,7 +109,9 @@ export const metadata: Metadata = createPageMetadata({
   path: "/newcomer/care",
 });
 
-export default function NewcomerCarePage() {
+export default async function NewcomerCarePage() {
+  await redirectToCanonicalStaticPathIfNeeded("newcomer.care", "/newcomer/care");
+
   return (
     <div className="flex w-full flex-col">
       <PageHeader

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import SectionHeading from "@/components/section-heading";
+import { redirectToCanonicalStaticPathIfNeeded } from "@/lib/canonical-menu-path";
 import { serviceTimes } from "@/lib/site-data";
 import { createPageMetadata } from "@/lib/seo";
 import MobileServiceCard from "./components/mobile-service-card";
@@ -18,7 +19,9 @@ function formatSchedule(day: string, time: string, ampm: string) {
   return `${day} ${period} ${time}`;
 }
 
-export default function ServiceTimesPage() {
+export default async function ServiceTimesPage() {
+  await redirectToCanonicalStaticPathIfNeeded("about.service-times", "/about/service-times");
+
   const serviceRows = serviceTimes.map((service) => ({
     title: service.name,
     schedule: formatSchedule(service.day, service.time, service.ampm),

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import SectionHeading from "@/components/section-heading";
+import { redirectToCanonicalStaticPathIfNeeded } from "@/lib/canonical-menu-path";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
@@ -76,7 +77,9 @@ function TimelineItem({ item }: { item: HistoryItem }) {
   );
 }
 
-export default function HistoryPage() {
+export default async function HistoryPage() {
+  await redirectToCanonicalStaticPathIfNeeded("about.history", "/about/history");
+
   return (
     <div className="relative w-full overflow-hidden bg-white">
       <div className="pointer-events-none absolute inset-0">

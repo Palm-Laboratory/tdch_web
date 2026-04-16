@@ -7,6 +7,7 @@ import Breadcrumb from "@/components/breadcrumb";
 import PageHeader from "@/components/page-header";
 import SectionHeading from "@/components/section-heading";
 import ScriptureQuoteCard from "@/components/scripture-quote-card";
+import { redirectToCanonicalStaticPathIfNeeded } from "@/lib/canonical-menu-path";
 import { cormorantGaramond, nanumMyeongjo } from "@/lib/fonts";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -349,7 +350,9 @@ function ScheduleCard({
   );
 }
 
-export default function NewcomerDisciplesPage() {
+export default async function NewcomerDisciplesPage() {
+  await redirectToCanonicalStaticPathIfNeeded("newcomer.disciples", "/newcomer/disciples");
+
   return (
     <div className="flex w-full flex-col">
       <PageHeader

@@ -4,6 +4,7 @@ import GreetingHeroSection from "./components/greeting-hero-section";
 import GreetingMissionSection from "./components/greeting-mission-section";
 import GreetingOpenDoorSection from "./components/greeting-open-door-section";
 import GreetingWelcomeSection from "./components/greeting-welcome-section";
+import { redirectToCanonicalStaticPathIfNeeded } from "@/lib/canonical-menu-path";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
@@ -12,7 +13,9 @@ export const metadata: Metadata = createPageMetadata({
   path: "/about/greeting",
 });
 
-export default function GreetingPage() {
+export default async function GreetingPage() {
+  await redirectToCanonicalStaticPathIfNeeded("about.greeting", "/about/greeting");
+
   return (
     <div className="w-full bg-white">
       <GreetingHeroSection />
