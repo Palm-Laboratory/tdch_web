@@ -1,10 +1,23 @@
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { getVideoNavigationLandingHref } from "@/lib/navigation-api";
+import { getLegacyVideoHref } from "@/lib/videos-api";
 
-export default async function LegacyMediaVideoDetailRedirectPage({
+export default async function LegacyVideoDetailRedirectPage({
   params,
 }: {
   params: Promise<{ videoId: string }>;
 }) {
   const { videoId } = await params;
-  redirect(`/media/videos/${videoId}`);
+  const redirectHref = await getLegacyVideoHref(videoId);
+
+  if (redirectHref) {
+    redirect(redirectHref);
+  }
+
+  const landingHref = await getVideoNavigationLandingHref();
+  if (landingHref) {
+    redirect(landingHref);
+  }
+
+  notFound();
 }

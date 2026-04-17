@@ -19,7 +19,7 @@ const NAV_GROUPS = [
         ),
       },
       {
-        href: "/admin/media/videos",
+        href: "/admin/videos",
         label: "영상 관리",
         exact: false,
         icon: (

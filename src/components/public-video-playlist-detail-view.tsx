@@ -1,6 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
+import Breadcrumb from "@/components/breadcrumb";
 import PageHeader from "@/components/page-header";
-import type { PublicMediaVideoDetail, PublicMediaVideoSummary } from "@/lib/media-videos-api";
+import type { PublicPlaylistDetail, PublicVideoDetail, PublicVideoSummary } from "@/lib/videos-api";
 
 function formatDate(value: string | null) {
   if (!value) {
@@ -14,20 +16,26 @@ function formatDate(value: string | null) {
   }).format(new Date(value));
 }
 
-function RelatedCard({ video }: { video: PublicMediaVideoSummary }) {
+function RelatedCard({ video }: { video: PublicVideoSummary }) {
   return (
     <Link
       href={video.href}
       className="rounded-2xl border border-[#dbe4f0] bg-white p-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
     >
       {video.thumbnailUrl ? (
-        <img
-          src={video.thumbnailUrl}
-          alt={video.title}
-          className={`w-full rounded-xl object-cover ${
+        <div
+          className={`relative w-full overflow-hidden rounded-xl ${
             video.contentForm === "SHORTFORM" ? "aspect-[9/14]" : "aspect-video"
           }`}
-        />
+        >
+          <Image
+            src={video.thumbnailUrl}
+            alt={video.title}
+            fill
+            className="object-cover"
+            sizes={video.contentForm === "SHORTFORM" ? "(min-width: 1024px) 140px, 50vw" : "(min-width: 1024px) 320px, 100vw"}
+          />
+        </div>
       ) : (
         <div className={`w-full rounded-xl bg-[#e2e8f0] ${video.contentForm === "SHORTFORM" ? "aspect-[9/14]" : "aspect-video"}`} />
       )}
@@ -36,45 +44,32 @@ function RelatedCard({ video }: { video: PublicMediaVideoSummary }) {
   );
 }
 
-export default function PublicMediaVideoDetailView({
+export default function PublicVideoPlaylistDetailView({
+  playlist,
   video,
 }: {
-  video: PublicMediaVideoDetail;
+  playlist: PublicPlaylistDetail;
+  video: PublicVideoDetail;
 }) {
   const isShortform = video.contentForm === "SHORTFORM";
   const publishedAt = formatDate(video.publishedAt);
 
   return (
     <div className="pb-16">
-      <PageHeader
-        title={video.title}
-        subtitle={isShortform ? "Shortform Video" : "Video Detail"}
-      />
-
-      <div className="border-b border-[#e2e8f0] bg-white">
-        <div className="section-shell flex gap-2 overflow-x-auto py-3">
-          <Link
-            href="/media/videos"
-            className={`rounded-full px-4 py-2 text-[13px] font-semibold transition ${
-              !isShortform ? "bg-[#13243a] text-white" : "bg-[#f8fafc] text-[#475569]"
-            }`}
-          >
-            롱폼 영상
-          </Link>
-          <Link
-            href="/media/videos/shorts"
-            className={`rounded-full px-4 py-2 text-[13px] font-semibold transition ${
-              isShortform ? "bg-[#13243a] text-white" : "bg-[#f8fafc] text-[#475569]"
-            }`}
-          >
-            숏폼 영상
-          </Link>
-        </div>
-      </div>
+      <PageHeader title={video.title} subtitle={playlist.title} />
+      <Breadcrumb />
 
       <section className="section-shell py-10">
         <div className={`grid gap-8 ${isShortform ? "lg:grid-cols-[420px_minmax(0,1fr)]" : "lg:grid-cols-[minmax(0,1fr)_320px]"}`}>
           <div className="space-y-6">
+            <div className="flex items-center gap-3 text-[13px]">
+              <Link href={playlist.fullPath} className="font-semibold text-[#2d5da8]">
+                ← {playlist.title} 목록으로
+              </Link>
+              <span className="text-[#94a3b8]">|</span>
+              <span className="text-[#64748b]">{playlist.groupLabel ?? "Playlist"}</span>
+            </div>
+
             <div className="overflow-hidden rounded-[32px] border border-[#dbe4f0] bg-[#0f172a] shadow-sm">
               <div className={isShortform ? "mx-auto max-w-[420px]" : ""}>
                 <div className={isShortform ? "aspect-[9/16]" : "aspect-video"}>
@@ -134,27 +129,37 @@ export default function PublicMediaVideoDetailView({
           </div>
 
           <aside className="space-y-5">
-            {video.playlists.length > 0 && (
-              <div className="rounded-[28px] border border-[#dbe4f0] bg-white p-5 shadow-sm">
-                <p className="text-[13px] font-semibold text-[#13243a]">연결된 재생목록</p>
+            <div className="rounded-[28px] border border-[#dbe4f0] bg-white p-5 shadow-sm">
+              <p className="text-[13px] font-semibold text-[#13243a]">현재 재생목록</p>
+              <Link
+                href={playlist.fullPath}
+                className="mt-3 block rounded-xl bg-[#f8fafc] px-3 py-3 text-[13px] font-medium text-[#334155] transition hover:bg-[#edf4ff] hover:text-[#2d5da8]"
+              >
+                {playlist.title}
+              </Link>
+
+              {video.playlists.length > 1 ? (
                 <div className="mt-4 space-y-2">
-                  {video.playlists.map((playlist) => (
-                    <Link
-                      key={playlist.href}
-                      href={playlist.href}
-                      className="block rounded-xl bg-[#f8fafc] px-3 py-2 text-[13px] font-medium text-[#334155] transition hover:bg-[#edf4ff] hover:text-[#2d5da8]"
-                    >
-                      {playlist.label}
-                    </Link>
-                  ))}
+                  <p className="text-[12px] font-semibold text-[#64748b]">다른 연결 재생목록</p>
+                  {video.playlists
+                    .filter((playlistLink) => playlistLink.href !== playlist.fullPath)
+                    .map((playlistLink) => (
+                      <Link
+                        key={playlistLink.href}
+                        href={playlistLink.href}
+                        className="block rounded-xl bg-[#f8fafc] px-3 py-2 text-[13px] font-medium text-[#334155] transition hover:bg-[#edf4ff] hover:text-[#2d5da8]"
+                      >
+                        {playlistLink.label}
+                      </Link>
+                    ))}
                 </div>
-              </div>
-            )}
+              ) : null}
+            </div>
 
             {video.related.length > 0 && (
               <div className="rounded-[28px] border border-[#dbe4f0] bg-white p-5 shadow-sm">
                 <p className="text-[13px] font-semibold text-[#13243a]">
-                  {isShortform ? "다른 숏폼 영상" : "관련 영상"}
+                  {isShortform ? "이 재생목록의 다른 숏폼" : "이 재생목록의 다른 영상"}
                 </p>
                 <div className={`mt-4 grid gap-3 ${isShortform ? "grid-cols-2" : "grid-cols-1"}`}>
                   {video.related.map((related) => (
@@ -163,6 +168,26 @@ export default function PublicMediaVideoDetailView({
                 </div>
               </div>
             )}
+
+            <div className="rounded-[28px] border border-[#dbe4f0] bg-white p-5 shadow-sm">
+              <p className="text-[13px] font-semibold text-[#13243a]">같은 그룹의 재생목록</p>
+              <ul className="mt-4 space-y-2">
+                {playlist.siblings.map((sibling) => (
+                  <li key={sibling.href}>
+                    <Link
+                      href={sibling.href}
+                      className={`block rounded-xl px-3 py-2 text-[13px] transition ${
+                        sibling.href === playlist.fullPath
+                          ? "bg-[#edf4ff] font-semibold text-[#2d5da8]"
+                          : "text-[#334155] hover:bg-[#f8fafc]"
+                      }`}
+                    >
+                      {sibling.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </aside>
         </div>
       </section>

@@ -1,44 +1,23 @@
-import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
-import PublicMediaVideoDetailView from "@/components/public-media-video-detail-view";
-import { createVideoMetadata } from "@/lib/seo";
-import { getPublicMediaVideoDetail } from "@/lib/media-videos-api";
+import { getVideoNavigationLandingHref } from "@/lib/navigation-api";
+import { getLegacyVideoHref } from "@/lib/videos-api";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ videoId: string }>;
-}): Promise<Metadata> {
-  const { videoId } = await params;
-  const video = await getPublicMediaVideoDetail(videoId);
-
-  if (!video) {
-    return {};
-  }
-
-  return createVideoMetadata({
-    title: video.title,
-    description: video.summary || video.description || "The 제자교회 숏폼 영상입니다.",
-    path: `/media/videos/shorts/${video.videoId}`,
-    publishedTime: video.publishedAt ?? undefined,
-  });
-}
-
-export default async function MediaVideoShortDetailPage({
+export default async function LegacyVideoShortDetailPage({
   params,
 }: {
   params: Promise<{ videoId: string }>;
 }) {
   const { videoId } = await params;
-  const video = await getPublicMediaVideoDetail(videoId);
+  const redirectHref = await getLegacyVideoHref(videoId);
 
-  if (!video) {
-    notFound();
+  if (redirectHref) {
+    redirect(redirectHref);
   }
 
-  if (video.contentForm !== "SHORTFORM") {
-    redirect(`/media/videos/${video.videoId}`);
+  const landingHref = await getVideoNavigationLandingHref();
+  if (landingHref) {
+    redirect(landingHref);
   }
 
-  return <PublicMediaVideoDetailView video={video} />;
+  notFound();
 }

@@ -3,11 +3,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import type {
-  AdminMediaVideoDetail,
-  AdminMediaVideoSummary,
+  AdminVideoDetail,
+  AdminVideoSummary,
   VideoContentForm,
-  UpdateAdminMediaVideoMetaRequest,
-} from "@/lib/admin-media-videos-api";
+  UpdateAdminVideoMetaRequest,
+} from "@/lib/admin-videos-api";
 
 const FORM_META: Record<VideoContentForm, { label: string; description: string }> = {
   LONGFORM: {
@@ -20,7 +20,7 @@ const FORM_META: Record<VideoContentForm, { label: string; description: string }
   },
 };
 
-type MediaVideoDraft = {
+type VideoDraft = {
   displayTitle: string;
   preacherName: string;
   displayPublishedAt: string;
@@ -68,7 +68,7 @@ function toDateTimeLocalValue(value: string | null) {
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
 }
 
-function createDraft(detail: AdminMediaVideoDetail): MediaVideoDraft {
+function createDraft(detail: AdminVideoDetail): VideoDraft {
   return {
     displayTitle: detail.title === detail.sourceTitle ? "" : detail.title,
     preacherName: detail.preacherName ?? "",
@@ -85,7 +85,7 @@ function createDraft(detail: AdminMediaVideoDetail): MediaVideoDraft {
   };
 }
 
-function toUpdatePayload(draft: MediaVideoDraft): UpdateAdminMediaVideoMetaRequest {
+function toUpdatePayload(draft: VideoDraft): UpdateAdminVideoMetaRequest {
   return {
     displayTitle: draft.displayTitle.trim() || null,
     preacherName: draft.preacherName.trim() || null,
@@ -99,7 +99,7 @@ function toUpdatePayload(draft: MediaVideoDraft): UpdateAdminMediaVideoMetaReque
   };
 }
 
-function toUpdatedSummary(detail: AdminMediaVideoDetail): AdminMediaVideoSummary {
+function toUpdatedSummary(detail: AdminVideoDetail): AdminVideoSummary {
   return {
     videoId: detail.videoId,
     title: detail.title,
@@ -113,25 +113,25 @@ function toUpdatedSummary(detail: AdminMediaVideoDetail): AdminMediaVideoSummary
   };
 }
 
-export default function MediaVideoManagementClient({
+export default function VideoManagementClient({
   initialForm,
   initialItems,
   initialDetail,
 }: {
   initialForm: VideoContentForm;
-  initialItems: AdminMediaVideoSummary[];
-  initialDetail: AdminMediaVideoDetail | null;
+  initialItems: AdminVideoSummary[];
+  initialDetail: AdminVideoDetail | null;
 }) {
   const router = useRouter();
   const [currentForm, setCurrentForm] = useState<VideoContentForm>(initialForm);
-  const [listByForm, setListByForm] = useState<Partial<Record<VideoContentForm, AdminMediaVideoSummary[]>>>({
+  const [listByForm, setListByForm] = useState<Partial<Record<VideoContentForm, AdminVideoSummary[]>>>({
     [initialForm]: initialItems,
   });
-  const [detailByVideoId, setDetailByVideoId] = useState<Record<string, AdminMediaVideoDetail>>(
+  const [detailByVideoId, setDetailByVideoId] = useState<Record<string, AdminVideoDetail>>(
     initialDetail ? { [initialDetail.videoId]: initialDetail } : {},
   );
   const [selectedVideoId, setSelectedVideoId] = useState<string | null>(initialDetail?.videoId ?? initialItems[0]?.videoId ?? null);
-  const [draft, setDraft] = useState<MediaVideoDraft | null>(initialDetail ? createDraft(initialDetail) : null);
+  const [draft, setDraft] = useState<VideoDraft | null>(initialDetail ? createDraft(initialDetail) : null);
   const [listLoading, setListLoading] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -155,8 +155,8 @@ export default function MediaVideoManagementClient({
       setMessage(null);
 
       try {
-        const response = await fetch(`/api/admin/media/videos?form=${encodeURIComponent(currentForm)}`);
-        const payload = (await response.json()) as { items?: AdminMediaVideoSummary[]; message?: string };
+        const response = await fetch(`/api/admin/videos?form=${encodeURIComponent(currentForm)}`);
+        const payload = (await response.json()) as { items?: AdminVideoSummary[]; message?: string };
 
         if (!response.ok || !payload.items) {
           throw new Error(payload.message || "영상 목록을 불러오지 못했습니다.");
@@ -214,8 +214,8 @@ export default function MediaVideoManagementClient({
       setMessage(null);
 
       try {
-        const response = await fetch(`/api/admin/media/videos/${encodeURIComponent(selectedVideoId)}`);
-        const payload = (await response.json()) as AdminMediaVideoDetail & { message?: string };
+        const response = await fetch(`/api/admin/videos/${encodeURIComponent(selectedVideoId)}`);
+        const payload = (await response.json()) as AdminVideoDetail & { message?: string };
 
         if (!response.ok) {
           throw new Error(payload.message || "영상 상세를 불러오지 못했습니다.");
@@ -265,7 +265,7 @@ export default function MediaVideoManagementClient({
     setMessage(null);
 
     try {
-      const response = await fetch(`/api/admin/media/videos/${encodeURIComponent(selectedVideoId)}`, {
+      const response = await fetch(`/api/admin/videos/${encodeURIComponent(selectedVideoId)}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -273,7 +273,7 @@ export default function MediaVideoManagementClient({
         body: JSON.stringify(toUpdatePayload(draft)),
       });
 
-      const payload = (await response.json()) as AdminMediaVideoDetail & { message?: string };
+      const payload = (await response.json()) as AdminVideoDetail & { message?: string };
 
       if (!response.ok) {
         throw new Error(payload.message || "영상 메타를 저장하지 못했습니다.");
@@ -434,16 +434,16 @@ export default function MediaVideoManagementClient({
                       >
                         유튜브 열기
                       </a>
-                      <a
-                        href={selectedDetail.contentForm === "SHORTFORM"
-                          ? `/media/videos/shorts/${selectedDetail.videoId}`
-                          : `/media/videos/${selectedDetail.videoId}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="rounded-lg border border-[#d7e3f4] bg-white px-3 py-2 text-[12px] font-semibold text-[#334155]"
-                      >
-                        공개 화면 보기
-                      </a>
+                      {selectedDetail.publicHref ? (
+                        <a
+                          href={selectedDetail.publicHref}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="rounded-lg border border-[#d7e3f4] bg-white px-3 py-2 text-[12px] font-semibold text-[#334155]"
+                        >
+                          공개 화면 보기
+                        </a>
+                      ) : null}
                     </div>
                   </div>
 

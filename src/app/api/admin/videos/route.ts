@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { getAdminSession, isAdminSession } from "@/auth";
 import {
-  getAdminMediaVideos,
+  getAdminVideos,
   type VideoContentForm,
-  toFriendlyAdminMediaVideoMessage,
-} from "@/lib/admin-media-videos-api";
+  toFriendlyAdminVideoMessage,
+} from "@/lib/admin-videos-api";
 import { AdminApiError } from "@/lib/admin-api";
 
 const VALID_FORMS = new Set<VideoContentForm>(["LONGFORM", "SHORTFORM"]);
@@ -30,14 +30,14 @@ export async function GET(request: Request) {
   }
 
   try {
-    const videos = await getAdminMediaVideos((formParam as VideoContentForm | null) ?? undefined);
+    const videos = await getAdminVideos((formParam as VideoContentForm | null) ?? undefined);
     return NextResponse.json(videos);
   } catch (error) {
     const status = error instanceof AdminApiError ? error.status : 400;
     return NextResponse.json(
       {
-        code: "ADMIN_MEDIA_VIDEOS_FETCH_FAILED",
-        message: toFriendlyAdminMediaVideoMessage(error, "영상 목록을 불러오지 못했습니다."),
+        code: "ADMIN_VIDEOS_FETCH_FAILED",
+        message: toFriendlyAdminVideoMessage(error, "영상 목록을 불러오지 못했습니다."),
       },
       { status },
     );

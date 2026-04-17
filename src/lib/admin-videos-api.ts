@@ -4,7 +4,7 @@ import { adminApiFetch, AdminApiError } from "@/lib/admin-api";
 
 export type VideoContentForm = "LONGFORM" | "SHORTFORM";
 
-export interface AdminMediaVideoSummary {
+export interface AdminVideoSummary {
   videoId: string;
   title: string;
   sourceTitle: string;
@@ -16,11 +16,11 @@ export interface AdminMediaVideoSummary {
   scriptureReference: string | null;
 }
 
-export interface AdminMediaVideoListResponse {
-  items: AdminMediaVideoSummary[];
+export interface AdminVideoListResponse {
+  items: AdminVideoSummary[];
 }
 
-export interface AdminMediaVideoDetail {
+export interface AdminVideoDetail {
   videoId: string;
   sourceTitle: string;
   sourceDescription: string | null;
@@ -36,9 +36,10 @@ export interface AdminMediaVideoDetail {
   summary: string | null;
   thumbnailOverrideUrl: string | null;
   contentForm: VideoContentForm;
+  publicHref: string | null;
 }
 
-export interface UpdateAdminMediaVideoMetaRequest {
+export interface UpdateAdminVideoMetaRequest {
   displayTitle: string | null;
   preacherName: string | null;
   displayPublishedAt: string | null;
@@ -50,22 +51,22 @@ export interface UpdateAdminMediaVideoMetaRequest {
   thumbnailOverrideUrl: string | null;
 }
 
-export async function getAdminMediaVideos(form?: VideoContentForm): Promise<AdminMediaVideoListResponse> {
+export async function getAdminVideos(form?: VideoContentForm): Promise<AdminVideoListResponse> {
   const query = form ? `?form=${encodeURIComponent(form)}` : "";
-  const response = await adminApiFetch(`/api/v1/admin/media/videos${query}`);
-  return response.json() as Promise<AdminMediaVideoListResponse>;
+  const response = await adminApiFetch(`/api/v1/admin/videos${query}`);
+  return response.json() as Promise<AdminVideoListResponse>;
 }
 
-export async function getAdminMediaVideoDetail(videoId: string): Promise<AdminMediaVideoDetail> {
-  const response = await adminApiFetch(`/api/v1/admin/media/videos/${encodeURIComponent(videoId)}`);
-  return response.json() as Promise<AdminMediaVideoDetail>;
+export async function getAdminVideoDetail(videoId: string): Promise<AdminVideoDetail> {
+  const response = await adminApiFetch(`/api/v1/admin/videos/${encodeURIComponent(videoId)}`);
+  return response.json() as Promise<AdminVideoDetail>;
 }
 
-export async function updateAdminMediaVideoMeta(
+export async function updateAdminVideoMeta(
   videoId: string,
-  payload: UpdateAdminMediaVideoMetaRequest,
-): Promise<AdminMediaVideoDetail> {
-  const response = await adminApiFetch(`/api/v1/admin/media/videos/${encodeURIComponent(videoId)}`, {
+  payload: UpdateAdminVideoMetaRequest,
+): Promise<AdminVideoDetail> {
+  const response = await adminApiFetch(`/api/v1/admin/videos/${encodeURIComponent(videoId)}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -73,10 +74,10 @@ export async function updateAdminMediaVideoMeta(
     body: JSON.stringify(payload),
   });
 
-  return response.json() as Promise<AdminMediaVideoDetail>;
+  return response.json() as Promise<AdminVideoDetail>;
 }
 
-export function toFriendlyAdminMediaVideoMessage(error: unknown, fallback: string): string {
+export function toFriendlyAdminVideoMessage(error: unknown, fallback: string): string {
   if (!(error instanceof AdminApiError)) {
     return fallback;
   }

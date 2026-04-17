@@ -242,6 +242,18 @@ function gatherVideoNodes(nodes: EditorNode[]): EditorNode[] {
     .filter((node) => node.type === "YOUTUBE_PLAYLIST");
 }
 
+function buildVideoNodePath(node: EditorNode, menuById: Map<number, EditorNode>): string {
+  const segments: string[] = [];
+  let current: EditorNode | undefined = node;
+
+  while (current) {
+    segments.push(current.slug || "(저장 시 자동 생성)");
+    current = current.parentId ? menuById.get(current.parentId) : undefined;
+  }
+
+  return `/videos/${segments.reverse().join("/")}`;
+}
+
 function getPublicRouteSummary(node: EditorNode, menuById: Map<number, EditorNode>): string {
   switch (node.type) {
     case "STATIC":
@@ -257,7 +269,7 @@ function getPublicRouteSummary(node: EditorNode, menuById: Map<number, EditorNod
     case "BOARD":
       return node.boardKey ? `/news#${node.boardKey}` : "/news";
     case "YOUTUBE_PLAYLIST":
-      return `/videos/${node.slug}`;
+      return buildVideoNodePath(node, menuById);
     case "EXTERNAL_LINK":
       return node.externalUrl ?? "외부 URL을 입력해 주세요";
     case "FOLDER":

@@ -2,25 +2,25 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getAdminSession, isAdminSession } from "@/auth";
 import {
-  getAdminMediaVideoDetail,
-  getAdminMediaVideos,
-  type AdminMediaVideoDetail,
-  type AdminMediaVideoSummary,
+  getAdminVideoDetail,
+  getAdminVideos,
+  type AdminVideoDetail,
+  type AdminVideoSummary,
   type VideoContentForm,
-} from "@/lib/admin-media-videos-api";
-import MediaVideoManagementClient from "./_components/media-video-management-client";
+} from "@/lib/admin-videos-api";
+import VideoManagementClient from "./_components/video-management-client";
 
 async function resolveInitialState(): Promise<{
   initialForm: VideoContentForm;
-  initialItems: AdminMediaVideoSummary[];
-  initialDetail: AdminMediaVideoDetail | null;
+  initialItems: AdminVideoSummary[];
+  initialDetail: AdminVideoDetail | null;
 }> {
-  const longform = await getAdminMediaVideos("LONGFORM");
+  const longform = await getAdminVideos("LONGFORM");
   let initialForm: VideoContentForm = "LONGFORM";
   let initialItems = longform.items;
 
   if (initialItems.length === 0) {
-    const shortform = await getAdminMediaVideos("SHORTFORM");
+    const shortform = await getAdminVideos("SHORTFORM");
     if (shortform.items.length > 0) {
       initialForm = "SHORTFORM";
       initialItems = shortform.items;
@@ -28,7 +28,7 @@ async function resolveInitialState(): Promise<{
   }
 
   const initialDetail = initialItems[0]
-    ? await getAdminMediaVideoDetail(initialItems[0].videoId)
+    ? await getAdminVideoDetail(initialItems[0].videoId)
     : null;
 
   return {
@@ -38,11 +38,11 @@ async function resolveInitialState(): Promise<{
   };
 }
 
-export default async function AdminMediaVideosPage() {
+export default async function AdminVideosPage() {
   const session = await getAdminSession();
 
   if (!isAdminSession(session)) {
-    redirect("/admin/login?callbackUrl=/admin/media/videos");
+    redirect("/admin/login?callbackUrl=/admin/videos");
   }
 
   const { initialForm, initialItems, initialDetail } = await resolveInitialState();
@@ -74,7 +74,7 @@ export default async function AdminMediaVideosPage() {
         </p>
       </div>
 
-      <MediaVideoManagementClient
+      <VideoManagementClient
         initialForm={initialForm}
         initialItems={initialItems}
         initialDetail={initialDetail}

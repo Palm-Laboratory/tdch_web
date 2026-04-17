@@ -35,6 +35,40 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/media/videos",
+        destination: "/videos",
+        permanent: false,
+      },
+      {
+        source: "/media/videos/shorts",
+        destination: "/videos",
+        permanent: false,
+      },
+      {
+        source: "/sermons",
+        destination: "/videos",
+        permanent: false,
+      },
+      {
+        source: "/sermons/shorts",
+        destination: "/videos",
+        permanent: false,
+      },
+      {
+        source: "/admin/media/videos",
+        destination: "/admin/videos",
+        permanent: false,
+      },
+      {
+        source: "/admin/sermons",
+        destination: "/admin/videos",
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

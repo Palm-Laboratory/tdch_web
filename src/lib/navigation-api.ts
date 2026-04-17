@@ -36,3 +36,28 @@ export async function getNavigationGroupByKey(key: string): Promise<NavMenuGroup
   const groups = await getNavMenuGroups();
   return groups.find((group) => group.key === key);
 }
+
+export async function getVideoNavigationLandingHref(): Promise<string | null> {
+  const groups = await getNavMenuGroups();
+  const videoGroup = groups.find((group) => {
+    if (group.defaultLandingHref?.startsWith("/videos/")) {
+      return true;
+    }
+
+    if (group.href.startsWith("/videos/")) {
+      return true;
+    }
+
+    return group.items.some((item) => item.href.startsWith("/videos/"));
+  })
+
+  if (!videoGroup) {
+    return null;
+  }
+
+  return (
+    videoGroup.defaultLandingHref ??
+    videoGroup.items.find((item) => item.href.startsWith("/videos/"))?.href ??
+    (videoGroup.href.startsWith("/videos/") ? videoGroup.href : null)
+  );
+}

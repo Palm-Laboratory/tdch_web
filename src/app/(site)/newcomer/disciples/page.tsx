@@ -162,7 +162,12 @@ const curriculumStages = [
   },
 ] as const;
 
-const multiplicationStages = [
+const multiplicationStages: ReadonlyArray<{
+  year: string;
+  generation: string;
+  items: readonly string[];
+  highlight?: boolean;
+}> = [
   {
     year: "1년차",
     generation: "1",
