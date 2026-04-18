@@ -4,7 +4,6 @@ import PublicVideoPlaylistDetailView from "@/components/public-video-playlist-de
 import PublicVideoPlaylistView from "@/components/public-video-playlist-view";
 import { createPageMetadata, createVideoMetadata } from "@/lib/seo";
 import {
-  getAllPublicPlaylistVideosByPath,
   getPublicPlaylistDetailByPath,
   getPublicPlaylistVideoDetailByPath,
   getPublicPlaylistVideoListByPath,
@@ -146,16 +145,5 @@ export default async function VideoSegmentsPage({
     redirect(canonicalDetailPath);
   }
 
-  const playlistVideos =
-    video.contentForm === "SHORTFORM"
-      ? await getAllPublicPlaylistVideosByPath(detailPlaylist.fullPath)
-      : null;
-
-  return (
-    <PublicVideoPlaylistDetailView
-      playlist={detailPlaylist}
-      video={video}
-      playlistVideos={playlistVideos ?? undefined}
-    />
-  );
+  return <PublicVideoPlaylistDetailView playlist={detailPlaylist} video={video} />;
 }

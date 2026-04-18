@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useTransition } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ShortformVideoItem {
   videoId: string;
@@ -77,39 +77,70 @@ export default function PublicShortformPlaylistGrid({
   const [pageSize, setPageSize] = useState(initialPageSize);
   const [totalPages, setTotalPages] = useState(initialTotalPages);
   const [loadFailed, setLoadFailed] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const currentPageRef = useRef(initialPage);
+  const pageSizeRef = useRef(initialPageSize);
+  const totalPagesRef = useRef(initialTotalPages);
+  const inFlightPageRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    currentPageRef.current = currentPage;
+  }, [currentPage]);
+
+  useEffect(() => {
+    pageSizeRef.current = pageSize;
+  }, [pageSize]);
+
+  useEffect(() => {
+    totalPagesRef.current = totalPages;
+  }, [totalPages]);
 
   const hasMore = currentPage < totalPages;
 
-  const handleLoadMore = () => {
-    if (!hasMore || isPending) {
+  const handleLoadMore = async () => {
+    const nextPage = currentPageRef.current + 1;
+
+    if (
+      currentPageRef.current >= totalPagesRef.current ||
+      isLoadingMore ||
+      inFlightPageRef.current === nextPage
+    ) {
       return;
     }
 
-    startTransition(async () => {
-      setLoadFailed(false);
+    inFlightPageRef.current = nextPage;
+    setIsLoadingMore(true);
+    setLoadFailed(false);
 
-      try {
-        const nextPage = currentPage + 1;
-        const response = await fetch(
-          `/api/public/videos/items?path=${encodeURIComponent(path)}&page=${nextPage}&size=${pageSize}`,
-          { cache: "no-store" },
-        );
+    try {
+      const response = await fetch(
+        `/api/public/videos/items?path=${encodeURIComponent(path)}&page=${nextPage}&size=${pageSizeRef.current}`,
+        { cache: "no-store" },
+      );
 
-        if (!response.ok) {
-          setLoadFailed(true);
-          return;
-        }
-
-        const payload = (await response.json()) as ShortformVideoListResponse;
-        setItems((prev) => [...prev, ...payload.items]);
-        setCurrentPage(payload.currentPage);
-        setPageSize(payload.pageSize);
-        setTotalPages(payload.totalPages);
-      } catch {
+      if (!response.ok) {
         setLoadFailed(true);
+        return;
       }
-    });
+
+      const payload = (await response.json()) as ShortformVideoListResponse;
+
+      setItems((prev) => {
+        const existingIds = new Set(prev.map((video) => video.videoId));
+        const nextItems = payload.items.filter((video) => !existingIds.has(video.videoId));
+        return [...prev, ...nextItems];
+      });
+      setCurrentPage(payload.currentPage);
+      setPageSize(payload.pageSize);
+      setTotalPages(payload.totalPages);
+    } catch {
+      setLoadFailed(true);
+    } finally {
+      if (inFlightPageRef.current === nextPage) {
+        inFlightPageRef.current = null;
+      }
+      setIsLoadingMore(false);
+    }
   };
 
   if (items.length === 0) {
@@ -133,10 +164,10 @@ export default function PublicShortformPlaylistGrid({
           <button
             type="button"
             onClick={handleLoadMore}
-            disabled={isPending}
+            disabled={isLoadingMore}
             className="inline-flex min-w-[132px] items-center justify-center rounded-full bg-[#1a2744] px-6 py-3 text-[14px] font-medium text-white transition hover:bg-[#13203a] disabled:cursor-not-allowed disabled:bg-[#94a3b8]"
           >
-            {isPending ? `불러오는 중... (${currentPage}/${totalPages})` : `더보기 (${currentPage}/${totalPages})`}
+            {isLoadingMore ? `불러오는 중... (${currentPage}/${totalPages})` : `더보기 (${currentPage}/${totalPages})`}
           </button>
         </div>
       ) : null}

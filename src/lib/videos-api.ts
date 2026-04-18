@@ -50,6 +50,15 @@ export interface PublicVideoPlaylistLink {
   href: string;
 }
 
+export interface PublicShortformPlaylistWindow {
+  items: PublicVideoSummary[];
+  currentIndexInWindow: number;
+  currentPage: number;
+  pageSize: number;
+  totalItems: number;
+  totalPages: number;
+}
+
 export interface PublicVideoDetail {
   videoId: string;
   title: string;
@@ -65,6 +74,7 @@ export interface PublicVideoDetail {
   contentForm: VideoContentForm;
   playlists: PublicVideoPlaylistLink[];
   related: PublicVideoSummary[];
+  shortformPlaylist: PublicShortformPlaylistWindow | null;
 }
 
 function normalizeSlug(slug: string): string {
@@ -171,36 +181,6 @@ export async function getPublicPlaylistVideoListByPath(
   } catch {
     return null;
   }
-}
-
-export async function getAllPublicPlaylistVideosByPath(
-  path: string,
-  pageSize = 24,
-): Promise<PublicVideoSummary[] | null> {
-  const firstPage = await getPublicPlaylistVideoListByPath(path, 1, pageSize);
-
-  if (!firstPage) {
-    return null;
-  }
-
-  if (firstPage.totalPages <= 1) {
-    return firstPage.items;
-  }
-
-  const restPages = await Promise.all(
-    Array.from({ length: firstPage.totalPages - 1 }, (_, index) =>
-      getPublicPlaylistVideoListByPath(path, index + 2, pageSize),
-    ),
-  );
-
-  if (restPages.some((page) => !page)) {
-    return null;
-  }
-
-  return [
-    ...firstPage.items,
-    ...restPages.flatMap((page) => page?.items ?? []),
-  ];
 }
 
 export async function getPublicPlaylistVideoDetail(

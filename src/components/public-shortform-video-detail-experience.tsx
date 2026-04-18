@@ -13,14 +13,15 @@ import {
 import type { PointerEvent as ReactPointerEvent, ReactNode, RefObject } from "react";
 import type {
   PublicPlaylistDetail,
+  PublicShortformPlaylistWindow,
   PublicVideoDetail,
+  PublicVideoList,
   PublicVideoSummary,
 } from "@/lib/videos-api";
 
 interface PublicShortformVideoDetailExperienceProps {
   playlist: PublicPlaylistDetail;
   initialVideo: PublicVideoDetail;
-  playlistVideos: PublicVideoSummary[];
 }
 
 interface ShortformPlaybackVideo extends PublicVideoSummary {
@@ -145,10 +146,10 @@ function buildPlayerVars(videoId: string, autoplay: boolean, muted = false) {
   };
 }
 
-function toPlaybackVideo(
+function toPlaybackVideos(
   playlist: PublicPlaylistDetail,
-  initialVideo: PublicVideoDetail,
   playlistVideos: PublicVideoSummary[],
+  initialVideo: PublicVideoDetail,
 ) {
   const detailFallback: ShortformPlaybackVideo = {
     contentForm: "SHORTFORM",
@@ -180,6 +181,34 @@ function toPlaybackVideo(
   }
 
   return Array.from(uniqueVideos.values());
+}
+
+function buildInitialPlaybackState(playlist: PublicPlaylistDetail, initialVideo: PublicVideoDetail) {
+  const initialWindow = initialVideo.shortformPlaylist;
+  const initialVideos = toPlaybackVideos(playlist, initialWindow?.items ?? [], initialVideo);
+  const initialIndex = (() => {
+    if (!initialWindow) {
+      const matchedIndex = initialVideos.findIndex((video) => video.videoId === initialVideo.videoId);
+      return matchedIndex >= 0 ? matchedIndex : 0;
+    }
+
+    const targetVideoId = initialVideos[initialWindow.currentIndexInWindow]?.videoId;
+    if (targetVideoId === initialVideo.videoId) {
+      return initialWindow.currentIndexInWindow;
+    }
+
+    const matchedIndex = initialVideos.findIndex((video) => video.videoId === initialVideo.videoId);
+    return matchedIndex >= 0 ? matchedIndex : 0;
+  })();
+
+  return {
+    currentPage: initialWindow?.currentPage ?? 1,
+    initialIndex,
+    pageSize: initialWindow?.pageSize ?? 8,
+    totalItems: initialWindow?.totalItems ?? initialVideos.length,
+    totalPages: initialWindow?.totalPages ?? 1,
+    videos: initialVideos,
+  };
 }
 
 function PauseIcon({ className = "" }: { className?: string }) {
@@ -346,7 +375,6 @@ function ShortformSlide({
 export default function PublicShortformVideoDetailExperience({
   playlist,
   initialVideo,
-  playlistVideos,
 }: PublicShortformVideoDetailExperienceProps) {
   const router = useRouter();
   const playerRef = useRef<YouTubePlayerInstance | null>(null);
@@ -357,12 +385,17 @@ export default function PublicShortformVideoDetailExperience({
   const activeVideoIdRef = useRef<string | null>(null);
   const lastLoadedVideoIdRef = useRef<string | null>(null);
   const hasActivatedAudioRef = useRef(false);
+  const loadingPagesRef = useRef<Set<number>>(new Set());
   const activePointerIdRef = useRef<number | null>(null);
   const dragStartYRef = useRef(0);
   const dragStartXRef = useRef(0);
   const dragOffsetRef = useRef(0);
   const skipPushRef = useRef(true);
   const resetTimerRef = useRef<number | null>(null);
+  const initialPlaybackState = useMemo(
+    () => buildInitialPlaybackState(playlist, initialVideo),
+    [initialVideo, playlist],
+  );
   const [dragOffset, setDragOffset] = useState(0);
   const [viewportHeight, setViewportHeight] = useState(680);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -372,22 +405,159 @@ export default function PublicShortformVideoDetailExperience({
   const [isViewportReady, setIsViewportReady] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const videos = useMemo(
-    () => toPlaybackVideo(playlist, initialVideo, playlistVideos),
-    [initialVideo, playlist, playlistVideos],
-  );
-
-  const initialPlaybackIndex = useMemo(() => {
-    const matchedIndex = videos.findIndex((video) => video.videoId === initialVideo.videoId);
-    return matchedIndex >= 0 ? matchedIndex : 0;
-  }, [initialVideo.videoId, videos]);
-
-  const [currentIndex, setCurrentIndex] = useState(initialPlaybackIndex);
+  const [videos, setVideos] = useState<ShortformPlaybackVideo[]>(initialPlaybackState.videos);
+  const [currentIndex, setCurrentIndex] = useState(initialPlaybackState.initialIndex);
+  const [loadedPageRange, setLoadedPageRange] = useState({
+    end: initialPlaybackState.currentPage,
+    start: initialPlaybackState.currentPage,
+  });
+  const [playlistWindowInfo, setPlaylistWindowInfo] = useState<Pick<
+    PublicShortformPlaylistWindow,
+    "pageSize" | "totalItems" | "totalPages"
+  >>({
+    pageSize: initialPlaybackState.pageSize,
+    totalItems: initialPlaybackState.totalItems,
+    totalPages: initialPlaybackState.totalPages,
+  });
+  const videosRef = useRef(videos);
+  const currentIndexRef = useRef(currentIndex);
+  const loadedPageRangeRef = useRef(loadedPageRange);
+  const playlistWindowInfoRef = useRef(playlistWindowInfo);
 
   useEffect(() => {
-    setCurrentIndex(initialPlaybackIndex);
-  }, [initialPlaybackIndex]);
+    const nextState = buildInitialPlaybackState(playlist, initialVideo);
+    hasActivatedAudioRef.current = false;
+    videosRef.current = nextState.videos;
+    currentIndexRef.current = nextState.initialIndex;
+    loadedPageRangeRef.current = {
+      end: nextState.currentPage,
+      start: nextState.currentPage,
+    };
+    playlistWindowInfoRef.current = {
+      pageSize: nextState.pageSize,
+      totalItems: nextState.totalItems,
+      totalPages: nextState.totalPages,
+    };
+    loadingPagesRef.current.clear();
+    setVideos(nextState.videos);
+    setCurrentIndex(nextState.initialIndex);
+    setLoadedPageRange({
+      end: nextState.currentPage,
+      start: nextState.currentPage,
+    });
+    setPlaylistWindowInfo({
+      pageSize: nextState.pageSize,
+      totalItems: nextState.totalItems,
+      totalPages: nextState.totalPages,
+    });
+  }, [initialVideo, playlist]);
 
+  useEffect(() => {
+    videosRef.current = videos;
+  }, [videos]);
+
+  useEffect(() => {
+    currentIndexRef.current = currentIndex;
+  }, [currentIndex]);
+
+  useEffect(() => {
+    loadedPageRangeRef.current = loadedPageRange;
+  }, [loadedPageRange]);
+
+  useEffect(() => {
+    playlistWindowInfoRef.current = playlistWindowInfo;
+  }, [playlistWindowInfo]);
+
+  const mergePlaybackVideos = useCallback((
+    currentVideos: ShortformPlaybackVideo[],
+    incomingVideos: ShortformPlaybackVideo[],
+    direction: "append" | "prepend",
+  ) => {
+    if (direction === "prepend") {
+      const currentIds = new Set(currentVideos.map((video) => video.videoId));
+      const nextItems = incomingVideos.filter((video) => !currentIds.has(video.videoId));
+      return {
+        insertedCount: nextItems.length,
+        mergedVideos: [...nextItems, ...currentVideos],
+      };
+    }
+
+    const currentIds = new Set(currentVideos.map((video) => video.videoId));
+    const nextItems = incomingVideos.filter((video) => !currentIds.has(video.videoId));
+    return {
+      insertedCount: nextItems.length,
+      mergedVideos: [...currentVideos, ...nextItems],
+    };
+  }, []);
+
+  const loadPlaylistPage = useCallback(async (page: number) => {
+    const { pageSize, totalPages } = playlistWindowInfoRef.current;
+    const { start, end } = loadedPageRangeRef.current;
+
+    if (page < 1 || page > totalPages || (page >= start && page <= end) || loadingPagesRef.current.has(page)) {
+      return false;
+    }
+
+    loadingPagesRef.current.add(page);
+
+    try {
+      const response = await fetch(
+        `/api/public/videos/items?path=${encodeURIComponent(playlist.fullPath)}&page=${page}&size=${pageSize}`,
+        {
+          cache: "no-store",
+        },
+      );
+
+      if (!response.ok) {
+        return false;
+      }
+
+      const payload = await response.json() as PublicVideoList;
+      if (payload.form !== "SHORTFORM") {
+        return false;
+      }
+
+      const incomingVideos = payload.items.map((video) => ({
+        ...video,
+        description:
+          video.videoId === initialVideo.videoId
+            ? initialVideo.summary || initialVideo.description
+            : video.summary,
+      }));
+      const direction = page < start ? "prepend" : "append";
+      const { insertedCount, mergedVideos } = mergePlaybackVideos(videosRef.current, incomingVideos, direction);
+      const nextRange = {
+        start: Math.min(start, page),
+        end: Math.max(end, page),
+      };
+      const nextWindowInfo = {
+        pageSize: payload.pageSize,
+        totalItems: payload.totalItems,
+        totalPages: payload.totalPages,
+      };
+
+      videosRef.current = mergedVideos;
+      loadedPageRangeRef.current = nextRange;
+      playlistWindowInfoRef.current = nextWindowInfo;
+      setVideos(mergedVideos);
+      setLoadedPageRange(nextRange);
+      setPlaylistWindowInfo(nextWindowInfo);
+
+      if (direction === "prepend" && insertedCount > 0) {
+        currentIndexRef.current += insertedCount;
+        setCurrentIndex(currentIndexRef.current);
+      }
+
+      return true;
+    } catch {
+      return false;
+    } finally {
+      loadingPagesRef.current.delete(page);
+    }
+  }, [initialVideo, mergePlaybackVideos, playlist.fullPath]);
+
+  const hasPreviousPage = loadedPageRange.start > 1;
+  const hasNextPage = loadedPageRange.end < playlistWindowInfo.totalPages;
   const activeVideo = videos[currentIndex] ?? videos[0];
   const previousVideo = currentIndex > 0 ? videos[currentIndex - 1] : null;
   const nextVideo = currentIndex < videos.length - 1 ? videos[currentIndex + 1] : null;
@@ -663,6 +833,29 @@ export default function PublicShortformVideoDetailExperience({
   }, [activeVideo, nextVideo, previousVideo, router]);
 
   useEffect(() => {
+    if (!activeVideo) {
+      return;
+    }
+
+    if (currentIndex >= videos.length - 2 && hasNextPage) {
+      void loadPlaylistPage(loadedPageRange.end + 1);
+    }
+
+    if (currentIndex <= 1 && hasPreviousPage) {
+      void loadPlaylistPage(loadedPageRange.start - 1);
+    }
+  }, [
+    activeVideo,
+    currentIndex,
+    hasNextPage,
+    hasPreviousPage,
+    loadPlaylistPage,
+    loadedPageRange.end,
+    loadedPageRange.start,
+    videos.length,
+  ]);
+
+  useEffect(() => {
     const syncIndexFromLocation = () => {
       const nextIndex = videos.findIndex((video) => resolvePath(video.href) === window.location.pathname);
       if (nextIndex < 0) {
@@ -679,6 +872,7 @@ export default function PublicShortformVideoDetailExperience({
       setIsAnimating(false);
       setDragOffset(0);
       dragOffsetRef.current = 0;
+      currentIndexRef.current = nextIndex;
       setCurrentIndex(nextIndex);
     };
 
@@ -701,27 +895,60 @@ export default function PublicShortformVideoDetailExperience({
       setTransitionEnabled(false);
       setDragOffset(0);
       dragOffsetRef.current = 0;
-      setCurrentIndex((current) => current + (direction === "next" ? 1 : -1));
+      currentIndexRef.current += direction === "next" ? 1 : -1;
+      setCurrentIndex(currentIndexRef.current);
       setIsAnimating(false);
       resetTimerRef.current = null;
     }, SWITCH_ANIMATION_MS);
   }, [viewportHeight]);
 
-  const moveToPrevious = useCallback(() => {
-    if (!previousVideo || isAnimating) {
+  const ensureAdjacentVideo = useCallback(async (direction: "prev" | "next") => {
+    if (direction === "prev") {
+      if (currentIndexRef.current > 0) {
+        return true;
+      }
+
+      if (loadedPageRangeRef.current.start <= 1) {
+        return false;
+      }
+
+      return loadPlaylistPage(loadedPageRangeRef.current.start - 1);
+    }
+
+    if (currentIndexRef.current < videosRef.current.length - 1) {
+      return true;
+    }
+
+    if (loadedPageRangeRef.current.end >= playlistWindowInfoRef.current.totalPages) {
+      return false;
+    }
+
+    return loadPlaylistPage(loadedPageRangeRef.current.end + 1);
+  }, [loadPlaylistPage]);
+
+  const moveToPrevious = useCallback(async () => {
+    if (isAnimating) {
+      return;
+    }
+
+    if (!(await ensureAdjacentVideo("prev")) || currentIndexRef.current <= 0) {
       return;
     }
 
     commitIndexChange("prev");
-  }, [commitIndexChange, isAnimating, previousVideo]);
+  }, [commitIndexChange, ensureAdjacentVideo, isAnimating]);
 
-  const moveToNext = useCallback(() => {
-    if (!nextVideo || isAnimating) {
+  const moveToNext = useCallback(async () => {
+    if (isAnimating) {
+      return;
+    }
+
+    if (!(await ensureAdjacentVideo("next")) || currentIndexRef.current >= videosRef.current.length - 1) {
       return;
     }
 
     commitIndexChange("next");
-  }, [commitIndexChange, isAnimating, nextVideo]);
+  }, [commitIndexChange, ensureAdjacentVideo, isAnimating]);
 
   const snapBack = () => {
     setTransitionEnabled(true);
@@ -732,15 +959,25 @@ export default function PublicShortformVideoDetailExperience({
     }, SWITCH_ANIMATION_MS);
   };
 
-  const finishDrag = (deltaY: number) => {
+  const finishDrag = async (deltaY: number) => {
     const threshold = Math.max(viewportHeight * SWIPE_THRESHOLD_RATIO, SWIPE_THRESHOLD_PX);
 
-    if (deltaY <= -threshold && nextVideo) {
+    if (deltaY <= -threshold) {
+      if (!(await ensureAdjacentVideo("next")) || currentIndexRef.current >= videosRef.current.length - 1) {
+        snapBack();
+        return;
+      }
+
       commitIndexChange("next");
       return;
     }
 
-    if (deltaY >= threshold && previousVideo) {
+    if (deltaY >= threshold) {
+      if (!(await ensureAdjacentVideo("prev")) || currentIndexRef.current <= 0) {
+        snapBack();
+        return;
+      }
+
       commitIndexChange("prev");
       return;
     }
@@ -773,7 +1010,7 @@ export default function PublicShortformVideoDetailExperience({
     }
 
     let nextOffset = deltaY;
-    if ((nextOffset > 0 && !previousVideo) || (nextOffset < 0 && !nextVideo)) {
+    if ((nextOffset > 0 && !previousVideo && !hasPreviousPage) || (nextOffset < 0 && !nextVideo && !hasNextPage)) {
       nextOffset *= 0.28;
     }
 
@@ -801,7 +1038,7 @@ export default function PublicShortformVideoDetailExperience({
       return;
     }
 
-    finishDrag(dragOffsetRef.current);
+    void finishDrag(dragOffsetRef.current);
   };
 
   const handlePointerCancel = (event: ReactPointerEvent<HTMLDivElement>) => {
@@ -818,12 +1055,12 @@ export default function PublicShortformVideoDetailExperience({
     const handleKeyNavigation = (event: KeyboardEvent) => {
       if (event.key === "ArrowUp") {
         event.preventDefault();
-        moveToPrevious();
+        void moveToPrevious();
       }
 
       if (event.key === "ArrowDown") {
         event.preventDefault();
-        moveToNext();
+        void moveToNext();
       }
     };
 
@@ -1052,8 +1289,10 @@ export default function PublicShortformVideoDetailExperience({
             <div className="absolute right-[32px] top-1/2 flex -translate-y-1/2 flex-col items-center gap-3 xl:right-[72px]">
               <button
                 type="button"
-                onClick={moveToPrevious}
-                disabled={!previousVideo}
+                onClick={() => {
+                  void moveToPrevious();
+                }}
+                disabled={!previousVideo && !hasPreviousPage}
                 aria-label="이전 영상"
                 className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#f1f1f1] text-[#10213f] transition hover:bg-[#e6e6e6] disabled:cursor-not-allowed disabled:opacity-35"
               >
@@ -1061,8 +1300,10 @@ export default function PublicShortformVideoDetailExperience({
               </button>
               <button
                 type="button"
-                onClick={moveToNext}
-                disabled={!nextVideo}
+                onClick={() => {
+                  void moveToNext();
+                }}
+                disabled={!nextVideo && !hasNextPage}
                 aria-label="다음 영상"
                 className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#f1f1f1] text-[#10213f] transition hover:bg-[#e6e6e6] disabled:cursor-not-allowed disabled:opacity-35"
               >

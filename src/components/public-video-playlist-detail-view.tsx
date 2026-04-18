@@ -177,20 +177,12 @@ function LongformDetailView({
 export default function PublicVideoPlaylistDetailView({
   playlist,
   video,
-  playlistVideos,
 }: {
   playlist: PublicPlaylistDetail;
   video: PublicVideoDetail;
-  playlistVideos?: PublicVideoSummary[];
 }) {
   if (video.contentForm === "SHORTFORM") {
-    return (
-      <PublicShortformVideoDetailExperience
-        playlist={playlist}
-        initialVideo={video}
-        playlistVideos={playlistVideos ?? []}
-      />
-    );
+    return <PublicShortformVideoDetailExperience playlist={playlist} initialVideo={video} />;
   }
 
   return <LongformDetailView playlist={playlist} video={video} />;
