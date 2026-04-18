@@ -42,39 +42,11 @@ function PlayIcon({ className = "" }: { className?: string }) {
   );
 }
 
-function ShareIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
-      <path
-        d="M14 5H19V10M19 5L11 13M10 7H8.6C7.48 7 6.92 7 6.492 7.218C6.115 7.41 5.81 7.715 5.618 8.092C5.4 8.52 5.4 9.08 5.4 10.2V15.4C5.4 16.52 5.4 17.08 5.618 17.508C5.81 17.885 6.115 18.19 6.492 18.382C6.92 18.6 7.48 18.6 8.6 18.6H13.8C14.92 18.6 15.48 18.6 15.908 18.382C16.285 18.19 16.59 17.885 16.782 17.508C17 17.08 17 16.52 17 15.4V14"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function ClockIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
-      <circle cx="12" cy="12" r="8.2" stroke="currentColor" strokeWidth="1.8" />
-      <path d="M12 7.8V12L14.8 13.8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 function LongformHero({
-  playlist,
   featured,
 }: {
-  playlist: PublicPlaylistDetail;
   featured: PublicVideoSummary | null;
 }) {
-  const metaLine = featured ? buildMetaLine(featured) : "";
-  const featuredDate = featured ? formatLongDate(featured.publishedAt) : null;
-
   return (
     <section className="space-y-8">
       <SectionHeading
@@ -97,60 +69,7 @@ function LongformHero({
               대표 영상이 아직 없습니다.
             </div>
           )}
-
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/75 via-black/30 to-transparent" />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/65 via-black/20 to-transparent" />
-
-          <div className="absolute inset-x-0 top-0 flex items-start gap-3 px-5 py-4 text-white md:px-6">
-            <div className="mt-1 h-8 w-8 shrink-0 rounded-full border border-white/30 bg-white/95" />
-            <div className="min-w-0">
-              <p className="line-clamp-2 text-[14px] font-bold leading-[1.2] md:line-clamp-1 md:text-[16px]">
-                {featured?.title ?? playlist.title}
-                {metaLine ? `  |  ${metaLine}` : ""}
-                {"  |  The 제자교회"}
-              </p>
-              <p className="mt-1 text-[11px] font-medium text-white/85 md:text-[12px]">The 제자 교회</p>
-            </div>
-          </div>
-
-          <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 px-4 py-4 md:px-5">
-            <div className="flex items-center gap-2 rounded-full bg-black/28 px-3 py-2 backdrop-blur-sm">
-              {featured && (
-                <Link
-                  href={featured.href}
-                  className="flex h-10 w-10 items-center justify-center rounded-full text-white transition hover:bg-white/10"
-                  aria-label="대표 영상 상세로 이동"
-                >
-                  <ShareIcon className="h-[22px] w-[22px]" />
-                </Link>
-              )}
-              <div className="flex h-10 min-w-10 items-center justify-center gap-2 rounded-full px-2 text-white">
-                <ClockIcon className="h-[22px] w-[22px]" />
-                {featuredDate ? (
-                  <span className="hidden text-[12px] font-medium tracking-[0.01em] text-white/85 md:inline">
-                    {featuredDate}
-                  </span>
-                ) : null}
-              </div>
-            </div>
-
-            <a
-              href={
-                featured
-                  ? `https://www.youtube.com/watch?v=${featured.videoId}`
-                  : `https://www.youtube.com/playlist?list=${playlist.playlistId}`
-              }
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-black/28 px-5 py-3 text-[15px] font-medium text-white backdrop-blur-sm transition hover:bg-black/38"
-            >
-              <span>다음에서 보기:</span>
-              <span className="inline-flex items-center gap-2 font-semibold">
-                <PlayIcon className="h-5 w-5 rounded-full bg-white/95 p-[2px] text-[#242c39]" />
-                YouTube
-              </span>
-            </a>
-          </div>
         </div>
       </div>
     </section>
@@ -289,7 +208,7 @@ function LongformPlaylistView({
 
       <section className="bg-white">
         <div className="section-shell flex flex-col gap-10 pb-20 pt-16">
-          <LongformHero playlist={playlist} featured={videos.featured} />
+          <LongformHero featured={videos.featured} />
 
           <div className="h-px w-full bg-[#dfe3ea]" />
 

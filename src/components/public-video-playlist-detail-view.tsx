@@ -21,51 +21,6 @@ function buildMetaLine(parts: Array<string | null | undefined>) {
   return parts.filter(Boolean).join(" · ");
 }
 
-function PlayIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
-      <path d="M8 6.5V17.5L17 12L8 6.5Z" fill="currentColor" />
-    </svg>
-  );
-}
-
-function ShareIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
-      <path
-        d="M14 5H19V10M19 5L11 13M10 7H8.6C7.48 7 6.92 7 6.492 7.218C6.115 7.41 5.81 7.715 5.618 8.092C5.4 8.52 5.4 9.08 5.4 10.2V15.4C5.4 16.52 5.4 17.08 5.618 17.508C5.81 17.885 6.115 18.19 6.492 18.382C6.92 18.6 7.48 18.6 8.6 18.6H13.8C14.92 18.6 15.48 18.6 15.908 18.382C16.285 18.19 16.59 17.885 16.782 17.508C17 17.08 17 16.52 17 15.4V14"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function ClockIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
-      <circle cx="12" cy="12" r="8.2" stroke="currentColor" strokeWidth="1.8" />
-      <path d="M12 7.8V12L14.8 13.8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function ExpandIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
-      <path
-        d="M8 16L16 8M16 8H10.5M16 8V13.5"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 function ChevronIcon({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
@@ -168,64 +123,7 @@ function LongformDetailView({
                   allowFullScreen
                 />
 
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/75 via-black/30 to-transparent" />
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
-
-                <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-4 px-6 py-4 text-white">
-                  <div className="flex min-w-0 items-center gap-3">
-                    <div className="h-9 w-9 shrink-0 rounded-full border border-white/30 bg-white/95" />
-                    <div className="min-w-0">
-                      <p className="line-clamp-2 text-[14px] font-bold leading-[1.2] md:line-clamp-1 md:text-[16px]">
-                        {video.title}
-                        {metaLine ? `  |  ${metaLine}` : ""}
-                        {"  |  The 제자교회"}
-                      </p>
-                      <p className="mt-1 text-[11px] font-medium text-white/85 md:text-[12px]">The 제자 교회</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="absolute inset-x-0 bottom-0 space-y-2 px-5 py-4 md:px-6">
-                  <div className="flex items-end justify-between gap-3">
-                    <div className="rounded-full bg-black/30 px-2 py-[4px] text-[12px] font-medium text-white">
-                      0:00 {video.description ? "/ --:--" : ""}
-                    </div>
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-black/30 text-white">
-                      <ExpandIcon className="h-5 w-5" />
-                    </div>
-                  </div>
-
-                  <div className="h-px w-full bg-white/35" />
-
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2 rounded-full bg-black/30 px-3 py-2 backdrop-blur-sm">
-                      <div className="flex h-9 w-9 items-center justify-center rounded-full text-white">
-                        <ShareIcon className="h-5 w-5" />
-                      </div>
-                      <div className="flex h-9 w-9 items-center justify-center rounded-full text-white">
-                        <ClockIcon className="h-5 w-5" />
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-5">
-                      <Link
-                        href={playlist.fullPath}
-                        className="rounded-full bg-black/30 px-4 py-2 text-[14px] font-medium text-white backdrop-blur-sm transition hover:bg-black/40"
-                      >
-                        동영상 더보기
-                      </Link>
-                      <a
-                        href={`https://www.youtube.com/watch?v=${video.videoId}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-2 text-[14px] font-bold tracking-[-0.04em] text-white"
-                      >
-                        <PlayIcon className="h-[30px] w-[30px] rounded-full bg-white/95 p-[4px] text-[#242c39]" />
-                        YouTube
-                      </a>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
 
