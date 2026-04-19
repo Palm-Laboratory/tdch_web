@@ -207,7 +207,7 @@ export default function DisciplesRoadmap({
     <div>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <p className="text-[0.625rem] font-semibold uppercase tracking-[0.28em] text-[#c9a84c] md:text-[0.6875rem]">
+          <p className="type-label font-semibold uppercase tracking-[0.28em] text-site-gold">
             Full Roadmap
           </p>
           <h2

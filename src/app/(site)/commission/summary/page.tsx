@@ -24,7 +24,7 @@ const visionItems = [
     href: "/commission/ethnic",
     label: "multi ethnic",
     title: "다민족",
-    description: "창끝선교 · 세계 선교",
+    description: "땅끝 선교 · 세계 선교",
   },
 ] as const;
 
@@ -80,7 +80,7 @@ const participateItems = [
 
 const historyLeftItems = [
   "17년간 필리핀 선교",
-  "산타로사 한국학교 운영",
+  "산타로사 한글학교 운영",
   "현지인 리더 양성 · 현지 8교회 성장",
   "4세대 재생산 제자훈련 실현",
   "2025년 자립 교회로 이양 완료",
@@ -277,31 +277,31 @@ export default function CommissionSummaryPage() {
 
           <div className="relative z-10 mt-8 md:mt-0 md:shrink-0 md:[margin-left:clamp(-120px,calc(100vw-920px),0px)] lg:ml-auto">
             <div className="grid grid-cols-1 gap-x-8 gap-y-6 min-[500px]:grid-cols-2 md:grid-cols-2">
-            {scopeItems.map((item) => (
-              <div key={item.title} className="flex gap-3">
-                <span className="flex h-[24px] w-[14px] shrink-0 items-start justify-center pt-[10px]">
-                  <span
-                    className="block h-[10px] w-[10px] rotate-45"
-                    style={{ backgroundColor: item.diamondColor }}
-                  />
-                </span>
-                <div>
-                  <h3 className="type-card-title whitespace-nowrap font-section-title font-bold tracking-[0.02em] text-[#1a2744]">
-                    {item.title}
-                  </h3>
-                  <div className="mt-2 space-y-1">
-                    {item.lines.map((line) => (
-                      <p
-                        key={line}
-                        className="type-body-small whitespace-nowrap leading-[1.45] tracking-[0.02em] text-[#6d6558]"
-                      >
-                        {line}
-                      </p>
-                    ))}
+              {scopeItems.map((item) => (
+                <div key={item.title} className="flex gap-3">
+                  <span className="flex h-[24px] w-[14px] shrink-0 items-start justify-center pt-[10px]">
+                    <span
+                      className="block h-[10px] w-[10px] rotate-45"
+                      style={{ backgroundColor: item.diamondColor }}
+                    />
+                  </span>
+                  <div>
+                    <h3 className="type-card-title whitespace-nowrap font-section-title font-bold tracking-[0.02em] text-[#1a2744]">
+                      {item.title}
+                    </h3>
+                    <div className="mt-2 space-y-1">
+                      {item.lines.map((line) => (
+                        <p
+                          key={line}
+                          className="type-body-small whitespace-nowrap leading-[1.45] tracking-[0.02em] text-[#6d6558]"
+                        >
+                          {line}
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
             </div>
           </div>
         </div>
@@ -389,9 +389,8 @@ export default function CommissionSummaryPage() {
             {participateItems.map((item, index) => (
               <div
                 key={item.number}
-                className={`flex items-center gap-4 px-1 py-5 text-left md:gap-6 ${
-                  index === 0 ? "" : "border-t border-[#f2f0ec]"
-                }`}
+                className={`flex items-center gap-4 px-1 py-5 text-left md:gap-6 ${index === 0 ? "" : "border-t border-[#f2f0ec]"
+                  }`}
               >
                 <div className="flex w-[112px] shrink-0 items-center gap-4 md:w-[210px] md:gap-5">
                   <span
@@ -419,9 +418,8 @@ export default function CommissionSummaryPage() {
             {participateItems.map((item, index) => (
               <div
                 key={item.number}
-                className={`px-4 text-center lg:px-6 ${
-                  index < participateItems.length - 1 ? "lg:border-r lg:border-[#ece5da]" : ""
-                }`}
+                className={`px-4 text-center lg:px-6 ${index < participateItems.length - 1 ? "lg:border-r lg:border-[#ece5da]" : ""
+                  }`}
               >
                 <p className="type-label-fixed font-semibold uppercase tracking-[0.28em] text-[#c9a84c]">
                   {item.label}

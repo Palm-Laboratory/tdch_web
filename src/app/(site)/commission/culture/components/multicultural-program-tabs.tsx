@@ -127,9 +127,8 @@ function TabButton({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`type-body-small shrink-0 whitespace-nowrap border-b-2 px-1 pb-4 font-bold tracking-[0.04em] transition ${
-        active ? "border-[#0f2044] text-[#0f2044]" : "border-transparent text-[#888580]"
-      }`}
+      className={`type-body-small shrink-0 whitespace-nowrap border-b-2 px-1 pb-4 font-bold tracking-[0.04em] transition ${active ? "border-[#0f2044] text-[#0f2044]" : "border-transparent text-[#888580]"
+        }`}
     >
       {label}
     </button>
@@ -156,9 +155,8 @@ function KoreanEducationPanel() {
         {koreanEducationCourses.map((course, index) => (
           <article
             key={course.level}
-            className={`px-5 py-6 ${course.highlighted ? "bg-[#f8f7f4]" : "bg-white"} ${
-              index < koreanEducationCourses.length - 1 ? "border-b border-[#d0cdca] md:border-b-0 md:border-r" : ""
-            }`}
+            className={`px-5 py-6 ${course.highlighted ? "bg-[#f8f7f4]" : "bg-white"} ${index < koreanEducationCourses.length - 1 ? "border-b border-[#d0cdca] md:border-b-0 md:border-r" : ""
+              }`}
           >
             <p className="type-label font-bold tracking-[0.08em] text-[#c9a84c]">{course.level}</p>
             <h3 className="mt-4 type-card-title font-section-title font-bold tracking-[0.02em] text-[#0f2044]">{course.title}</h3>
@@ -173,7 +171,7 @@ function KoreanEducationPanel() {
         ))}
       </div>
 
-      <div className="rounded-[8px] bg-[#f8f7f4] px-5 py-5 md:flex md:items-center md:gap-12">
+      {/* <div className="rounded-[8px] bg-[#f8f7f4] px-5 py-5 md:flex md:items-center md:gap-12">
         <div className="type-body flex items-center gap-3 tracking-[0.02em] text-[#888580]">
           <span className="font-bold text-[#1a2744]">화요일</span>
           <span>오전 10-12시 (주부반)</span>
@@ -182,7 +180,7 @@ function KoreanEducationPanel() {
           <span className="font-bold text-[#1a2744]">토요일</span>
           <span>오후 2-4시 (주말반)</span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
@@ -229,9 +227,8 @@ function GospelOutreachPanel() {
       {gospelRows.map(([title, description], index) => (
         <div
           key={title}
-          className={`flex flex-col gap-3 pb-6 md:flex-row md:items-start md:gap-10 ${
-            index === 0 ? "pt-0" : "pt-6"
-          }`}
+          className={`flex flex-col gap-3 pb-6 md:flex-row md:items-start md:gap-10 ${index === 0 ? "pt-0" : "pt-6"
+            }`}
         >
           <div className="md:w-[180px] md:shrink-0">
             <h3 className="type-card-title font-section-title font-bold tracking-[0.02em] text-[#0f2044]">{title}</h3>

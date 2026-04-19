@@ -29,7 +29,7 @@ const tabs: Record<TabKey, TabData> = {
     columns: [
       {
         title: "선교 기도회",
-        lines: ["시간 매월 마지막 주 금요일 밤 8:30", "장소 교회 본당 (아트홀)"],
+        lines: ["시간 매월 마지막 주 금요일 밤 9:00", "장소 교회 본당 (아트홀)"],
         bullets: ["선교사 기도", "선교지 기도", "미전도 종족 기도", "선교 헌신자 기도"],
       },
       {
@@ -133,9 +133,8 @@ export default function EthnicProgramTabs() {
                 key={key}
                 type="button"
                 onClick={() => setActiveKey(key)}
-                className={`type-body-small border-b-2 px-1 pb-4 font-bold tracking-[0.04em] transition ${
-                  isActive ? "border-[#0f2044] text-[#0f2044]" : "border-transparent text-[#888580]"
-                }`}
+                className={`type-body-small border-b-2 px-1 pb-4 font-bold tracking-[0.04em] transition ${isActive ? "border-[#0f2044] text-[#0f2044]" : "border-transparent text-[#888580]"
+                  }`}
                 aria-pressed={isActive}
               >
                 {tab.label}
@@ -147,13 +146,12 @@ export default function EthnicProgramTabs() {
 
       {activeTab.columns ? (
         <div
-          className={`mt-8 grid gap-8 ${
-            activeKey === "prayer"
+          className={`mt-8 grid gap-8 ${activeKey === "prayer"
               ? "min-[841px]:grid-cols-3 min-[841px]:gap-10"
               : activeKey === "financial"
-              ? "min-[641px]:grid-cols-3 min-[641px]:gap-10"
-              : "md:grid-cols-3 md:gap-10"
-          }`}
+                ? "min-[641px]:grid-cols-3 min-[641px]:gap-10"
+                : "md:grid-cols-3 md:gap-10"
+            }`}
         >
           {activeTab.columns.map((column) => (
             <div key={column.title}>
@@ -184,9 +182,8 @@ export default function EthnicProgramTabs() {
                   return (
                     <div
                       key={line}
-                      className={`flex ${
-                        index < shortTermPrimaryLines.length - 1 ? "border-b border-[#d0cdca]" : ""
-                      }`}
+                      className={`flex ${index < shortTermPrimaryLines.length - 1 ? "border-b border-[#d0cdca]" : ""
+                        }`}
                     >
                       <div className="type-body-small w-[72px] shrink-0 bg-[#f8f7f4] px-4 py-3 font-medium tracking-[0.02em] text-[#888580]">
                         {label}
@@ -245,9 +242,8 @@ export default function EthnicProgramTabs() {
           {activeTab.listRows.map((row, index) => (
             <div
               key={row.title}
-              className={`flex flex-col gap-1 py-5 md:flex-row md:items-center md:gap-10 ${
-                index === 0 ? "" : "border-t border-[#f2f0ec]"
-              }`}
+              className={`flex flex-col gap-1 py-5 md:flex-row md:items-center md:gap-10 ${index === 0 ? "" : "border-t border-[#f2f0ec]"
+                }`}
             >
               <div className="md:w-[180px] md:shrink-0">
                 <p className="type-body font-bold tracking-[0.04em] text-[#0f2044]">{row.title}</p>

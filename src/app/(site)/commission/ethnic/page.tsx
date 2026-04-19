@@ -90,7 +90,7 @@ const missionHistory = [
     title: "필리핀 산타로사 꿈의교회",
     items: [
       "17년간 필리핀 선교",
-      "산타로사 한국학교 운영",
+      "산타로사 한글학교 운영",
       "현지인 리더 양성 · 현지 8교회 성장",
       "4세대 재생산 제자훈련 실현",
       "2025년 자립 교회로 이양 완료",
@@ -141,9 +141,9 @@ const missionaries = [
     title: "필리핀 산타로사",
     subtitle: "꿈의교회 (형제교회)",
     items: [
-      "전영 목사 (현지인, 담임목사)",
+      "전영 목사 (선교사, 담임목사)",
       "이진욱 목사 (고문, 정기 방문)",
-      "사역: 교회 목회 · 한국학교 · 제자훈련",
+      "사역: 교회 목회 · 한글학교 · 제자훈련",
       "후원: 기도 · 재정 · 단기 선교팀",
     ],
   },
@@ -166,7 +166,7 @@ const missionFields = [
       ["필요", "제자훈련, 차세대 양육"],
     ],
     sectionLabel: "우리 사역",
-    sectionBody: "산타로사 드림교회 · 한국학교",
+    sectionBody: "산타로사 꿈의교회 · 한글학교",
   },
   {
     label: "10/40 Window",
@@ -400,9 +400,8 @@ export default function CommissionEthnicPage() {
             {globalStats.map((stat, index) => (
               <article
                 key={stat.label}
-                className={`px-5 py-5 text-left ${
-                  stat.emphasized ? "bg-[#f8f7f4]" : "bg-white"
-                } ${index < globalStats.length - 1 ? "border-b border-[#d0cdca]" : ""}`}
+                className={`px-5 py-5 text-left ${stat.emphasized ? "bg-[#f8f7f4]" : "bg-white"
+                  } ${index < globalStats.length - 1 ? "border-b border-[#d0cdca]" : ""}`}
               >
                 <p className="type-label tracking-[0.08em] text-[#888580]">{stat.label}</p>
                 <h3 className="mt-2 type-subsection-title font-section-title font-black tracking-[0.02em] text-[#0f2044]">
@@ -419,9 +418,8 @@ export default function CommissionEthnicPage() {
             {globalStats.map((stat, index) => (
               <article
                 key={stat.label}
-                className={`px-6 py-6 text-center ${
-                  stat.emphasized ? "bg-[#f8f7f4]" : "bg-white"
-                } ${index < globalStats.length - 1 ? "md:border-r md:border-[#d0cdca]" : ""}`}
+                className={`px-6 py-6 text-center ${stat.emphasized ? "bg-[#f8f7f4]" : "bg-white"
+                  } ${index < globalStats.length - 1 ? "md:border-r md:border-[#d0cdca]" : ""}`}
               >
                 <p className="type-label tracking-[0.08em] text-[#888580]">{stat.label}</p>
                 <h3 className="mt-3 type-subsection-title font-section-title font-black tracking-[0.02em] text-[#0f2044]">
@@ -515,9 +513,8 @@ export default function CommissionEthnicPage() {
               {missionLessons.map((lesson, index) => (
                 <article
                   key={lesson.number}
-                  className={`flex items-center gap-4 px-5 py-5 ${
-                    lesson.emphasized ? "bg-[#f8f7f4]" : "bg-white"
-                  } ${index < missionLessons.length - 1 ? "border-b border-[#d0cdca]" : ""}`}
+                  className={`flex items-center gap-4 px-5 py-5 ${lesson.emphasized ? "bg-[#f8f7f4]" : "bg-white"
+                    } ${index < missionLessons.length - 1 ? "border-b border-[#d0cdca]" : ""}`}
                 >
                   <p
                     className={`${cormorantGaramond.className} w-[28px] shrink-0 -translate-y-[0.18em] text-[20px] tracking-[0.1em] text-[#c9a84c]`}
@@ -538,9 +535,8 @@ export default function CommissionEthnicPage() {
               {missionLessons.map((lesson, index) => (
                 <article
                   key={lesson.number}
-                  className={`px-5 py-6 ${lesson.emphasized ? "bg-[#f8f7f4]" : "bg-white"} ${
-                    index < missionLessons.length - 1 ? "border-r border-[#d0cdca]" : ""
-                  }`}
+                  className={`px-5 py-6 ${lesson.emphasized ? "bg-[#f8f7f4]" : "bg-white"} ${index < missionLessons.length - 1 ? "border-r border-[#d0cdca]" : ""
+                    }`}
                 >
                   <p className={`${cormorantGaramond.className} text-[20px] tracking-[0.1em] text-[#c9a84c]`}>
                     {lesson.number}
@@ -567,9 +563,8 @@ export default function CommissionEthnicPage() {
           {missionaries.map((missionary, index) => (
             <div
               key={missionary.title}
-              className={`flex flex-col gap-6 py-6 md:flex-row md:gap-10 ${
-                index === 0 ? "border-t border-[#d0cdca]" : "border-t border-[#f2f0ec]"
-              }`}
+              className={`flex flex-col gap-6 py-6 md:flex-row md:gap-10 ${index === 0 ? "border-t border-[#d0cdca]" : "border-t border-[#f2f0ec]"
+                }`}
             >
               <div className="md:w-[220px] md:shrink-0">
                 <p className="type-label tracking-[0.24em] text-[#c9a84c] uppercase">{missionary.label}</p>
@@ -619,11 +614,11 @@ export default function CommissionEthnicPage() {
 
                 {"groups" in field && field.groups
                   ? field.groups.map((group, index) => (
-                      <div key={group.title} className={index > 0 ? "border-t border-[#f0ece5] pt-3" : ""}>
-                        <p className="type-label font-medium tracking-[0.08em] text-[#c9a84c]">{group.title}</p>
-                        <BulletLines items={group.items} className="mt-3 !space-y-2" />
-                      </div>
-                    ))
+                    <div key={group.title} className={index > 0 ? "border-t border-[#f0ece5] pt-3" : ""}>
+                      <p className="type-label font-medium tracking-[0.08em] text-[#c9a84c]">{group.title}</p>
+                      <BulletLines items={group.items} className="mt-3 !space-y-2" />
+                    </div>
+                  ))
                   : null}
               </div>
             </article>
@@ -636,9 +631,8 @@ export default function CommissionEthnicPage() {
           {missionEducation.map((item, index) => (
             <div
               key={item.title}
-              className={`flex flex-col gap-6 py-6 md:flex-row md:gap-10 ${
-                index === 0 ? "border-t border-[#d0cdca]" : "border-t border-[#f2f0ec]"
-              }`}
+              className={`flex flex-col gap-6 py-6 md:flex-row md:gap-10 ${index === 0 ? "border-t border-[#d0cdca]" : "border-t border-[#f2f0ec]"
+                }`}
             >
               <div className="md:w-[220px] md:shrink-0">
                 <p className="type-label tracking-[0.24em] text-[#c9a84c] uppercase">{item.label}</p>
@@ -657,9 +651,8 @@ export default function CommissionEthnicPage() {
             {calendarItems.map(([eng, kr, desc], index) => (
               <article
                 key={eng}
-                className={`flex items-start gap-6 px-4 py-4 ${
-                  index % 2 === 1 ? "bg-[#f8f7f4]" : "bg-white"
-                } ${index === 0 ? "" : "border-t border-[#d0cdca]"}`}
+                className={`flex items-start gap-6 px-4 py-4 ${index % 2 === 1 ? "bg-[#f8f7f4]" : "bg-white"
+                  } ${index === 0 ? "" : "border-t border-[#d0cdca]"}`}
               >
                 <div className="flex shrink-0 items-baseline gap-3">
                   <p
@@ -683,14 +676,11 @@ export default function CommissionEthnicPage() {
           {calendarItems.map(([eng, kr, desc], index) => (
             <article
               key={eng}
-              className={`px-4 py-[18px] ${
-                index >= 3 && index <= 5 ? "bg-[#f8f7f4]" : index >= 9 && index <= 11 ? "bg-[#f8f7f4]" : "bg-white"
-              } ${index >= 4 && index <= 7 ? "md:bg-[#f8f7f4]" : "md:bg-white"
-              } ${index % 3 !== 2 ? "border-r border-[#d0cdca]" : ""} ${
-                index < 9 ? "border-b border-[#d0cdca]" : ""
-              } ${index % 4 !== 3 ? "md:border-r md:border-[#d0cdca]" : "md:border-r-0"} ${
-                index < 8 ? "md:border-b md:border-[#d0cdca]" : "md:border-b-0"
-              }`}
+              className={`px-4 py-[18px] ${index >= 3 && index <= 5 ? "bg-[#f8f7f4]" : index >= 9 && index <= 11 ? "bg-[#f8f7f4]" : "bg-white"
+                } ${index >= 4 && index <= 7 ? "md:bg-[#f8f7f4]" : "md:bg-white"
+                } ${index % 3 !== 2 ? "border-r border-[#d0cdca]" : ""} ${index < 9 ? "border-b border-[#d0cdca]" : ""
+                } ${index % 4 !== 3 ? "md:border-r md:border-[#d0cdca]" : "md:border-r-0"} ${index < 8 ? "md:border-b md:border-[#d0cdca]" : "md:border-b-0"
+                }`}
             >
               <p className={`${cormorantGaramond.className} text-[22px] tracking-[0.04em] text-[#c9a84c]`}>{eng}</p>
               <h3 className="type-card-title font-section-title font-bold tracking-[0.02em] text-[#0f2044]">{kr}</h3>
