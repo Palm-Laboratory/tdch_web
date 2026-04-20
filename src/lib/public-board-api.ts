@@ -23,6 +23,7 @@ export interface PublicBoardPostSummary {
   menuId: string;
   title: string;
   isPublic: boolean;
+  isPinned: boolean;
   authorId: string;
   createdAt: string;
   updatedAt: string;
@@ -62,6 +63,7 @@ interface BackendBoardPostSummary {
   menuId?: string | number | null;
   title: string;
   isPublic?: boolean;
+  isPinned?: boolean | null;
   authorId?: string | number | null;
   createdAt: string;
   updatedAt: string;
@@ -124,6 +126,7 @@ function normalizeSummary(post: BackendBoardPostSummary): PublicBoardPostSummary
     menuId: toFrontendId(post.menuId ?? post.boardId),
     title: post.title,
     isPublic: post.isPublic ?? true,
+    isPinned: post.isPinned ?? false,
     authorId: post.authorId == null ? "" : toFrontendId(post.authorId),
     createdAt: post.createdAt,
     updatedAt: post.updatedAt,

@@ -393,6 +393,7 @@ function renderBoardPostSummary(boardPath: string, post: PublicBoardPostSummary)
         className="group flex items-center justify-between gap-4 py-5"
       >
         <span className="type-body-strong min-w-0 flex-1 truncate font-semibold text-[#10213f] group-hover:text-[#2a4f8f]">
+          {post.isPinned ? <span className="mr-2 text-[#c2410c]">상단</span> : null}
           {post.title}
         </span>
         <time dateTime={post.createdAt} className="type-body-small shrink-0 text-[#64748b]">

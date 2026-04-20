@@ -32,6 +32,7 @@ interface BoardManagementClientProps {
 type Draft = {
   title: string;
   isPublic: boolean;
+  isPinned: boolean;
   contentJson: TiptapDocument | Record<string, unknown>;
   contentHtml: string;
 };
@@ -49,6 +50,7 @@ function createEmptyDraft(): Draft {
   return {
     title: "",
     isPublic: false,
+    isPinned: false,
     contentJson,
     contentHtml: "",
   };
@@ -58,6 +60,7 @@ function createDraftFromPost(post: AdminBoardPostDetail): Draft {
   return {
     title: post.title ?? "",
     isPublic: post.isPublic ?? false,
+    isPinned: post.isPinned ?? false,
     contentJson: post.contentJson ?? createEmptyTiptapDocument(),
     contentHtml: post.contentHtml ?? "",
   };
@@ -124,6 +127,10 @@ function toBoardPostListItem(
 
 function sortPostsByUpdatedAt(posts: BoardPostListItem[]) {
   return [...posts].sort((left, right) => {
+    if (left.isPinned !== right.isPinned) {
+      return left.isPinned ? -1 : 1;
+    }
+
     const leftTime = new Date(left.updatedAt).getTime();
     const rightTime = new Date(right.updatedAt).getTime();
     return (Number.isNaN(rightTime) ? 0 : rightTime) - (Number.isNaN(leftTime) ? 0 : leftTime);
@@ -209,6 +216,7 @@ export default function BoardManagementClient({
       contentJson,
       contentHtml: draft.contentHtml,
       isPublic: draft.isPublic,
+      isPinned: draft.isPinned,
       assetIds: [...new Set([
         ...collectAssetIdsFromTiptapDocument(contentJson),
         ...attachmentAssetIds,
@@ -418,9 +426,6 @@ export default function BoardManagementClient({
         throw new Error(payload.message || "게시글을 저장하지 못했습니다.");
       }
 
-      setDraft(createDraftFromPost(payload));
-      setAttachmentAssetIds(getAttachmentAssetIds(payload));
-        setSelectedPostId(payload.id);
       setPosts((current) => {
         const nextPost = toBoardPostListItem(payload, selectedBoardMenu);
         const exists = current.some((post) => post.id === payload.id);
@@ -430,6 +435,10 @@ export default function BoardManagementClient({
             : [nextPost, ...current],
         );
       });
+      setSelectedPostId(null);
+      setDraft(createEmptyDraft());
+      setAttachmentAssetIds([]);
+      setScreenMode("list");
       setNotice("게시글을 저장했습니다.");
     } catch (saveError) {
       setError(getErrorMessage(saveError, "게시글을 저장하지 못했습니다."));
@@ -514,10 +523,17 @@ export default function BoardManagementClient({
                         <p className="truncate text-[14px] font-semibold text-[#132033]">{post.title}</p>
                         <p className="mt-1 text-[12px] text-[#6d7f95]">{post.boardMenuLabel}</p>
                       </div>
-                      <span className={`w-fit rounded-full px-2 py-0.5 text-[10px] font-semibold ${
-                        post.isPublic ? "bg-[#ecfdf5] text-[#047857]" : "bg-[#f8fafc] text-[#64748b]"
-                      }`}>
-                        {post.isPublic ? "공개" : "비공개"}
+                      <span className="flex flex-wrap gap-1">
+                        <span className={`w-fit rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                          post.isPublic ? "bg-[#ecfdf5] text-[#047857]" : "bg-[#f8fafc] text-[#64748b]"
+                        }`}>
+                          {post.isPublic ? "공개" : "비공개"}
+                        </span>
+                        {post.isPinned && (
+                          <span className="w-fit rounded-full bg-[#fff7ed] px-2 py-0.5 text-[10px] font-semibold text-[#c2410c]">
+                            상단 고정
+                          </span>
+                        )}
                       </span>
                       <span className="text-[12px] text-[#6d7f95]">{formatDate(post.updatedAt)}</span>
                     </button>
@@ -608,6 +624,15 @@ export default function BoardManagementClient({
               onChange={(event) => setDraft((prev) => ({ ...prev, isPublic: event.target.checked }))}
             />
             공개 게시글로 노출
+          </label>
+
+          <label className="flex items-center gap-2 rounded-xl border border-[#eef2f7] bg-[#f8fafc] px-4 py-3 text-[13px] font-semibold text-[#334155]">
+            <input
+              type="checkbox"
+              checked={draft.isPinned}
+              onChange={(event) => setDraft((prev) => ({ ...prev, isPinned: event.target.checked }))}
+            />
+            상단 고정
           </label>
 
           <BoardPostEditor

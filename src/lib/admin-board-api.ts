@@ -28,6 +28,7 @@ export interface AdminBoardPostSummary {
   menuId: string;
   title: string;
   isPublic: boolean;
+  isPinned: boolean;
   authorId: string;
   createdAt: string;
   updatedAt: string;
@@ -57,6 +58,7 @@ export interface BoardPostSavePayload {
   contentJson: TiptapDocument | Record<string, unknown>;
   contentHtml: string;
   isPublic: boolean;
+  isPinned: boolean;
   assetIds: Array<string | number>;
 }
 
@@ -83,6 +85,7 @@ interface BackendPostSummary {
   menuId?: string | number | null;
   title: string;
   isPublic: boolean;
+  isPinned?: boolean | null;
   authorId: string | number;
   createdAt: string;
   updatedAt: string;
@@ -164,6 +167,7 @@ function normalizePostSummary(post: BackendPostSummary): AdminBoardPostSummary {
     menuId: toFrontendId(post.menuId ?? post.boardId),
     title: post.title,
     isPublic: post.isPublic,
+    isPinned: post.isPinned ?? false,
     authorId: toFrontendId(post.authorId),
     createdAt: post.createdAt,
     updatedAt: post.updatedAt,
@@ -208,6 +212,7 @@ function buildSavePayload(payload: BoardPostSavePayload) {
     contentJson: JSON.stringify(payload.contentJson),
     contentHtml: payload.contentHtml,
     isPublic: payload.isPublic,
+    isPinned: payload.isPinned,
     assetIds: payload.assetIds.map((assetId) => toBackendNumber(assetId, "첨부 파일 ID")),
   };
 }

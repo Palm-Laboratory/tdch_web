@@ -95,7 +95,27 @@ test("board management client sends the complete board post save payload", async
   assert.match(
     contents,
     /body\s*:\s*JSON\.stringify\s*\(\s*savePayload\s*\)/s,
-    "Expected save requests to JSON.stringify savePayload, which contains title, contentJson, contentHtml, isPublic, and assetIds.",
+    "Expected save requests to JSON.stringify savePayload, which contains title, contentJson, contentHtml, isPublic, isPinned, and assetIds.",
+  );
+  assert.match(
+    contents,
+    /isPinned\s*:\s*draft\.isPinned/,
+    "Expected save payload to include the draft pinned flag.",
+  );
+  assert.match(
+    contents,
+    /checked=\{draft\.isPinned\}[\s\S]*상단 고정/s,
+    "Expected the editor to expose a top-pinned checkbox.",
+  );
+});
+
+test("board management client returns to the post list after successful create or update", async () => {
+  const contents = await readSource(clientPath);
+
+  assert.match(
+    contents,
+    /setPosts\s*\([\s\S]*setSelectedPostId\s*\(\s*null\s*\)[\s\S]*setDraft\s*\(\s*createEmptyDraft\(\)\s*\)[\s\S]*setAttachmentAssetIds\s*\(\s*\[\]\s*\)[\s\S]*setScreenMode\s*\(\s*["']list["']\s*\)[\s\S]*게시글을 저장했습니다/s,
+    "Expected successful saves to update the list and return to list mode.",
   );
 });
 

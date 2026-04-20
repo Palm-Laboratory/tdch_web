@@ -27,6 +27,7 @@ const _assertPostSummary: AdminBoardPostSummary = {
   menuId: "menu-456",
   title: "주일 예배 안내",
   isPublic: true,
+  isPinned: true,
   authorId: "admin-42",
   createdAt: "2026-04-20T00:00:00.000Z",
   updatedAt: "2026-04-20T01:00:00.000Z",
@@ -60,6 +61,7 @@ const _assertPostDetail: AdminBoardPostDetail = {
   },
   contentHtml: "<p>예배 안내 본문</p>",
   isPublic: _assertPostSummary.isPublic,
+  isPinned: _assertPostSummary.isPinned,
   authorId: _assertPostSummary.authorId,
   createdAt: _assertPostSummary.createdAt,
   updatedAt: _assertPostSummary.updatedAt,
@@ -72,6 +74,7 @@ const _assertSavePayload: BoardPostSavePayload = {
   contentJson: _assertPostDetail.contentJson,
   contentHtml: _assertPostDetail.contentHtml,
   isPublic: true,
+  isPinned: true,
   assetIds: [_assertPostAsset.id],
 };
 
