@@ -30,6 +30,17 @@ const NAV_GROUPS = [
         ),
       },
       {
+        href: "/admin/boards",
+        label: "게시판 관리",
+        exact: false,
+        icon: (
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <path d="M4 3.75h9a1 1 0 0 1 1 1v7.5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-7.5a1 1 0 0 1 1-1Z" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M5.75 6.25h5.5M5.75 8.5h5.5M5.75 10.75h3.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        ),
+      },
+      {
         href: "/admin/accounts",
         label: "관리자 계정",
         exact: false,
