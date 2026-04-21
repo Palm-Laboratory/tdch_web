@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 
-process.env.MEDIA_API_BASE_URL = "https://media.example.com";
+process.env.API_BASE_URL = "https://api.example.com";
 
 type PublicLoaderModule = {
   runWithPublicRequestCache: <T>(loader: () => Promise<T>) => Promise<T>;
@@ -124,7 +124,7 @@ test("getNavigationResponse dedupes identical calls inside one public request ca
 
   try {
     await runWithPublicRequestCache(() => Promise.all([getNavigationResponse(), getNavigationResponse()]));
-    assert.deepEqual(requestedUrls, ["https://media.example.com/api/v1/public/menu"]);
+    assert.deepEqual(requestedUrls, ["https://api.example.com/api/v1/public/menu"]);
   } finally {
     globalThis.fetch = originalFetch;
   }
@@ -146,8 +146,8 @@ test("resolvePublicMenuPath dedupes identical paths and keeps distinct paths sep
       Promise.all([resolvePublicMenuPath("about"), resolvePublicMenuPath("about"), resolvePublicMenuPath("newcomer")]),
     );
     assert.deepEqual(requestedUrls, [
-      "https://media.example.com/api/v1/public/menu/resolve?path=about",
-      "https://media.example.com/api/v1/public/menu/resolve?path=newcomer",
+      "https://api.example.com/api/v1/public/menu/resolve?path=about",
+      "https://api.example.com/api/v1/public/menu/resolve?path=newcomer",
     ]);
   } finally {
     globalThis.fetch = originalFetch;
@@ -174,8 +174,8 @@ test("getPublicPlaylistDetailByPath dedupes identical paths and does not collaps
       ]),
     );
     assert.deepEqual(requestedUrls, [
-      "https://media.example.com/api/v1/public/videos?path=sermons%2Falpha",
-      "https://media.example.com/api/v1/public/videos?path=sermons%2Fbeta",
+      "https://api.example.com/api/v1/public/videos?path=sermons%2Falpha",
+      "https://api.example.com/api/v1/public/videos?path=sermons%2Fbeta",
     ]);
   } finally {
     globalThis.fetch = originalFetch;
@@ -202,8 +202,8 @@ test("getPublicPlaylistVideoDetailByPath dedupes identical path and video tuples
       ]),
     );
     assert.deepEqual(requestedUrls, [
-      "https://media.example.com/api/v1/public/videos/detail?path=shorts%2Fworship&videoId=video-1",
-      "https://media.example.com/api/v1/public/videos/detail?path=shorts%2Fworship&videoId=video-2",
+      "https://api.example.com/api/v1/public/videos/detail?path=shorts%2Fworship&videoId=video-1",
+      "https://api.example.com/api/v1/public/videos/detail?path=shorts%2Fworship&videoId=video-2",
     ]);
   } finally {
     globalThis.fetch = originalFetch;
@@ -231,9 +231,9 @@ test("getPublicPlaylistVideoListByPath dedupes identical path, page, and size tu
       ]),
     );
     assert.deepEqual(requestedUrls, [
-      "https://media.example.com/api/v1/public/videos/items?path=shorts%2Fworship&page=1&size=6",
-      "https://media.example.com/api/v1/public/videos/items?path=shorts%2Fworship&page=2&size=6",
-      "https://media.example.com/api/v1/public/videos/items?path=shorts%2Fworship&page=1&size=12",
+      "https://api.example.com/api/v1/public/videos/items?path=shorts%2Fworship&page=1&size=6",
+      "https://api.example.com/api/v1/public/videos/items?path=shorts%2Fworship&page=2&size=6",
+      "https://api.example.com/api/v1/public/videos/items?path=shorts%2Fworship&page=1&size=12",
     ]);
   } finally {
     globalThis.fetch = originalFetch;

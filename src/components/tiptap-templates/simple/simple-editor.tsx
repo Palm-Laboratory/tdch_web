@@ -94,13 +94,13 @@ type SimpleEditorProps = {
   contained?: boolean
 }
 
-function mediaSourceFromStoredPath(storedPath: string) {
+function uploadSourceFromStoredPath(storedPath: string) {
   const cleanPath = storedPath.replace(/^\/+/, "")
-  return cleanPath ? `/media/${cleanPath}` : ""
+  return cleanPath ? `/upload/${cleanPath}` : ""
 }
 
 function createEditorImageSource(asset: SimpleEditorUploadAsset) {
-  const url = new URL(mediaSourceFromStoredPath(asset.storedPath), "http://tdch.local")
+  const url = new URL(uploadSourceFromStoredPath(asset.storedPath), "http://tdch.local")
   url.hash = new URLSearchParams({
     tdchAssetId: String(asset.assetId),
     tdchStoredPath: asset.storedPath,

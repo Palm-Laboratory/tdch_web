@@ -1,6 +1,6 @@
 import "server-only";
 
-import { SERVER_MEDIA_API_BASE_URL } from "@/lib/server-config";
+import { SERVER_API_BASE_URL } from "@/lib/server-config";
 
 const ADMIN_SYNC_KEY = process.env.ADMIN_SYNC_KEY?.trim() || "";
 
@@ -53,7 +53,7 @@ export function buildAdminApiHeaders(initHeaders: HeadersInit | undefined, admin
 export async function adminApiFetch(path: string, init?: RequestInit) {
   ensureAdminSyncKey();
 
-  const response = await fetch(`${SERVER_MEDIA_API_BASE_URL}${path}`, {
+  const response = await fetch(`${SERVER_API_BASE_URL}${path}`, {
     ...init,
     headers: buildAdminApiHeaders(init?.headers, ADMIN_SYNC_KEY),
     cache: "no-store",
@@ -67,7 +67,7 @@ export async function adminApiFetch(path: string, init?: RequestInit) {
   return response;
 }
 
-export interface AdminMediaSyncResponse {
+export interface AdminVideoSyncResponse {
   status: string;
   totalPlaylists: number;
   succeededPlaylists: number;

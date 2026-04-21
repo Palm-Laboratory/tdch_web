@@ -1,7 +1,7 @@
 import "server-only";
 
 import { AdminApiError, adminApiFetch } from "@/lib/admin-api";
-import { SERVER_MEDIA_API_BASE_URL } from "@/lib/server-config";
+import { SERVER_API_BASE_URL } from "@/lib/server-config";
 
 // ── 타입 ──────────────────────────────────────────────────────────────────────
 
@@ -49,7 +49,7 @@ export async function authenticateAdminCredentials(
   username: string,
   password: string,
 ): Promise<AuthenticatedAdminAccount> {
-  const response = await fetch(`${SERVER_MEDIA_API_BASE_URL}/api/v1/admin/auth/login`, {
+  const response = await fetch(`${SERVER_API_BASE_URL}/api/v1/admin/auth/login`, {
     method: "POST",
     headers: {
       Accept: "application/json",

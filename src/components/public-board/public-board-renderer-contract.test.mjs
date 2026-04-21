@@ -11,14 +11,14 @@ async function readRenderer() {
   return readFile(rendererPath, "utf8");
 }
 
-test("public board renderer composes safe media URLs and never trusts raw iframe URLs", async () => {
+test("public board renderer composes safe upload URLs and never trusts raw iframe URLs", async () => {
   const contents = await readRenderer();
 
-  assert.match(contents, /storedPath/, "Expected the renderer to use storedPath for media composition.");
+  assert.match(contents, /storedPath/, "Expected the renderer to use storedPath for upload URL composition.");
   assert.match(
     contents,
-    /MEDIA_API_BASE_URL|public media base/i,
-    "Expected the renderer to compose image URLs from a configured public media base URL.",
+    /PUBLIC_API_BASE_URL|public API base/i,
+    "Expected the renderer to compose image URLs from a configured public API base URL.",
   );
   assert.match(
     contents,
@@ -33,7 +33,7 @@ test("public board renderer composes safe media URLs and never trusts raw iframe
   assert.match(
     contents,
     /publicUrl|filename|originalFilename|mimeType|byteSize/,
-    "Expected file attachments to render backend asset metadata and a backend-provided public URL or composed media URL.",
+    "Expected file attachments to render backend asset metadata and a backend-provided public URL or composed upload URL.",
   );
   assert.doesNotMatch(
     contents,

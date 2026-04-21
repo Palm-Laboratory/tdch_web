@@ -14,6 +14,7 @@ export const SITE_TAGLINE = SITE_TAGLINE_VALUE;
 
 export const SITE_LOCALE = "ko_KR";
 
+// OG이미지 기본 값
 export const DEFAULT_OG_IMAGE = {
   url: `${SITE_URL}/images/logo/church_logo.png`,
   width: 1200,
@@ -30,6 +31,8 @@ type SeoImage = {
   type?: string;
 };
 
+//-- 내부 헬퍼 함수 --
+// 1. 경로를 받아 완전한 URL로 조립
 function buildCanonicalUrl(path = ""): string {
   if (!path) {
     return SITE_URL;
@@ -38,10 +41,13 @@ function buildCanonicalUrl(path = ""): string {
   return new URL(path, `${SITE_URL}/`).toString();
 }
 
+// 2. SNS 공유 시 표시되는 title
 function buildSocialTitle(title: string) {
   return `${title} | ${SITE_NAME}`;
 }
+//-- 내부 헬퍼 함수 --
 
+// 정적 페이지 전용 메타데이터 생성 함수
 export function createPageMetadata({
   title,
   description,
@@ -81,6 +87,7 @@ export function createPageMetadata({
   };
 }
 
+// 동영상 페이지 전용 메타데이터 생성 함수
 export function createVideoMetadata({
   title,
   description,

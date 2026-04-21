@@ -55,7 +55,7 @@ npm run dev
 - `AUTH_SECRET`: Auth.js 세션 서명 키
 - `ADMIN_SESSION_MAX_AGE_SECONDS`: 관리자 세션 유지 시간. 기본값 `28800`(8시간)
 - `ADMIN_SYNC_KEY`: 관리자 API 호출용 서버 키. `tdch_api`와 동일해야 함
-- `MEDIA_API_BASE_URL`: 관리자 인증/계정 API가 연결될 백엔드 주소
+- `API_BASE_URL`: 관리자 인증/계정 API가 연결될 백엔드 주소
 
 확인 순서:
 
@@ -69,8 +69,8 @@ npm run dev
 - Vercel `Environment Variables`에 [`tdch_web/.env.production.example`](/Users/hanwool/ground/Palm%20Lab/TDCH/tdch_web/.env.production.example) 기준으로 입력
 - `NEXTAUTH_URL=https://www.tdch.co.kr`
 - `NEXT_PUBLIC_SITE_URL=https://www.tdch.co.kr`
-- `MEDIA_API_BASE_URL=https://api.tdch.co.kr`
-- `NEXT_PUBLIC_MEDIA_API_BASE_URL=https://api.tdch.co.kr`
+- `API_BASE_URL=https://api.tdch.co.kr`
+- `NEXT_PUBLIC_API_BASE_URL=https://api.tdch.co.kr`
 - `ADMIN_SYNC_KEY`는 `tdch_api` 운영값과 동일하게 유지
 
 운영에서 관리자 계정을 바꾸는 방법:
@@ -83,12 +83,12 @@ npm run dev
 - 연락처/계좌/링크: `.env.local` (로컬) / Vercel Environment Variables (운영)
 - 예배시간/공지 기본 데이터: `src/lib/site-data.ts`
 - 사이트 메뉴 원본: 백엔드 `site_navigation` + `GET /api/v1/navigation`
-- 설교/미디어 데이터: `MEDIA_API_BASE_URL` 로 연결된 백엔드 API
+- 설교/영상 데이터: `API_BASE_URL` 로 연결된 백엔드 API
 
 지도/연락처 관련 주요 환경변수:
 
-- `MEDIA_API_BASE_URL`: 백엔드 미디어 API 주소
-- `NEXT_PUBLIC_MEDIA_API_BASE_URL`: 브라우저/클라이언트 컴포넌트용 미디어 API 주소
+- `API_BASE_URL`: 백엔드 API 주소
+- `NEXT_PUBLIC_API_BASE_URL`: 브라우저/클라이언트 컴포넌트용 API 주소
 - `NEXT_PUBLIC_SITE_URL`
 - `NEXT_PUBLIC_SITE_NAME`
 - `NEXT_PUBLIC_SITE_TAGLINE`

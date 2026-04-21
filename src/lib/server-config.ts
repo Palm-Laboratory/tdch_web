@@ -5,9 +5,9 @@ const readEnv = (name: string, fallback: string) => {
   return value && value.length > 0 ? value : fallback;
 };
 
-export const SERVER_MEDIA_API_BASE_URL =
-  process.env.MEDIA_API_BASE_URL?.trim() ||
-  process.env.NEXT_PUBLIC_MEDIA_API_BASE_URL?.trim() ||
+export const SERVER_API_BASE_URL =
+  process.env.API_BASE_URL?.trim() ||
+  process.env.NEXT_PUBLIC_API_BASE_URL?.trim() ||
   "http://localhost:8080";
 
 export const NAVER_STATIC_MAP_CLIENT_ID = process.env.NAVER_MAP_CLIENT_ID?.trim() || "";

@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
-const mediaApiBaseUrl = (
-  process.env.MEDIA_API_BASE_URL ||
-  process.env.NEXT_PUBLIC_MEDIA_API_BASE_URL ||
+const upstreamApiBaseUrl = (
+  process.env.API_BASE_URL ||
+  process.env.NEXT_PUBLIC_API_BASE_URL ||
   "http://localhost:8080"
 ).replace(/\/+$/, "");
 
@@ -44,16 +44,6 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/media/videos",
-        destination: "/videos",
-        permanent: false,
-      },
-      {
-        source: "/media/videos/shorts",
-        destination: "/videos",
-        permanent: false,
-      },
-      {
         source: "/sermons",
         destination: "/videos",
         permanent: false,
@@ -61,11 +51,6 @@ const nextConfig: NextConfig = {
       {
         source: "/sermons/shorts",
         destination: "/videos",
-        permanent: false,
-      },
-      {
-        source: "/admin/media/videos",
-        destination: "/admin/videos",
         permanent: false,
       },
       {
@@ -78,8 +63,8 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: "/media/:path*",
-        destination: `${mediaApiBaseUrl}/media/:path*`,
+        source: "/upload/:path*",
+        destination: `${upstreamApiBaseUrl}/upload/:path*`,
       },
     ];
   },

@@ -22,7 +22,7 @@ import { createPageMetadata } from "@/lib/seo";
 export const metadata: Metadata = createPageMetadata({
   title: `${SITE_ALTERNATE_NAME} | ${SITE_NAME}`,
   absoluteTitle: `${SITE_ALTERNATE_NAME} | ${SITE_NAME}`,
-  description: `${SITE_ALTERNATE_NAME}(${SITE_NAME})는 ${SITE_TAGLINE}를 비전으로 세워가는 교회입니다. ${CHURCH_ADDRESS}에서 예배합니다.`,
+  description: `${SITE_ALTERNATE_NAME}(${SITE_NAME})는 ${SITE_TAGLINE}를 비전으로 삼는 교회입니다. ${CHURCH_ADDRESS}에서 예배합니다.`,
   path: "/",
 });
 

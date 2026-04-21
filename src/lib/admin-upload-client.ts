@@ -28,15 +28,15 @@ interface UploadAssetResponse {
   originalFilename?: string;
 }
 
-const DEFAULT_MEDIA_API_BASE_URL = "http://localhost:8080";
+const DEFAULT_API_BASE_URL = "http://localhost:8080";
 
-function getMediaApiBaseUrl() {
-  return (process.env.NEXT_PUBLIC_MEDIA_API_BASE_URL || DEFAULT_MEDIA_API_BASE_URL).replace(/\/+$/, "");
+function getApiBaseUrl() {
+  return (process.env.NEXT_PUBLIC_API_BASE_URL || DEFAULT_API_BASE_URL).replace(/\/+$/, "");
 }
 
 function buildPublicUrl(baseUrl: string, storedPath: string) {
   const cleanStoredPath = storedPath.replace(/^\/+/, "");
-  return `${baseUrl}/media/${cleanStoredPath}`;
+  return `${baseUrl}/upload/${cleanStoredPath}`;
 }
 
 function requiredUploadMetadataValue(value: string | number | undefined) {
@@ -61,7 +61,7 @@ async function readErrorMessage(response: Response) {
 export async function uploadAdminAssetDirect(
   request: AdminUploadDirectRequest,
 ): Promise<AdminUploadAssetMetadata> {
-  const baseUrl = getMediaApiBaseUrl();
+  const baseUrl = getApiBaseUrl();
   const formData = new FormData();
   formData.append("file", request.file);
   formData.append("kind", request.kind);

@@ -15,10 +15,10 @@ type AbortLink = {
   dispose: () => void;
 };
 
-function getServerMediaApiBaseUrl(): string {
+function getServerApiBaseUrl(): string {
   return (
-    process.env.MEDIA_API_BASE_URL?.trim() ||
-    process.env.NEXT_PUBLIC_MEDIA_API_BASE_URL?.trim() ||
+    process.env.API_BASE_URL?.trim() ||
+    process.env.NEXT_PUBLIC_API_BASE_URL?.trim() ||
     "http://localhost:8080"
   );
 }
@@ -92,7 +92,7 @@ export async function serverFetch(
   const abortLink = linkAbortSignals(init.signal ?? undefined, init.timeoutMs);
 
   try {
-    const response = await fetch(`${getServerMediaApiBaseUrl()}${path}`, {
+    const response = await fetch(`${getServerApiBaseUrl()}${path}`, {
       ...init,
       cache: getRequestCache(init),
       signal: abortLink.signal,

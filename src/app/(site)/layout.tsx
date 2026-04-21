@@ -4,7 +4,8 @@ import RootLayoutAccessories from "@/components/root-layout-accessories";
 import SiteHeader from "@/components/site-header";
 import { NavigationProvider } from "@/lib/navigation-context";
 import { getNavigationResponse } from "@/lib/navigation-api";
-import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, SITE_LOCALE, DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/site-config";
+import { SITE_LOCALE, DEFAULT_OG_IMAGE } from "@/lib/seo";
 import { ChurchJsonLd, WebSiteJsonLd } from "@/components/json-ld";
 
 export const metadata: Metadata = {

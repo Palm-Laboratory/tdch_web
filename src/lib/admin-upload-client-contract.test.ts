@@ -42,7 +42,7 @@ const _assertAssetMetadata: AdminUploadAssetMetadata = {
   assetId: "asset-123",
   kind,
   storedPath: "uploads/asset-123.png",
-  publicUrl: "https://media.example.com/uploads/asset-123.png",
+  publicUrl: "https://api.example.com/upload/uploads/asset-123.png",
   byteSize: file.size,
   width: 640,
   height: 480,

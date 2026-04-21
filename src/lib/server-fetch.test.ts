@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-process.env.MEDIA_API_BASE_URL = "https://media.example.com";
+process.env.API_BASE_URL = "https://api.example.com";
 
 type ServerFetchModule = {
   serverFetch: (path: string, init?: RequestInit & { timeoutMs?: number }) => Promise<Response>;
@@ -22,7 +22,7 @@ function createAbortError() {
   return error;
 }
 
-test("serverFetch calls the media API with no-store caching and returns the upstream response", async () => {
+test("serverFetch calls the upstream API with no-store caching and returns the upstream response", async () => {
   const { serverFetch } = await loadServerFetchModule();
   const originalFetch = globalThis.fetch;
   const response = new Response(JSON.stringify({ ok: true }), {
@@ -47,7 +47,7 @@ test("serverFetch calls the media API with no-store caching and returns the upst
     });
 
     assert.equal(result, response);
-    assert.equal(capturedUrl, "https://media.example.com/api/v1/public/menu");
+    assert.equal(capturedUrl, "https://api.example.com/api/v1/public/menu");
     assert.equal(capturedInit?.cache, "no-store");
     assert.equal(new Headers(capturedInit?.headers).get("accept"), "application/json");
     assert.ok(capturedInit?.signal instanceof AbortSignal);

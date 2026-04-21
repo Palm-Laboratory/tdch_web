@@ -16,9 +16,9 @@ export interface CreateImageNodeInput {
   alt?: string;
 }
 
-function mediaSourceFromStoredPath(storedPath: string) {
+function uploadSourceFromStoredPath(storedPath: string) {
   const cleanPath = storedPath.replace(/^\/+/, "");
-  return cleanPath ? `/media/${cleanPath}` : "";
+  return cleanPath ? `/upload/${cleanPath}` : "";
 }
 
 export function createEmptyTiptapDocument(): TiptapDocument {
@@ -36,7 +36,7 @@ export function createImageNode({ assetId, storedPath, alt = "" }: CreateImageNo
   return {
     type: "image",
     attrs: {
-      src: mediaSourceFromStoredPath(storedPath),
+      src: uploadSourceFromStoredPath(storedPath),
       assetId,
       storedPath,
       alt,

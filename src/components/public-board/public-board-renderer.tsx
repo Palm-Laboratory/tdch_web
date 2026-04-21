@@ -7,7 +7,7 @@ import {
   type PublicBoardPostListResponse,
   type PublicBoardPostSummary,
 } from "@/lib/public-board-api";
-import { PUBLIC_MEDIA_API_BASE_URL } from "@/lib/site-config";
+import { PUBLIC_API_BASE_URL } from "@/lib/site-config";
 
 type PublicBoardRendererListProps = {
   mode: "list";
@@ -29,9 +29,9 @@ function trimTrailingSlash(value: string) {
   return value.replace(/\/+$/, "");
 }
 
-function composePublicMediaUrl(storedPath: string) {
+function composePublicUploadUrl(storedPath: string) {
   const cleanPath = storedPath.replace(/^\/+/, "");
-  return cleanPath ? `${trimTrailingSlash(PUBLIC_MEDIA_API_BASE_URL)}/media/${cleanPath}` : "";
+  return cleanPath ? `${trimTrailingSlash(PUBLIC_API_BASE_URL)}/upload/${cleanPath}` : "";
 }
 
 function formatDate(value: string) {
@@ -90,11 +90,11 @@ function storedPathFromEditorImageSource(value: unknown): string {
   }
 
   const sourceWithoutHash = value.split("#")[0] ?? "";
-  return sourceWithoutHash.replace(/^\/?media\/+/, "").replace(/^\/+/, "");
+  return sourceWithoutHash.replace(/^\/?upload\/+/, "").replace(/^\/+/, "");
 }
 
 function getAttachmentUrl(asset: PublicBoardPostAsset) {
-  return asset.publicUrl || composePublicMediaUrl(asset.storedPath);
+  return asset.publicUrl || composePublicUploadUrl(asset.storedPath);
 }
 
 function getBoardPathHref(boardPath: string, postId: string) {
@@ -287,7 +287,7 @@ function renderTiptapNode(node: unknown, key: string): ReactNode {
       const storedPath = typeof storedPathValue === "string" && storedPathValue
         ? storedPathValue
         : storedPathFromEditorImageSource(candidate.attrs?.src);
-      const src = composePublicMediaUrl(storedPath);
+      const src = composePublicUploadUrl(storedPath);
       const alt = typeof candidate.attrs?.alt === "string" ? candidate.attrs.alt : "";
       const widthValue = candidate.attrs?.width;
       const heightValue = candidate.attrs?.height;
