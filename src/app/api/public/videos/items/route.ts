@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { joinApiUrl } from "@/lib/api-base-url";
 import { SERVER_API_BASE_URL } from "@/lib/server-config";
 
 const UPSTREAM_TIMEOUT_MS = 8000;
@@ -19,7 +20,10 @@ export async function GET(request: NextRequest) {
 
   try {
     const response = await fetch(
-      `${SERVER_API_BASE_URL}/api/v1/public/videos/items?path=${encodeURIComponent(path)}&page=${encodeURIComponent(page)}&size=${encodeURIComponent(size)}`,
+      joinApiUrl(
+        SERVER_API_BASE_URL,
+        `/api/v1/public/videos/items?path=${encodeURIComponent(path)}&page=${encodeURIComponent(page)}&size=${encodeURIComponent(size)}`,
+      ),
       {
         cache: "no-store",
         signal: controller.signal,

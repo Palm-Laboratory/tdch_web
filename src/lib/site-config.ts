@@ -1,3 +1,5 @@
+import { normalizeApiBaseUrl, DEFAULT_API_BASE_URL } from "@/lib/api-base-url";
+
 // .env에서 먼저 읽고 사용하는 객체 선언
 // Next.js는 빌드 시 .env 파일의 값을 process.env에 자동 주입한다.
 const readEnv = (name: string, fallback: string) => {
@@ -31,7 +33,6 @@ const DEFAULT_GIVING_BANK = "하나은행 181-04-01160-381 예금주:이진욱(T
 const DEFAULT_GIVING_OWNER = "이진욱(The제자교회)";
 const DEFAULT_NEWCOMER_CONTACT_DEPARTMENT = "교육부";
 const DEFAULT_NEWCOMER_APPLY_TEXT = "홈페이지 또는 주일 안내데스크";
-const DEFAULT_PUBLIC_API_BASE_URL = "http://localhost:8080";
 
 export const SITE_URL = readEnv("NEXT_PUBLIC_SITE_URL", DEFAULT_SITE_URL);
 export const SITE_NAME = readEnv("NEXT_PUBLIC_SITE_NAME", DEFAULT_SITE_NAME);
@@ -90,9 +91,9 @@ export const NEWCOMER_CONTACT_APPLY_TEXT = readEnv(
   "NEXT_PUBLIC_NEWCOMER_CONTACT_APPLY_TEXT",
   DEFAULT_NEWCOMER_APPLY_TEXT,
 );
-export const PUBLIC_API_BASE_URL = readEnv(
-  "NEXT_PUBLIC_API_BASE_URL",
-  DEFAULT_PUBLIC_API_BASE_URL,
+export const PUBLIC_API_BASE_URL = normalizeApiBaseUrl(
+  process.env.NEXT_PUBLIC_API_BASE_URL,
+  DEFAULT_API_BASE_URL,
 );
 
 export const SITE_DESCRIPTION = `${SITE_ALTERNATE_NAME}(${SITE_NAME})는 ${SITE_TAGLINE}를 비전으로 삼는 교회입니다. ${CHURCH_ADDRESS}`;

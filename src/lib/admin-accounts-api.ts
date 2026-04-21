@@ -1,5 +1,6 @@
 import "server-only";
 
+import { joinApiUrl } from "@/lib/api-base-url";
 import { AdminApiError, adminApiFetch } from "@/lib/admin-api";
 import { SERVER_API_BASE_URL } from "@/lib/server-config";
 
@@ -49,7 +50,7 @@ export async function authenticateAdminCredentials(
   username: string,
   password: string,
 ): Promise<AuthenticatedAdminAccount> {
-  const response = await fetch(`${SERVER_API_BASE_URL}/api/v1/admin/auth/login`, {
+  const response = await fetch(joinApiUrl(SERVER_API_BASE_URL, "/api/v1/admin/auth/login"), {
     method: "POST",
     headers: {
       Accept: "application/json",

@@ -24,12 +24,16 @@ async function createTempModule(root: string, moduleName: string, source: string
 async function loadPublicLoaderModule(): Promise<PublicLoaderModule> {
   const root = await mkdtemp(join(tmpdir(), "public-request-cache-"));
   const [
+    apiBaseUrlSource,
+    serverConfigSource,
     serverFetchSource,
     publicRequestCacheSource,
     navigationApiSource,
     publicMenuApiSource,
     videosApiSource,
   ] = await Promise.all([
+    readFile(new URL("./api-base-url.ts", import.meta.url), "utf8"),
+    readFile(new URL("./server-config.ts", import.meta.url), "utf8"),
     readFile(new URL("./server-fetch.ts", import.meta.url), "utf8"),
     readFile(new URL("./public-request-cache.ts", import.meta.url), "utf8"),
     readFile(new URL("./navigation-api.ts", import.meta.url), "utf8"),
@@ -37,7 +41,21 @@ async function loadPublicLoaderModule(): Promise<PublicLoaderModule> {
     readFile(new URL("./videos-api.ts", import.meta.url), "utf8"),
   ]);
 
-  await createTempModule(root, "server-fetch.ts", serverFetchSource);
+  await createTempModule(root, "api-base-url.ts", apiBaseUrlSource);
+  await createTempModule(
+    root,
+    "server-config.ts",
+    serverConfigSource
+      .replace('import "server-only";\n\n', "")
+      .replace('from "@/lib/api-base-url"', 'from "./api-base-url.ts"'),
+  );
+  await createTempModule(
+    root,
+    "server-fetch.ts",
+    serverFetchSource
+      .replace('from "@/lib/api-base-url"', 'from "./api-base-url.ts"')
+      .replace('from "@/lib/server-config"', 'from "./server-config.ts"'),
+  );
   const publicRequestCachePath = await createTempModule(
     root,
     "public-request-cache.ts",

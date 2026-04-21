@@ -1,3 +1,6 @@
+import { joinApiUrl } from "@/lib/api-base-url";
+import { SERVER_API_BASE_URL } from "@/lib/server-config";
+
 const DEFAULT_TIMEOUT_MS = 8000;
 
 type ServerFetchErrorKind = "not-found" | "upstream-failure" | "timeout";
@@ -14,14 +17,6 @@ type AbortLink = {
   signal: AbortSignal;
   dispose: () => void;
 };
-
-function getServerApiBaseUrl(): string {
-  return (
-    process.env.API_BASE_URL?.trim() ||
-    process.env.NEXT_PUBLIC_API_BASE_URL?.trim() ||
-    "http://localhost:8080"
-  );
-}
 
 async function readErrorPayload(response: Response): Promise<{ code: string; message: string }> {
   try {
@@ -92,7 +87,7 @@ export async function serverFetch(
   const abortLink = linkAbortSignals(init.signal ?? undefined, init.timeoutMs);
 
   try {
-    const response = await fetch(`${getServerApiBaseUrl()}${path}`, {
+    const response = await fetch(joinApiUrl(SERVER_API_BASE_URL, path), {
       ...init,
       cache: getRequestCache(init),
       signal: abortLink.signal,

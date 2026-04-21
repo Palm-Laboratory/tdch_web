@@ -7,6 +7,7 @@ import {
   type PublicBoardPostListResponse,
   type PublicBoardPostSummary,
 } from "@/lib/public-board-api";
+import { joinApiUrl } from "@/lib/api-base-url";
 import { PUBLIC_API_BASE_URL } from "@/lib/site-config";
 
 type PublicBoardRendererListProps = {
@@ -25,13 +26,9 @@ type PublicBoardRendererDetailProps = {
 
 type PublicBoardRendererProps = PublicBoardRendererListProps | PublicBoardRendererDetailProps;
 
-function trimTrailingSlash(value: string) {
-  return value.replace(/\/+$/, "");
-}
-
 function composePublicUploadUrl(storedPath: string) {
   const cleanPath = storedPath.replace(/^\/+/, "");
-  return cleanPath ? `${trimTrailingSlash(PUBLIC_API_BASE_URL)}/upload/${cleanPath}` : "";
+  return cleanPath ? joinApiUrl(PUBLIC_API_BASE_URL, `/upload/${cleanPath}`) : "";
 }
 
 function formatDate(value: string) {

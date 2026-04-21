@@ -1,4 +1,7 @@
 import assert from "node:assert/strict";
+import { mkdtemp, readFile, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import test from "node:test";
 
 process.env.API_BASE_URL = "https://api.example.com";
@@ -13,7 +16,31 @@ type ServerFetchModule = {
 };
 
 async function loadServerFetchModule(): Promise<ServerFetchModule> {
-  return import("./server-fetch.ts") as Promise<ServerFetchModule>;
+  const root = await mkdtemp(join(tmpdir(), "server-fetch-"));
+  const [serverFetchSource, serverConfigSource, apiBaseUrlSource] = await Promise.all([
+    readFile(new URL("./server-fetch.ts", import.meta.url), "utf8"),
+    readFile(new URL("./server-config.ts", import.meta.url), "utf8"),
+    readFile(new URL("./api-base-url.ts", import.meta.url), "utf8"),
+  ]);
+
+  await writeFile(join(root, "api-base-url.ts"), apiBaseUrlSource, "utf8");
+  await writeFile(
+    join(root, "server-config.ts"),
+    serverConfigSource
+      .replace('import "server-only";\n\n', "")
+      .replace('from "@/lib/api-base-url"', 'from "./api-base-url.ts"'),
+    "utf8",
+  );
+  const serverFetchPath = join(root, "server-fetch.ts");
+  await writeFile(
+    serverFetchPath,
+    serverFetchSource
+      .replace('from "@/lib/api-base-url"', 'from "./api-base-url.ts"')
+      .replace('from "@/lib/server-config"', 'from "./server-config.ts"'),
+    "utf8",
+  );
+
+  return import(`file://${serverFetchPath}`) as Promise<ServerFetchModule>;
 }
 
 function createAbortError() {

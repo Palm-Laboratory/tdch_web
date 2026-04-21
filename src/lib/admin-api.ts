@@ -1,5 +1,6 @@
 import "server-only";
 
+import { joinApiUrl } from "@/lib/api-base-url";
 import { SERVER_API_BASE_URL } from "@/lib/server-config";
 
 const ADMIN_SYNC_KEY = process.env.ADMIN_SYNC_KEY?.trim() || "";
@@ -53,7 +54,7 @@ export function buildAdminApiHeaders(initHeaders: HeadersInit | undefined, admin
 export async function adminApiFetch(path: string, init?: RequestInit) {
   ensureAdminSyncKey();
 
-  const response = await fetch(`${SERVER_API_BASE_URL}${path}`, {
+  const response = await fetch(joinApiUrl(SERVER_API_BASE_URL, path), {
     ...init,
     headers: buildAdminApiHeaders(init?.headers, ADMIN_SYNC_KEY),
     cache: "no-store",

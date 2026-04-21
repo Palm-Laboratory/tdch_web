@@ -1,3 +1,5 @@
+import { joinApiUrl, normalizeApiBaseUrl } from "@/lib/api-base-url";
+
 export type AdminUploadAssetKind = "INLINE_IMAGE" | "FILE_ATTACHMENT";
 
 export interface AdminUploadDirectRequest {
@@ -28,15 +30,13 @@ interface UploadAssetResponse {
   originalFilename?: string;
 }
 
-const DEFAULT_API_BASE_URL = "http://localhost:8080";
-
 function getApiBaseUrl() {
-  return (process.env.NEXT_PUBLIC_API_BASE_URL || DEFAULT_API_BASE_URL).replace(/\/+$/, "");
+  return normalizeApiBaseUrl(process.env.NEXT_PUBLIC_API_BASE_URL);
 }
 
 function buildPublicUrl(baseUrl: string, storedPath: string) {
   const cleanStoredPath = storedPath.replace(/^\/+/, "");
-  return `${baseUrl}/upload/${cleanStoredPath}`;
+  return joinApiUrl(baseUrl, `/upload/${cleanStoredPath}`);
 }
 
 function requiredUploadMetadataValue(value: string | number | undefined) {
@@ -66,7 +66,7 @@ export async function uploadAdminAssetDirect(
   formData.append("file", request.file);
   formData.append("kind", request.kind);
 
-  const response = await fetch(`${baseUrl}/api/v1/admin/uploads`, {
+  const response = await fetch(joinApiUrl(baseUrl, "/api/v1/admin/uploads"), {
     method: "POST",
     headers: {
       "X-Upload-Token": request.rawToken,

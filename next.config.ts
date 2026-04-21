@@ -1,10 +1,10 @@
 import type { NextConfig } from "next";
+import { readApiBaseUrlFromEnv } from "./src/lib/api-base-url";
 
-const upstreamApiBaseUrl = (
-  process.env.API_BASE_URL ||
-  process.env.NEXT_PUBLIC_API_BASE_URL ||
-  "http://localhost:8080"
-).replace(/\/+$/, "");
+const upstreamApiBaseUrl = readApiBaseUrlFromEnv(process.env, [
+  "API_BASE_URL",
+  "NEXT_PUBLIC_API_BASE_URL",
+]);
 
 const nextConfig: NextConfig = {
   output: "standalone",
