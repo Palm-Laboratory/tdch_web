@@ -180,7 +180,6 @@ export default function BoardManagementClient({
   const [draft, setDraft] = useState<Draft>(initialPost ? createDraftFromPost(initialPost) : createEmptyDraft());
   const [attachmentAssetIds, setAttachmentAssetIds] = useState<string[]>(initialPost ? getAttachmentAssetIds(initialPost) : []);
   const [loading, setLoading] = useState(false);
-  const [reloadToken, setReloadToken] = useState(0);
   const [uploadingAttachment, setUploadingAttachment] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -303,7 +302,7 @@ export default function BoardManagementClient({
     return () => {
       cancelled = true;
     };
-  }, [boardMenus, boardsBySlug, reloadToken]);
+  }, [boardMenus, boardsBySlug]);
 
   useEffect(() => {
     if (screenMode !== "editor" || !selectedBoardMenu?.boardKey || !selectedMenuId || !selectedPostId) {
@@ -543,16 +542,6 @@ export default function BoardManagementClient({
               {error && <span className="text-[12px] text-[#be123c]">오류: {error}</span>}
             </div>
             <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setReloadToken((current) => current + 1);
-                  setNotice("게시글 목록을 다시 불러옵니다.");
-                }}
-                className="h-9 rounded-lg border border-[#d7e3f4] bg-white px-3 text-[12px] font-semibold text-[#334155] transition hover:bg-[#f0f6ff]"
-              >
-                새로고침
-              </button>
               <button
                 type="button"
                 onClick={openNewPost}

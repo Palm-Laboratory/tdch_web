@@ -14,14 +14,6 @@ export interface AdminBoardSummary {
   description: string | null;
 }
 
-export interface AdminBoardTypeSummary {
-  id: string;
-  key: string;
-  label: string;
-  description: string | null;
-  sortOrder: number;
-}
-
 export interface AdminBoardPostSummary {
   id: string;
   boardId: string;
@@ -69,14 +61,6 @@ interface BackendBoardSummary {
   type: AdminBoardType;
   boardTypeId?: string | number | null;
   description?: string | null;
-}
-
-interface BackendBoardTypeSummary {
-  id: string | number;
-  key: string;
-  label: string;
-  description?: string | null;
-  sortOrder?: number | null;
 }
 
 interface BackendPostSummary {
@@ -150,16 +134,6 @@ function normalizeBoard(board: BackendBoardSummary): AdminBoardSummary {
   };
 }
 
-function normalizeBoardType(boardType: BackendBoardTypeSummary): AdminBoardTypeSummary {
-  return {
-    id: toFrontendId(boardType.id),
-    key: boardType.key,
-    label: boardType.label,
-    description: boardType.description ?? null,
-    sortOrder: boardType.sortOrder ?? 0,
-  };
-}
-
 function normalizePostSummary(post: BackendPostSummary): AdminBoardPostSummary {
   return {
     id: toFrontendId(post.id),
@@ -230,14 +204,6 @@ export async function getAdminBoards(actorId: string): Promise<AdminBoardSummary
   });
   const payload = (await response.json()) as { boards?: BackendBoardSummary[] };
   return (payload.boards ?? []).map(normalizeBoard);
-}
-
-export async function getAdminBoardTypes(actorId: string): Promise<AdminBoardTypeSummary[]> {
-  const response = await adminApiFetch("/api/v1/admin/boards/types", {
-    headers: actorHeaders(actorId),
-  });
-  const payload = (await response.json()) as { types?: BackendBoardTypeSummary[] };
-  return (payload.types ?? []).map(normalizeBoardType);
 }
 
 export async function getAdminBoardPosts(
