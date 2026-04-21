@@ -73,13 +73,18 @@ test("admin board posts route lists and creates posts for a board slug", async (
   }
   assert.match(
     contents,
-    /getAdminBoardPosts\s*\(\s*session\.user\.id\s*,\s*slug\s*\)/s,
-    "Expected [slug]/posts/route.ts to call getAdminBoardPosts(session.user.id, slug).",
+    /readMenuId\s*\(\s*request\s*\)/s,
+    "Expected [slug]/posts/route.ts to read the selected BOARD menu id from the request.",
   );
   assert.match(
     contents,
-    /createAdminBoardPost\s*\(\s*session\.user\.id\s*,\s*slug\s*,/s,
-    "Expected [slug]/posts/route.ts to call createAdminBoardPost(session.user.id, slug, payload).",
+    /getAdminBoardPosts\s*\(\s*session\.user\.id\s*,\s*slug\s*,\s*menuId\s*\)/s,
+    "Expected [slug]/posts/route.ts to call getAdminBoardPosts(session.user.id, slug, menuId).",
+  );
+  assert.match(
+    contents,
+    /createAdminBoardPost\s*\(\s*session\.user\.id\s*,\s*slug\s*,\s*menuId\s*\?\s*\{\s*\.\.\.payload,\s*menuId\s*\}\s*:\s*payload\s*\)/s,
+    "Expected [slug]/posts/route.ts to call createAdminBoardPost with the selected menuId when present.",
   );
   assert.match(contents, /request\.json\s*\(/, "Expected POST to parse request.json().");
   assert.match(
@@ -110,18 +115,23 @@ test("admin board post detail route reads, updates, and deletes a post by id", a
   }
   assert.match(
     contents,
-    /getAdminBoardPost\s*\(\s*session\.user\.id\s*,\s*slug\s*,\s*postId\s*\)/s,
-    "Expected [postId]/route.ts to call getAdminBoardPost(session.user.id, slug, postId).",
+    /readMenuId\s*\(\s*request\s*\)/s,
+    "Expected [postId]/route.ts to read the selected BOARD menu id from the request.",
   );
   assert.match(
     contents,
-    /updateAdminBoardPost\s*\(\s*session\.user\.id\s*,\s*slug\s*,\s*postId\s*,/s,
-    "Expected [postId]/route.ts to call updateAdminBoardPost(session.user.id, slug, postId, payload).",
+    /getAdminBoardPost\s*\(\s*session\.user\.id\s*,\s*slug\s*,\s*postId\s*,\s*menuId\s*\)/s,
+    "Expected [postId]/route.ts to call getAdminBoardPost(session.user.id, slug, postId, menuId).",
   );
   assert.match(
     contents,
-    /deleteAdminBoardPost\s*\(\s*session\.user\.id\s*,\s*slug\s*,\s*postId\s*\)/s,
-    "Expected [postId]/route.ts to call deleteAdminBoardPost(session.user.id, slug, postId).",
+    /updateAdminBoardPost\s*\(\s*session\.user\.id\s*,\s*slug\s*,\s*postId\s*,\s*menuId\s*\?\s*\{\s*\.\.\.payload,\s*menuId\s*\}\s*:\s*payload\s*\)/s,
+    "Expected [postId]/route.ts to call updateAdminBoardPost with the selected menuId when present.",
+  );
+  assert.match(
+    contents,
+    /deleteAdminBoardPost\s*\(\s*session\.user\.id\s*,\s*slug\s*,\s*postId\s*,\s*menuId\s*\)/s,
+    "Expected [postId]/route.ts to call deleteAdminBoardPost(session.user.id, slug, postId, menuId).",
   );
   assert.match(contents, /request\.json\s*\(/, "Expected PUT to parse request.json().");
   assert.match(

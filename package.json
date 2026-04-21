@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:contract": "node scripts/run-contract-tests.mjs",
+    "typecheck:contract": "tsc --noEmit --incremental false --pretty false --allowImportingTsExtensions",
+    "test": "npm run test:contract && npm run typecheck:contract"
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.19",
