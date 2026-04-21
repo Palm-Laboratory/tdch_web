@@ -168,11 +168,3 @@ export async function getPublicPlaylistVideoDetailByPath(
     ),
   );
 }
-
-export async function getLegacyVideoHref(videoId: string): Promise<string | null> {
-  const payload = await fetchVideoResourceOrNull<{ href?: string | null }>(
-    `/api/v1/public/videos/by-id/${encodeURIComponent(videoId)}`,
-    VIDEO_REVALIDATE_OPTIONS,
-  );
-  return payload?.href ?? null;
-}

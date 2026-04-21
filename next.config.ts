@@ -41,25 +41,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  async redirects() {
-    return [
-      {
-        source: "/sermons",
-        destination: "/videos",
-        permanent: false,
-      },
-      {
-        source: "/sermons/shorts",
-        destination: "/videos",
-        permanent: false,
-      },
-      {
-        source: "/admin/sermons",
-        destination: "/admin/videos",
-        permanent: false,
-      },
-    ];
-  },
   async rewrites() {
     return [
       {

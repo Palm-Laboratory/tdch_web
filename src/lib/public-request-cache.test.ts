@@ -168,14 +168,14 @@ test("getPublicPlaylistDetailByPath dedupes identical paths and does not collaps
   try {
     await runWithPublicRequestCache(() =>
       Promise.all([
-        getPublicPlaylistDetailByPath("sermons/alpha"),
-        getPublicPlaylistDetailByPath("sermons/alpha"),
-        getPublicPlaylistDetailByPath("sermons/beta"),
+        getPublicPlaylistDetailByPath("worship/alpha"),
+        getPublicPlaylistDetailByPath("worship/alpha"),
+        getPublicPlaylistDetailByPath("worship/beta"),
       ]),
     );
     assert.deepEqual(requestedUrls, [
-      "https://api.example.com/api/v1/public/videos?path=sermons%2Falpha",
-      "https://api.example.com/api/v1/public/videos?path=sermons%2Fbeta",
+      "https://api.example.com/api/v1/public/videos?path=worship%2Falpha",
+      "https://api.example.com/api/v1/public/videos?path=worship%2Fbeta",
     ]);
   } finally {
     globalThis.fetch = originalFetch;
