@@ -24,7 +24,7 @@ npm run dev
 - `/about/giving` 헌금 안내
 - `/newcomer` 새가족 안내
 - `/newcomer/care` 새가족 양육
-- `/newcomer/curriculum` 교육 과정
+- `/newcomer/disciples` 제자훈련/교육 과정
 
 ## 단계 3) 배포 구성 (Vercel + Oracle VM)
 
@@ -82,7 +82,7 @@ npm run dev
 
 - 연락처/계좌/링크: `.env.local` (로컬) / Vercel Environment Variables (운영)
 - 예배시간/공지 기본 데이터: `src/lib/site-data.ts`
-- 사이트 메뉴 원본: 백엔드 `site_navigation` + `GET /api/v1/navigation`
+- 사이트 메뉴 원본: 백엔드 `site_navigation` + `GET /api/v1/public/menu`
 - 설교/영상 데이터: `API_BASE_URL` 로 연결된 백엔드 API
 
 지도/연락처 관련 주요 환경변수:
@@ -127,7 +127,7 @@ npm run dev
 
 ## 디자인 팔레트
 
-기본 팔레트는 `tailwind.config.ts`와 `src/app/globals.css`에서 함께 관리합니다.
+기본 팔레트는 `tailwind.config.ts`와 `src/app/globals.scss`에서 함께 관리합니다.
 
 - `Background`: `#f3f3f2`
 - `Surface`: `#e9f1ff`
@@ -140,7 +140,7 @@ npm run dev
 
 사용 원칙:
 
-- 배경/카드 톤은 `globals.css`의 CSS 변수(`--color-*`, `--surface-*`)를 우선 사용
+- 배경/카드 톤은 `globals.scss`의 CSS 변수(`--color-*`, `--surface-*`)를 우선 사용
 - 컴포넌트 색상 클래스는 Tailwind 팔레트(`ink`, `cedar`, `clay` 등) 사용
 - 기존 클래스 호환을 위해 레거시 별칭(`ivory`, `ink`, `cedar`, `moss`, `clay`, `gold`) 유지
 
@@ -296,7 +296,7 @@ npm run dev
 
 운영 원칙:
 
-- 공통 기준 폭은 `src/app/globals.css`의 `section-shell` 계열 클래스에서만 관리합니다.
+- 공통 기준 폭은 `src/app/globals.scss`의 `section-shell` 계열 클래스에서만 관리합니다.
 - 페이지 컴포넌트 안에서 `max-w-[...]`를 새로 추가하는 방식은 예외적인 시각 연출이 아니면 지양합니다.
 - 텍스트 중심 페이지, 안내성 단일 컬럼 페이지는 `narrow`를 우선 검토합니다.
 - 표, 지도, 카드 그리드, 설교 목록처럼 가로 사용량이 큰 화면은 `wide`를 우선 검토합니다.

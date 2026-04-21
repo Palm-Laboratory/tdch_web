@@ -6,7 +6,7 @@
 
 - 페이지마다 임의의 폰트 크기를 새로 만들지 않기 위해 사용합니다.
 - 제목, 본문, 라벨의 역할을 일관되게 유지하기 위해 사용합니다.
-- `src/app/globals.css`에 정의된 전역 타입 토큰의 기준 문서입니다.
+- `src/app/globals.scss`에 정의된 전역 타입 토큰의 기준 문서입니다.
 
 ## 루트 기준
 
@@ -133,7 +133,7 @@ fontFamily: {
 
 정의 위치:
 
-- `src/app/globals.css`
+- `src/app/globals.scss`
 
 토큰 목록:
 
