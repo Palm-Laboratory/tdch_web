@@ -420,6 +420,8 @@ export default function MenuManagementClient({
     ? siblingNodes.findIndex((node) => node.id === selectedNode.id)
     : -1;
   const selectedManualSlugMode = selectedNode ? isManualSlugMode(selectedNode) : false;
+  const hiddenStatusAffectsDescendants =
+    Boolean(selectedNode) && selectedNode?.parentId === null && descendantIds.size > 0;
   const canMoveUp = selectedSiblingIndex > 0;
   const canMoveDown =
     selectedSiblingIndex !== -1 && selectedSiblingIndex < siblingNodes.length - 1;
@@ -926,6 +928,11 @@ export default function MenuManagementClient({
                             </option>
                           ))}
                         </select>
+                        {hiddenStatusAffectsDescendants && (
+                          <p className="text-[11px] leading-5 text-[#9a5b00]">
+                            이 루트 메뉴를 숨기면 하위 메뉴 {descendantIds.size}개도 함께 숨김 처리됩니다.
+                          </p>
+                        )}
                       </label>
                     </div>
                   </div>
