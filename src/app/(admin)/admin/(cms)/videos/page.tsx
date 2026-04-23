@@ -1,25 +1,34 @@
 import { redirect } from "next/navigation";
 import { getAdminSession, isAdminSession } from "@/auth";
 import { getAdminVideos, type AdminVideoSummary } from "@/lib/admin-videos-api";
-import { getAdminYouTubePlaylists, type AdminYouTubePlaylist } from "@/lib/admin-menu-api";
+import {
+  getAdminMenuTree,
+  getAdminYouTubePlaylists,
+  type AdminMenuTreeNode,
+  type AdminYouTubePlaylist,
+} from "@/lib/admin-menu-api";
 import VideoListClient from "./_components/video-list-client";
 import AdminBreadcrumb from "../components/admin-breadcrumb";
 
 async function resolveInitialState(actorId: string): Promise<{
   playlists: AdminYouTubePlaylist[];
+  menuItems: AdminMenuTreeNode[];
   initialPlaylistMenuId: number | null;
   initialItems: AdminVideoSummary[];
 }> {
-  const { playlists } = await getAdminYouTubePlaylists(actorId);
+  const [{ playlists }, menuTree] = await Promise.all([
+    getAdminYouTubePlaylists(actorId),
+    getAdminMenuTree(actorId),
+  ]);
   const firstPlaylist = playlists[0] ?? null;
 
   if (!firstPlaylist) {
-    return { playlists, initialPlaylistMenuId: null, initialItems: [] };
+    return { playlists, menuItems: menuTree.items, initialPlaylistMenuId: null, initialItems: [] };
   }
 
   const { items } = await getAdminVideos({ menuId: firstPlaylist.menuId });
 
-  return { playlists, initialPlaylistMenuId: firstPlaylist.menuId, initialItems: items };
+  return { playlists, menuItems: menuTree.items, initialPlaylistMenuId: firstPlaylist.menuId, initialItems: items };
 }
 
 export default async function AdminVideosPage() {
@@ -29,7 +38,7 @@ export default async function AdminVideosPage() {
     redirect("/admin/login?callbackUrl=/admin/videos");
   }
 
-  const { playlists, initialPlaylistMenuId, initialItems } =
+  const { playlists, menuItems, initialPlaylistMenuId, initialItems } =
     await resolveInitialState(session.user.id ?? "");
 
   return (
@@ -43,6 +52,7 @@ export default async function AdminVideosPage() {
 
       <VideoListClient
         playlists={playlists}
+        initialMenuItems={menuItems}
         initialPlaylistMenuId={initialPlaylistMenuId}
         initialItems={initialItems}
       />

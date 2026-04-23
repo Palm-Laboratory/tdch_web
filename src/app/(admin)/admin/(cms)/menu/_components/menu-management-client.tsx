@@ -7,7 +7,6 @@ import type {
   MenuStatus,
   MenuTreeNodePayload,
   MenuType,
-  YouTubeContentForm,
 } from "@/lib/admin-menu-api";
 
 type EditorNode = AdminMenuTreeNode;
@@ -250,26 +249,12 @@ function buildNewNode(id: number, type: MenuType): EditorNode {
   };
 }
 
-function updateNodeById(
-  nodes: EditorNode[],
-  targetId: number,
-  updater: (node: EditorNode) => EditorNode,
-): EditorNode[] {
-  return mapTree(nodes, targetId, updater);
-}
-
 function hideNodeTree(node: EditorNode): EditorNode {
   return {
     ...node,
     status: node.status === "ARCHIVED" ? node.status : "HIDDEN",
     children: node.children.map(hideNodeTree),
   };
-}
-
-function gatherVideoNodes(nodes: EditorNode[]): EditorNode[] {
-  return flattenTree(nodes)
-    .map(({ node }) => node)
-    .filter((node) => node.type === "YOUTUBE_PLAYLIST");
 }
 
 function buildVideoNodePath(node: EditorNode, menuById: Map<number, EditorNode>): string {
@@ -378,7 +363,6 @@ export default function MenuManagementClient({
   const [selectedId, setSelectedId] = useState<number | null>(findInitialSelectedId(initialItems));
   const [tempId, setTempId] = useState(-1);
   const [saving, setSaving] = useState(false);
-  const [syncing, setSyncing] = useState(false);
   const [dirty, setDirty] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [manualSlugDrafts, setManualSlugDrafts] = useState<Record<number, string>>({});
@@ -403,27 +387,6 @@ export default function MenuManagementClient({
         .map(([id]) => id),
     );
   }, [items, savedItems]);
-  const youtubeGroupOptions = useMemo(
-    () =>
-      allFlatItems
-        .filter(({ node }) => node.type === "YOUTUBE_PLAYLIST_GROUP" && node.parentId === null)
-        .map(({ node, depth }) => ({ id: node.id, label: node.label, depth })),
-    [allFlatItems],
-  );
-  const playlistCards = useMemo(
-    () =>
-      gatherVideoNodes(items)
-        .map((node) => ({
-          ...node,
-          parentLabel: node.parentId ? menuById.get(node.parentId)?.label ?? null : null,
-        }))
-        .sort((left, right) => left.label.localeCompare(right.label, "ko-KR")),
-    [items, menuById],
-  );
-  const draftPlaylists = playlistCards.filter((playlist) => playlist.status === "DRAFT");
-  const publishedPlaylists = playlistCards.filter((playlist) => playlist.status === "PUBLISHED");
-  const hiddenPlaylists = playlistCards.filter((playlist) => playlist.status === "HIDDEN");
-  const archivedPlaylists = playlistCards.filter((playlist) => playlist.status === "ARCHIVED");
   const descendantIds = useMemo(
     () => (selectedNode ? collectDescendantIds(selectedNode) : new Set<number>()),
     [selectedNode],
@@ -623,198 +586,19 @@ export default function MenuManagementClient({
     }
   };
 
-  const handleSync = async () => {
-    setSyncing(true);
-    setMessage(null);
-    try {
-      const response = await fetch("/api/admin/youtube/sync", { method: "POST" });
-      const payload = (await response.json()) as { message?: string };
-      if (!response.ok) {
-        throw new Error(payload.message || "유튜브 동기화에 실패했습니다.");
-      }
-      window.location.reload();
-    } catch (error) {
-      setMessage(error instanceof Error ? error.message : "유튜브 동기화에 실패했습니다.");
-      setSyncing(false);
-    }
-  };
-
-  const handleQuickPlaylistUpdate = (
-    menuId: number,
-    updater: (node: EditorNode) => EditorNode,
-  ) => {
-    markDirty(updateNodeById(items, menuId, updater));
-    setSelectedId(menuId);
-  };
-
-  const renderPlaylistSection = (
-    title: string,
-    description: string,
-    playlists: Array<EditorNode & { parentLabel: string | null }>,
-    accentClass: string,
-  ) => {
-    if (playlists.length === 0) {
-      return null;
-    }
-
-    return (
-      <section className="rounded-2xl border border-[#e2e8f0] bg-white p-5 shadow-sm">
-        <div className="flex items-center justify-between gap-3">
-          <div>
-            <h2 className="text-[14px] font-bold text-[#132033]">{title}</h2>
-            <p className="mt-1 text-[12px] text-[#6d7f95]">{description}</p>
-          </div>
-          <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${accentClass}`}>
-            {playlists.length}개
-          </span>
-        </div>
-
-        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-          {playlists.map((playlist) => (
-            <div key={playlist.id} className="rounded-2xl border border-[#e2e8f0] bg-[#fbfdff] p-4">
-              <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <p className="truncate text-[14px] font-bold text-[#132033]">{playlist.label}</p>
-                  <p className="mt-1 truncate text-[11px] text-[#8fa3bb]">
-                    원제목: {playlist.playlistSourceTitle ?? "-"}
-                  </p>
-                </div>
-                <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${STATUS_META[playlist.status]}`}>
-                  {STATUS_LABEL[playlist.status]}
-                </span>
-              </div>
-
-              <div className="mt-3 space-y-2 text-[12px] text-[#5d6f86]">
-                <p>소속 그룹: {playlist.parentLabel ?? "미지정"}</p>
-                <p>영상 수: {playlist.itemCount ?? 0}개</p>
-                <p>노출 형식: {(playlist.playlistContentForm ?? "LONGFORM") === "SHORTFORM" ? "쇼츠" : "롱폼"}</p>
-              </div>
-
-              <div className="mt-4 space-y-2">
-                <label className="block space-y-1">
-                  <span className="text-[11px] font-semibold text-[#334155]">소속 그룹</span>
-                  <select
-                    value={playlist.parentId ?? ""}
-                    onChange={(event) => {
-                      const rawValue = event.target.value;
-                      markDirty(reparentNode(items, playlist.id, rawValue ? Number(rawValue) : null));
-                      setSelectedId(playlist.id);
-                    }}
-                    className="w-full rounded-lg border border-[#d5deea] px-3 py-2 text-[12px]"
-                  >
-                    <option value="">미지정</option>
-                    {youtubeGroupOptions.map((group) => (
-                      <option key={group.id} value={group.id}>
-                        {"　".repeat(group.depth)}
-                        {group.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-
-                <label className="block space-y-1">
-                  <span className="text-[11px] font-semibold text-[#334155]">노출 형식</span>
-                  <select
-                    value={playlist.playlistContentForm ?? "LONGFORM"}
-                    onChange={(event) => {
-                      const nextValue = event.target.value as YouTubeContentForm;
-                      markDirty(
-                        updateNodeById(items, playlist.id, (node) => ({
-                          ...node,
-                          playlistContentForm: nextValue,
-                        })),
-                      );
-                      setSelectedId(playlist.id);
-                    }}
-                    className="w-full rounded-lg border border-[#d5deea] px-3 py-2 text-[12px]"
-                  >
-                    <option value="LONGFORM">롱폼</option>
-                    <option value="SHORTFORM">쇼츠</option>
-                  </select>
-                </label>
-
-                <div className="flex flex-wrap gap-2">
-                  {playlist.status !== "PUBLISHED" && (
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleQuickPlaylistUpdate(playlist.id, (node) => ({
-                          ...node,
-                          status: node.parentId ? "PUBLISHED" : node.status,
-                        }))
-                      }
-                      disabled={!playlist.parentId}
-                      className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-[11px] font-semibold text-emerald-700"
-                    >
-                      노출
-                    </button>
-                  )}
-                  {playlist.status !== "HIDDEN" && playlist.status !== "ARCHIVED" && (
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleQuickPlaylistUpdate(playlist.id, (node) => ({
-                          ...node,
-                          status: "HIDDEN",
-                        }))
-                      }
-                      className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-[11px] font-semibold text-slate-700"
-                    >
-                      숨기기
-                    </button>
-                  )}
-                  {playlist.playlistSourceTitle && playlist.label !== playlist.playlistSourceTitle && (
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleQuickPlaylistUpdate(playlist.id, (node) => ({
-                          ...node,
-                          label: playlist.playlistSourceTitle ?? node.label,
-                          labelCustomized: false,
-                        }))
-                      }
-                      className="rounded-lg border border-[#d7e3f4] bg-white px-3 py-2 text-[11px] font-semibold text-[#2d5da8]"
-                    >
-                      원제목 복원
-                    </button>
-                  )}
-                  <button
-                    type="button"
-                    onClick={() => setSelectedId(playlist.id)}
-                    className="rounded-lg border border-[#d7e3f4] bg-white px-3 py-2 text-[11px] font-semibold text-[#334155]"
-                  >
-                    상세 편집
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-    );
-  };
-
   return (
     <div className="space-y-5">
       <div className="rounded-2xl border border-[#dbe4f0] bg-white px-5 py-4 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="text-[13px] font-semibold text-[#132033]">
-              분류 대기 유튜브 재생목록 {draftPlaylists.length}개
+              메뉴 구조 편집
             </p>
             <p className="mt-1 text-[12px] text-[#6d7f95]">
-              자동 동기화는 매일 오전 8시와 오후 11시에 실행되고, 수동 동기화는 언제든 가능합니다.
+              공개 사이트의 메뉴 그룹, 페이지 연결, 노출 상태와 순서를 관리합니다.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={handleSync}
-              disabled={syncing}
-              className="rounded-lg border border-[#d7e3f4] bg-white px-3 py-2 text-[12px] font-semibold text-[#132033] disabled:opacity-60"
-            >
-              {syncing ? "동기화 중..." : "지금 동기화"}
-            </button>
             <button
               type="button"
               onClick={handleSave}
@@ -830,8 +614,8 @@ export default function MenuManagementClient({
         )}
       </div>
 
-      <div className="grid gap-5 xl:grid-cols-[minmax(0,1.15fr)_minmax(360px,0.85fr)]">
-        <section className="rounded-2xl border border-[#e2e8f0] bg-white shadow-sm">
+      <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1.15fr)_minmax(360px,0.85fr)]">
+        <section className="flex max-h-[calc(100vh-220px)] min-h-[520px] flex-col rounded-2xl border border-[#e2e8f0] bg-white shadow-sm">
           <div className="flex items-center justify-between gap-3 border-b border-[#edf2f7] px-5 py-4">
             <h2 className="text-[14px] font-bold text-[#132033]">메뉴 트리</h2>
             <div className="flex flex-wrap gap-2">
@@ -851,7 +635,7 @@ export default function MenuManagementClient({
               </button>
             </div>
           </div>
-          <div className="max-h-[720px] overflow-y-auto px-3 py-3">
+          <div className="min-h-0 flex-1 overflow-y-auto px-3 py-3">
             {flatItems.length === 0 ? (
               <p className="px-3 py-6 text-[13px] text-[#6d7f95]">등록된 메뉴가 없습니다.</p>
             ) : (
@@ -1083,12 +867,12 @@ export default function MenuManagementClient({
 
                     {selectedNode.type === "YOUTUBE_PLAYLIST_GROUP" && (
                       <div className="rounded-xl border border-[#eef2f7] bg-white p-4">
-                        <p className="text-[12px] font-semibold text-[#334155]">영상 그룹 안내</p>
-                        <p className="mt-2 text-[12px] leading-5 text-[#5d6f86]">
-                          유튜브 재생목록은 수동으로 추가하지 않고, 아래 영상 관리 카드에서 그룹에 배정합니다.
-                        </p>
-                      </div>
-                    )}
+                      <p className="text-[12px] font-semibold text-[#334155]">영상 그룹 안내</p>
+                      <p className="mt-2 text-[12px] leading-5 text-[#5d6f86]">
+                        유튜브 재생목록은 수동으로 추가하지 않고, 영상 관리에서 동기화하고 그룹에 배정합니다.
+                      </p>
+                    </div>
+                  )}
 
                     {selectedNode.type === "STATIC" && (
                       <label className="space-y-1.5">
@@ -1276,10 +1060,6 @@ export default function MenuManagementClient({
         </section>
       </div>
 
-      {renderPlaylistSection("분류 대기", "그룹 지정 후 노출 상태로 바꿀 수 있습니다.", draftPlaylists, "bg-amber-100 text-amber-700")}
-      {renderPlaylistSection("노출 중", "사용자 사이트에 공개되는 재생목록입니다.", publishedPlaylists, "bg-emerald-100 text-emerald-700")}
-      {renderPlaylistSection("숨김", "운영자가 수동으로 비노출한 재생목록입니다.", hiddenPlaylists, "bg-slate-100 text-slate-600")}
-      {renderPlaylistSection("보관", "유튜브에서 사라져 자동 보관된 재생목록입니다.", archivedPlaylists, "bg-rose-100 text-rose-700")}
     </div>
   );
 }
