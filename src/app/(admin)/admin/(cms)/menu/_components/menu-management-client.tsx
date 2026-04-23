@@ -317,6 +317,21 @@ function isManualSlugMode(node: EditorNode): boolean {
   return node.isAuto ? node.slugCustomized : node.slugCustomized || node.slug.trim().length > 0;
 }
 
+function getParentRuleDescription(node: EditorNode): string {
+  switch (node.type) {
+    case "FOLDER":
+      return "일반 메뉴 그룹은 최상위 GNB에만 배치됩니다. 하위에는 정적 페이지, 게시판, 외부 링크를 추가할 수 있습니다.";
+    case "YOUTUBE_PLAYLIST_GROUP":
+      return "영상 그룹은 최상위 GNB에만 배치됩니다. 유튜브 재생목록을 묶는 전용 그룹입니다.";
+    case "YOUTUBE_PLAYLIST":
+      return "유튜브 재생목록은 최상위 영상 그룹 아래에만 배치할 수 있습니다.";
+    case "STATIC":
+    case "BOARD":
+    case "EXTERNAL_LINK":
+      return "정적 페이지, 게시판, 외부 링크는 최상위 일반 메뉴 그룹 아래에만 배치할 수 있습니다.";
+  }
+}
+
 // 상태 변경 체크 함수
 function buildNodeChangeSignatures(
   nodes: EditorNode[],
@@ -1146,37 +1161,43 @@ export default function MenuManagementClient({
                           </option>
                         ))}
                       </select>
+                      <p className="rounded-lg border border-[#e8edf5] bg-white px-3 py-2 text-[11px] leading-5 text-[#5d6f86]">
+                        {getParentRuleDescription(selectedNode)}
+                      </p>
                     </label>
+
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (!canMoveUp) {
+                            return;
+                          }
+                          markDirty(moveNodeWithinSiblings(items, selectedNode.id, -1));
+                        }}
+                        disabled={!canMoveUp}
+                        className="rounded-lg border border-[#d7e3f4] bg-white px-3 py-2 text-[12px] font-semibold text-[#334155] disabled:cursor-not-allowed disabled:opacity-60"
+                      >
+                        위로 이동
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (!canMoveDown) {
+                            return;
+                          }
+                          markDirty(moveNodeWithinSiblings(items, selectedNode.id, 1));
+                        }}
+                        disabled={!canMoveDown}
+                        className="rounded-lg border border-[#d7e3f4] bg-white px-3 py-2 text-[12px] font-semibold text-[#334155] disabled:cursor-not-allowed disabled:opacity-60"
+                      >
+                        아래로 이동
+                      </button>
+                    </div>
                   </div>
                 </div>
 
                 <div className="flex flex-wrap gap-2 border-t border-[#edf2f7] pt-4">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (!canMoveUp) {
-                        return;
-                      }
-                      markDirty(moveNodeWithinSiblings(items, selectedNode.id, -1));
-                    }}
-                    disabled={!canMoveUp}
-                    className="rounded-lg border border-[#d7e3f4] bg-white px-3 py-2 text-[12px] font-semibold text-[#334155] disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    위로 이동
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (!canMoveDown) {
-                        return;
-                      }
-                      markDirty(moveNodeWithinSiblings(items, selectedNode.id, 1));
-                    }}
-                    disabled={!canMoveDown}
-                    className="rounded-lg border border-[#d7e3f4] bg-white px-3 py-2 text-[12px] font-semibold text-[#334155] disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    아래로 이동
-                  </button>
                   {!selectedNode.isAuto && (
                     <button
                       type="button"
