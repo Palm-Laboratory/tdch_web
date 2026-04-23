@@ -124,3 +124,23 @@ test("menu management client keeps DRAFT as a server-created playlist state only
     "Expected menu status editing to expose published and hidden as the managed choices.",
   );
 });
+
+test("menu management client hides all children when a root menu is hidden", async () => {
+  const contents = await readClient();
+
+  assert.match(
+    contents,
+    /function\s+hideNodeTree[\s\S]*children:\s*node\.children\.map\s*\(\s*hideNodeTree\s*\)/,
+    "Expected a recursive helper that hides the selected menu subtree.",
+  );
+  assert.match(
+    contents,
+    /node\.parentId\s*===\s*null\s*&&\s*nextStatus\s*===\s*["']HIDDEN["'][\s\S]*hideNodeTree\s*\(\s*node\s*\)/,
+    "Expected root menu status changes to HIDDEN to cascade to descendants.",
+  );
+  assert.match(
+    contents,
+    /node\.status\s*===\s*["']ARCHIVED["']\s*\?\s*node\.status\s*:\s*["']HIDDEN["']/,
+    "Expected archived children to keep their archived state while published or hidden children become hidden.",
+  );
+});

@@ -258,6 +258,14 @@ function updateNodeById(
   return mapTree(nodes, targetId, updater);
 }
 
+function hideNodeTree(node: EditorNode): EditorNode {
+  return {
+    ...node,
+    status: node.status === "ARCHIVED" ? node.status : "HIDDEN",
+    children: node.children.map(hideNodeTree),
+  };
+}
+
 function gatherVideoNodes(nodes: EditorNode[]): EditorNode[] {
   return flattenTree(nodes)
     .map(({ node }) => node)
@@ -851,7 +859,7 @@ export default function MenuManagementClient({
                         onChange={(event) => {
                           const nextStatus = event.target.value as Extract<MenuStatus, "PUBLISHED" | "HIDDEN">;
                           updateSelectedNode((node) => ({
-                            ...node,
+                            ...(node.parentId === null && nextStatus === "HIDDEN" ? hideNodeTree(node) : node),
                             status: nextStatus,
                           }));
                         }}
