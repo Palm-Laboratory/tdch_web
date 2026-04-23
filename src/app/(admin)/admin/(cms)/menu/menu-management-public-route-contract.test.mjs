@@ -97,3 +97,30 @@ test("menu management client labels slug as a URL path field", async () => {
     "Expected the slug help text to explain the URL path behavior.",
   );
 });
+
+test("menu management client keeps DRAFT as a server-created playlist state only", async () => {
+  const contents = await readClient();
+  const buildNewNodeMatch = contents.match(/function\s+buildNewNode[\s\S]*?\n}\n/);
+
+  assert.ok(buildNewNodeMatch?.[0], "Expected MenuManagementClient to define buildNewNode.");
+  assert.match(
+    buildNewNodeMatch[0],
+    /status:\s*"HIDDEN"/,
+    "Expected new manual menus to start hidden instead of draft.",
+  );
+  assert.doesNotMatch(
+    buildNewNodeMatch[0],
+    /status:\s*"DRAFT"/,
+    "Expected manual menu creation to avoid client-created DRAFT status.",
+  );
+  assert.doesNotMatch(
+    contents,
+    /\[\s*"DRAFT"\s*,\s*"PUBLISHED"\s*,\s*"HIDDEN"\s*\]/,
+    "Expected manual menu status options to exclude DRAFT.",
+  );
+  assert.match(
+    contents,
+    /MANAGED_STATUS_OPTIONS[\s\S]*PUBLISHED[\s\S]*HIDDEN/,
+    "Expected menu status editing to expose published and hidden as the managed choices.",
+  );
+});

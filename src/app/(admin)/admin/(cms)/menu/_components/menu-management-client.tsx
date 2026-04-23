@@ -19,6 +19,18 @@ const STATUS_META: Record<MenuStatus, string> = {
   ARCHIVED: "bg-rose-100 text-rose-700",
 };
 
+const STATUS_LABEL: Record<MenuStatus, string> = {
+  DRAFT: "분류 대기",
+  PUBLISHED: "공개",
+  HIDDEN: "숨김",
+  ARCHIVED: "보관",
+};
+
+const MANAGED_STATUS_OPTIONS: Array<{ value: Extract<MenuStatus, "PUBLISHED" | "HIDDEN">; label: string }> = [
+  { value: "PUBLISHED", label: STATUS_LABEL.PUBLISHED },
+  { value: "HIDDEN", label: STATUS_LABEL.HIDDEN },
+];
+
 const MENU_TYPE_LABEL: Record<MenuType, string> = {
   FOLDER: "일반 메뉴 그룹",
   STATIC: "정적 페이지",
@@ -54,6 +66,7 @@ function flattenTree(nodes: EditorNode[], depth = 0): Array<{ node: EditorNode; 
 function cloneTree(nodes: EditorNode[]): EditorNode[] {
   return nodes.map((node) => ({
     ...node,
+    status: !node.isAuto && node.status === "DRAFT" ? "HIDDEN" : node.status,
     children: cloneTree(node.children),
   }));
 }
@@ -194,7 +207,7 @@ function toPayload(nodes: EditorNode[]): MenuTreeNodePayload[] {
   return nodes.map((node) => ({
     id: node.id > 0 ? node.id : null,
     type: node.type,
-    status: node.status,
+    status: !node.isAuto && node.status === "DRAFT" ? "HIDDEN" : node.status,
     label: node.label,
     slug: node.slug,
     slugCustomized: node.slugCustomized,
@@ -213,7 +226,7 @@ function buildNewNode(id: number, type: MenuType): EditorNode {
   return {
     id,
     type,
-    status: "DRAFT",
+    status: "HIDDEN",
     label: "새 메뉴",
     slug: "",
     isAuto: false,
@@ -539,7 +552,7 @@ export default function MenuManagementClient({
                   </p>
                 </div>
                 <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${STATUS_META[playlist.status]}`}>
-                  {playlist.status}
+                  {STATUS_LABEL[playlist.status]}
                 </span>
               </div>
 
@@ -740,7 +753,7 @@ export default function MenuManagementClient({
                           </span>
                         )}
                         <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${STATUS_META[node.status]}`}>
-                          {node.status}
+                          {STATUS_LABEL[node.status]}
                         </span>
                       </span>
                     </button>
@@ -834,27 +847,32 @@ export default function MenuManagementClient({
                     <label className="space-y-1.5">
                       <span className="text-[12px] font-semibold text-[#334155]">상태</span>
                       <select
-                        value={selectedNode.status}
-                        onChange={(event) =>
+                        value={selectedNode.status === "DRAFT" ? "" : selectedNode.status}
+                        onChange={(event) => {
+                          const nextStatus = event.target.value as Extract<MenuStatus, "PUBLISHED" | "HIDDEN">;
                           updateSelectedNode((node) => ({
                             ...node,
-                            status: event.target.value as MenuStatus,
-                          }))
-                        }
+                            status: nextStatus,
+                          }));
+                        }}
                         disabled={selectedNode.status === "ARCHIVED"}
                         className="w-full rounded-lg border border-[#d5deea] px-3 py-2 text-[13px] disabled:bg-[#f8fafc]"
                       >
-                        {selectedNode.isAuto
-                          ? ["DRAFT", "PUBLISHED", "HIDDEN", "ARCHIVED"].map((status) => (
-                              <option key={status} value={status}>
-                                {status}
-                              </option>
-                            ))
-                          : ["DRAFT", "PUBLISHED", "HIDDEN"].map((status) => (
-                              <option key={status} value={status}>
-                                {status}
-                              </option>
-                            ))}
+                        {selectedNode.status === "DRAFT" && (
+                          <option value="" disabled>
+                            {STATUS_LABEL.DRAFT}
+                          </option>
+                        )}
+                        {selectedNode.status === "ARCHIVED" && (
+                          <option value="ARCHIVED">
+                            {STATUS_LABEL.ARCHIVED}
+                          </option>
+                        )}
+                        {MANAGED_STATUS_OPTIONS.map((status) => (
+                          <option key={status.value} value={status.value}>
+                            {status.label}
+                          </option>
+                        ))}
                       </select>
                     </label>
                   </div>
