@@ -317,6 +317,41 @@ function isManualSlugMode(node: EditorNode): boolean {
   return node.isAuto ? node.slugCustomized : node.slugCustomized || node.slug.trim().length > 0;
 }
 
+// 상태 변경 체크 함수
+function buildNodeChangeSignatures(
+  nodes: EditorNode[],
+  parentId: number | null = null,
+): Map<number, string> {
+  const signatures = new Map<number, string>();
+
+  nodes.forEach((node, index) => {
+    signatures.set(
+      node.id,
+      JSON.stringify({
+        type: node.type,
+        status: !node.isAuto && node.status === "DRAFT" ? "HIDDEN" : node.status,
+        label: node.label,
+        slug: node.slug,
+        slugCustomized: node.slugCustomized,
+        staticPageKey: node.staticPageKey,
+        boardKey: node.boardKey,
+        boardTypeId: node.boardTypeId,
+        externalUrl: node.externalUrl,
+        openInNewTab: node.openInNewTab,
+        isAuto: node.isAuto,
+        playlistContentForm: node.playlistContentForm,
+        parentId,
+        order: index,
+      }),
+    );
+    buildNodeChangeSignatures(node.children, node.id).forEach((signature, id) => {
+      signatures.set(id, signature);
+    });
+  });
+
+  return signatures;
+}
+
 export default function MenuManagementClient({
   initialItems,
 }: {
@@ -324,6 +359,7 @@ export default function MenuManagementClient({
 }) {
   const router = useRouter();
   const [items, setItems] = useState<EditorNode[]>(cloneTree(initialItems));
+  const [savedItems, setSavedItems] = useState<EditorNode[]>(cloneTree(initialItems));
   const [selectedId, setSelectedId] = useState<number | null>(findInitialSelectedId(initialItems));
   const [tempId, setTempId] = useState(-1);
   const [saving, setSaving] = useState(false);
@@ -342,6 +378,15 @@ export default function MenuManagementClient({
     () => new Map(allFlatItems.map(({ node }) => [node.id, node])),
     [allFlatItems],
   );
+  const changedMenuIds = useMemo(() => {
+    const savedSignatures = buildNodeChangeSignatures(savedItems);
+
+    return new Set(
+      Array.from(buildNodeChangeSignatures(items).entries())
+        .filter(([id, signature]) => id < 0 || savedSignatures.get(id) !== signature)
+        .map(([id]) => id),
+    );
+  }, [items, savedItems]);
   const youtubeGroupOptions = useMemo(
     () =>
       allFlatItems
@@ -526,7 +571,9 @@ export default function MenuManagementClient({
         throw new Error(payload.message || "메뉴를 저장하지 못했습니다.");
       }
 
-      setItems(cloneTree(payload.items));
+      const nextItems = cloneTree(payload.items);
+      setItems(nextItems);
+      setSavedItems(nextItems);
       setSelectedId(findInitialSelectedId(payload.items));
       setDirty(false);
       setMessage("메뉴 구조를 저장했습니다.");
@@ -790,6 +837,11 @@ export default function MenuManagementClient({
                         </span>
                       </span>
                       <span className="ml-3 flex items-center gap-2">
+                        {changedMenuIds.has(node.id) && (
+                          <span className="rounded-full bg-[#fff4d6] px-2 py-0.5 text-[10px] font-semibold text-[#9a5b00]">
+                            {node.id < 0 ? "신규" : "수정됨"}
+                          </span>
+                        )}
                         {node.isAuto && (
                           <span className="rounded-full bg-[#e2e8f0] px-2 py-0.5 text-[10px] font-semibold text-[#475569]">
                             자동
