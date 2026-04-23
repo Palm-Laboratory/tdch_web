@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type DragEvent } from "react";
 import { useRouter } from "next/navigation";
 import type {
   AdminMenuTreeNode,
@@ -11,6 +11,10 @@ import type {
 import { useAdminToast } from "../../components/admin-toast-provider";
 
 type EditorNode = AdminMenuTreeNode;
+type DropIndicator = {
+  parentId: number | null;
+  index: number;
+};
 
 const STATUS_META: Record<MenuStatus, string> = {
   DRAFT: "bg-amber-100 text-amber-700",
@@ -181,6 +185,36 @@ function moveNodeWithinSiblings(nodes: EditorNode[], targetId: number, direction
     const nextList = [...list];
     const [moving] = nextList.splice(index, 1);
     nextList.splice(nextIndex, 0, moving);
+    return nextList;
+  };
+
+  return moveInList(tree);
+}
+
+function moveNodeToSiblingIndex(nodes: EditorNode[], targetId: number, nextIndex: number): EditorNode[] {
+  const tree = cloneTree(nodes);
+
+  const moveInList = (list: EditorNode[]): EditorNode[] => {
+    const currentIndex = list.findIndex((item) => item.id === targetId);
+    if (currentIndex === -1) {
+      return list.map((item) => ({
+        ...item,
+        children: moveInList(item.children),
+      }));
+    }
+
+    const boundedNextIndex = Math.max(0, Math.min(nextIndex, list.length));
+    const insertionIndex = currentIndex < boundedNextIndex
+      ? boundedNextIndex - 1
+      : boundedNextIndex;
+
+    if (currentIndex === insertionIndex) {
+      return list;
+    }
+
+    const nextList = [...list];
+    const [moving] = nextList.splice(currentIndex, 1);
+    nextList.splice(insertionIndex, 0, moving);
     return nextList;
   };
 
@@ -367,6 +401,8 @@ export default function MenuManagementClient({
   const [saving, setSaving] = useState(false);
   const [manualSlugDrafts, setManualSlugDrafts] = useState<Record<number, string>>({});
   const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
+  const [draggingMenuId, setDraggingMenuId] = useState<number | null>(null);
+  const [dropIndicator, setDropIndicator] = useState<DropIndicator | null>(null);
 
   const allFlatItems = useMemo(() => flattenTree(items), [items]);
   const flatItems = useMemo(
@@ -442,6 +478,63 @@ export default function MenuManagementClient({
   const markDirty = (nextItems: EditorNode[]) => {
     setItems(nextItems);
     setDeleteConfirmId(null);
+  };
+
+  const canDropOnMenu = (activeId: number | null, overId: number) => {
+    if (activeId === null || activeId === overId) {
+      return false;
+    }
+
+    const activeNode = findNode(items, activeId);
+    const overNode = findNode(items, overId);
+    return Boolean(activeNode && overNode && activeNode.parentId === overNode.parentId);
+  };
+
+  const resetDragState = () => {
+    setDraggingMenuId(null);
+    setDropIndicator(null);
+  };
+
+  const handleMenuDragStart = (event: DragEvent<HTMLButtonElement>, nodeId: number) => {
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", String(nodeId));
+    setDraggingMenuId(nodeId);
+    setDropIndicator(null);
+  };
+
+  const handleMenuDragOver = (event: DragEvent<HTMLButtonElement>, nodeId: number) => {
+    if (!canDropOnMenu(draggingMenuId, nodeId)) {
+      return;
+    }
+
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+
+    const siblings = findSiblingList(items, nodeId);
+    const overIndex = siblings?.findIndex((node) => node.id === nodeId) ?? -1;
+    if (!siblings || overIndex === -1) {
+      setDropIndicator(null);
+      return;
+    }
+
+    const rect = event.currentTarget.getBoundingClientRect();
+    const isAfter = event.clientY > rect.top + rect.height / 2;
+    setDropIndicator({
+      parentId: findNode(items, nodeId)?.parentId ?? null,
+      index: overIndex + (isAfter ? 1 : 0),
+    });
+  };
+
+  const handleMenuDrop = (event: DragEvent<HTMLButtonElement>, nodeId: number) => {
+    event.preventDefault();
+    if (!canDropOnMenu(draggingMenuId, nodeId) || draggingMenuId === null || !dropIndicator) {
+      resetDragState();
+      return;
+    }
+
+    markDirty(moveNodeToSiblingIndex(items, draggingMenuId, dropIndicator.index));
+    setSelectedId(draggingMenuId);
+    resetDragState();
   };
 
   const switchSelectedSlugMode = (manual: boolean) => {
@@ -611,7 +704,12 @@ export default function MenuManagementClient({
       <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1.15fr)_minmax(360px,0.85fr)]">
         <section className="flex max-h-[calc(100vh-220px)] min-h-[520px] flex-col rounded-2xl border border-[#e2e8f0] bg-white shadow-sm">
           <div className="flex items-center justify-between gap-3 border-b border-[#edf2f7] px-5 py-4">
-            <h2 className="text-[14px] font-bold text-[#132033]">메뉴 트리</h2>
+            <div>
+              <h2 className="text-[14px] font-bold text-[#132033]">메뉴 트리</h2>
+              <p className="mt-1 text-[11px] text-[#6d7f95]">
+                같은 단계의 메뉴는 드래그해서 순서를 바꿀 수 있습니다.
+              </p>
+            </div>
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
@@ -634,21 +732,71 @@ export default function MenuManagementClient({
               <p className="px-3 py-6 text-[13px] text-[#6d7f95]">등록된 메뉴가 없습니다.</p>
             ) : (
               <ul className="space-y-1">
-                {flatItems.map(({ node, depth }) => (
+                {flatItems.map(({ node, depth }) => {
+                  const siblings = findSiblingList(items, node.id);
+                  const siblingIndex = siblings?.findIndex((item) => item.id === node.id) ?? -1;
+                  const showTopDropLine =
+                    Boolean(dropIndicator) &&
+                    dropIndicator?.parentId === node.parentId &&
+                    dropIndicator.index === siblingIndex;
+                  const showBottomDropLine =
+                    Boolean(dropIndicator) &&
+                    dropIndicator?.parentId === node.parentId &&
+                    siblings !== null &&
+                    dropIndicator.index === siblings.length &&
+                    siblingIndex === siblings.length - 1;
+
+                  return (
                   <li key={node.id}>
                     <button
                       type="button"
+                      draggable
                       onClick={() => setSelectedId(node.id)}
-                      className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left transition ${selectedId === node.id
+                      onDragStart={(event) => handleMenuDragStart(event, node.id)}
+                      onDragOver={(event) => handleMenuDragOver(event, node.id)}
+                      onDrop={(event) => handleMenuDrop(event, node.id)}
+                      onDragEnd={resetDragState}
+                      aria-grabbed={draggingMenuId === node.id}
+                      className={`relative flex w-full items-center justify-between rounded-xl px-3 py-2 text-left transition ${draggingMenuId === node.id
+                          ? "opacity-50"
+                          : ""
+                        } ${selectedId === node.id
                           ? "bg-[#edf4ff] text-[#132033]"
-                          : "hover:bg-[#f8fafc] text-[#334155]"
+                          : "text-[#334155] hover:bg-[#f8fafc]"
                         }`}
                       style={{ paddingLeft: `${depth * 18 + 12}px` }}
                     >
-                      <span className="min-w-0">
-                        <span className="block truncate text-[13px] font-semibold">{node.label}</span>
-                        <span className="mt-0.5 block truncate text-[11px] text-[#8fa3bb]">
-                          {MENU_TYPE_LABEL[node.type]}
+                      {showTopDropLine && (
+                        <span
+                          aria-hidden="true"
+                          className="pointer-events-none absolute left-3 right-3 top-0 z-10 h-1 rounded-full bg-[#f59e0b]"
+                        />
+                      )}
+                      {showBottomDropLine && (
+                        <span
+                          aria-hidden="true"
+                          className="pointer-events-none absolute bottom-0 left-3 right-3 z-10 h-1 rounded-full bg-[#f59e0b]"
+                        />
+                      )}
+                      <span className="flex min-w-0 items-center gap-2">
+                        <span
+                          className="flex h-7 w-5 shrink-0 items-center justify-center rounded-md text-[#94a3b8]"
+                          aria-hidden="true"
+                        >
+                          <svg width="12" height="16" viewBox="0 0 12 16" fill="none">
+                            <circle cx="3" cy="3" r="1.2" fill="currentColor" />
+                            <circle cx="9" cy="3" r="1.2" fill="currentColor" />
+                            <circle cx="3" cy="8" r="1.2" fill="currentColor" />
+                            <circle cx="9" cy="8" r="1.2" fill="currentColor" />
+                            <circle cx="3" cy="13" r="1.2" fill="currentColor" />
+                            <circle cx="9" cy="13" r="1.2" fill="currentColor" />
+                          </svg>
+                        </span>
+                        <span className="min-w-0">
+                          <span className="block truncate text-[13px] font-semibold">{node.label}</span>
+                          <span className="mt-0.5 block truncate text-[11px] text-[#8fa3bb]">
+                            {MENU_TYPE_LABEL[node.type]}
+                          </span>
                         </span>
                       </span>
                       <span className="ml-3 flex items-center gap-2">
@@ -668,7 +816,8 @@ export default function MenuManagementClient({
                       </span>
                     </button>
                   </li>
-                ))}
+                  );
+                })}
               </ul>
             )}
           </div>
