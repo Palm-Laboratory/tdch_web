@@ -13,7 +13,7 @@ export default async function AdminVideoDetailPage({ params }: AdminVideoDetailP
   const session = await getAdminSession();
 
   if (!isAdminSession(session)) {
-    redirect("/admin/login?callbackUrl=/admin/videos");
+    redirect("/admin/login?callbackUrl=/admin/videos/manage");
   }
 
   const { videoId } = await params;
@@ -30,7 +30,8 @@ export default async function AdminVideoDetailPage({ params }: AdminVideoDetailP
     <div className="space-y-6">
       <AdminBreadcrumb items={[
         { label: "운영" },
-        { label: "영상 관리", href: "/admin/videos" },
+        { label: "영상" },
+        { label: "영상 관리", href: "/admin/videos/manage" },
         { label: detail.sourceTitle },
       ]} />
 

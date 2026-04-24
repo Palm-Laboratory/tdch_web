@@ -58,6 +58,7 @@ export async function PUT(request: Request, context: RouteContext) {
 
     revalidateTag("videos");
     revalidatePath("/admin/videos");
+    revalidatePath("/admin/videos/manage");
 
     return NextResponse.json(updated);
   } catch (error) {

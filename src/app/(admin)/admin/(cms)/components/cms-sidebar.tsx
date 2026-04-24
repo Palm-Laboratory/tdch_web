@@ -4,6 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
+type NavItem = {
+  href: string;
+  label: string;
+  exact?: boolean;
+  icon?: ReactNode;
+  matchHrefs?: string[];
+  children?: NavItem[];
+};
+
 const NAV_GROUPS = [
   {
     label: "운영",
@@ -20,14 +29,28 @@ const NAV_GROUPS = [
       },
       {
         href: "/admin/videos",
-        label: "영상 관리",
+        label: "영상",
         exact: false,
+        matchHrefs: ["/admin/videos/manage", "/admin/videos/sync"],
         icon: (
           <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
             <path d="M4 3.75h9a1 1 0 0 1 1 1v7.5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-7.5a1 1 0 0 1 1-1Z" stroke="currentColor" strokeWidth="1.5" />
             <path d="M6 6.25h5M6 8.5h5M6 10.75h3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
         ),
+        children: [
+          {
+            href: "/admin/videos/manage",
+            label: "영상 관리",
+            exact: false,
+            matchHrefs: ["/admin/videos/manage"],
+          },
+          {
+            href: "/admin/videos/sync",
+            label: "영상 싱크",
+            exact: false,
+          },
+        ],
       },
       {
         href: "/admin/boards",
@@ -57,12 +80,7 @@ const NAV_GROUPS = [
 
 interface CmsSidebarProps {
   canManageAccounts: boolean;
-  operatorEntries?: Array<{
-    href: string;
-    label: string;
-    exact?: boolean;
-    icon?: ReactNode;
-  }>;
+  operatorEntries?: NavItem[];
 }
 
 export default function CmsSidebar({ canManageAccounts, operatorEntries = [] }: CmsSidebarProps) {
@@ -86,6 +104,22 @@ export default function CmsSidebar({ canManageAccounts, operatorEntries = [] }: 
     }
 
     return currentPath === href || currentPath.startsWith(`${href}/`);
+  };
+
+  const isMatching = (item: NavItem) => {
+    if (item.matchHrefs?.some((href) => currentPath === href || currentPath.startsWith(`${href}/`))) {
+      return true;
+    }
+
+    if (item.href === "/admin/videos/manage" && currentPath === "/admin/videos") {
+      return true;
+    }
+
+    if (item.href === "/admin/videos/manage" && currentPath.startsWith("/admin/videos/") && !currentPath.startsWith("/admin/videos/sync")) {
+      return true;
+    }
+
+    return isActive(item.href, item.exact ?? false);
   };
 
   return (
@@ -114,21 +148,58 @@ export default function CmsSidebar({ canManageAccounts, operatorEntries = [] }: 
             )}
             <ul className="space-y-0.5">
               {group.items.map((item) => {
-                const active = isActive(item.href, item.exact ?? false);
+                const active = isMatching(item);
                 return (
                   <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className={`flex items-center gap-3 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors duration-100 ${active
-                        ? "bg-[#3f74c7]/15 text-[#6ca6f0]"
-                        : "text-white/50 hover:bg-white/[0.05] hover:text-white/80"
+                    <div className="space-y-1">
+                      <Link
+                        href={item.href}
+                        className={`flex items-center gap-3 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors duration-100 ${
+                          active
+                            ? "bg-[#3f74c7]/15 text-[#6ca6f0]"
+                            : "text-white/50 hover:bg-white/[0.05] hover:text-white/80"
                         }`}
-                    >
-                      <span className={active ? "text-[#6ca6f0]" : "text-white/35"}>
-                        {item.icon}
-                      </span>
-                      {item.label}
-                    </Link>
+                      >
+                        <span className={active ? "text-[#6ca6f0]" : "text-white/35"}>
+                          {item.icon}
+                        </span>
+                        <span className="flex-1">{item.label}</span>
+                        {item.children ? (
+                          <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 12 12"
+                            fill="none"
+                            aria-hidden="true"
+                            className={active ? "text-[#6ca6f0]" : "text-white/25"}
+                          >
+                            <path d="M3.5 4.5 6 7l2.5-2.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        ) : null}
+                      </Link>
+
+                      {item.children ? (
+                        <ul className="space-y-0.5 pl-6">
+                          {item.children.map((child) => {
+                            const childActive = isMatching(child);
+                            return (
+                              <li key={child.href}>
+                                <Link
+                                  href={child.href}
+                                  className={`flex items-center rounded-lg px-3 py-2 text-[12px] font-medium transition-colors duration-100 ${
+                                    childActive
+                                      ? "bg-[#3f74c7]/12 text-[#6ca6f0]"
+                                      : "text-white/40 hover:bg-white/[0.04] hover:text-white/70"
+                                  }`}
+                                >
+                                  {child.label}
+                                </Link>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      ) : null}
+                    </div>
                   </li>
                 );
               })}
