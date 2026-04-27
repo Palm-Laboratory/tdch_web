@@ -25,7 +25,12 @@ export default async function AdminBoardsPage() {
 
       <h1 className="text-xl font-bold text-[#0f1c2e]">게시판 관리</h1>
 
-      <BoardManagementClient initialBoards={boards} initialBoardMenus={boardMenus} />
+      <BoardManagementClient
+        initialBoards={boards}
+        initialBoardMenus={boardMenus}
+        currentUserId={session.user.id}
+        currentUserRole={session.user.accountRole}
+      />
     </div>
   );
 }

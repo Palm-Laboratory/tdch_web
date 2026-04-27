@@ -1,14 +1,10 @@
 import "server-only";
 
+import { PUBLIC_MENU_REVALIDATE_OPTIONS } from "@/lib/public-cache-policy";
 import type { NavigationResponse, NavMenuGroup } from "@/lib/navigation-types";
 import { getOrSetPublicRequestCache } from "@/lib/public-request-cache";
-import { type ServerFetchInit, serverFetchJson } from "@/lib/server-fetch";
+import { serverFetchJson } from "@/lib/server-fetch";
 import { toNavMenuGroups } from "@/lib/navigation-utils";
-
-const MENU_REVALIDATE_OPTIONS: NonNullable<ServerFetchInit["next"]> = {
-  revalidate: 300,
-  tags: ["menu"],
-};
 
 const FALLBACK_NAVIGATION_RESPONSE = {
   groups: [
@@ -86,7 +82,7 @@ export async function getNavigationResponse(): Promise<NavigationResponse> {
   return getOrSetPublicRequestCache("navigation-response", async () => {
     try {
       return await serverFetchJson<NavigationResponse>("/api/v1/public/menu", {
-        next: MENU_REVALIDATE_OPTIONS,
+        next: PUBLIC_MENU_REVALIDATE_OPTIONS,
       });
     } catch (error) {
       console.warn("Using fallback navigation because the public menu API failed.", error);

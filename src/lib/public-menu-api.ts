@@ -1,13 +1,9 @@
 import "server-only";
 
-import type { MenuType } from "@/lib/admin-menu-api";
 import { getOrSetPublicRequestCache } from "@/lib/public-request-cache";
-import { type ServerFetchInit, serverFetchJsonOrNull } from "@/lib/server-fetch";
-
-const MENU_REVALIDATE_OPTIONS: NonNullable<ServerFetchInit["next"]> = {
-  revalidate: 300,
-  tags: ["menu"],
-};
+import { PUBLIC_MENU_REVALIDATE_OPTIONS } from "@/lib/public-cache-policy";
+import type { MenuType } from "@/lib/admin-menu-api";
+import { serverFetchJsonOrNull } from "@/lib/server-fetch";
 
 export interface PublicResolvedMenuPage {
   menuId: number;
@@ -26,7 +22,7 @@ export async function resolvePublicMenuPath(path: string): Promise<PublicResolve
     serverFetchJsonOrNull<PublicResolvedMenuPage>(
       `/api/v1/public/menu/resolve?path=${encodeURIComponent(path)}`,
       {
-        next: MENU_REVALIDATE_OPTIONS,
+        next: PUBLIC_MENU_REVALIDATE_OPTIONS,
       },
     ),
   );

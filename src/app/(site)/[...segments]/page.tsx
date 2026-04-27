@@ -5,6 +5,7 @@ import PublicBoardRenderer from "@/components/public-board/public-board-renderer
 import PublicVideoPlaylistDetailView from "@/components/public-video-playlist-detail-view";
 import PublicVideoPlaylistView from "@/components/public-video-playlist-view";
 import SitePageShell from "@/components/site-page-shell";
+import { PUBLIC_ROUTE_REVALIDATE_SECONDS } from "@/lib/public-cache-policy";
 import {
   getPublicBoardPost,
   listPublicBoardPosts,
@@ -27,7 +28,7 @@ interface DynamicRoutePageProps {
   searchParams: Promise<{ page?: string | string[]; size?: string | string[]; title?: string | string[] }>;
 }
 
-export const dynamic = "force-dynamic";
+export const revalidate = PUBLIC_ROUTE_REVALIDATE_SECONDS;
 
 const DEFAULT_BOARD_PAGE_SIZE = 20;
 const BOARD_PAGE_SIZE_OPTIONS = new Set([10, 20, 50]);

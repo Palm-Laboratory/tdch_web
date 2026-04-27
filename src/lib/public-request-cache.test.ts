@@ -26,6 +26,7 @@ async function loadPublicLoaderModule(): Promise<PublicLoaderModule> {
   const [
     apiBaseUrlSource,
     apiEnvSource,
+    publicCachePolicySource,
     serverConfigSource,
     serverFetchSource,
     publicRequestCacheSource,
@@ -35,6 +36,7 @@ async function loadPublicLoaderModule(): Promise<PublicLoaderModule> {
   ] = await Promise.all([
     readFile(new URL("./api-base-url.ts", import.meta.url), "utf8"),
     readFile(new URL("./api-env.ts", import.meta.url), "utf8"),
+    readFile(new URL("./public-cache-policy.ts", import.meta.url), "utf8"),
     readFile(new URL("./server-config.ts", import.meta.url), "utf8"),
     readFile(new URL("./server-fetch.ts", import.meta.url), "utf8"),
     readFile(new URL("./public-request-cache.ts", import.meta.url), "utf8"),
@@ -63,6 +65,11 @@ async function loadPublicLoaderModule(): Promise<PublicLoaderModule> {
       .replace('from "@/lib/api-base-url"', 'from "./api-base-url.ts"')
       .replace('from "@/lib/server-config"', 'from "./server-config.ts"'),
   );
+  await createTempModule(
+    root,
+    "public-cache-policy.ts",
+    publicCachePolicySource.replace('from "@/lib/server-fetch"', 'from "./server-fetch.ts"'),
+  );
   const publicRequestCachePath = await createTempModule(
     root,
     "public-request-cache.ts",
@@ -86,6 +93,7 @@ async function loadPublicLoaderModule(): Promise<PublicLoaderModule> {
       .replaceAll('from "react"', 'from "./react-stub.ts"')
       .replaceAll('from "@/lib/navigation-types"', 'from "./navigation-types.ts"')
       .replaceAll('from "@/lib/navigation-utils"', 'from "./navigation-utils.ts"')
+      .replaceAll('from "@/lib/public-cache-policy"', 'from "./public-cache-policy.ts"')
       .replaceAll('from "@/lib/server-fetch"', 'from "./server-fetch.ts"')
       .replaceAll('from "@/lib/public-request-cache"', 'from "./public-request-cache.ts"'),
   );
@@ -97,6 +105,7 @@ async function loadPublicLoaderModule(): Promise<PublicLoaderModule> {
       .replace('import "server-only";\n\n', "")
       .replaceAll('from "react"', 'from "./react-stub.ts"')
       .replaceAll('from "@/lib/admin-menu-api"', 'from "./admin-menu-api.ts"')
+      .replaceAll('from "@/lib/public-cache-policy"', 'from "./public-cache-policy.ts"')
       .replaceAll('from "@/lib/server-fetch"', 'from "./server-fetch.ts"')
       .replaceAll('from "@/lib/public-request-cache"', 'from "./public-request-cache.ts"'),
   );
@@ -107,6 +116,7 @@ async function loadPublicLoaderModule(): Promise<PublicLoaderModule> {
     videosApiSource
       .replace('import "server-only";\n\n', "")
       .replaceAll('from "react"', 'from "./react-stub.ts"')
+      .replaceAll('from "@/lib/public-cache-policy"', 'from "./public-cache-policy.ts"')
       .replaceAll('from "@/lib/server-fetch"', 'from "./server-fetch.ts"')
       .replaceAll('from "@/lib/public-request-cache"', 'from "./public-request-cache.ts"'),
   );

@@ -1,17 +1,8 @@
 import "server-only";
 
+import { PUBLIC_VIDEO_REVALIDATE_OPTIONS } from "@/lib/public-cache-policy";
 import { getOrSetPublicRequestCache } from "@/lib/public-request-cache";
 import { type ServerFetchInit, serverFetchJsonOrNull } from "@/lib/server-fetch";
-
-const MENU_REVALIDATE_OPTIONS: NonNullable<ServerFetchInit["next"]> = {
-  revalidate: 300,
-  tags: ["menu"],
-};
-
-const VIDEO_REVALIDATE_OPTIONS: NonNullable<ServerFetchInit["next"]> = {
-  revalidate: 300,
-  tags: ["menu", "videos"],
-};
 
 export interface PublicVideoSibling {
   label: string;
@@ -99,7 +90,7 @@ export async function getPublicPlaylistDetailByPath(path: string): Promise<Publi
   return getOrSetPublicRequestCache(`playlist-detail-by-path:${path}`, () =>
     fetchVideoResourceOrNull<PublicPlaylistDetail>(
       `/api/v1/public/videos?path=${encodeURIComponent(path)}`,
-      VIDEO_REVALIDATE_OPTIONS,
+      PUBLIC_VIDEO_REVALIDATE_OPTIONS,
     ),
   );
 }
@@ -112,7 +103,7 @@ export async function getPublicPlaylistVideoListByPath(
   return getOrSetPublicRequestCache(`playlist-video-list-by-path:${path}:${page}:${size}`, () =>
     fetchVideoResourceOrNull<PublicVideoList>(
       `/api/v1/public/videos/items?path=${encodeURIComponent(path)}&page=${page}&size=${size}`,
-      VIDEO_REVALIDATE_OPTIONS,
+      PUBLIC_VIDEO_REVALIDATE_OPTIONS,
     ),
   );
 }
@@ -124,7 +115,7 @@ export async function getPublicPlaylistVideoDetailByPath(
   return getOrSetPublicRequestCache(`playlist-video-detail-by-path:${path}:${videoId}`, () =>
     fetchVideoResourceOrNull<PublicVideoDetail>(
       `/api/v1/public/videos/detail?path=${encodeURIComponent(path)}&videoId=${encodeURIComponent(videoId)}`,
-      VIDEO_REVALIDATE_OPTIONS,
+      PUBLIC_VIDEO_REVALIDATE_OPTIONS,
     ),
   );
 }

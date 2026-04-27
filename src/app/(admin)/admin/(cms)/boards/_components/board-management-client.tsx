@@ -29,6 +29,8 @@ interface BoardManagementClientProps {
   initialBoardMenus: AdminMenuTreeNode[];
   initialPosts?: AdminBoardPostSummary[];
   initialPost?: AdminBoardPostDetail | null;
+  currentUserId?: string;
+  currentUserRole?: string;
 }
 
 type Draft = {
@@ -191,7 +193,11 @@ export default function BoardManagementClient({
   initialBoardMenus,
   initialPosts = [],
   initialPost = null,
+  currentUserId,
+  currentUserRole,
 }: BoardManagementClientProps) {
+  const canEditPost = (post: { authorId: string }) =>
+    currentUserRole === "SUPER_ADMIN" || post.authorId === currentUserId;
   const toast = useAdminToast();
   const boardsBySlug = useMemo(
     () => new Map(initialBoards.map((board) => [board.slug, board])),
@@ -723,8 +729,8 @@ export default function BoardManagementClient({
                   pagedPosts.map((post, idx) => (
                     <tr
                       key={`${post.boardMenuId}-${post.id}`}
-                      className="cursor-pointer border-b border-[#f0f4f8] last:border-0 transition hover:bg-[#fafcff]"
-                      onClick={() => openPost(post)}
+                      className={`border-b border-[#f0f4f8] last:border-0 transition ${canEditPost(post) ? "cursor-pointer hover:bg-[#fafcff]" : "opacity-60"}`}
+                      onClick={() => canEditPost(post) && openPost(post)}
                     >
                       <td className="px-5 py-4 text-[13px] text-[#5d6f86]">{safeDisplayPage * DISPLAY_PAGE_SIZE + idx + 1}</td>
                       <td className="px-5 py-4 text-[12px] text-[#5d6f86]">{post.boardMenuLabel}</td>
@@ -971,44 +977,54 @@ export default function BoardManagementClient({
             )}
           </div>
 
-          <div className="flex items-center justify-between gap-2 border-t border-[#edf2f7] pt-4">
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  if (editorPushedRef.current) {
-                    window.history.back();
-                  } else {
-                    setScreenMode("list");
-                    setSelectedPostId(null);
-                    setDraft(createEmptyDraft());
-                    setAttachmentAssets([]);
-                  }
-                }}
-                className="rounded-lg border border-[#d7e3f4] bg-white px-3 py-2 text-[12px] font-semibold text-[#334155]"
-              >
-                목록으로
-              </button>
-              {selectedPostId ? (
-                <button
-                  type="button"
-                  onClick={handleDelete}
-                  disabled={saving}
-                  className="rounded-lg border border-[#fecaca] bg-[#fff1f2] px-3 py-2 text-[12px] font-semibold text-[#b42318] disabled:opacity-60"
-                >
-                  삭제
-                </button>
-              ) : null}
-            </div>
-            <button
-              type="button"
-              onClick={handleSave}
-              disabled={saving}
-              className="rounded-lg bg-[#3f74c7] px-4 py-2 text-[12px] font-semibold text-white disabled:opacity-60"
-            >
-              {saving ? "저장 중..." : "게시글 저장"}
-            </button>
-          </div>
+          {(() => {
+            const editingPost = selectedPostId ? posts.find((p) => p.id === selectedPostId) : null;
+            const canEdit = !selectedPostId || (editingPost ? canEditPost(editingPost) : true);
+            return (
+              <div className="flex items-center justify-between gap-2 border-t border-[#edf2f7] pt-4">
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (editorPushedRef.current) {
+                        window.history.back();
+                      } else {
+                        setScreenMode("list");
+                        setSelectedPostId(null);
+                        setDraft(createEmptyDraft());
+                        setAttachmentAssets([]);
+                      }
+                    }}
+                    className="rounded-lg border border-[#d7e3f4] bg-white px-3 py-2 text-[12px] font-semibold text-[#334155]"
+                  >
+                    목록으로
+                  </button>
+                  {selectedPostId && canEdit ? (
+                    <button
+                      type="button"
+                      onClick={handleDelete}
+                      disabled={saving}
+                      className="rounded-lg border border-[#fecaca] bg-[#fff1f2] px-3 py-2 text-[12px] font-semibold text-[#b42318] disabled:opacity-60"
+                    >
+                      삭제
+                    </button>
+                  ) : null}
+                </div>
+                {canEdit ? (
+                  <button
+                    type="button"
+                    onClick={handleSave}
+                    disabled={saving}
+                    className="rounded-lg bg-[#3f74c7] px-4 py-2 text-[12px] font-semibold text-white disabled:opacity-60"
+                  >
+                    {saving ? "저장 중..." : "게시글 저장"}
+                  </button>
+                ) : (
+                  <span className="text-[12px] text-[#94a3b8]">본인이 작성한 게시글만 수정할 수 있습니다.</span>
+                )}
+              </div>
+            );
+          })()}
         </div>
       </section>
     </div>

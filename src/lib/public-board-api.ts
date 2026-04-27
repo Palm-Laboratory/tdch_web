@@ -1,8 +1,9 @@
 import "server-only";
 
 import { getOrSetPublicRequestCache } from "@/lib/public-request-cache";
-import { type ServerFetchInit, serverFetchJsonOrNull } from "@/lib/server-fetch";
 import type { TiptapDocument } from "@/lib/admin-board-editor-content";
+import { PUBLIC_BOARD_REVALIDATE_OPTIONS } from "@/lib/public-cache-policy";
+import { serverFetchJsonOrNull } from "@/lib/server-fetch";
 
 export interface PublicBoardPostAsset {
   id: string;
@@ -109,11 +110,6 @@ interface BackendBoardPostListResponse {
   totalElements?: number;
   hasNext?: boolean;
 }
-
-const PUBLIC_BOARD_REVALIDATE_OPTIONS: NonNullable<ServerFetchInit["next"]> = {
-  revalidate: 300,
-  tags: ["public-board"],
-};
 
 function toFrontendId(value: string | number): string {
   return String(value);
