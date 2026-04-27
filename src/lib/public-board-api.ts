@@ -25,6 +25,8 @@ export interface PublicBoardPostSummary {
   isPublic: boolean;
   isPinned: boolean;
   authorId: string;
+  authorName: string;
+  viewCount: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -65,6 +67,8 @@ interface BackendBoardPostSummary {
   isPublic?: boolean;
   isPinned?: boolean | null;
   authorId?: string | number | null;
+  authorName?: string | null;
+  viewCount?: number | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -128,6 +132,8 @@ function normalizeSummary(post: BackendBoardPostSummary): PublicBoardPostSummary
     isPublic: post.isPublic ?? true,
     isPinned: post.isPinned ?? false,
     authorId: post.authorId == null ? "" : toFrontendId(post.authorId),
+    authorName: post.authorName ?? "",
+    viewCount: post.viewCount ?? 0,
     createdAt: post.createdAt,
     updatedAt: post.updatedAt,
   };

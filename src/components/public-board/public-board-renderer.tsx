@@ -420,27 +420,30 @@ function renderBoardPostSummary(
   const itemClassName = post.isPinned
     ? "border-b border-[#d7dde6] bg-[#f5f7fa] last:border-b-0"
     : "border-b border-[#e2e8f0] last:border-b-0";
-
-  const categoryClassName = post.isPinned ? "text-[#c2410c]" : "text-[#64748b]";
+  const numberLabel = post.isPinned ? "공지" : String(number);
+  const numberClassName = post.isPinned ? "text-[#c2410c]" : "text-[#64748b]";
 
   return (
     <li key={post.id} className={itemClassName}>
       <Link
         href={getBoardPathHref(boardPath, post.id)}
-        className="group grid grid-cols-[56px_72px_minmax(0,1fr)_92px] items-center gap-3 px-3 py-4 md:grid-cols-[72px_88px_minmax(0,1fr)_120px] md:px-5"
+        className="group grid grid-cols-[72px_minmax(0,1fr)_84px_108px_72px] items-center gap-3 px-3 py-4 md:grid-cols-[88px_minmax(0,1fr)_120px_132px_88px] md:px-5"
       >
-        <span className="type-body-small text-center font-medium text-[#64748b]">
-          {number}
-        </span>
-        <span className={`type-label text-center font-semibold tracking-[0.08em] ${categoryClassName}`}>
-          {post.isPinned ? "공지" : "일반"}
+        <span className={`type-body-small text-center font-medium ${numberClassName}`}>
+          {numberLabel}
         </span>
         <span className="type-body min-w-0 truncate font-semibold text-[#10213f] group-hover:text-[#2a4f8f]">
           {post.title}
         </span>
-        <time dateTime={post.createdAt} className="type-body-small text-right text-[#64748b]">
+        <span className="type-body-small truncate text-center text-[#64748b]">
+          {post.authorName || "-"}
+        </span>
+        <time dateTime={post.createdAt} className="type-body-small text-center text-[#64748b]">
           {formatDate(post.createdAt)}
         </time>
+        <span className="type-body-small text-center text-[#64748b]">
+          {post.viewCount.toLocaleString("ko-KR")}
+        </span>
       </Link>
     </li>
   );
@@ -479,11 +482,12 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
             <>
               <PublicBoardListControls totalItems={props.totalItems} pageSize={props.pageSize} />
               <div className="border-b border-site-ink">
-                <div className="grid grid-cols-[56px_72px_minmax(0,1fr)_92px] gap-3 px-3 py-3 text-center md:grid-cols-[72px_88px_minmax(0,1fr)_120px] md:px-5">
+                <div className="grid grid-cols-[72px_minmax(0,1fr)_84px_108px_72px] gap-3 px-3 py-3 text-center md:grid-cols-[88px_minmax(0,1fr)_120px_132px_88px] md:px-5">
                   <span className="type-label text-center font-semibold tracking-[0.08em] text-[#64748b]">번호</span>
-                  <span className="type-label text-center font-semibold tracking-[0.08em] text-[#64748b]">말머리</span>
                   <span className="type-label text-center font-semibold tracking-[0.08em] text-[#64748b]">제목</span>
-                  <span className="type-label text-center font-semibold tracking-[0.08em] text-[#64748b]">날짜</span>
+                  <span className="type-label text-center font-semibold tracking-[0.08em] text-[#64748b]">작성자</span>
+                  <span className="type-label text-center font-semibold tracking-[0.08em] text-[#64748b]">등록일</span>
+                  <span className="type-label text-center font-semibold tracking-[0.08em] text-[#64748b]">조회수</span>
                 </div>
               </div>
               <ul>
