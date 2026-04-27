@@ -49,7 +49,7 @@ export default function AttendanceGridClient() {
       <section className="rounded-3xl border border-[#dbe4f0] bg-white p-5 shadow-sm">
         <div className="flex flex-wrap items-end gap-3">
           <label className="min-w-[220px] flex-1">
-            <span className="mb-1.5 block text-[11px] font-semibold text-[#55697f]">구역 · 쉘</span>
+            <span className="mb-1.5 block text-[11px] font-semibold text-[#55697f]">공동체(임시 참조)</span>
             <select
               value={selectedCellId}
               onChange={(event) => setSelectedCellId(event.target.value)}
@@ -110,7 +110,7 @@ export default function AttendanceGridClient() {
             <thead>
               <tr className="bg-[#f8fafc] text-left">
                 <th className="px-4 py-3 text-[11px] font-semibold text-[#55697f]">교인</th>
-                <th className="px-4 py-3 text-[11px] font-semibold text-[#55697f]">구역 · 쉘</th>
+                <th className="px-4 py-3 text-[11px] font-semibold text-[#55697f]">공동체(임시)</th>
                 <th className="px-4 py-3 text-[11px] font-semibold text-[#55697f]">상태</th>
                 {WEEK_LABELS.map((label) => (
                   <th key={label} className="px-4 py-3 text-center text-[11px] font-semibold text-[#55697f]">

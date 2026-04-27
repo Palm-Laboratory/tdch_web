@@ -5,26 +5,22 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { Avatar, CellBadge, OfficeBadge, StageBadge, StatusBadge } from "./badges";
 import {
-  MOCK_ATTENDANCE,
-  MOCK_CELLS,
-  MOCK_EVENTS,
-  MOCK_FAMILY,
-  MOCK_FAITH_PROFILES,
-  MOCK_MEMBERS,
-  MOCK_SERVICES,
-  MOCK_SUMMARY,
-} from "./mock-data";
-import {
+  type FamilyMember,
+  type FaithProfile,
   OFFICE_LABEL,
   RELATION_LABEL,
+  type ServiceAssignment,
   STAGE_META,
   STATUS_META,
   type AttendanceStatus,
+  type AttendanceWeek,
   type FaithStage,
   type Member,
   type MemberEvent,
   type MemberStatus,
+  type TrainingRecord,
 } from "./types";
+import type { AdminMemberDetailResult } from "@/lib/admin-members-api";
 
 type DrawerTab = "basic" | "family" | "service" | "history";
 type SortOption = "registered-desc" | "name-asc" | "faith-desc";
@@ -59,6 +55,8 @@ const statusOptions: Array<{ value: MemberStatus | "ALL"; label: string }> = [
   })),
 ];
 
+const communityLabel = (value?: string | null) => value?.trim() || "미지정";
+
 const formatBirthCalendar = (calendar: Member["birthCalendar"]) => (calendar === "SOLAR" ? "양" : "음");
 
 const formatMonthBucket = (value: string) => value.slice(0, 7);
@@ -75,39 +73,49 @@ function compareMembers(a: Member, b: Member, sort: SortOption) {
   return b.registeredAt.localeCompare(a.registeredAt);
 }
 
-export default function MemberRegistryClient() {
+interface MemberRegistryClientProps {
+  initialMembers: Member[];
+  initialTotal: number;
+  initialHasNext: boolean;
+  initialSelectedDetail: AdminMemberDetailResult | null;
+  availableCells: Array<{ id: string; label: string }>;
+  loadError?: string | null;
+  initialFilters: {
+    query: string;
+    status: string;
+    stage: string;
+    cellId: string;
+  };
+}
+
+export default function MemberRegistryClient({
+  initialMembers,
+  initialTotal,
+  initialHasNext,
+  initialSelectedDetail,
+  availableCells,
+  loadError,
+  initialFilters,
+}: MemberRegistryClientProps) {
   const router = useRouter();
   const pathname = usePathname() ?? "/admin/members";
   const searchParams = useSearchParams();
   const paramsString = searchParams?.toString() ?? "";
 
-  const [query, setQuery] = useState("");
-  const [selectedCell, setSelectedCell] = useState<string>("ALL");
-  const [selectedStatus, setSelectedStatus] = useState<MemberStatus | "ALL">("ALL");
-  const [selectedStage, setSelectedStage] = useState<FaithStage | "ALL">("ALL");
+  const [query, setQuery] = useState(initialFilters.query);
+  const [selectedCell, setSelectedCell] = useState<string>(initialFilters.cellId);
+  const [selectedStatus, setSelectedStatus] = useState<MemberStatus | "ALL">(initialFilters.status as MemberStatus | "ALL");
+  const [selectedStage, setSelectedStage] = useState<FaithStage | "ALL">(initialFilters.stage as FaithStage | "ALL");
   const [sort, setSort] = useState<SortOption>("registered-desc");
 
   const selectedMemberId = searchParams?.get("id") ?? null;
   const selectedTab = (searchParams?.get("tab") as DrawerTab | null) ?? "basic";
 
   const members = useMemo(() => {
-    return [...MOCK_MEMBERS]
-      .filter((member) => {
-        const keyword = query.trim();
-        const matchesQuery =
-          !keyword ||
-          member.name.includes(keyword) ||
-          member.phone.includes(keyword) ||
-          `${member.address} ${member.addressDetail ?? ""}`.includes(keyword);
-        const matchesCell = selectedCell === "ALL" || member.cellId === selectedCell;
-        const matchesStatus = selectedStatus === "ALL" || member.status === selectedStatus;
-        const matchesStage = selectedStage === "ALL" || member.faithStage === selectedStage;
-        return matchesQuery && matchesCell && matchesStatus && matchesStage;
-      })
-      .sort((a, b) => compareMembers(a, b, sort));
-  }, [query, selectedCell, selectedStage, selectedStatus, sort]);
+    return [...initialMembers].sort((a, b) => compareMembers(a, b, sort));
+  }, [initialMembers, sort]);
 
-  const selectedMember = members.find((member) => member.id === selectedMemberId) ?? MOCK_MEMBERS.find((member) => member.id === selectedMemberId) ?? null;
+  const selectedMember = initialSelectedDetail?.member ?? members.find((member) => member.id === selectedMemberId) ?? null;
 
   const updateSearch = (next: Record<string, string | null>) => {
     const params = new URLSearchParams(paramsString);
@@ -124,9 +132,25 @@ export default function MemberRegistryClient() {
     router.replace(href, { scroll: false });
   };
 
+  const applyFilters = () => {
+    updateSearch({
+      query: query.trim() || null,
+      cellId: selectedCell !== "ALL" ? selectedCell : null,
+      status: selectedStatus !== "ALL" ? selectedStatus : null,
+      stage: selectedStage !== "ALL" ? selectedStage : null,
+      id: null,
+    });
+  };
+
   return (
     <div className="space-y-5">
-      <SummaryCards />
+      <SummaryCards members={initialMembers} total={initialTotal} />
+
+      {loadError ? (
+        <section className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-[13px] text-rose-700">
+          {loadError}
+        </section>
+      ) : null}
 
       <section className="rounded-3xl border border-[#dbe4f0] bg-white px-5 py-4 shadow-sm">
         <div className="flex flex-wrap items-end gap-3">
@@ -139,14 +163,14 @@ export default function MemberRegistryClient() {
             />
           </Field>
 
-          <Field label="구역 · 쉘">
+          <Field label="공동체(임시 참조)">
             <select
               value={selectedCell}
               onChange={(event) => setSelectedCell(event.target.value)}
               className="h-10 rounded-xl border border-[#d5deea] bg-white px-3 text-[13px] text-[#0f1c2e] outline-none transition focus:border-[#3f74c7]"
             >
               <option value="ALL">전체</option>
-              {MOCK_CELLS.map((cell) => (
+              {availableCells.map((cell) => (
                 <option key={cell.id} value={cell.id}>
                   {cell.label}
                 </option>
@@ -182,7 +206,7 @@ export default function MemberRegistryClient() {
             </select>
           </Field>
 
-          <button className="h-10 rounded-xl bg-[#3f74c7] px-5 text-[13px] font-semibold text-white">
+          <button type="button" onClick={applyFilters} className="h-10 rounded-xl bg-[#3f74c7] px-5 text-[13px] font-semibold text-white">
             검색
           </button>
           <button
@@ -193,6 +217,7 @@ export default function MemberRegistryClient() {
               setSelectedStatus("ALL");
               setSelectedStage("ALL");
               setSort("registered-desc");
+              updateSearch({ query: null, cellId: null, status: null, stage: null, id: null, tab: null });
             }}
             className="h-10 rounded-xl border border-[#d5deea] bg-white px-4 text-[12px] font-medium text-[#55697f]"
           >
@@ -202,7 +227,7 @@ export default function MemberRegistryClient() {
 
         <div className="mt-3 flex flex-wrap gap-2">
           {selectedCell !== "ALL" ? (
-            <FilterBadge label={`구역: ${MOCK_CELLS.find((cell) => cell.id === selectedCell)?.label ?? selectedCell}`} />
+            <FilterBadge label={`공동체: ${availableCells.find((cell) => cell.id === selectedCell)?.label ?? selectedCell}`} />
           ) : null}
           {selectedStatus !== "ALL" ? <FilterBadge label={`상태: ${STATUS_META[selectedStatus].label}`} /> : null}
           {selectedStage !== "ALL" ? <FilterBadge label={`레벨: Lv${STAGE_META[selectedStage].lv} ${STAGE_META[selectedStage].label}`} /> : null}
@@ -223,9 +248,9 @@ export default function MemberRegistryClient() {
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#edf2f7] px-5 py-4">
             <div className="flex items-center gap-3">
               <span className="text-[13px] text-[#5d6f86]">
-                전체 <span className="font-semibold text-[#132033]">{members.length}</span>건
+                전체 <span className="font-semibold text-[#132033]">{initialTotal}</span>건
               </span>
-              <span className="text-[11px] text-[#8fa3bb]">원본 목업 요약 기준 총 {MOCK_SUMMARY.total}명</span>
+              <span className="text-[11px] text-[#8fa3bb]">{initialHasNext ? "추가 페이지 있음" : "현재 결과 마지막 페이지"}</span>
             </div>
             <div className="flex flex-wrap items-center gap-2">
               <label className="flex items-center gap-1.5 text-[11px] text-[#55697f]">
@@ -263,7 +288,7 @@ export default function MemberRegistryClient() {
                   <th className="px-4 py-3 text-[11px] font-semibold tracking-wide text-[#55697f]">이름</th>
                   <th className="px-4 py-3 text-[11px] font-semibold tracking-wide text-[#55697f]">연락처</th>
                   <th className="px-4 py-3 text-[11px] font-semibold tracking-wide text-[#55697f]">주소</th>
-                  <th className="px-4 py-3 text-[11px] font-semibold tracking-wide text-[#55697f]">구역 · 쉘</th>
+                  <th className="px-4 py-3 text-[11px] font-semibold tracking-wide text-[#55697f]">공동체(임시)</th>
                   <th className="px-4 py-3 text-[11px] font-semibold tracking-wide text-[#55697f]">신앙 레벨</th>
                   <th className="px-4 py-3 text-[11px] font-semibold tracking-wide text-[#55697f]">등록일</th>
                   <th className="px-4 py-3 text-[11px] font-semibold tracking-wide text-[#55697f]">상태</th>
@@ -297,7 +322,7 @@ export default function MemberRegistryClient() {
                       <td className="px-4 py-3 text-[12px] text-[#55697f]">{member.phone}</td>
                       <td className="px-4 py-3 text-[12px] text-[#55697f]">{member.address}</td>
                       <td className="px-4 py-3">
-                        <CellBadge label={member.cellLabel} />
+                        <CellBadge label={communityLabel(member.cellLabel)} />
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
@@ -327,6 +352,7 @@ export default function MemberRegistryClient() {
         {selectedMember ? (
           <MemberDrawer
             member={selectedMember}
+            detail={initialSelectedDetail}
             selectedTab={selectedTab}
             onClose={() => updateSearch({ id: null, tab: null })}
             onSelectTab={(tab) => updateSearch({ id: selectedMember.id, tab })}
@@ -337,15 +363,15 @@ export default function MemberRegistryClient() {
   );
 }
 
-function SummaryCards() {
+function SummaryCards({ members, total }: { members: Member[]; total: number }) {
   return (
     <section className="overflow-x-auto pb-1">
       <div className="grid min-w-[1040px] grid-cols-5 gap-3">
-        <SummaryCard label="전체 교인" value={MOCK_SUMMARY.total} suffix="명" accent="text-[#0f1c2e]" />
-        <SummaryCard label="출석 교인" value={MOCK_SUMMARY.active} suffix="명" accent="text-emerald-600" />
-        <SummaryCard label="새가족" value={MOCK_SUMMARY.newcomer} suffix="명" accent="text-blue-600" />
-        <SummaryCard label="쉼 / 장결" value={MOCK_SUMMARY.resting} suffix="명" accent="text-yellow-600" />
-        <SummaryCard label="상태 변경 제안" value={MOCK_SUMMARY.suggestionCount} suffix="건" accent="text-orange-500" />
+        <SummaryCard label="전체 교인" value={total} suffix="명" accent="text-[#0f1c2e]" />
+        <SummaryCard label="출석 교인" value={members.filter((member) => member.status === "ACTIVE").length} suffix="명" accent="text-emerald-600" />
+        <SummaryCard label="새가족" value={members.filter((member) => member.status === "NEW").length} suffix="명" accent="text-blue-600" />
+        <SummaryCard label="쉼 / 장결" value={members.filter((member) => member.status === "RESTING" || member.status === "LONG_ABSENT").length} suffix="명" accent="text-yellow-600" />
+        <SummaryCard label="현재 로드" value={members.length} suffix="건" accent="text-orange-500" />
       </div>
     </section>
   );
@@ -399,20 +425,22 @@ function Field({
 
 function MemberDrawer({
   member,
+  detail,
   selectedTab,
   onClose,
   onSelectTab,
 }: {
   member: Member;
+  detail: AdminMemberDetailResult | null;
   selectedTab: DrawerTab;
   onClose: () => void;
   onSelectTab: (tab: DrawerTab) => void;
 }) {
-  const family = MOCK_FAMILY[member.id] ?? [];
-  const faith = MOCK_FAITH_PROFILES[member.id];
-  const service = MOCK_SERVICES[member.id];
-  const events = MOCK_EVENTS[member.id] ?? [];
-  const attendance = MOCK_ATTENDANCE[member.id] ?? [];
+  const family = detail?.family ?? [];
+  const faith = detail?.faith;
+  const service = detail?.services;
+  const events = detail?.events ?? [];
+  const attendance = detail?.attendance ?? [];
 
   return (
     <aside className="fixed inset-y-16 right-0 z-30 w-full max-w-[720px] overflow-hidden border-l border-[#dbe4f0] bg-white shadow-2xl">
@@ -492,9 +520,9 @@ function BasicTab({
   attendance,
 }: {
   member: Member;
-  faith?: (typeof MOCK_FAITH_PROFILES)[string];
+  faith?: FaithProfile;
   familyCount: number;
-  attendance: (typeof MOCK_ATTENDANCE)[string];
+  attendance: AttendanceWeek[];
 }) {
   const completedWeeks = attendance.filter((item) => item.status !== null);
   const attendedWeeks = attendance.filter((item) => item.status === "ATTEND" || item.status === "ONLINE");
@@ -550,7 +578,7 @@ function BasicTab({
             { label: "이메일", value: member.email ?? "미등록" },
             { label: "직업", value: member.job ?? "미등록" },
             { label: "주소", value: `${member.address}${member.addressDetail ? `, ${member.addressDetail}` : ""}`, span: 2 },
-            { label: "구역 · 쉘", value: member.cellLabel },
+            { label: "공동체(임시 참조)", value: communityLabel(member.cellLabel) },
             { label: "가족 구성", value: `${familyCount}명 연결` },
           ]}
         />
@@ -589,7 +617,7 @@ function BasicTab({
   );
 }
 
-function FamilyTab({ family }: { family: (typeof MOCK_FAMILY)[string] }) {
+function FamilyTab({ family }: { family: FamilyMember[] }) {
   return (
     <div className="space-y-5">
       <section className="rounded-2xl border border-[#dbe4f0] bg-gradient-to-br from-purple-50/40 to-white px-5 py-4">
@@ -652,7 +680,16 @@ function FamilyTab({ family }: { family: (typeof MOCK_FAMILY)[string] }) {
   );
 }
 
-function ServiceTab({ service }: { service?: (typeof MOCK_SERVICES)[string] }) {
+function ServiceTab({
+  service,
+}: {
+  service?: {
+    active: ServiceAssignment[];
+    past: ServiceAssignment[];
+    tags: string[];
+    trainings: TrainingRecord[];
+  };
+}) {
   if (!service) {
     return <EmptyState title="봉사 정보가 없습니다." />;
   }

@@ -33,6 +33,17 @@ const NAV_GROUPS = [
         ),
       },
       {
+        href: "/admin/cells",
+        label: "구역/쉘 관리",
+        exact: false,
+        icon: (
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <path d="M8.5 2.5 13.5 5.4v6.2l-5 2.9-5-2.9V5.4l5-2.9Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+            <path d="M8.5 8.5 13.5 5.4M8.5 8.5 3.5 5.4M8.5 8.5v5.9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        ),
+      },
+      {
         href: "/admin/attendance",
         label: "출석 관리",
         exact: false,
@@ -122,7 +133,7 @@ export default function CmsSidebar({ canManageAccounts }: CmsSidebarProps) {
   const navGroups = NAV_GROUPS.map((group) => ({
     ...group,
     items: group.items.filter((item) => {
-      if (item.href === "/admin/members" || item.href === "/admin/attendance") {
+      if (item.href === "/admin/members" || item.href === "/admin/attendance" || item.href === "/admin/cells") {
         return true;
       }
 
