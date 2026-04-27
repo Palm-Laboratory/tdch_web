@@ -17,17 +17,23 @@ export default async function CmsLayout({
   }
 
   let topbarSession = session;
+  const sessionSaysSuperAdmin = session.user.accountRole === "SUPER_ADMIN";
 
   if (session.user.id) {
     try {
       const currentAccount = await getCurrentAdminAccount(session.user.id);
+      const effectiveAccountRole =
+        sessionSaysSuperAdmin || currentAccount.role === "SUPER_ADMIN"
+          ? "SUPER_ADMIN"
+          : currentAccount.role;
+
       topbarSession = {
         ...session,
         user: {
           ...session.user,
           name: currentAccount.displayName,
           username: currentAccount.username,
-          accountRole: currentAccount.role,
+          accountRole: effectiveAccountRole,
         },
       };
     } catch (error) {
@@ -43,7 +49,7 @@ export default async function CmsLayout({
       <div className="flex flex-1 flex-col overflow-hidden">
         <CmsTopbar session={topbarSession} />
         <main className="flex-1 overflow-y-auto bg-[#faf8ff]">
-          <div className="mx-auto max-w-5xl px-6 py-8">{children}</div>
+          <div className="mx-auto max-w-[1480px] px-6 py-8">{children}</div>
         </main>
       </div>
     </div>

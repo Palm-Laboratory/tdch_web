@@ -16,6 +16,38 @@ type NavItem = {
 
 const NAV_GROUPS = [
   {
+    label: "교회 관리",
+    items: [
+      {
+        href: "/admin/members",
+        label: "교적부 관리",
+        exact: false,
+        requireSuperAdmin: true,
+        icon: (
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <path d="M6 8.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M11.5 9.25a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M2 13.75c.7-1.7 2.4-2.75 4-2.75s3.3 1.05 4 2.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M10.5 11.5c1.6 0 3.3.55 4 1.85" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        ),
+      },
+      {
+        href: "/admin/attendance",
+        label: "출석 관리",
+        exact: false,
+        requireSuperAdmin: true,
+        icon: (
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <path d="M3.25 4.5a1 1 0 0 1 1-1h8.5a1 1 0 0 1 1 1v8.25a1 1 0 0 1-1 1h-8.5a1 1 0 0 1-1-1V4.5Z" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M5.5 2.5v2M11.5 2.5v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="m6 9.5 1.5 1.5L11 7.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        ),
+      },
+    ],
+  },
+  {
     label: "운영",
     items: [
       {
@@ -89,7 +121,13 @@ export default function CmsSidebar({ canManageAccounts }: CmsSidebarProps) {
   const currentPath = pathname ?? "";
   const navGroups = NAV_GROUPS.map((group) => ({
     ...group,
-    items: group.items.filter((item) => !item.requireSuperAdmin || canManageAccounts),
+    items: group.items.filter((item) => {
+      if (item.href === "/admin/members" || item.href === "/admin/attendance") {
+        return true;
+      }
+
+      return !item.requireSuperAdmin || canManageAccounts;
+    }),
   }));
 
   const isActive = (href: string, exact: boolean) => {

@@ -5,7 +5,6 @@ import PublicBoardDetailActions from "@/components/public-board/public-board-det
 import PublicBoardAttachmentsDropdown from "@/components/public-board/public-board-attachments-dropdown";
 import PublicBoardListControls from "@/components/public-board/public-board-list-controls";
 import {
-  type PublicBoardPostAsset,
   type PublicBoardPostDetail,
   type PublicBoardPostListResponse,
   type PublicBoardPostSummary,
