@@ -651,9 +651,10 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
             </p>
             {fileAttachments.length > 0 ? (
               <PublicBoardAttachmentsDropdown
+                boardPath={props.boardPath}
+                postId={props.post.id}
                 attachments={fileAttachments.map((asset) => ({
                   id: asset.id,
-                  storedPath: asset.storedPath,
                   filename: asset.originalFilename,
                   byteSize: asset.byteSize,
                 }))}

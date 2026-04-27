@@ -1,9 +1,25 @@
 import { NextResponse } from "next/server";
 import { joinApiUrl } from "@/lib/api-base-url";
+import { getPublicBoardPost } from "@/lib/public-board-api";
+import { resolvePublicMenuPath } from "@/lib/public-menu-api";
 import { SERVER_API_BASE_URL } from "@/lib/server-config";
 
-function normalizeStoredPath(value: string | null) {
-  const normalized = value?.trim().replace(/^\/+/, "") ?? "";
+function normalizeBoardPath(value: string | null) {
+  const normalized = value?.trim() ?? "";
+
+  if (!normalized.startsWith("/")) {
+    return null;
+  }
+
+  if (normalized.includes("..")) {
+    return null;
+  }
+
+  return normalized.replace(/\/+$/, "") || "/";
+}
+
+function normalizeStoredPath(value: string) {
+  const normalized = value.trim().replace(/^\/+/, "");
 
   if (!normalized || normalized.includes("..")) {
     return null;
@@ -20,11 +36,37 @@ function buildContentDisposition(filename: string) {
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const storedPath = normalizeStoredPath(searchParams.get("storedPath"));
+  const boardPath = normalizeBoardPath(searchParams.get("boardPath"));
+  const postId = searchParams.get("postId")?.trim() ?? "";
+  const assetId = searchParams.get("assetId")?.trim() ?? "";
   const filename = searchParams.get("filename")?.trim() || "attachment";
 
+  if (!boardPath || !postId || !assetId) {
+    return NextResponse.json({ message: "Invalid attachment request." }, { status: 400 });
+  }
+
+  const resolved = await resolvePublicMenuPath(boardPath);
+
+  if (!resolved || resolved.type !== "BOARD" || !resolved.boardKey) {
+    return NextResponse.json({ message: "Board not found." }, { status: 404 });
+  }
+
+  const post = await getPublicBoardPost(resolved.boardKey, resolved.menuId, postId);
+
+  if (!post) {
+    return NextResponse.json({ message: "Post not found." }, { status: 404 });
+  }
+
+  const asset = post.assets.find((candidate) => candidate.id === assetId && candidate.kind === "FILE_ATTACHMENT");
+
+  if (!asset) {
+    return NextResponse.json({ message: "Attachment not found." }, { status: 404 });
+  }
+
+  const storedPath = normalizeStoredPath(asset.storedPath);
+
   if (!storedPath) {
-    return NextResponse.json({ message: "Invalid storedPath." }, { status: 400 });
+    return NextResponse.json({ message: "Attachment path is invalid." }, { status: 404 });
   }
 
   const upstream = await fetch(joinApiUrl(SERVER_API_BASE_URL, `/upload/${storedPath}`), {
