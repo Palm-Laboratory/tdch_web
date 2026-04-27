@@ -27,6 +27,10 @@ export interface PublicBoardPostSummary {
   authorId: string;
   authorName: string;
   viewCount: number;
+  contentHtml: string;
+  hasInlineImage: boolean;
+  hasVideoEmbed: boolean;
+  hasAttachments: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -69,6 +73,10 @@ interface BackendBoardPostSummary {
   authorId?: string | number | null;
   authorName?: string | null;
   viewCount?: number | null;
+  contentHtml?: string | null;
+  hasInlineImage?: boolean | null;
+  hasVideoEmbed?: boolean | null;
+  hasAttachments?: boolean | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -134,6 +142,10 @@ function normalizeSummary(post: BackendBoardPostSummary): PublicBoardPostSummary
     authorId: post.authorId == null ? "" : toFrontendId(post.authorId),
     authorName: post.authorName ?? "",
     viewCount: post.viewCount ?? 0,
+    contentHtml: post.contentHtml ?? "",
+    hasInlineImage: post.hasInlineImage ?? false,
+    hasVideoEmbed: post.hasVideoEmbed ?? false,
+    hasAttachments: post.hasAttachments ?? false,
     createdAt: post.createdAt,
     updatedAt: post.updatedAt,
   };

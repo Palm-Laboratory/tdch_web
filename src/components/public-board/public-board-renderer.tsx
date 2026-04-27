@@ -128,6 +128,30 @@ function getBoardPostNumber(currentPage: number, pageSize: number, totalItems: n
   return totalItems - (currentPage - 1) * pageSize - index;
 }
 
+function ImageIndicatorIcon() {
+  return (
+    <svg viewBox="0 0 20 20" aria-hidden="true" className="h-4 w-5 fill-current">
+      <path d="M4 4.75A1.75 1.75 0 0 1 5.75 3h8.5A1.75 1.75 0 0 1 16 4.75v10.5A1.75 1.75 0 0 1 14.25 17h-8.5A1.75 1.75 0 0 1 4 15.25zm1.5 8.82 2.28-2.73a.75.75 0 0 1 1.13-.03l1.54 1.76 2.2-2.57a.75.75 0 0 1 1.14 0l.71.83V4.75a.25.25 0 0 0-.25-.25h-8.5a.25.25 0 0 0-.25.25zm9 1.68v-2.11l-1.28-1.5-2.24 2.62a.75.75 0 0 1-1.14 0L8.31 12.5l-2.81 3.37a.25.25 0 0 0 .25.13h8.5a.25.25 0 0 0 .25-.25M8.25 7.5a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5" />
+    </svg>
+  );
+}
+
+function VideoIndicatorIcon() {
+  return (
+    <svg viewBox="0 0 20 20" aria-hidden="true" className="h-4 w-4 fill-current">
+      <path d="M10 3.25c-3.73 0-5.98.2-7 .42a1.6 1.6 0 0 0-1.25 1.24C1.5 5.94 1.25 7.63 1.25 10s.25 4.06.5 5.09A1.6 1.6 0 0 0 3 16.33c1.02.22 3.27.42 7 .42s5.98-.2 7-.42a1.6 1.6 0 0 0 1.25-1.24c.25-1.03.5-2.72.5-5.09s-.25-4.06-.5-5.09A1.6 1.6 0 0 0 17 3.67c-1.02-.22-3.27-.42-7-.42m-1.1 4.24 4.22 2.31a.23.23 0 0 1 0 .4L8.9 12.51A.23.23 0 0 1 8.56 12V8a.23.23 0 0 1 .34-.2" />
+    </svg>
+  );
+}
+
+function AttachmentIndicatorIcon() {
+  return (
+    <svg viewBox="0 0 20 20" aria-hidden="true" className="h-4 w-4 fill-current">
+      <path d="M13.85 5.15a3 3 0 0 0-4.24 0l-5.1 5.1a4.25 4.25 0 0 0 6.01 6.01l5.6-5.6a2.75 2.75 0 0 0-3.89-3.89L6.79 12.2a1.5 1.5 0 1 0 2.12 2.12l4.2-4.2.88.88-4.2 4.2a2.75 2.75 0 1 1-3.89-3.89l5.44-5.44a4 4 0 1 1 5.66 5.66l-5.6 5.6a5.5 5.5 0 0 1-7.78-7.78l5.1-5.1a4.25 4.25 0 0 1 6.01 6.01l-5.1 5.1-.88-.88 5.1-5.1a3 3 0 0 0 0-4.24" />
+    </svg>
+  );
+}
+
 function getTextAlignStyle(attrs: Record<string, unknown> | undefined): CSSProperties | undefined {
   const align = attrs?.textAlign;
   return align === "center" || align === "right" || align === "justify" ? { textAlign: align } : undefined;
@@ -432,8 +456,25 @@ function renderBoardPostSummary(
         <span className={`type-body-small text-center font-medium ${numberClassName}`}>
           {numberLabel}
         </span>
-        <span className="type-body min-w-0 truncate font-semibold text-[#10213f] group-hover:text-[#2a4f8f]">
-          {post.title}
+        <span className="flex min-w-0 items-center gap-2">
+          <span className="type-body min-w-0 truncate font-semibold text-[#10213f] group-hover:text-[#2a4f8f]">
+            {post.title}
+          </span>
+          {post.hasAttachments ? (
+            <span className="shrink-0 text-[#7c8aa0]" title="첨부파일 포함">
+              <AttachmentIndicatorIcon />
+            </span>
+          ) : null}
+          {post.hasInlineImage ? (
+            <span className="shrink-0 text-[#7c8aa0]" title="이미지 포함">
+              <ImageIndicatorIcon />
+            </span>
+          ) : null}
+          {post.hasVideoEmbed ? (
+            <span className="shrink-0 text-[#7c8aa0]" title="영상 포함">
+              <VideoIndicatorIcon />
+            </span>
+          ) : null}
         </span>
         <span className="type-body-small truncate text-center text-[#64748b]">
           {post.authorName || "-"}
