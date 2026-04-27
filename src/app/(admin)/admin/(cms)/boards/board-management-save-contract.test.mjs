@@ -140,6 +140,46 @@ test("board management client returns to the post list after successful create o
   );
 });
 
+test("board management client deletes posts through the internal route and returns to the list", async () => {
+  const contents = await readSource(clientPath);
+
+  assert.match(
+    contents,
+    /selectedPostId\s*\?\s*\([\s\S]*삭제[\s\S]*\)\s*:\s*null/s,
+    "Expected the editor screen to show a delete button only for existing posts.",
+  );
+  assert.match(
+    contents,
+    /window\.confirm\s*\(\s*["']이 게시글을 삭제하시겠습니까\?["']\s*\)/,
+    "Expected post deletion to require explicit confirmation.",
+  );
+  assert.match(
+    contents,
+    /fetch\s*\(\s*`\/api\/admin\/boards\/\$\{[^}]*\}\/posts\/\$\{[^}]*\}\?menuId=\$\{[^}]*\}`[\s\S]*method\s*:\s*["']DELETE["']/s,
+    "Expected post deletion to call the internal DELETE board-post route with menuId.",
+  );
+  assert.match(
+    contents,
+    /setPosts\s*\(\s*\(current\)\s*=>\s*current\.filter\s*\(\s*\(post\)\s*=>\s*post\.id\s*!==\s*selectedPostId\s*\)\s*\)/s,
+    "Expected successful deletion to remove the deleted post from the local list.",
+  );
+  assert.match(
+    contents,
+    /pendingNoticeRef\.current\s*=\s*["']게시글을 삭제했습니다\.["'][\s\S]*window\.history\.back\(\)|setScreenMode\s*\(\s*["']list["']\s*\)[\s\S]*게시글을 삭제했습니다/s,
+    "Expected successful deletion to return the user to the post list with a success notice.",
+  );
+});
+
+test("board management client clears editor state before leaving the editor after a successful delete", async () => {
+  const contents = await readSource(clientPath);
+
+  assert.match(
+    contents,
+    /setPosts\s*\(\s*\(current\)\s*=>\s*current\.filter[\s\S]*setListReloadTick[\s\S]*(setSelectedPostId\s*\(\s*null\s*\))[\s\S]*(setDraft\s*\(\s*createEmptyDraft\(\)\s*\))[\s\S]*(setAttachmentAssetIds\s*\(\s*\[\]\s*\))[\s\S]*(pendingNoticeRef\.current\s*=\s*["']게시글을 삭제했습니다\.["'])[\s\S]*window\.history\.back\(\)/s,
+    "Expected successful deletion to clear the selected post and draft state before navigating back to the list.",
+  );
+});
+
 test("board management client uploads FILE_ATTACHMENT assets and includes them in save payload", async () => {
   const contents = await readSource(clientPath);
 

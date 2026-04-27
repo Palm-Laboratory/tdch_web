@@ -548,6 +548,55 @@ export default function BoardManagementClient({
     }
   };
 
+  const handleDelete = async () => {
+    if (!selectedBoard || !selectedPostId) {
+      return;
+    }
+
+    const confirmed = window.confirm("이 게시글을 삭제하시겠습니까?");
+    if (!confirmed) {
+      return;
+    }
+
+    setSaving(true);
+    setError(null);
+    setNotice(null);
+
+    try {
+      const response = await fetch(
+        `/api/admin/boards/${selectedBoard.slug}/posts/${selectedPostId}?menuId=${selectedMenuId}`,
+        {
+          method: "DELETE",
+        },
+      );
+
+      if (!response.ok) {
+        const payload = (await response.json()) as { message?: string };
+        throw new Error(payload.message || "게시글을 삭제하지 못했습니다.");
+      }
+
+      setPosts((current) => current.filter((post) => post.id !== selectedPostId));
+      setListReloadTick((current) => current + 1);
+      setSelectedPostId(null);
+      setDraft(createEmptyDraft());
+      setAttachmentAssetIds([]);
+      if (editorPushedRef.current) {
+        pendingNoticeRef.current = "게시글을 삭제했습니다.";
+        window.history.back();
+      } else {
+        setScreenMode("list");
+        setNotice("게시글을 삭제했습니다.");
+        toast.success("게시글을 삭제했습니다.");
+      }
+    } catch (deleteError) {
+      const message = getErrorMessage(deleteError, "게시글을 삭제하지 못했습니다.");
+      setError(message);
+      toast.error(message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (screenMode === "list") {
     return (
       <div className="space-y-4">
@@ -706,24 +755,36 @@ export default function BoardManagementClient({
             <h2 className="text-[15px] font-bold text-[#132033]">{selectedPostId ? "게시글 상세" : "새 게시글 작성"}</h2>
             <p className="mt-1 text-[12px] text-[#6d7f95]">상세와 새 게시글 작성은 같은 편집 화면에서 관리합니다.</p>
           </div>
-          <button
-            type="button"
-            onClick={() => {
-              if (editorPushedRef.current) {
-                window.history.back(); // popstate가 목록 복귀 처리
-              } else {
-                setScreenMode("list");
-                setSelectedPostId(null);
-                setDraft(createEmptyDraft());
-                setAttachmentAssetIds([]);
-                setError(null);
-                setNotice(null);
-              }
-            }}
-            className="rounded-lg border border-[#d7e3f4] bg-white px-3 py-2 text-[12px] font-semibold text-[#334155]"
-          >
-            목록으로
-          </button>
+          <div className="flex items-center gap-2">
+            {selectedPostId ? (
+              <button
+                type="button"
+                onClick={handleDelete}
+                disabled={saving}
+                className="rounded-lg border border-[#fecaca] bg-[#fff1f2] px-3 py-2 text-[12px] font-semibold text-[#b42318] disabled:opacity-60"
+              >
+                삭제
+              </button>
+            ) : null}
+            <button
+              type="button"
+              onClick={() => {
+                if (editorPushedRef.current) {
+                  window.history.back(); // popstate가 목록 복귀 처리
+                } else {
+                  setScreenMode("list");
+                  setSelectedPostId(null);
+                  setDraft(createEmptyDraft());
+                  setAttachmentAssetIds([]);
+                  setError(null);
+                  setNotice(null);
+                }
+              }}
+              className="rounded-lg border border-[#d7e3f4] bg-white px-3 py-2 text-[12px] font-semibold text-[#334155]"
+            >
+              목록으로
+            </button>
+          </div>
         </div>
 
         <div className="space-y-5 px-5 py-5">
