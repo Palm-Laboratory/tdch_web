@@ -20,6 +20,7 @@ type PublicBoardRendererListProps = {
   pageSize: number;
   totalItems: number;
   totalPages: number;
+  searchTitle: string;
 };
 
 type PublicBoardRendererDetailProps = {
@@ -60,10 +61,10 @@ function formatDate(value: string) {
     return formatter.format(date);
   }
 
-  const year = String(date.getFullYear()).slice(-2);
+  const year = String(date.getFullYear());
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
-  return `${year}/${month}/${day} ${formatter.format(date)}`;
+  return `${year}.${month}.${day} ${formatter.format(date)}`;
 }
 
 function normalizeYouTubeVideoId(value: unknown): string | null {
@@ -451,38 +452,82 @@ function renderBoardPostSummary(
     <li key={post.id} className={itemClassName}>
       <Link
         href={getBoardPathHref(boardPath, post.id)}
-        className="group grid grid-cols-[72px_minmax(0,1fr)_84px_108px_72px] items-center gap-3 px-3 py-4 md:grid-cols-[88px_minmax(0,1fr)_120px_132px_88px] md:px-5"
+        className="group block px-3 py-4 md:grid md:grid-cols-[88px_minmax(0,1fr)_120px_132px_88px] md:items-center md:gap-3 md:px-5"
       >
-        <span className={`type-body-small text-center font-medium ${numberClassName}`}>
+        <div className="grid grid-cols-[52px_minmax(0,1fr)] gap-x-3 gap-y-1 md:hidden">
+          <span
+            className={`type-body-small row-span-2 flex items-start justify-start pt-0.5 font-medium ${
+              post.isPinned
+                ? "text-white"
+                : numberClassName
+            }`}
+          >
+            {post.isPinned ? (
+              <span className="inline-flex min-h-8 items-center rounded-[6px] bg-[#6b7280] px-2.5 text-center leading-none">
+                {numberLabel}
+              </span>
+            ) : (
+              numberLabel
+            )}
+          </span>
+          <span className="flex min-w-0 items-center gap-1.5">
+            <span className="type-body min-w-0 truncate font-semibold text-[#10213f] group-hover:text-[#2a4f8f]">
+              {post.title}
+            </span>
+            {post.hasAttachments ? (
+              <span className="shrink-0 text-[#7c8aa0]" title="첨부파일 포함">
+                <AttachmentIndicatorIcon />
+              </span>
+            ) : null}
+            {post.hasInlineImage ? (
+              <span className="shrink-0 text-[#7c8aa0]" title="이미지 포함">
+                <ImageIndicatorIcon />
+              </span>
+            ) : null}
+            {post.hasVideoEmbed ? (
+              <span className="shrink-0 text-[#7c8aa0]" title="영상 포함">
+                <VideoIndicatorIcon />
+              </span>
+            ) : null}
+          </span>
+          <span className="type-body-xsmall flex min-w-0 items-center gap-1 whitespace-nowrap text-[#8b95a7]">
+            <span className="truncate">{post.authorName || "-"}</span>
+            <span className="text-[#c0c7d4]">/</span>
+            <time dateTime={post.createdAt}>{formatDate(post.createdAt)}</time>
+            <span className="text-[#c0c7d4]">/</span>
+            <span>조회 {post.viewCount.toLocaleString("ko-KR")}</span>
+          </span>
+        </div>
+        <span className={`hidden type-body-small text-center font-medium md:block ${numberClassName}`}>
           {numberLabel}
         </span>
-        <span className="flex min-w-0 items-center gap-2">
+        <span className="hidden min-w-0 items-center gap-2 md:flex">
           <span className="type-body min-w-0 truncate font-semibold text-[#10213f] group-hover:text-[#2a4f8f]">
             {post.title}
           </span>
-          {post.hasAttachments ? (
-            <span className="shrink-0 text-[#7c8aa0]" title="첨부파일 포함">
-              <AttachmentIndicatorIcon />
-            </span>
-          ) : null}
-          {post.hasInlineImage ? (
-            <span className="shrink-0 text-[#7c8aa0]" title="이미지 포함">
-              <ImageIndicatorIcon />
-            </span>
-          ) : null}
-          {post.hasVideoEmbed ? (
+            {post.hasAttachments ? (
+              <span className="shrink-0 text-[#7c8aa0]" title="첨부파일 포함">
+                <AttachmentIndicatorIcon />
+              </span>
+            ) : null}
+            {post.hasInlineImage ? (
+              <span className="shrink-0 text-[#7c8aa0]" title="이미지 포함">
+                <ImageIndicatorIcon />
+              </span>
+            ) : null}
+            {post.hasVideoEmbed ? (
             <span className="shrink-0 text-[#7c8aa0]" title="영상 포함">
               <VideoIndicatorIcon />
             </span>
           ) : null}
         </span>
-        <span className="type-body-small truncate text-center text-[#64748b]">
+        <span className="hidden type-body-small truncate text-center text-[#64748b] md:block">
           {post.authorName || "-"}
         </span>
-        <time dateTime={post.createdAt} className="type-body-small text-center text-[#64748b]">
+        <time dateTime={post.createdAt} className="hidden type-body-small text-center text-[#64748b] md:block">
           {formatDate(post.createdAt)}
         </time>
-        <span className="type-body-small text-center text-[#64748b]">
+        <span className="hidden type-body-small text-center text-[#64748b] md:block">
           {post.viewCount.toLocaleString("ko-KR")}
         </span>
       </Link>
@@ -521,9 +566,9 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
           </header>
           {props.posts.length > 0 ? (
             <>
-              <PublicBoardListControls totalItems={props.totalItems} pageSize={props.pageSize} />
+              <PublicBoardListControls totalItems={props.totalItems} pageSize={props.pageSize} searchTitle={props.searchTitle} />
               <div className="border-b border-site-ink">
-                <div className="grid grid-cols-[72px_minmax(0,1fr)_84px_108px_72px] gap-3 px-3 py-3 text-center md:grid-cols-[88px_minmax(0,1fr)_120px_132px_88px] md:px-5">
+                <div className="hidden gap-3 px-3 py-3 text-center md:grid md:grid-cols-[88px_minmax(0,1fr)_120px_132px_88px] md:px-5">
                   <span className="type-label text-center font-semibold tracking-[0.08em] text-[#64748b]">번호</span>
                   <span className="type-label text-center font-semibold tracking-[0.08em] text-[#64748b]">제목</span>
                   <span className="type-label text-center font-semibold tracking-[0.08em] text-[#64748b]">작성자</span>

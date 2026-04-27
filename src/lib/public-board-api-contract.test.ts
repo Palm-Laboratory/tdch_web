@@ -75,10 +75,11 @@ const _assertListResponse: PublicBoardPostListResponse = {
   pageSize: 12,
   totalItems: 1,
   totalPages: 1,
+  searchTitle: "예배",
 };
 
 async function assertPublicBoardApiContract() {
-  const list = await listPublicBoardPosts(_assertBoardSlug, _assertMenuId, { page: 1, size: 12 });
+  const list = await listPublicBoardPosts(_assertBoardSlug, _assertMenuId, { page: 1, size: 12, title: "예배" });
   const detail = await getPublicBoardPost(_assertBoardSlug, _assertMenuId, _assertPostId);
 
   const _assertList: PublicBoardPostListResponse | null = list;

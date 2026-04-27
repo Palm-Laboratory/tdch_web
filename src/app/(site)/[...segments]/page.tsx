@@ -24,7 +24,7 @@ interface DynamicRoutePageProps {
   params: Promise<{
     segments: string[];
   }>;
-  searchParams: Promise<{ page?: string | string[]; size?: string | string[] }>;
+  searchParams: Promise<{ page?: string | string[]; size?: string | string[]; title?: string | string[] }>;
 }
 
 export const dynamic = "force-dynamic";
@@ -65,11 +65,16 @@ function getNormalizedBoardPageSize(size: string | string[] | undefined): number
   return BOARD_PAGE_SIZE_OPTIONS.has(pageSize) ? pageSize : DEFAULT_BOARD_PAGE_SIZE;
 }
 
-function getBoardListTargetPath(boardPath: string, page: number) {
-  return getBoardListPath(boardPath, page, DEFAULT_BOARD_PAGE_SIZE);
+function getNormalizedBoardTitle(title: string | string[] | undefined): string {
+  const titleValue = Array.isArray(title) ? title[0] : title;
+  return titleValue?.trim() ?? "";
 }
 
-function getBoardListPath(boardPath: string, page: number, pageSize: number) {
+function getBoardListTargetPath(boardPath: string, page: number, title = "") {
+  return getBoardListPath(boardPath, page, DEFAULT_BOARD_PAGE_SIZE, title);
+}
+
+function getBoardListPath(boardPath: string, page: number, pageSize: number, title = "") {
   const params = new URLSearchParams();
 
   if (page > 1) {
@@ -80,11 +85,15 @@ function getBoardListPath(boardPath: string, page: number, pageSize: number) {
     params.set("size", String(pageSize));
   }
 
+  if (title.trim()) {
+    params.set("title", title.trim());
+  }
+
   const query = params.toString();
   return query ? `${boardPath}?${query}` : boardPath;
 }
 
-async function loadPublicBoardList(resolved: PublicResolvedMenuPage, page: number, pageSize: number) {
+async function loadPublicBoardList(resolved: PublicResolvedMenuPage, page: number, pageSize: number, title: string) {
   if (!resolved.boardKey) {
     notFound();
   }
@@ -92,6 +101,7 @@ async function loadPublicBoardList(resolved: PublicResolvedMenuPage, page: numbe
   const list = await listPublicBoardPosts(resolved.boardKey, resolved.menuId, {
     page: page - 1,
     size: pageSize,
+    title,
   });
 
   if (!list) {
@@ -117,6 +127,7 @@ function renderPublicBoardList(
         pageSize={list.pageSize}
         totalItems={list.totalItems}
         totalPages={list.totalPages}
+        searchTitle={list.searchTitle}
       />
     </PublicBoardPageShell>
   );
@@ -290,11 +301,12 @@ export async function generateMetadata({
   searchParams,
 }: DynamicRoutePageProps): Promise<Metadata> {
   const { segments } = await params;
-  const { page, size } = await searchParams;
+  const { page, size, title } = await searchParams;
   const path = toResolvedPath(segments);
   const resolved = await resolvePublicMenuPath(path);
   const normalizedPage = getNormalizedPage(page);
   const normalizedBoardPageSize = getNormalizedBoardPageSize(size);
+  const normalizedBoardTitle = getNormalizedBoardTitle(title);
 
   if (!resolved) {
     const videoState = await resolvePublicVideoState(path);
@@ -320,7 +332,7 @@ export async function generateMetadata({
       return createPageMetadata({
         title: normalizedPage > 1 ? `${boardState.resolved.label} - ${normalizedPage}페이지` : boardState.resolved.label,
         description: `${boardState.resolved.label} | The 제자교회`,
-        path: getBoardListPath(boardState.resolved.fullPath, normalizedPage, normalizedBoardPageSize),
+        path: getBoardListPath(boardState.resolved.fullPath, normalizedPage, normalizedBoardPageSize, normalizedBoardTitle),
       });
     }
 
@@ -354,7 +366,7 @@ export async function generateMetadata({
       return createPageMetadata({
         title: normalizedPage > 1 ? `${resolved.label} - ${normalizedPage}페이지` : resolved.label,
         description: `${resolved.label} | The 제자교회`,
-        path: getBoardListPath(path, normalizedPage, normalizedBoardPageSize),
+        path: getBoardListPath(path, normalizedPage, normalizedBoardPageSize, normalizedBoardTitle),
       });
     }
   }
@@ -371,11 +383,12 @@ export default async function DynamicRoutePage({
   searchParams,
 }: DynamicRoutePageProps) {
   const { segments } = await params;
-  const { page, size } = await searchParams;
+  const { page, size, title } = await searchParams;
   const path = toResolvedPath(segments);
   const resolved = await resolvePublicMenuPath(path);
   const normalizedPage = getNormalizedPage(page);
   const normalizedBoardPageSize = getNormalizedBoardPageSize(size);
+  const normalizedBoardTitle = getNormalizedBoardTitle(title);
 
   if (!resolved) {
     const videoState = await resolvePublicVideoState(path);
@@ -395,14 +408,14 @@ export default async function DynamicRoutePage({
     }
 
     if (boardState.kind === "list") {
-      const list = await loadPublicBoardList(boardState.resolved, normalizedPage, normalizedBoardPageSize);
+      const list = await loadPublicBoardList(boardState.resolved, normalizedPage, normalizedBoardPageSize, normalizedBoardTitle);
 
       if (list.totalItems > 0 && normalizedPage > list.totalPages) {
-        redirect(getBoardListPath(boardState.resolved.fullPath, list.totalPages, normalizedBoardPageSize));
+        redirect(getBoardListPath(boardState.resolved.fullPath, list.totalPages, normalizedBoardPageSize, normalizedBoardTitle));
       }
 
       if (list.currentPage !== normalizedPage) {
-        redirect(getBoardListPath(boardState.resolved.fullPath, list.currentPage, normalizedBoardPageSize));
+        redirect(getBoardListPath(boardState.resolved.fullPath, list.currentPage, normalizedBoardPageSize, normalizedBoardTitle));
       }
 
       return renderPublicBoardList(boardState.resolved.label, boardState.resolved.fullPath, list);
@@ -432,14 +445,14 @@ export default async function DynamicRoutePage({
     }
 
     if (resolved.fullPath === path) {
-      const list = await loadPublicBoardList(resolved, normalizedPage, normalizedBoardPageSize);
+      const list = await loadPublicBoardList(resolved, normalizedPage, normalizedBoardPageSize, normalizedBoardTitle);
 
       if (list.totalItems > 0 && normalizedPage > list.totalPages) {
-        redirect(getBoardListPath(resolved.fullPath, list.totalPages, normalizedBoardPageSize));
+        redirect(getBoardListPath(resolved.fullPath, list.totalPages, normalizedBoardPageSize, normalizedBoardTitle));
       }
 
       if (list.currentPage !== normalizedPage) {
-        redirect(getBoardListPath(resolved.fullPath, list.currentPage, normalizedBoardPageSize));
+        redirect(getBoardListPath(resolved.fullPath, list.currentPage, normalizedBoardPageSize, normalizedBoardTitle));
       }
 
       return renderPublicBoardList(resolved.label, resolved.fullPath, list);
@@ -449,14 +462,14 @@ export default async function DynamicRoutePage({
   const boardState = await resolvePublicBoardState(path);
 
   if (boardState.kind === "list") {
-    const list = await loadPublicBoardList(boardState.resolved, normalizedPage, normalizedBoardPageSize);
+    const list = await loadPublicBoardList(boardState.resolved, normalizedPage, normalizedBoardPageSize, normalizedBoardTitle);
 
     if (list.totalItems > 0 && normalizedPage > list.totalPages) {
-      redirect(getBoardListPath(boardState.resolved.fullPath, list.totalPages, normalizedBoardPageSize));
+      redirect(getBoardListPath(boardState.resolved.fullPath, list.totalPages, normalizedBoardPageSize, normalizedBoardTitle));
     }
 
     if (list.currentPage !== normalizedPage) {
-      redirect(getBoardListPath(boardState.resolved.fullPath, list.currentPage, normalizedBoardPageSize));
+      redirect(getBoardListPath(boardState.resolved.fullPath, list.currentPage, normalizedBoardPageSize, normalizedBoardTitle));
     }
 
     return renderPublicBoardList(boardState.resolved.label, boardState.resolved.fullPath, list);

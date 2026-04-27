@@ -48,6 +48,7 @@ export interface PublicBoardPostListResponse {
   totalItems: number;
   totalPages: number;
   hasNext?: boolean;
+  searchTitle: string;
 }
 
 interface BackendBoardPostAsset {
@@ -168,6 +169,7 @@ function normalizeListResponse(
   payload: BackendBoardPostListResponse,
   requestedPage: number,
   requestedSize: number,
+  requestedTitle: string,
 ): PublicBoardPostListResponse {
   const page = typeof payload.page === "number" ? payload.page : requestedPage;
   const size = typeof payload.size === "number" ? payload.size : requestedSize;
@@ -181,6 +183,7 @@ function normalizeListResponse(
     totalItems,
     totalPages,
     hasNext: payload.hasNext,
+    searchTitle: requestedTitle,
   };
 }
 
@@ -189,15 +192,26 @@ async function fetchPublicBoardPosts(
   menuId: number,
   page: number,
   size: number,
+  title: string,
 ): Promise<PublicBoardPostListResponse | null> {
+  const params = new URLSearchParams({
+    menuId: String(menuId),
+    page: String(page),
+    size: String(size),
+  });
+
+  if (title) {
+    params.set("title", title);
+  }
+
   const payload = await serverFetchJsonOrNull<BackendBoardPostListResponse>(
-    `/api/v1/public/boards/${encodeURIComponent(slug)}/posts?menuId=${menuId}&page=${page}&size=${size}`,
+    `/api/v1/public/boards/${encodeURIComponent(slug)}/posts?${params.toString()}`,
     {
       next: PUBLIC_BOARD_REVALIDATE_OPTIONS,
     },
   );
 
-  return mapPayloadOrNull(payload, (value) => normalizeListResponse(value, page, size));
+  return mapPayloadOrNull(payload, (value) => normalizeListResponse(value, page, size, title));
 }
 
 async function fetchPublicBoardPost(
@@ -218,11 +232,12 @@ async function fetchPublicBoardPost(
 export async function listPublicBoardPosts(
   slug: string,
   menuId: number,
-  options: { page: number; size: number },
+  options: { page: number; size: number; title?: string },
 ): Promise<PublicBoardPostListResponse | null> {
+  const normalizedTitle = options.title?.trim() ?? "";
   return getOrSetPublicRequestCache(
-    `public-board-posts:${slug}:${menuId}:${options.page}:${options.size}`,
-    () => fetchPublicBoardPosts(slug, menuId, options.page, options.size),
+    `public-board-posts:${slug}:${menuId}:${options.page}:${options.size}:${normalizedTitle}`,
+    () => fetchPublicBoardPosts(slug, menuId, options.page, options.size, normalizedTitle),
   );
 }
 
