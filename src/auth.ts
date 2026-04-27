@@ -41,7 +41,7 @@ export const isAdminToken = (token?: JWT | null) =>
   Boolean(token?.role === "admin" && hasAdminIdentity(token));
 
 export const adminAuthOptions: NextAuthOptions = {
-  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+  secret: process.env.AUTH_SECRET,
   session: {
     strategy: "jwt",
     maxAge: resolveSessionMaxAge(),
