@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
+import PublicBoardListControls from "@/components/public-board/public-board-list-controls";
 import {
   type PublicBoardPostAsset,
   type PublicBoardPostDetail,
@@ -15,6 +16,10 @@ type PublicBoardRendererListProps = {
   boardLabel: string;
   boardPath: string;
   posts: PublicBoardPostListResponse["items"];
+  currentPage: number;
+  pageSize: number;
+  totalItems: number;
+  totalPages: number;
 };
 
 type PublicBoardRendererDetailProps = {
@@ -38,11 +43,27 @@ function formatDate(value: string) {
     return value;
   }
 
-  return new Intl.DateTimeFormat("ko-KR", {
-    dateStyle: "medium",
-    timeStyle: "short",
+  const now = new Date();
+  const formatter = new Intl.DateTimeFormat("ko-KR", {
     timeZone: "Asia/Seoul",
-  }).format(date);
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+
+  const isSameDay =
+    date.getFullYear() === now.getFullYear() &&
+    date.getMonth() === now.getMonth() &&
+    date.getDate() === now.getDate();
+
+  if (isSameDay) {
+    return formatter.format(date);
+  }
+
+  const year = String(date.getFullYear()).slice(-2);
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}/${month}/${day} ${formatter.format(date)}`;
 }
 
 function normalizeYouTubeVideoId(value: unknown): string | null {
@@ -96,6 +117,15 @@ function getAttachmentUrl(asset: PublicBoardPostAsset) {
 
 function getBoardPathHref(boardPath: string, postId: string) {
   return `${boardPath.replace(/\/+$/, "")}/${postId}`;
+}
+
+function getBoardListPageHref(boardPath: string, page: number) {
+  const normalizedPath = boardPath.replace(/\/+$/, "");
+  return page <= 1 ? normalizedPath : `${normalizedPath}?page=${page}`;
+}
+
+function getBoardPostNumber(currentPage: number, pageSize: number, totalItems: number, index: number) {
+  return totalItems - (currentPage - 1) * pageSize - index;
 }
 
 function getTextAlignStyle(attrs: Record<string, unknown> | undefined): CSSProperties | undefined {
@@ -382,22 +412,33 @@ function renderAttachment(asset: PublicBoardPostAsset) {
   );
 }
 
-function renderBoardPostSummary(boardPath: string, post: PublicBoardPostSummary) {
+function renderBoardPostSummary(
+  boardPath: string,
+  post: PublicBoardPostSummary,
+  number: number,
+) {
   const itemClassName = post.isPinned
     ? "border-b border-[#d7dde6] bg-[#f5f7fa] last:border-b-0"
     : "border-b border-[#e2e8f0] last:border-b-0";
+
+  const categoryClassName = post.isPinned ? "text-[#c2410c]" : "text-[#64748b]";
 
   return (
     <li key={post.id} className={itemClassName}>
       <Link
         href={getBoardPathHref(boardPath, post.id)}
-        className="group flex items-center justify-between gap-4 px-4 py-5 md:px-5"
+        className="group grid grid-cols-[56px_72px_minmax(0,1fr)_92px] items-center gap-3 px-3 py-4 md:grid-cols-[72px_88px_minmax(0,1fr)_120px] md:px-5"
       >
-        <span className="type-body-strong min-w-0 flex-1 truncate font-semibold text-[#10213f] group-hover:text-[#2a4f8f]">
-          {post.isPinned ? <span className="mr-2 text-[#c2410c]">공지</span> : null}
+        <span className="type-body-small text-center font-medium text-[#64748b]">
+          {number}
+        </span>
+        <span className={`type-label text-center font-semibold tracking-[0.08em] ${categoryClassName}`}>
+          {post.isPinned ? "공지" : "일반"}
+        </span>
+        <span className="type-body min-w-0 truncate font-semibold text-[#10213f] group-hover:text-[#2a4f8f]">
           {post.title}
         </span>
-        <time dateTime={post.createdAt} className="type-body-small shrink-0 text-[#64748b]">
+        <time dateTime={post.createdAt} className="type-body-small text-right text-[#64748b]">
           {formatDate(post.createdAt)}
         </time>
       </Link>
@@ -405,8 +446,21 @@ function renderBoardPostSummary(boardPath: string, post: PublicBoardPostSummary)
   );
 }
 
+function buildPaginationPages(currentPage: number, totalPages: number) {
+  const windowSize = 5;
+  const halfWindow = Math.floor(windowSize / 2);
+  let startPage = Math.max(1, currentPage - halfWindow);
+  const endPage = Math.min(totalPages, startPage + windowSize - 1);
+
+  startPage = Math.max(1, endPage - windowSize + 1);
+
+  return Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
+}
+
 export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
   if (props.mode === "list") {
+    const paginationPages = buildPaginationPages(props.currentPage, props.totalPages);
+
     return (
       <main className="bg-white pb-20">
         <section className="section-shell section-shell--narrow pt-10 md:pt-16">
@@ -422,7 +476,68 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
             </div>
           </header>
           {props.posts.length > 0 ? (
-            <ul>{props.posts.map((post) => renderBoardPostSummary(props.boardPath, post))}</ul>
+            <>
+              <PublicBoardListControls totalItems={props.totalItems} pageSize={props.pageSize} />
+              <div className="border-b border-site-ink">
+                <div className="grid grid-cols-[56px_72px_minmax(0,1fr)_92px] gap-3 px-3 py-3 text-center md:grid-cols-[72px_88px_minmax(0,1fr)_120px] md:px-5">
+                  <span className="type-label text-center font-semibold tracking-[0.08em] text-[#64748b]">번호</span>
+                  <span className="type-label text-center font-semibold tracking-[0.08em] text-[#64748b]">말머리</span>
+                  <span className="type-label text-center font-semibold tracking-[0.08em] text-[#64748b]">제목</span>
+                  <span className="type-label text-center font-semibold tracking-[0.08em] text-[#64748b]">날짜</span>
+                </div>
+              </div>
+              <ul>
+                {props.posts.map((post, index) =>
+                  renderBoardPostSummary(
+                    props.boardPath,
+                    post,
+                    getBoardPostNumber(props.currentPage, props.pageSize, props.totalItems, index),
+                  ),
+                )}
+              </ul>
+              {props.totalPages > 1 ? (
+                <nav aria-label={`${props.boardLabel} 페이지 이동`} className="mt-10 flex items-center justify-center gap-2">
+                  <Link
+                    href={getBoardListPageHref(props.boardPath, props.currentPage - 1)}
+                    aria-disabled={props.currentPage <= 1}
+                    className={`type-body-small inline-flex min-w-20 items-center justify-center rounded-full border px-4 py-2 transition ${props.currentPage <= 1
+                        ? "pointer-events-none border-[#d7dde6] text-[#9aa7b8]"
+                        : "border-[#d7dde6] text-[#334155] hover:border-[#2a4f8f] hover:text-[#2a4f8f]"
+                      }`}
+                  >
+                    이전
+                  </Link>
+                  <div className="flex items-center gap-2">
+                    {paginationPages.map((page) => {
+                      const isCurrent = page === props.currentPage;
+                      return (
+                        <Link
+                          key={page}
+                          href={getBoardListPageHref(props.boardPath, page)}
+                          aria-current={isCurrent ? "page" : undefined}
+                          className={`type-body-small inline-flex h-10 w-10 items-center justify-center rounded-full border transition ${isCurrent
+                              ? "border-[#10213f] bg-[#10213f] text-white"
+                              : "border-[#d7dde6] text-[#334155] hover:border-[#2a4f8f] hover:text-[#2a4f8f]"
+                            }`}
+                        >
+                          {page}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                  <Link
+                    href={getBoardListPageHref(props.boardPath, props.currentPage + 1)}
+                    aria-disabled={props.currentPage >= props.totalPages}
+                    className={`type-body-small inline-flex min-w-20 items-center justify-center rounded-full border px-4 py-2 transition ${props.currentPage >= props.totalPages
+                        ? "pointer-events-none border-[#d7dde6] text-[#9aa7b8]"
+                        : "border-[#d7dde6] text-[#334155] hover:border-[#2a4f8f] hover:text-[#2a4f8f]"
+                      }`}
+                  >
+                    다음
+                  </Link>
+                </nav>
+              ) : null}
+            </>
           ) : (
             <p className="type-body-small py-16 text-center text-[#64748b]">등록된 게시글이 없습니다.</p>
           )}

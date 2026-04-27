@@ -24,11 +24,13 @@ interface DynamicRoutePageProps {
   params: Promise<{
     segments: string[];
   }>;
-  searchParams: Promise<{ page?: string | string[] }>;
+  searchParams: Promise<{ page?: string | string[]; size?: string | string[] }>;
 }
 
 export const dynamic = "force-dynamic";
 
+const DEFAULT_BOARD_PAGE_SIZE = 20;
+const BOARD_PAGE_SIZE_OPTIONS = new Set([10, 20, 50]);
 const LONGFORM_PAGE_SIZE = 6;
 const SHORTFORM_PAGE_SIZE = 8;
 
@@ -57,12 +59,40 @@ function getNormalizedPage(page: string | string[] | undefined): number {
   return Number.isNaN(pageNumber) || pageNumber < 1 ? 1 : pageNumber;
 }
 
-async function loadPublicBoardList(resolved: PublicResolvedMenuPage) {
+function getNormalizedBoardPageSize(size: string | string[] | undefined): number {
+  const sizeValue = Array.isArray(size) ? size[0] : size;
+  const pageSize = Number.parseInt(sizeValue ?? String(DEFAULT_BOARD_PAGE_SIZE), 10);
+  return BOARD_PAGE_SIZE_OPTIONS.has(pageSize) ? pageSize : DEFAULT_BOARD_PAGE_SIZE;
+}
+
+function getBoardListTargetPath(boardPath: string, page: number) {
+  return getBoardListPath(boardPath, page, DEFAULT_BOARD_PAGE_SIZE);
+}
+
+function getBoardListPath(boardPath: string, page: number, pageSize: number) {
+  const params = new URLSearchParams();
+
+  if (page > 1) {
+    params.set("page", String(page));
+  }
+
+  if (pageSize !== DEFAULT_BOARD_PAGE_SIZE) {
+    params.set("size", String(pageSize));
+  }
+
+  const query = params.toString();
+  return query ? `${boardPath}?${query}` : boardPath;
+}
+
+async function loadPublicBoardList(resolved: PublicResolvedMenuPage, page: number, pageSize: number) {
   if (!resolved.boardKey) {
     notFound();
   }
 
-  const list = await listPublicBoardPosts(resolved.boardKey, resolved.menuId, { page: 0, size: 20 });
+  const list = await listPublicBoardPosts(resolved.boardKey, resolved.menuId, {
+    page: page - 1,
+    size: pageSize,
+  });
 
   if (!list) {
     notFound();
@@ -74,11 +104,20 @@ async function loadPublicBoardList(resolved: PublicResolvedMenuPage) {
 function renderPublicBoardList(
   boardLabel: string,
   boardPath: string,
-  posts: PublicBoardPostListResponse["items"],
+  list: PublicBoardPostListResponse,
 ) {
   return (
     <PublicBoardPageShell boardLabel={boardLabel}>
-      <PublicBoardRenderer mode="list" boardLabel={boardLabel} boardPath={boardPath} posts={posts} />
+      <PublicBoardRenderer
+        mode="list"
+        boardLabel={boardLabel}
+        boardPath={boardPath}
+        posts={list.items}
+        currentPage={list.currentPage}
+        pageSize={list.pageSize}
+        totalItems={list.totalItems}
+        totalPages={list.totalPages}
+      />
     </PublicBoardPageShell>
   );
 }
@@ -251,10 +290,11 @@ export async function generateMetadata({
   searchParams,
 }: DynamicRoutePageProps): Promise<Metadata> {
   const { segments } = await params;
-  const { page } = await searchParams;
+  const { page, size } = await searchParams;
   const path = toResolvedPath(segments);
   const resolved = await resolvePublicMenuPath(path);
   const normalizedPage = getNormalizedPage(page);
+  const normalizedBoardPageSize = getNormalizedBoardPageSize(size);
 
   if (!resolved) {
     const videoState = await resolvePublicVideoState(path);
@@ -278,9 +318,9 @@ export async function generateMetadata({
 
     if (boardState.kind === "list") {
       return createPageMetadata({
-        title: boardState.resolved.label,
+        title: normalizedPage > 1 ? `${boardState.resolved.label} - ${normalizedPage}페이지` : boardState.resolved.label,
         description: `${boardState.resolved.label} | The 제자교회`,
-        path: boardState.resolved.fullPath,
+        path: getBoardListPath(boardState.resolved.fullPath, normalizedPage, normalizedBoardPageSize),
       });
     }
 
@@ -312,9 +352,9 @@ export async function generateMetadata({
 
     if (resolved.fullPath === path) {
       return createPageMetadata({
-        title: resolved.label,
+        title: normalizedPage > 1 ? `${resolved.label} - ${normalizedPage}페이지` : resolved.label,
         description: `${resolved.label} | The 제자교회`,
-        path,
+        path: getBoardListPath(path, normalizedPage, normalizedBoardPageSize),
       });
     }
   }
@@ -331,10 +371,11 @@ export default async function DynamicRoutePage({
   searchParams,
 }: DynamicRoutePageProps) {
   const { segments } = await params;
-  const { page } = await searchParams;
+  const { page, size } = await searchParams;
   const path = toResolvedPath(segments);
   const resolved = await resolvePublicMenuPath(path);
   const normalizedPage = getNormalizedPage(page);
+  const normalizedBoardPageSize = getNormalizedBoardPageSize(size);
 
   if (!resolved) {
     const videoState = await resolvePublicVideoState(path);
@@ -354,8 +395,17 @@ export default async function DynamicRoutePage({
     }
 
     if (boardState.kind === "list") {
-      const list = await loadPublicBoardList(boardState.resolved);
-      return renderPublicBoardList(boardState.resolved.label, boardState.resolved.fullPath, list.items);
+      const list = await loadPublicBoardList(boardState.resolved, normalizedPage, normalizedBoardPageSize);
+
+      if (list.totalItems > 0 && normalizedPage > list.totalPages) {
+        redirect(getBoardListPath(boardState.resolved.fullPath, list.totalPages, normalizedBoardPageSize));
+      }
+
+      if (list.currentPage !== normalizedPage) {
+        redirect(getBoardListPath(boardState.resolved.fullPath, list.currentPage, normalizedBoardPageSize));
+      }
+
+      return renderPublicBoardList(boardState.resolved.label, boardState.resolved.fullPath, list);
     }
 
     notFound();
@@ -382,16 +432,34 @@ export default async function DynamicRoutePage({
     }
 
     if (resolved.fullPath === path) {
-      const list = await loadPublicBoardList(resolved);
-      return renderPublicBoardList(resolved.label, resolved.fullPath, list.items);
+      const list = await loadPublicBoardList(resolved, normalizedPage, normalizedBoardPageSize);
+
+      if (list.totalItems > 0 && normalizedPage > list.totalPages) {
+        redirect(getBoardListPath(resolved.fullPath, list.totalPages, normalizedBoardPageSize));
+      }
+
+      if (list.currentPage !== normalizedPage) {
+        redirect(getBoardListPath(resolved.fullPath, list.currentPage, normalizedBoardPageSize));
+      }
+
+      return renderPublicBoardList(resolved.label, resolved.fullPath, list);
     }
   }
 
   const boardState = await resolvePublicBoardState(path);
 
   if (boardState.kind === "list") {
-    const list = await loadPublicBoardList(boardState.resolved);
-    return renderPublicBoardList(boardState.resolved.label, boardState.resolved.fullPath, list.items);
+    const list = await loadPublicBoardList(boardState.resolved, normalizedPage, normalizedBoardPageSize);
+
+    if (list.totalItems > 0 && normalizedPage > list.totalPages) {
+      redirect(getBoardListPath(boardState.resolved.fullPath, list.totalPages, normalizedBoardPageSize));
+    }
+
+    if (list.currentPage !== normalizedPage) {
+      redirect(getBoardListPath(boardState.resolved.fullPath, list.currentPage, normalizedBoardPageSize));
+    }
+
+    return renderPublicBoardList(boardState.resolved.label, boardState.resolved.fullPath, list);
   }
 
   if (boardState.kind === "detail") {

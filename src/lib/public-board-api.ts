@@ -158,7 +158,7 @@ function normalizeListResponse(
 
   return {
     items: (payload.posts ?? []).map(normalizeSummary),
-    currentPage: page,
+    currentPage: page + 1,
     pageSize: size,
     totalItems,
     totalPages,
