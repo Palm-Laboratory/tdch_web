@@ -5,9 +5,7 @@ import { redirectToCanonicalStaticPathIfNeeded } from "@/lib/canonical-menu-path
 import {
   CHURCH_ADDRESS,
   CHURCH_EMAIL,
-  CHURCH_LATITUDE,
   CHURCH_LATITUDE_NUMBER,
-  CHURCH_LONGITUDE,
   CHURCH_LONGITUDE_NUMBER,
   CHURCH_PHONE,
   KAKAO_MAP_URL,

@@ -5,7 +5,6 @@ import PublicBoardRenderer from "@/components/public-board/public-board-renderer
 import PublicVideoPlaylistDetailView from "@/components/public-video-playlist-detail-view";
 import PublicVideoPlaylistView from "@/components/public-video-playlist-view";
 import SitePageShell from "@/components/site-page-shell";
-import { PUBLIC_ROUTE_REVALIDATE_SECONDS } from "@/lib/public-cache-policy";
 import {
   getPublicBoardPost,
   listPublicBoardPosts,
@@ -28,7 +27,7 @@ interface DynamicRoutePageProps {
   searchParams: Promise<{ page?: string | string[]; size?: string | string[]; title?: string | string[] }>;
 }
 
-export const revalidate = PUBLIC_ROUTE_REVALIDATE_SECONDS;
+export const revalidate = 300;
 
 const DEFAULT_BOARD_PAGE_SIZE = 20;
 const BOARD_PAGE_SIZE_OPTIONS = new Set([10, 20, 50]);
@@ -71,10 +70,6 @@ function getNormalizedBoardTitle(title: string | string[] | undefined): string {
   return titleValue?.trim() ?? "";
 }
 
-function getBoardListTargetPath(boardPath: string, page: number, title = "") {
-  return getBoardListPath(boardPath, page, DEFAULT_BOARD_PAGE_SIZE, title);
-}
-
 function getBoardListPath(boardPath: string, page: number, pageSize: number, title = "") {
   const params = new URLSearchParams();
 
@@ -100,7 +95,7 @@ function getBoardDetailPath(boardPath: string, postId: string) {
 
 type BoardRouteState =
   | { kind: "none" }
-  | { kind: "missing" }
+  | { kind: "missing"; resolved?: PublicResolvedMenuPage }
   | { kind: "list"; resolved: PublicResolvedMenuPage }
   | {
       kind: "detail";
@@ -111,7 +106,7 @@ type BoardRouteState =
 
 type VideoRouteState =
   | { kind: "none" }
-  | { kind: "missing" }
+  | { kind: "missing"; resolved?: PublicResolvedMenuPage }
   | { kind: "list"; resolved: PublicResolvedMenuPage }
   | { kind: "detail"; resolved: PublicResolvedMenuPage; video: PublicVideoDetail };
 

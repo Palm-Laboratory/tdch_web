@@ -246,12 +246,6 @@ const applicationNotes = [
   "문의: 교육부 이진욱 목사",
 ] as const;
 
-const applicationStages = [
-  { id: "disciples-step-1", label: "1단계: 믿음의 기초 (12주)", defaultChecked: true },
-  { id: "disciples-step-2", label: "2단계: 신앙 성장 (12주)" },
-  { id: "disciples-step-3", label: "3단계: 신앙 성숙 (12주)" },
-] as const;
-
 export const metadata: Metadata = createPageMetadata({
   title: "제자 훈련",
   description: "The 제자교회 제자훈련 3단계 로드맵, 교육 과정, 재생산 시스템과 신청 안내 페이지입니다.",
@@ -582,7 +576,7 @@ export default async function NewcomerDisciplesPage() {
               </ul>
             </div>
 
-            <DisciplesApplicationForm stageOptions={applicationStages} />
+            <DisciplesApplicationForm />
           </div>
         </section>
       </main>

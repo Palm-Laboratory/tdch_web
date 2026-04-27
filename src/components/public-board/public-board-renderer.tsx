@@ -112,10 +112,6 @@ function storedPathFromEditorImageSource(value: unknown): string {
   return sourceWithoutHash.replace(/^\/?upload\/+/, "").replace(/^\/+/, "");
 }
 
-function getAttachmentUrl(asset: PublicBoardPostAsset) {
-  return asset.publicUrl || composePublicUploadUrl(asset.storedPath);
-}
-
 function getBoardPathHref(boardPath: string, postId: string) {
   return `${boardPath.replace(/\/+$/, "")}/${postId}`;
 }
@@ -438,32 +434,6 @@ function renderTiptapDocument(document: PublicBoardPostDetail["contentJson"] | n
   const nodes = Array.isArray(root.content) ? root.content : [];
 
   return nodes.map((node, index) => renderTiptapNode(node, `node-${index}`));
-}
-
-function renderAttachment(asset: PublicBoardPostAsset) {
-  if (asset.kind !== "FILE_ATTACHMENT") {
-    return null;
-  }
-
-  const href = getAttachmentUrl(asset);
-  if (!href) {
-    return null;
-  }
-
-  const sizeLabel = `${asset.byteSize.toLocaleString("ko-KR")} bytes`;
-  const dimensions =
-    asset.width && asset.height ? `${asset.width} × ${asset.height}` : asset.width || asset.height ? "이미지" : null;
-
-  return (
-    <li key={asset.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-cedar/12 py-3 last:border-b-0">
-      <a href={href} target="_blank" rel="noreferrer" className="font-semibold text-cedar underline-offset-4 hover:underline">
-        {asset.originalFilename}
-      </a>
-      <span className="type-label text-site-muted">{asset.mimeType}</span>
-      <span className="type-label text-site-muted">{sizeLabel}</span>
-      {dimensions ? <span className="type-label text-site-muted">{dimensions}</span> : null}
-    </li>
-  );
 }
 
 function renderBoardPostSummary(
