@@ -160,7 +160,7 @@ const supportItems = ["주일학교 교재비", "여름·겨울 성경학교", "
 
 export const metadata: Metadata = createPageMetadata({
   title: "지상명령 다음세대",
-  description: "The 제자교회 지상명령 다음세대 사역과 부모·교사 참여 안내를 소개합니다.",
+  description: "대천침례교회 지상명령 다음 세대 사역과 부모·교사 참여 안내를 소개합니다.",
   path: "/commission/nextgen",
 });
 
@@ -214,7 +214,7 @@ export default function CommissionNextgenPage() {
             다음세대가 곧 교회의 미래입니다.
           </p>
           <p className="type-body-small leading-[1.8] tracking-[0.02em] text-[#6f675d]">
-            더 제자교회는 다음세대를 단순히 &quot;미래의 일꾼&quot;이 아니라 &quot;지금의 제자&quot;로 세웁니다.
+            대천침례교회는 다음 세대를 단순히 &quot;미래의 일꾼&quot;이 아니라 &quot;지금의 제자&quot;로 세웁니다.
             어린 시절부터 예수님을 만나고 말씀으로 양육받아 세상을 변화시키는 차세대 리더로 자라게 합니다.
           </p>
         </div>

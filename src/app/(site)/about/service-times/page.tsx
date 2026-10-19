@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import SectionHeading from "@/components/section-heading";
 import { redirectToCanonicalStaticPathIfNeeded } from "@/lib/canonical-menu-path";
-import { serviceTimes } from "@/lib/site-data";
+import { serviceNotices, serviceTimes } from "@/lib/site-data";
+import { SITE_NAME } from "@/lib/site-config";
 import { createPageMetadata } from "@/lib/seo";
 import MobileServiceCard from "./components/mobile-service-card";
 import ServiceNotice from "./components/service-notice";
@@ -10,7 +11,7 @@ import ServiceTimesTable from "./components/service-times-table";
 export const metadata: Metadata = createPageMetadata({
   title: "예배 시간 안내",
   description:
-    "The 제자교회 주일예배, 수요예배, 새벽기도회, 금요기도회 등 예배 시간 안내 및 특별 예배 일정을 확인하세요.",
+    `${SITE_NAME} 주일예배, 수요예배, 새벽기도회, 금요기도회 등 예배 시간 안내입니다.`,
   path: "/about/service-times",
 });
 
@@ -28,16 +29,11 @@ export default async function ServiceTimesPage() {
     location: service.location,
   }));
   const mainLocationRows = serviceRows.filter(
-    (service) => service.location === "나인아트홀"
+    (service) => service.location === "본당"
   );
   const otherLocationRows = serviceRows.filter(
-    (service) => service.location !== "나인아트홀"
+    (service) => service.location !== "본당"
   );
-  const noticeItems = [
-    "모든 주일 예배는 온라인 송출을 병행합니다.",
-    "예배시간 10분 전에 오셔서 예배를 준비해주세요.",
-    "매달 마지막 주 금요일은 선교 기도회로 진행됩니다.",
-  ];
 
   return (
     <div className="section-shell section-shell--narrow space-y-14 pt-10 md:pt-16 pb-20">
@@ -65,7 +61,7 @@ export default async function ServiceTimesPage() {
         <div className="mt-10 px-5 md:px-0">
           <SectionHeading title="안내" label="Notice" />
           <div className="mt-6">
-            <ServiceNotice items={noticeItems} />
+            <ServiceNotice items={serviceNotices} />
           </div>
         </div>
       </section>

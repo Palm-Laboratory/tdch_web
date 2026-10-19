@@ -100,7 +100,7 @@ test("menu management client labels slug as a URL path field", async () => {
 
 test("menu management client keeps DRAFT as a server-created playlist state only", async () => {
   const contents = await readClient();
-  const buildNewNodeMatch = contents.match(/function\s+buildNewNode[\s\S]*?\n}\n/);
+  const buildNewNodeMatch = contents.match(/function\s+buildNewNode[\s\S]*?\r?\n}\r?\n/);
 
   assert.ok(buildNewNodeMatch?.[0], "Expected MenuManagementClient to define buildNewNode.");
   assert.match(

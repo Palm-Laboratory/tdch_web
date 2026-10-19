@@ -16,15 +16,15 @@ const visionItems = [
   },
   {
     href: "/commission/culture",
-    label: "multicultural",
-    title: "다문화",
-    description: "함께 사는 세상 · 다가간 섬김",
+    label: "multicultural and multi ethnic",
+    title: "다문화·다민족",
+    description: "함께 사는 세상 · 땅끝 선교 · 세계 선교",
   },
   {
-    href: "/commission/ethnic",
-    label: "multi ethnic",
-    title: "다민족",
-    description: "땅끝 선교 · 세계 선교",
+    href: "/commission/senior",
+    label: "senior",
+    title: "시니어",
+    description: "존귀하게 섬김 · 믿음의 유산 전수",
   },
 ] as const;
 
@@ -81,16 +81,15 @@ const participateItems = [
 const historyLeftItems = [
   "17년간 필리핀 선교",
   "산타로사 한글학교 운영",
-  "현지인 리더 양성 · 현지 8교회 성장",
-  "4세대 재생산 제자훈련 실현",
+  "현지인 리더 양성",
   "2025년 자립 교회로 이양 완료",
 ] as const;
 
 const historyRightItems = [
-  "3D 선교 비전 계승",
+  "성령으로 제자 삼는 교회",
   "다음세대 사역 확장",
-  "다문화 가정 섬김",
-  "세계 선교 네트워크 구축",
+  "다문화·다민족 이웃 환대",
+  "시니어 믿음의 유산 계승",
 ] as const;
 
 const visionPhotos = [
@@ -104,16 +103,11 @@ const visionPhotos = [
     alt: "다음세대 아이들",
     frameClassName: "z-[13] right-[48px] top-[-6px] w-[274px] rotate-[4deg]",
   },
-  {
-    src: "/images/commission/vision-ethnic.jpg",
-    alt: "다민족 공동체",
-    frameClassName: "z-[11] right-[-156px] top-[174px] w-[226px] rotate-[9deg]",
-  },
 ] as const;
 
 export const metadata: Metadata = createPageMetadata({
   title: "지상명령 개요",
-  description: "The 제자교회 지상명령 개요와 3D 선교 비전을 소개합니다.",
+  description: "대천침례교회가 다음 세대, 다문화·다민족, 시니어와 함께 감당하는 지상명령을 소개합니다.",
   path: "/commission/summary",
 });
 
@@ -186,11 +180,11 @@ export default function CommissionSummaryPage() {
 
         <div className="mt-6 max-w-[780px] space-y-3">
           <p className="type-body leading-[1.7] tracking-[0.02em] text-[#1a2744]">
-            더 제자교회는 예수님의 지상명령을 교회의 최우선 사명으로 여깁니다.
+            대천침례교회는 예수님의 지상명령을 교회의 최우선 사명으로 여깁니다.
           </p>
           <p className="type-body leading-[1.7] tracking-[0.02em] text-[#1a2744]">
-            필리핀 17년 선교 사역의 열매로 3D 선교 전략을 세우고, 다음세대 · 다문화 ·
-            다민족을 향한 하나님 나라 확장에 헌신합니다.
+            선교로 세워진 교회, 선교사 출신 이진욱 목사와 함께 다음 세대 · 다문화·다민족 ·
+            시니어를 향한 하나님 나라 확장에 헌신합니다.
           </p>
         </div>
       </section>
@@ -198,13 +192,13 @@ export default function CommissionSummaryPage() {
       <section aria-labelledby="commission-vision-title" className="relative mt-20 md:mt-[68px]">
         <SectionHeading
           id="commission-vision-title"
-          label="3D mission vision"
-          title="3D 선교 비전"
+          label="mission vision"
+          title="선교 비전"
         />
 
         <p className="mt-5 max-w-[720px] type-body leading-[1.8] tracking-[0.02em] text-[#4f4a42]">
           &quot;모든 민족을 제자로&quot; - 지상명령의 부르심에 따라
-          <br className="hidden md:block lg:hidden" />더 제자교회는 세 방향으로 사명을 감당합니다.
+          <br className="hidden md:block lg:hidden" />대천침례교회는 세 방향으로 사명을 감당합니다.
         </p>
 
         <div className="relative mt-8">
@@ -311,7 +305,7 @@ export default function CommissionSummaryPage() {
         <SectionHeading
           id="commission-history-title"
           label="mission history"
-          title="더 제자교회 선교 사역"
+          title="대천침례교회 선교 사역"
         />
 
         <div className="mt-8 grid gap-10 md:grid-cols-[1fr_auto_1fr] md:items-start">
@@ -363,7 +357,7 @@ export default function CommissionSummaryPage() {
               </p>
             </div>
             <p className="mt-5 type-body font-bold tracking-[0.04em] text-[#4a4840]">
-              한국 더 제자교회 (수원/동탄/용인)
+              대천침례교회 (보령)
             </p>
             <ul className="mt-6 space-y-3">
               {historyRightItems.map((item) => (

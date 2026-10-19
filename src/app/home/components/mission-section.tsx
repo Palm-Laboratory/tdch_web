@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { gowunBatang } from "@/lib/fonts";
+import { SITE_NAME } from "@/lib/site-config";
 
 const missionCards = [
     {
@@ -66,7 +66,7 @@ export default function MissionSection() {
                         transition: "opacity 0.8s ease, transform 0.8s ease",
                     }}
                 >
-                    The 제자교회에 오신 것을 환영합니다
+                    {SITE_NAME}에 오신 것을 환영합니다
                 </h2>
             </section>
 
@@ -79,25 +79,12 @@ export default function MissionSection() {
                         transition: "opacity 0.9s ease 0.2s, transform 0.9s ease 0.2s",
                     }}
                 >
-                    <div className="w-full min-[1025px]:hidden">
-                        <div className="mx-auto w-full max-w-[820px]">
-                            <Image
-                                src="/images/our_mission.png"
-                                alt="The 제자교회 사명 - 가르치는 사명, 치유하는 사명, 전파하는 사명"
-                                width={1000}
-                                height={800}
-                                className="h-auto w-full object-contain"
-                                priority={false}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="hidden w-full min-[1025px]:flex min-[1025px]:flex-col min-[1025px]:items-center">
+                    <div className="flex w-full flex-col items-center">
                         <div className={`${gowunBatang.className} flex max-w-[820px] flex-col items-center text-center text-black`}>
                             <h3 className="type-section-title font-bold leading-none md:text-[2.9rem]">우리의 사명</h3>
                             <p className="mt-2 type-subsection-title leading-none">our mission</p>
                             <p className="mt-8 max-w-[820px] text-balance type-card-title leading-[1.75]">
-                                The 제자교회는 예수님의 지상명령(마태복음 28:18-20)을 따라 세워진 선교적 교회입니다.
+                                {SITE_NAME}는 1971년 선교로 세워져, 예수님의 지상명령(마태복음 28:18-20)을 따라 걸어온 선교적 교회입니다.
                                 <br className="hidden md:block" />
                                 우리는 복음을 전하고 제자를 세우기 위해 다음 세 가지 사명을 감당합니다.
                             </p>

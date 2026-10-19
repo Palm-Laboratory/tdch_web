@@ -36,20 +36,20 @@
 **현재**
 ```tsx
 <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-themeBlue/70">
-  The Disciples Church
+  Daecheon Baptist Church
 </p>
 <p className="font-serif font-bold text-[20px] text-ink leading-tight">
-  The 제자교회
+  대천침례교회
 </p>
 ```
 
 **수정 후**
 ```tsx
 <p className="type-label font-semibold uppercase tracking-[0.18em] text-themeBlue/70">
-  The Disciples Church
+  Daecheon Baptist Church
 </p>
 <p className="font-serif text-[1.25rem] font-bold leading-tight text-ink">
-  The 제자교회
+  대천침례교회
 </p>
 ```
 
@@ -61,11 +61,11 @@
 ```tsx
 <p className={`hidden font-semibold uppercase tracking-[0.18em] text-themeBlue/70 lg:block
   ${isCondensed ? "text-[9px] opacity-80" : "text-[10px]"}`}>
-  The Disciples Church
+  Daecheon Baptist Church
 </p>
 <p className={`truncate font-serif font-bold text-ink transition-[font-size] duration-300
   ${isCondensed ? "text-[18px] md:text-[21px]" : "text-[20px] md:text-[24px]"}`}>
-  The 제자교회
+  대천침례교회
 </p>
 ```
 
@@ -73,11 +73,11 @@
 ```tsx
 <p className={`hidden font-semibold uppercase tracking-[0.18em] text-themeBlue/70 lg:block
   ${isCondensed ? "text-[0.5625rem] opacity-80" : "type-label"}`}>
-  The Disciples Church
+  Daecheon Baptist Church
 </p>
 <p className={`truncate font-serif font-bold text-ink transition-[font-size] duration-300
   ${isCondensed ? "text-[1.125rem] md:text-[1.3125rem]" : "text-[1.25rem] md:text-[1.5rem]"}`}>
-  The 제자교회
+  대천침례교회
 </p>
 ```
 
@@ -105,12 +105,12 @@ className={`... text-ink/85 ... ${isCondensed ? "gap-5 text-[1.125rem]" : "gap-6
 
 **현재**
 ```tsx
-<p className="font-serif text-2xl font-semibold text-ivory">The 제자교회</p>
+<p className="font-serif text-2xl font-semibold text-ivory">대천침례교회</p>
 ```
 
 **수정 후**
 ```tsx
-<p className="font-serif text-[1.5rem] font-semibold text-ivory">The 제자교회</p>
+<p className="font-serif text-[1.5rem] font-semibold text-ivory">대천침례교회</p>
 ```
 
 > **NOTE:** 푸터 교회명도 페이지 제목이 아니라 브랜드 워드마크이므로 `type-*` 대신 `font-serif` + rem 단위로 유지한다.
@@ -152,20 +152,20 @@ className={`... text-ink/85 ... ${isCondensed ? "gap-5 text-[1.125rem]" : "gap-6
 **현재**
 ```tsx
 <p className="hidden text-[10px] font-semibold uppercase tracking-[0.18em] text-themeBlue/70 md:block">
-  The Disciples Church
+  Daecheon Baptist Church
 </p>
 <p className="whitespace-nowrap font-serif text-[24px] font-bold text-ink hover:text-themeBlue transition">
-  The 제자교회
+  대천침례교회
 </p>
 ```
 
 **수정 후**
 ```tsx
 <p className="hidden type-label font-semibold uppercase tracking-[0.18em] text-themeBlue/70 md:block">
-  The Disciples Church
+  Daecheon Baptist Church
 </p>
 <p className="whitespace-nowrap font-serif text-[1.5rem] font-bold text-ink transition hover:text-themeBlue">
-  The 제자교회
+  대천침례교회
 </p>
 ```
 

@@ -5,23 +5,24 @@ import Link from "next/link";
 import MobileNav from "@/components/mobile-nav";
 import { useNavigation } from "@/lib/navigation-context";
 import { shouldOpenNavigationInNewTab } from "@/lib/navigation-utils";
+import { SITE_ALTERNATE_NAME, SITE_NAME } from "@/lib/site-config";
 
 export default function HomeHeroHeader() {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const { navMenuGroups } = useNavigation();
 
   return (
-    <div className="flex items-start justify-between gap-4 lg:items-center lg:gap-12">
+    <div className="flex w-full items-start justify-between gap-4 lg:items-center lg:gap-12">
       <Link
         href="/"
         className="transition-[transform,font-size] duration-300"
       >
         <div className="flex flex-col">
           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/80">
-            The Disciples Church
+            {SITE_ALTERNATE_NAME}
           </p>
           <p className="font-serif text-[20px] font-bold leading-tight text-white">
-            The 제자교회
+            {SITE_NAME}
           </p>
         </div>
       </Link>

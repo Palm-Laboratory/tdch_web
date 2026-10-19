@@ -43,7 +43,7 @@ export default function ServiceTimesTable({
                   rowSpan={mainLocationRows.length}
                   className="type-body px-4 py-5 text-center align-middle font-medium text-ink/80 lg:px-6 lg:py-6"
                 >
-                  나인아트홀
+                  {row.location}
                 </td>
               ) : null}
             </tr>

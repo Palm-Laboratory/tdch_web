@@ -13,8 +13,6 @@ import {
   SITE_ALTERNATE_NAME,
   SITE_NAME,
   SITE_TAGLINE,
-  YOUTUBE_CHANNEL_LABEL,
-  YOUTUBE_CHANNEL_URL,
 } from "@/lib/site-config";
 import { gowunBatang } from "@/lib/fonts";
 import { createPageMetadata } from "@/lib/seo";
@@ -30,98 +28,50 @@ export default function Home() {
   return (
     <div className="flex w-full flex-col pb-0 pt-0 overflow-x-hidden">
       {/* 1. 히어로 섹션 */}
-      <section id="home-hero-section" className="relative w-full h-[640px] md:h-[670px] lg:h-[740px] overflow-hidden">
-        <div className="relative h-full">
+      <section id="home-hero-section" className="relative h-[min(100svh,56.25vw,1080px)] w-full overflow-hidden bg-[#f7fbff] lg:h-[min(56.25vw,1800px)]">
+        <div className="relative mx-auto h-full w-full max-w-[1920px] lg:max-w-[3200px]">
           <Image
-            src="/images/main_bg/main_bg_sec1.png"
-            alt="The 제자교회 메인 히어로 이미지"
+            src="/images/main_bg/main_test2.png"
+            alt={`${SITE_NAME} 메인 히어로 이미지`}
             fill
             priority
-            className="object-cover object-center"
+            quality={100}
+            className="object-contain object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-ink/78 via-ink/52 to-ink/18" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/38 via-transparent to-transparent" />
+          <div className="absolute inset-x-0 top-0 z-10 h-[88px] bg-[#0f1c2e] lg:h-[96px]" />
 
-          <div className="relative z-10 flex h-full items-start pb-8 pt-8">
+          <div className="absolute inset-x-0 top-0 z-20">
             <div className="section-shell w-full">
-              <div className="flex flex-col gap-8 md:gap-10 lg:gap-12">
+              <div className="flex h-[88px] items-center lg:h-[96px]">
                 <HomeHeroHeader />
-                <div className="grid items-center gap-3 lg:grid-cols-[minmax(0,770px),270px] lg:items-stretch lg:gap-4">
-                  {/* 비전 텍스트 카드 */}
-                  <div
-                    id="home-vision-card"
-                    className="w-full space-y-4 rounded-2xl bg-black/30 px-6 py-6 text-ivory backdrop-blur-md md:space-y-5 md:px-7 md:py-7 lg:space-y-6 lg:py-8"
-                  >
-                    <p className="chip w-fit bg-gold/30 text-ivory text-xs">VISION</p>
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-ivory/78 md:text-sm">
-                      {SITE_ALTERNATE_NAME} | {SITE_NAME}
-                    </p>
-                    <h1 className="font-yeongwol text-[3rem] leading-[1.2] tracking-wide md:text-6xl lg:text-7xl lg:tracking-wider xl:text-8xl">
-                      성령으로
-                      <br />
-                      제자삼는 교회
-                    </h1>
-                    {/* 성경 구절 */}
-                    <div className={`${gowunBatang.className} mt-3 text-sm font-medium leading-[1.8] text-ivory/90 md:mt-4 md:text-base lg:mt-5 lg:text-[1.42rem]`}>
-                      <p className="lg:space-y-3">
-                        <span className="block">
-                          예수께서 나아와 말씀하여 이르시되 하늘과 땅의 모든 권세를 내게 주셨으니
-                        </span>
-                        <span className="block">
-                          너희는 가서 모든 민족을 제자로 삼아 아버지와 아들과 성령의 이름으로
-                        </span>
-                        <span className="block">
-                          세례를 베풀고 내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라
-                        </span>
-                        <span className="block">
-                          볼지어다 내가 세상 끝날까지 너희와 항상 함께 있으리라
-                        </span>
-                      </p>
-                    </div>
-                    <p className="text-right text-sm font-semibold tracking-wide text-white md:text-base">
-                      마태복음 28:18~20
-                    </p>
-                  </div>
-
-                  {/* 오시는 길 & YouTube 바로가기 카드: lg 이상에서만 표시 */}
-                  <div className="hidden h-full grid-rows-2 gap-5 lg:grid">
-                    <Link
-                      href="/about/location"
-                      id="hero-location-card"
-                      className="group flex h-full flex-col items-center justify-center rounded-[2rem] border border-white/70 bg-[#f1f3f5]/80 px-8 py-7 text-center text-ink shadow-[0_18px_26px_rgba(16,33,63,0.18)] backdrop-blur-md transition duration-300 hover:-translate-y-1"
-                    >
-                      <lord-icon
-                        src="/images/wired-outline-18-location-pin-hover-jump.json"
-                        trigger="hover"
-                        target="#hero-location-card"
-                        style={{ width: "72px", height: "72px" }}
-                      ></lord-icon>
-                      <p className="mt-1 text-[1.72rem] font-bold leading-none tracking-[-0.01em]">오시는 길</p>
-                      <p className="mt-1 text-[1.02rem] font-medium leading-none text-ink/65">Location</p>
-                      <p className="mt-2 text-sm font-medium leading-snug text-ink/65">
-                        {CHURCH_ADDRESS}
-                      </p>
-                    </Link>
-
-                    <a
-                      href={YOUTUBE_CHANNEL_URL}
-                      id="hero-youtube-card"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="group flex h-full flex-col items-center justify-center rounded-[2rem] border border-white/70 bg-[#f1f3f5]/80 px-8 py-7 text-center text-ink shadow-[0_18px_26px_rgba(16,33,63,0.18)] backdrop-blur-md transition duration-300 hover:-translate-y-1"
-                    >
-                      <lord-icon
-                        src="/images/wired-outline-2547-logo-youtube-hover-pinch.json"
-                        trigger="hover"
-                        target="#hero-youtube-card"
-                        style={{ width: "72px", height: "72px" }}
-                      ></lord-icon>
-                      <p className="mt-1 text-[1.48rem] font-bold leading-none tracking-[-0.01em]">{YOUTUBE_CHANNEL_LABEL}</p>
-                      <p className="mt-1 text-[0.94rem] font-medium leading-none text-ink/65">Youtube Channel</p>
-                    </a>
-                  </div>
-                </div>
               </div>
+            </div>
+          </div>
+
+          <div className="absolute inset-x-0 top-[104px] z-20 md:top-[140px] lg:top-[clamp(170px,10vw,320px)]">
+            <div id="home-vision-card" className="mx-auto w-full max-w-[1000px] space-y-3 px-6 text-center text-ink md:space-y-4 lg:space-y-5">
+              <h1 className="font-yeongwol text-[2.4rem] leading-[1.2] tracking-wide text-ink md:text-6xl lg:whitespace-nowrap lg:text-[80px] lg:tracking-wider xl:text-[96px]">
+                성령으로 제자삼는 교회
+              </h1>
+              <div className={`${gowunBatang.className} text-center text-[11px] font-bold leading-[1.8] text-[#7E818A] md:text-base lg:text-[22px] lg:leading-[40px]`}>
+                <p className="lg:space-y-1">
+                  <span className="block">
+                    예수께서 나아와 말씀하여 이르시되 하늘과 땅의 모든 권세를 내게 주셨으니
+                  </span>
+                  <span className="block">
+                    너희는 가서 모든 민족을 제자로 삼아 아버지와 아들과 성령의 이름으로
+                  </span>
+                  <span className="block">
+                    침례를 베풀고 내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라
+                  </span>
+                  <span className="block">
+                    볼지어다 내가 세상 끝날까지 너희와 항상 함께 있으리라
+                  </span>
+                </p>
+              </div>
+              <p className={`${gowunBatang.className} text-center text-xs font-semibold tracking-wide text-[#1A2744] md:text-base`}>
+                마태복음 28:18~20
+              </p>
             </div>
           </div>
         </div>
@@ -133,17 +83,18 @@ export default function Home() {
       </section>
 
       {/* 3. 퀵메뉴 + 말씀 영역 */}
-      <section className="relative w-full">
-        <div className="pointer-events-none absolute inset-0 opacity-70">
+      <section className="relative -mt-[6rem] h-[500px] w-full overflow-hidden md:-mt-[6.5rem] md:h-[800px]">
+        <div className="pointer-events-none absolute inset-0">
           <Image
-            src="/images/main_bg/main_bg_sec3.png"
-            alt="섹션 3 배경 이미지"
+            src="/images/main_bg/main_bg_sec2.jpg"
+            alt="퀵 메뉴 배경 이미지"
             fill
-            className="object-cover object-center"
+            quality={95}
+            className="object-cover object-bottom"
           />
         </div>
 
-        <div className="relative z-10 section-shell space-y-7 pb-[4.5rem] pt-[2em] md:pb-[5.5rem]">
+        <div className="relative z-10 section-shell space-y-7 pt-0">
           {/* 퀵 메뉴 */}
           <AnimatedCards cards={quickMenuCards} />
 

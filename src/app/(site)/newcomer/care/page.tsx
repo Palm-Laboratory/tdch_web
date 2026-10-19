@@ -105,7 +105,7 @@ const timeOptions = [
 
 export const metadata: Metadata = createPageMetadata({
   title: "새가족 양육",
-  description: "The 제자교회 새가족 양육 5주 과정과 침례 안내 페이지입니다.",
+  description: "대천침례교회 새가족 양육 5주 과정과 침례 안내 페이지입니다.",
   path: "/newcomer/care",
 });
 

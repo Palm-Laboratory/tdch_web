@@ -4,6 +4,7 @@ import Breadcrumb from "@/components/breadcrumb";
 import PageHeader from "@/components/page-header";
 import PublicShortformVideoDetailExperience from "@/components/public-shortform-video-detail-experience";
 import type { PublicPlaylistDetail, PublicVideoDetail, PublicVideoSummary } from "@/lib/videos-api";
+import { SITE_NAME } from "@/lib/site-config";
 
 function formatLongDate(value: string | null) {
   if (!value) {
@@ -31,7 +32,7 @@ function ChevronIcon({ className = "" }: { className?: string }) {
 
 function LongformRelatedCard({ video }: { video: PublicVideoSummary }) {
   const publishedAt = formatLongDate(video.publishedAt);
-  const metaLine = buildMetaLine([video.scriptureReference, video.preacherName, "The 제자교회"]);
+  const metaLine = buildMetaLine([video.scriptureReference, video.preacherName, SITE_NAME]);
 
   return (
     <Link
@@ -132,7 +133,7 @@ function LongformDetailView({
                 <h1 className="line-clamp-2 text-[30px] font-bold leading-[1.15] tracking-[-0.04em] lg:line-clamp-1 md:text-[24px]">
                   {video.title}
                   {metaLine ? ` | ${metaLine}` : ""}
-                  {" | The 제자교회"}
+                  {` | ${SITE_NAME}`}
                 </h1>
                 {taxonomyLine ? (
                   <p className="text-[16px] font-normal leading-none text-[#10213f]/90">

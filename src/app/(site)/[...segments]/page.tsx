@@ -13,6 +13,7 @@ import {
 } from "@/lib/public-board-api";
 import { resolvePublicMenuPath, type PublicResolvedMenuPage } from "@/lib/public-menu-api";
 import { createPageMetadata, createVideoMetadata } from "@/lib/seo";
+import { SITE_NAME } from "@/lib/site-config";
 import {
   getPublicPlaylistDetailByPath,
   getPublicPlaylistVideoDetailByPath,
@@ -411,7 +412,7 @@ function createNotFoundMetadata(): Metadata {
 function createStaticPageMetadata(resolved: PublicResolvedMenuPage): Metadata {
   return createPageMetadata({
     title: resolved.label,
-    description: `${resolved.label} | The 제자교회`,
+    description: `${resolved.label} | ${SITE_NAME}`,
     path: resolved.fullPath,
   });
 }
@@ -424,7 +425,7 @@ function createBoardListMetadata(
 ): Metadata {
   return createPageMetadata({
     title: page > 1 ? `${resolved.label} - ${page}페이지` : resolved.label,
-    description: `${resolved.label} | The 제자교회`,
+    description: `${resolved.label} | ${SITE_NAME}`,
     path: getBoardListPath(resolved.fullPath, page, pageSize, title),
   });
 }

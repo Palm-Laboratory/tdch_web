@@ -5,12 +5,10 @@ import SectionHeading from "@/components/section-heading";
 import ScriptureQuoteCard from "@/components/scripture-quote-card";
 import { createPageMetadata } from "@/lib/seo";
 import { cormorantGaramond, nanumMyeongjo } from "@/lib/fonts";
-import MulticulturalProgramTabs from "./components/multicultural-program-tabs";
-import MulticulturalRealitySection from "./components/multicultural-reality-section";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "지상명령 다문화",
-  description: "The 제자교회 지상명령 다문화 사역과 참여 안내를 소개합니다.",
+  title: "지상명령 다문화·다민족",
+  description: "대천침례교회의 다문화·다민족 사역과 세계 선교 참여 안내입니다.",
   path: "/commission/culture",
 });
 
@@ -22,21 +20,21 @@ const introQuote = {
 const goals = [
   {
     number: "01",
-    label: "Gospel Mission",
-    title: "복음 전파",
-    description: "예수 그리스도의 사랑 전하기 · 다문화 가정의 구원",
+    label: "Welcome",
+    title: "환대",
+    description: "한국 사회에 적응하는 일을 돕고 조건 없이 맞이합니다.",
   },
   {
     number: "02",
-    label: "Cultural Bridge",
-    title: "문화 통합",
-    description: "한국 사회 적응 돕기 · 한국어 교육 및 문화 교류",
+    label: "Gospel",
+    title: "복음",
+    description: "언어의 벽을 넘는 예수님의 사랑을 나누고 서로에게서 배웁니다.",
   },
   {
     number: "03",
-    label: "Build Community",
-    title: "공동체 세우기",
-    description: "다문화 가정 네트워크 · 서로 돕고 격려하는 공동체",
+    label: "Send",
+    title: "땅 끝 선교",
+    description: "선교사를 기도와 후원으로 보내고 교회 간 협력으로 세계 선교에 함께합니다.",
   },
 ] as const;
 
@@ -75,14 +73,19 @@ const missionLessons = [
     title: "사랑",
     description: "조건 없는 환대와 실제적 도움, 진심 어린 관심 — 예수님의 사랑이 언어의 장벽을 넘습니다.",
   },
+  {
+    number: "04",
+    title: "협력",
+    description: "현지 교회와 동역하며 스스로 서는 교회를 함께 세웁니다.",
+  },
 ] as const;
 
 const volunteerItems = [
   "한국어 교사",
-  "통역 (영어·필리핀어·베트남어·중국어)",
-  "상담 (법률·가정·진로)",
-  "멘토 (1:1 또는 가정)",
-  "교통 지원 · 아이 돌봄 · 요리 봉사",
+  "통역 (영어·필리핀어·베트남어·중국어 등)",
+  "1:1 멘토",
+  "아이 돌봄",
+  "요리 봉사",
 ] as const;
 
 const supportItems = ["한국어 교재비", "생활 지원 기금", "자녀 장학금", "문화 행사비"] as const;
@@ -122,20 +125,20 @@ export default function CommissionCulturePage() {
   return (
     <main className="section-shell section-shell--narrow pt-10 pb-20 md:pt-16 md:pb-24">
       <section aria-labelledby="commission-culture-intro-title">
-        <SectionHeading id="commission-culture-intro-title" label="multicultural ministry" title="다문화" />
+        <SectionHeading id="commission-culture-intro-title" label="multicultural and multi ethnic" title="다문화·다민족" />
 
-        <p className="mt-6 type-body leading-[1.7] tracking-[0.02em] text-black">함께 사는 세상, 서로 섬기는 교회</p>
+        <p className="mt-6 type-body leading-[1.7] tracking-[0.02em] text-black">함께 사는 세상, 땅 끝까지</p>
 
         <ScriptureQuoteCard quote={introQuote.text} reference={introQuote.reference} className="mt-4" />
       </section>
 
-      <SectionBlock label="vision" title="다문화 사역의 3대 목표" className="mt-20 md:mt-[68px]">
+      <SectionBlock label="vision" title="다문화·다민족 사역의 3대 목표" className="mt-20 md:mt-[68px]">
         <div className="mt-5 max-w-[780px] space-y-0">
           <p className="type-body leading-[1.8] tracking-[0.02em] text-[#4f4a42]">
-            더 제자교회는 17년 필리핀 선교 경험을 통해 다문화 가정의 아픔과 필요를 압니다.
+            대천침례교회는 선교로 세워졌고, 17년간 낯선 땅에서 사역한 목사와 함께합니다.
           </p>
           <p className="type-body leading-[1.8] tracking-[0.02em] text-[#4f4a42]">
-            한국 사회에서 소외되기 쉬운 다문화 가정과 이주민을 예수님의 사랑으로 품고 함께 하나님 나라를 세워갑니다.
+            우리 곁의 이주민 이웃에서 땅 끝의 미전도 종족까지 모든 민족이 예수님의 제자가 되도록 섬깁니다.
           </p>
         </div>
 
@@ -181,15 +184,17 @@ export default function CommissionCulturePage() {
         </div>
       </SectionBlock>
 
-      <MulticulturalRealitySection />
-
-      <SectionBlock label="ministry program" title="다문화 사역 프로그램" className="mt-20 md:mt-[68px]">
-        <MulticulturalProgramTabs />
+      <SectionBlock label="ministry program" title="함께 준비하는 사역" className="mt-20 md:mt-[68px]">
+        <ul className="mt-8 grid gap-4 md:grid-cols-2">
+          {["한국어 교실", "다문화 가정 환대", "자녀 학습·돌봄 지원", "선교 기도회"].map((item) => (
+            <li key={item} className="rounded-[12px] border border-black/10 bg-[#f8f7f4] px-6 py-5 type-body font-semibold text-[#1a2744]">{item}</li>
+          ))}
+        </ul>
       </SectionBlock>
 
       <SectionBlock label="mission experience" title="필리핀 선교 경험" className="mt-20 md:mt-[68px]">
         <p className="mt-5 type-body-small leading-[1.8] tracking-[0.02em] text-[#4f4a42]">
-          산타로사 꿈의교회 17년 — 한국·필리핀 다문화 가정 10여 가정을 섬기며 배운 것들입니다.
+          필리핀 산타로사 꿈의교회에서 17년간 사역하며 배운 원칙을 보령에서 이어 갑니다.
         </p>
 
         <div className="mt-8">

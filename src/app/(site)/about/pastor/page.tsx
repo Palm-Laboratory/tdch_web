@@ -8,7 +8,7 @@ import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
   title: "담임목사 소개",
-  description: "The 제자교회 이진욱(Timothy Lee) 담임목사를 소개합니다. 17년간의 필리핀 선교 사역과 교육 과정, 사역 이력을 확인하세요.",
+  description: "대천침례교회 이진욱(Timothy Lee) 담임목사를 소개합니다. 17년간의 필리핀 선교 사역과 대천침례교회에서 이어 가는 목회 여정입니다.",
   path: "/about/pastor",
 });
 
@@ -43,9 +43,9 @@ const pastorSectionFourCards = [
   },
   {
     number: "03",
-    title: "작은 시작, 부끄럽지 않아요",
+    title: "함께 걷는 교회",
     body:
-      "예수님도 열두 명으로 시작하셨으니까요. 수원 · 동탄 · 용인에 작은 뿌리를 내리며 더제자교회를 세우고 있습니다."
+      "55년 동안 이 자리를 지켜 온 대천침례교회와 함께 성령으로 제자 삼는 교회의 길을 걷습니다. 앞서 섬기신 목사님들과 성도님들의 수고 위에 새 걸음을 내딛습니다."
   }
 ] as const;
 
@@ -84,9 +84,9 @@ const pastorMinistryItems = [
     subtitle: "설립 및 담임목사"
   },
   {
-    eyebrow: "2025 - 현재",
-    title: "The 제자교회",
-    subtitle: "담임목사"
+    eyebrow: "2026.10 - 현재",
+    title: "대천침례교회",
+    subtitle: "제3대 담임목사"
   }
 ] as const;
 
@@ -240,6 +240,11 @@ function PastorMissionSection() {
             </p>
             <p>
               2025년 12월, 그 땅을 다음 세대 목회자에게 아름답게 이양하고 한국으로 돌아왔습니다.
+              2026년 10월 4일 대천침례교회 제3대 담임목사로 부임했습니다.
+            </p>
+            <p>
+              선교로 세워진 대천침례교회에서 사람 곁에 있고, 함께 울고 웃으며,
+              한 사람을 제자로 세우는 일을 성도님들과 이어 가겠습니다.
               선교는 끝난 게 아니라, 지금 이 땅에서 다시 시작되고 있습니다.
             </p>
           </Reveal>

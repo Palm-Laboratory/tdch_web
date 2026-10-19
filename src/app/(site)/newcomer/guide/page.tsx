@@ -12,8 +12,8 @@ import { cormorantGaramond, nanumMyeongjo } from "@/lib/fonts";
 import { createPageMetadata } from "@/lib/seo";
 
 const newcomerIntroParagraphs = [
-  "The 제자교회는 예수님의 지상명령에 따라 제자를 삼고, 제자를 삼는 제자를 양육합니다.",
-  "필리핀 17년 선교 사역의 열매로 정립된 체계적인 제자훈련 시스템을 통해 4세대까지 재생산하는 제자를 세웁니다.",
+  "대천침례교회는 예수님의 지상명령에 따라 사람을 제자로 세우고, 그 제자가 또 다른 사람을 세워 가는 교회가 되기를 소망합니다.",
+  "필리핀 17년 선교 현장에서 배운 제자훈련의 경험을 바탕으로 한 분 한 분과 천천히 함께 걷겠습니다. 처음 오셨다면 편안하게 앉아 계시기만 해도 괜찮습니다.",
 ] as const;
 
 const coreValues = [
@@ -79,7 +79,7 @@ const newcomerFaqItems = [
 
 export const metadata: Metadata = createPageMetadata({
   title: "새가족 안내",
-  description: "The 제자교회 새가족 안내와 제자 양육 비전을 소개합니다.",
+  description: "대천침례교회 새가족 안내와 제자 양육 비전을 소개합니다.",
   path: "/newcomer/guide",
 });
 
@@ -127,11 +127,11 @@ export default async function NewcomerGuidePage() {
           <SectionHeading
             id="newcomer-vision-title"
             label="church vision"
-            title="The 제자교회는?"
+            title="대천침례교회는?"
           />
 
           <p className="mt-5 max-w-[787px] type-body leading-[1.7] tracking-[0.02em] text-[#1a2744]">
-            우리는 필리핀 산타로사 꿈의교회에서 약 17년간의 선교 사역을 마치고 한국으로 돌아와 2026년 개척한 교회입니다.
+            대천침례교회는 1971년 미국 교회들의 사랑과 기도로 세워졌습니다. 받은 사랑을 나누는 선교의 마음을 교회의 DNA로 간직하며, 지금도 예수님의 지상명령을 따라 걸어갑니다.
           </p>
 
           <div className="mt-7">

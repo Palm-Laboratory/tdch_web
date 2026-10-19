@@ -9,7 +9,7 @@ import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
   title: "교회 소개",
-  description: "The 제자교회가 추구하는 비전과 공동체의 방향을 소개합니다.",
+  description: "대천침례교회가 추구하는 비전과 공동체의 방향을 소개합니다.",
   path: "/about/greeting",
 });
 

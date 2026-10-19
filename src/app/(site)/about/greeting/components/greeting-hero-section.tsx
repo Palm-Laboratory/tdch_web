@@ -22,7 +22,7 @@ export default function GreetingHeroSection() {
       >
         <Image
           src="/images/greeting/greeting_banner.png"
-          alt="The 제자교회 인사말 배경 이미지"
+          alt="대천침례교회 인사말 배경 이미지"
           fill
           priority
           className="object-cover object-center"
