@@ -18,11 +18,11 @@ export default function HomeHeroHeader() {
         className="transition-[transform,font-size] duration-300"
       >
         <div className="flex flex-col">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/80">
-            {SITE_ALTERNATE_NAME}
-          </p>
           <p className="font-serif text-[20px] font-bold leading-tight text-white">
             {SITE_NAME}
+          </p>
+          <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/80">
+            {SITE_ALTERNATE_NAME}
           </p>
         </div>
       </Link>

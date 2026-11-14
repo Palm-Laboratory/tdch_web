@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <div className="flex w-full flex-col pb-0 pt-0 overflow-x-hidden">
       {/* 1. 히어로 섹션 */}
-      <section id="home-hero-section" className="relative h-[min(100svh,56.25vw,1080px)] w-full overflow-hidden bg-[#f7fbff] lg:h-[min(56.25vw,1800px)]">
+      <section id="home-hero-section" className="relative h-[clamp(540px,155vw,620px)] w-full overflow-hidden bg-[#f7fbff] md:h-[56.25vw] xl:h-[min(56.25vw,1800px)]">
         <div className="relative mx-auto h-full w-full max-w-[1920px] lg:max-w-[3200px]">
           <Image
             src="/images/main_bg/main_test2.png"
@@ -36,11 +36,13 @@ export default function Home() {
             fill
             priority
             quality={100}
-            className="object-contain object-center"
+            unoptimized
+            sizes="100vw"
+            className="home-hero-image-pan object-cover object-center"
           />
           <div className="absolute inset-x-0 top-0 z-10 h-[88px] bg-[#0f1c2e] lg:h-[96px]" />
 
-          <div className="absolute inset-x-0 top-0 z-20">
+          <div className="absolute inset-x-0 top-0 z-30">
             <div className="section-shell w-full">
               <div className="flex h-[88px] items-center lg:h-[96px]">
                 <HomeHeroHeader />
@@ -48,20 +50,26 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="absolute inset-x-0 top-[104px] z-20 md:top-[140px] lg:top-[clamp(170px,10vw,320px)]">
+          <div className="absolute inset-x-0 top-[122px] z-20 sm:top-[128px] md:top-[140px] lg:top-[160px] xl:top-[clamp(170px,10vw,320px)]">
             <div id="home-vision-card" className="mx-auto w-full max-w-[1000px] space-y-3 px-6 text-center text-ink md:space-y-4 lg:space-y-5">
-              <h1 className="font-yeongwol text-[2.4rem] leading-[1.2] tracking-wide text-ink md:text-6xl lg:whitespace-nowrap lg:text-[80px] lg:tracking-wider xl:text-[96px]">
+              <h1 className="font-yeongwol text-[50px] leading-[1.2] tracking-wide text-ink sm:text-[56px] md:text-[56px] lg:whitespace-nowrap lg:text-6xl lg:tracking-wider xl:text-[80px] 2xl:text-[96px]">
                 성령으로 제자삼는 교회
               </h1>
-              <div className={`${gowunBatang.className} text-center text-[11px] font-bold leading-[1.8] text-[#7E818A] md:text-base lg:text-[22px] lg:leading-[40px]`}>
+              <div className={`${gowunBatang.className} text-center text-[15px] font-bold leading-[1.7] text-[#7E818A] sm:text-[17px] md:text-[14px] md:leading-[1.8] lg:text-base xl:text-[22px] xl:leading-[40px]`}>
                 <p className="lg:space-y-1">
                   <span className="block">
-                    예수께서 나아와 말씀하여 이르시되 하늘과 땅의 모든 권세를 내게 주셨으니
+                    예수께서 나아와 말씀하여 이르시되 하늘과{" "}
+                    <br className="sm:hidden" />땅의 모든 권세를 내게 주셨으니
                   </span>
                   <span className="block">
-                    너희는 가서 모든 민족을 제자로 삼아 아버지와 아들과 성령의 이름으로
+                    너희는 가서 모든 민족을 제자로 삼아{" "}
+                    <br className="sm:hidden" />아버지와 아들과 성령의 이름으로
+                    <span className="sm:hidden"> 침례를 베풀고</span>
                   </span>
-                  <span className="block">
+                  <span className="block sm:hidden">
+                    내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라
+                  </span>
+                  <span className="hidden sm:block">
                     침례를 베풀고 내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라
                   </span>
                   <span className="block">
@@ -69,7 +77,7 @@ export default function Home() {
                   </span>
                 </p>
               </div>
-              <p className={`${gowunBatang.className} text-center text-xs font-semibold tracking-wide text-[#1A2744] md:text-base`}>
+              <p className={`${gowunBatang.className} text-center text-xs font-semibold tracking-wide text-[#1A2744] sm:text-[13px] md:text-sm xl:text-base`}>
                 마태복음 28:18~20
               </p>
             </div>
@@ -83,17 +91,7 @@ export default function Home() {
       </section>
 
       {/* 3. 퀵메뉴 + 말씀 영역 */}
-      <section className="relative -mt-[6rem] h-[500px] w-full overflow-hidden md:-mt-[6.5rem] md:h-[800px]">
-        <div className="pointer-events-none absolute inset-0">
-          <Image
-            src="/images/main_bg/main_bg_sec2.jpg"
-            alt="퀵 메뉴 배경 이미지"
-            fill
-            quality={95}
-            className="object-cover object-bottom"
-          />
-        </div>
-
+      <section className="relative -mt-[6rem] h-[500px] w-full overflow-hidden bg-white md:-mt-[6.5rem] md:h-[800px]">
         <div className="relative z-10 section-shell space-y-7 pt-0">
           {/* 퀵 메뉴 */}
           <AnimatedCards cards={quickMenuCards} />

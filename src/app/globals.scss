@@ -442,6 +442,27 @@ a {
   }
 }
 
+@keyframes home-hero-pan {
+  0% {
+    object-position: 20% center;
+  }
+
+  50% {
+    object-position: 80% center;
+  }
+
+  100% {
+    object-position: 20% center;
+  }
+}
+
+@media (max-width: 767px) {
+  .home-hero-image-pan {
+    will-change: object-position;
+    animation: home-hero-pan 48s linear infinite;
+  }
+}
+
 .animate-header-item {
   opacity: 0;
   animation: header-fade-down 0.8s ease forwards;
@@ -455,7 +476,8 @@ a {
 @media (prefers-reduced-motion: reduce) {
 
   .animate-header-item,
-  .animate-image-fade-in-right {
+  .animate-image-fade-in-right,
+  .home-hero-image-pan {
     opacity: 1;
     animation: none;
   }
