@@ -42,18 +42,16 @@ export const bulletinList: ChurchNewsItem[] = [
 
 export interface ServiceTimeData {
   name: string;
-  day: string;
   time: string;
   ampm: string;
-  location: string;
 }
 
 export const serviceTimes: ServiceTimeData[] = [
-  { name: "주일예배", day: "주일", time: "11:00", ampm: "AM", location: "본당" },
-  { name: "주일 오후예배", day: "주일", time: "2:00", ampm: "PM", location: "본당" },
-  { name: "수요예배", day: "수요일", time: "7:30", ampm: "PM", location: "본당" },
-  { name: "금요기도회", day: "금요일", time: "7:30", ampm: "PM", location: "본당" },
-  { name: "새벽기도회", day: "월~금", time: "5:00", ampm: "AM", location: "본당" },
+  { name: "주일예배", time: "11:00", ampm: "AM" },
+  { name: "주일 오후예배", time: "2:00", ampm: "PM" },
+  { name: "수요예배", time: "7:30", ampm: "PM" },
+  { name: "금요기도회", time: "7:30", ampm: "PM" },
+  { name: "새벽기도회 (월~금)", time: "5:00", ampm: "AM" },
 ];
 
 export const serviceNotices: string[] = [

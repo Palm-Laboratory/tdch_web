@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import SectionHeading from "@/components/section-heading";
 import { redirectToCanonicalStaticPathIfNeeded } from "@/lib/canonical-menu-path";
-import { serviceNotices, serviceTimes } from "@/lib/site-data";
+import { serviceTimes } from "@/lib/site-data";
 import { SITE_NAME } from "@/lib/site-config";
 import { createPageMetadata } from "@/lib/seo";
 import MobileServiceCard from "./components/mobile-service-card";
-import ServiceNotice from "./components/service-notice";
 import ServiceTimesTable from "./components/service-times-table";
 
 export const metadata: Metadata = createPageMetadata({
@@ -15,9 +14,9 @@ export const metadata: Metadata = createPageMetadata({
   path: "/about/service-times",
 });
 
-function formatSchedule(day: string, time: string, ampm: string) {
+function formatSchedule(time: string, ampm: string) {
   const period = ampm === "AM" ? "오전" : "오후";
-  return `${day} ${period} ${time}`;
+  return `${period} ${time}`;
 }
 
 export default async function ServiceTimesPage() {
@@ -25,15 +24,8 @@ export default async function ServiceTimesPage() {
 
   const serviceRows = serviceTimes.map((service) => ({
     title: service.name,
-    schedule: formatSchedule(service.day, service.time, service.ampm),
-    location: service.location,
+    schedule: formatSchedule(service.time, service.ampm),
   }));
-  const mainLocationRows = serviceRows.filter(
-    (service) => service.location === "본당"
-  );
-  const otherLocationRows = serviceRows.filter(
-    (service) => service.location !== "본당"
-  );
 
   return (
     <div className="section-shell section-shell--narrow space-y-14 pt-10 md:pt-16 pb-20">
@@ -47,23 +39,15 @@ export default async function ServiceTimesPage() {
                 key={service.title}
                 title={service.title}
                 schedule={service.schedule}
-                location={service.location}
               />
             ))}
           </div>
 
           <ServiceTimesTable
-            mainLocationRows={mainLocationRows}
-            otherLocationRows={otherLocationRows}
+            rows={serviceRows}
           />
         </div>
 
-        <div className="mt-10 px-5 md:px-0">
-          <SectionHeading title="안내" label="Notice" />
-          <div className="mt-6">
-            <ServiceNotice items={serviceNotices} />
-          </div>
-        </div>
       </section>
     </div>
   );

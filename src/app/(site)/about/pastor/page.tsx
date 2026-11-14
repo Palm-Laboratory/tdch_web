@@ -21,13 +21,6 @@ const pastorSectionTwoLeadLines = [
   "그렇게 17년이 지났습니다."
 ] as const;
 
-const pastorSectionThreeBodyLines = [
-  "공부도 참 다양하게 했습니다. 청소년을 이해하고 싶어서 청소년지도를 공부했고,",
-  "상처 입은 사람 곁에 제대로 있어주고 싶어서 치유상담을 배웠고,",
-  "말씀을 더 깊이 다루고 싶어서 신학을 팠습니다.",
-  "지금은 필리핀 크리스찬 대학교에서 박사과정 중이에요."
-] as const;
-
 const pastorSectionFourCards = [
   {
     number: "01",
@@ -74,17 +67,17 @@ const pastorEducationItems = [
 
 const pastorMinistryItems = [
   {
-    eyebrow: null,
+    eyebrow: "2009–2025",
     title: "기독교한국침례회 해외선교회",
     subtitle: "파송 선교사"
   },
   {
-    eyebrow: "2009 - 2025",
+    eyebrow: "2009–2025",
     title: "필리핀 산타로사꿈의교회",
     subtitle: "설립 및 담임목사"
   },
   {
-    eyebrow: "2026.10 - 현재",
+    eyebrow: "2026.10–현재",
     title: "대천침례교회",
     subtitle: "제3대 담임목사"
   }
@@ -257,36 +250,34 @@ function PastorMissionSection() {
 function PastorSectionThree() {
   return (
     <section className="w-full bg-[rgb(255,253,248)]">
-      <div className="section-shell section-shell--narrow py-16 md:py-20 lg:relative lg:h-[508px] lg:py-[78px]">
+      <div className="section-shell section-shell--narrow py-16 md:py-20 lg:py-[78px]">
         <Reveal origin="up">
           <p className="type-label font-[var(--font-serif)] font-semibold uppercase tracking-[0.28em] text-[#cda74d]">
-            JOURNEY OF LEARNING
+            KOREA · 2026 - 현재
           </p>
 
           <h2 className={`${gowunBatang.className} type-section-title mt-3 font-bold tracking-[-0.03em] text-[#22345c] md:mt-4`}>
-            더 잘 섬기고 싶어서
+            다시, 선교로 세워진 교회에서
           </h2>
         </Reveal>
 
         <Reveal
-          className="mt-12 border-l-[4px] border-[#cda74d] pl-3 md:pl-8 lg:mt-[56px] lg:max-w-[560px] lg:pl-4"
-          origin="left"
+          className="type-body-strong mt-10 flex max-w-[900px] flex-col gap-6 tracking-[-0.02em] text-[#000000] md:mt-12 md:gap-7"
+          origin="up"
           delay={0.1}
         >
-          <div className="type-lead font-serif tracking-[-0.03em] text-[#22345c]">
-            <p>뭔가를 이루려는 게 아니라,</p>
-            <p className="font-bold text-[#cda74d]">더 잘 섬기고 싶어서입니다.</p>
-          </div>
-        </Reveal>
-
-        <Reveal
-          className="type-body-strong mt-10 flex max-w-[860px] flex-col tracking-[-0.02em] text-[#000000] md:mt-12 lg:mt-[44px] lg:max-w-[900px]"
-          origin="up"
-          delay={0.16}
-        >
-          {pastorSectionThreeBodyLines.map((line) => (
-            <p key={line}>{line}</p>
-          ))}
+          <p>
+            2025년 12월, 17년의 선교지를 다음 세대 목회자에게 맡기고 한국으로 돌아왔습니다. 그리고 2026년 10월 4일, 대천침례교회 제3대 담임목사로 부임했습니다.
+          </p>
+          <p>
+            대천침례교회는 1971년, 미국 교회들의 사랑과 기도로 세워진 선교의 교회입니다. 사랑을 받아 시작된 교회에 17년간 선교사로 살았던 목사가 오게 된 것을, 저는 우연이라고 생각하지 않습니다.
+          </p>
+          <p>
+            선교지에서 배운 것, 곧 사람 곁에 있는 것, 함께 울고 웃는 것, 한 사람을 제자로 세우는 것을 이제 보령에서 대천침례교회 성도님들과 함께 이어 가겠습니다.
+          </p>
+          <p className="font-semibold text-[#cda74d]">
+            선교는 끝난 게 아니라, 이 땅에서 다시 시작되고 있습니다.
+          </p>
         </Reveal>
 
       </div>
@@ -436,8 +427,8 @@ function PastorFinalSection({
   contactHref: string;
 }) {
   return (
-    <section className="w-full bg-white">
-      <div className="section-shell section-shell--narrow py-12 md:py-16 lg:py-[52px]">
+    <section className="w-full bg-white md:hidden">
+      <div className="section-shell section-shell--narrow py-12">
         <Reveal className="md:hidden" origin="up">
           <div className="flex flex-col gap-4">
             <Link
@@ -455,39 +446,6 @@ function PastorFinalSection({
           </div>
         </Reveal>
 
-        <Reveal
-          className="hidden rounded-[40px] bg-[#26345d] px-10 py-12 md:block lg:px-[40px] lg:py-[30px]"
-          origin="scale"
-        >
-          <div className="flex items-center justify-between gap-8 lg:gap-10">
-            <div className="max-w-[580px]">
-              <h2 className={`${gowunBatang.className} type-section-title font-bold tracking-[-0.04em] text-white`}>
-                처음 방문을 환영합니다
-              </h2>
-
-              <p className="type-body mt-5 tracking-[-0.02em] text-white/60">
-                궁금한 것이 있으시거나 교회에 대해 더 알고 싶으시다면
-                <br className="hidden lg:block" />
-                언제든지 연락 주세요. 기다리고 있겠습니다.
-              </p>
-            </div>
-
-            <div className="flex shrink-0 items-center gap-5">
-              <Link
-                href={locationHref}
-                className="type-body inline-flex min-h-[60px] min-w-[150px] items-center justify-center rounded-xl bg-[#e2c47a] px-8 font-semibold tracking-[-0.03em] text-[#22345c] transition-colors duration-200 hover:bg-[#f4d486] lg:min-h-[50px] lg:min-w-[170px]"
-              >
-                오시는 길 →
-              </Link>
-              <Link
-                href={contactHref}
-                className="type-body inline-flex min-h-[60px] min-w-[150px] items-center justify-center rounded-xl border border-white/30 px-8 font-semibold tracking-[-0.03em] text-white/60 transition-colors duration-200 hover:border-[#e2c47a] hover:text-[#e2c47a] lg:min-h-[50px] lg:min-w-[170px]"
-              >
-                문의하기
-              </Link>
-            </div>
-          </div>
-        </Reveal>
       </div>
     </section>
   );
