@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <div className="flex w-full flex-col pb-0 pt-0 overflow-x-hidden">
       {/* 1. 히어로 섹션 */}
-      <section id="home-hero-section" className="relative h-[clamp(540px,155vw,620px)] w-full overflow-hidden bg-[#f7fbff] md:h-[56.25vw] xl:h-[min(56.25vw,1800px)]">
+      <section id="home-hero-section" className="relative h-[clamp(560px,56.25vw,1800px)] w-full overflow-hidden bg-[#f7fbff]">
         <div className="relative mx-auto h-full w-full max-w-[1920px] lg:max-w-[3200px]">
           <Image
             src="/images/main_bg/main_test2.png"
@@ -50,12 +50,12 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="absolute inset-x-0 top-[122px] z-20 sm:top-[128px] md:top-[140px] lg:top-[160px] xl:top-[clamp(170px,10vw,320px)]">
+          <div className="absolute inset-x-0 top-[clamp(118px,9vw,160px)] z-20">
             <div id="home-vision-card" className="mx-auto w-full max-w-[1000px] space-y-3 px-6 text-center text-ink md:space-y-4 lg:space-y-5">
-              <h1 className="font-yeongwol text-[50px] leading-[1.2] tracking-wide text-ink sm:text-[56px] md:text-[56px] lg:whitespace-nowrap lg:text-6xl lg:tracking-wider xl:text-[80px] 2xl:text-[96px]">
+              <h1 className="font-yeongwol text-[clamp(2.5rem,5.2vw,5rem)] leading-[1.2] tracking-wide text-ink lg:tracking-wider">
                 성령으로 제자삼는 교회
               </h1>
-              <div className={`${gowunBatang.className} text-center text-[15px] font-bold leading-[1.7] text-[#7E818A] sm:text-[17px] md:text-[14px] md:leading-[1.8] lg:text-base xl:text-[22px] xl:leading-[40px]`}>
+              <div className={`${gowunBatang.className} text-center text-[clamp(0.875rem,1.45vw,1.375rem)] font-bold leading-[1.8] text-[#7E818A]`}>
                 <p className="lg:space-y-1">
                   <span className="block">
                     예수께서 나아와 말씀하여 이르시되 하늘과{" "}
@@ -77,7 +77,7 @@ export default function Home() {
                   </span>
                 </p>
               </div>
-              <p className={`${gowunBatang.className} text-center text-xs font-semibold tracking-wide text-[#1A2744] sm:text-[13px] md:text-sm xl:text-base`}>
+              <p className={`${gowunBatang.className} text-center text-[clamp(0.75rem,1.05vw,1rem)] font-semibold tracking-wide text-[#1A2744]`}>
                 마태복음 28:18~20
               </p>
             </div>
