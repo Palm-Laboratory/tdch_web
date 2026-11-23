@@ -16,11 +16,11 @@ export const SITE_LOCALE = "ko_KR";
 
 // OG이미지 기본 값
 export const DEFAULT_OG_IMAGE = {
-  url: `${SITE_URL}/images/logo/church_logo.png`,
-  width: 1200,
-  height: 630,
+  url: `${SITE_URL}/images/og/dcbc-logo.jpeg`,
+  width: 1538,
+  height: 1543,
   alt: `${SITE_NAME} — ${SITE_TAGLINE}`,
-  type: "image/png",
+  type: "image/jpeg",
 };
 
 type SeoImage = {

@@ -7,7 +7,7 @@ const readEnv = (name: string, fallback: string) => {
   return value && value.length > 0 ? value : fallback;
 };
 
-const DEFAULT_SITE_URL = "https://www.tdch.co.kr";
+const DEFAULT_SITE_URL = "https://www.dcbc.co.kr";
 const DEFAULT_SITE_NAME = "대천침례교회";
 const DEFAULT_SITE_ALTERNATE_NAME = "Daecheon Baptist Church";
 const DEFAULT_SITE_TAGLINE = "성령으로 제자삼는 교회";
