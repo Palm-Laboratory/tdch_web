@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import ApplicationForm from "./components/application-form";
 import BulletList from "./components/bullet-list";
 import ClassStructureCard from "./components/class-structure-card";
 import CurriculumTable from "./components/curriculum-table";
@@ -91,16 +90,6 @@ const baptismSchedule = [
   "담임 목사 + 전도자(양육 교사) 함께 집례",
   "온 몸을 물에 담그는 침수례",
   "침례 후 환영 및 축하",
-] as const;
-
-const applicationNotes = [
-  "온라인 신청: 우측 양식 작성",
-  "오프라인: 주일 예배 후 안내데스크 방문",
-] as const;
-
-const timeOptions = [
-  { id: "sunday-1pm", label: "주일 반", defaultChecked: true },
-  { id: "wednesday-7pm", label: "주중 반", defaultChecked: false },
 ] as const;
 
 export const metadata: Metadata = createPageMetadata({
@@ -278,33 +267,19 @@ export default async function NewcomerCarePage() {
           className="mt-20 scroll-mt-32 md:mt-[68px] md:scroll-mt-36"
           aria-labelledby="newcomer-care-apply-title"
         >
-          <div className="rounded-[12px] bg-[#1a2744] p-8 md:flex md:items-start md:justify-between md:gap-10 md:p-9">
-            <div className="md:max-w-[300px]">
+          <div className="rounded-[12px] bg-[#1a2744] p-8 md:p-9">
+            <div>
               <SectionHeading
                 id="newcomer-care-apply-title"
                 label="apply"
-                title="새가족 양육 신청"
+                title="신청 안내"
                 inverted
               />
 
-              <ul className="mt-6 flex flex-col gap-3">
-                {applicationNotes.map((note, index) => (
-                  <li key={note} className="flex items-start gap-1 type-body text-white">
-                    <span aria-hidden="true">·</span>
-                    {index === 0 ? (
-                      <span>
-                        <span className="md:hidden">온라인 신청: 아래 양식 작성</span>
-                        <span className="hidden md:inline">온라인 신청: 우측 양식 작성</span>
-                      </span>
-                    ) : (
-                      <span>{note}</span>
-                    )}
-                  </li>
-                ))}
-              </ul>
+              <p className="type-body mt-6 text-white">
+                주일 예배 후 안내데스크를 방문해 주세요.
+              </p>
             </div>
-
-            <ApplicationForm timeOptions={timeOptions} />
           </div>
         </section>
       </main>

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import DisciplesApplicationForm from "./components/disciples-application-form";
 import DisciplesCurriculum from "./components/disciples-curriculum";
 import DisciplesRoadmap from "./components/disciples-roadmap";
 import ClassStructureCard from "../care/components/class-structure-card";
@@ -557,26 +556,24 @@ export default async function NewcomerDisciplesPage() {
           aria-labelledby="disciples-apply-title"
           className="mt-20 scroll-mt-32 md:mt-[68px] md:scroll-mt-36"
         >
-          <div className="rounded-[12px] bg-[#1a2744] p-8 md:flex md:items-start md:justify-between md:gap-10 md:p-9">
-            <div className="md:max-w-[320px] lg:max-w-[360px]">
+          <div className="rounded-[12px] bg-[#1a2744] p-8 md:p-9">
+            <div>
               <SectionHeading
                 id="disciples-apply-title"
-                label="Apply"
-                title="제자 훈련 신청"
+                label="Training Guide"
+                title="참여 안내"
                 inverted
               />
 
-              <ul className="mt-6 flex flex-col gap-3">
+              <ul className="mt-6 grid gap-3 text-white md:grid-cols-3">
                 {applicationNotes.map((note) => (
-                  <li key={note} className="flex items-start gap-1 type-body tracking-[0.02em] text-white">
+                  <li key={note} className="flex items-start gap-2 type-body tracking-[0.02em]">
                     <span aria-hidden="true">·</span>
                     <span>{note}</span>
                   </li>
                 ))}
               </ul>
             </div>
-
-            <DisciplesApplicationForm />
           </div>
         </section>
       </main>

@@ -88,6 +88,23 @@ export default async function LocationPage() {
         </div>
       </section>
 
+      <section id="visit-guide" className="section-shell section-shell--narrow scroll-mt-28 py-14 md:py-20">
+        <SectionHeading label="Visit Guide" title="방문 안내" />
+
+        <ul className="type-body-strong mt-8 space-y-4 text-site-ink md:mt-10 md:space-y-5">
+          <li className="flex items-start gap-4">
+            <span className="list-bullet list-bullet--navy mt-[0.65em] shrink-0" />
+            <span>예배 장소는 2층 대예배당입니다.</span>
+          </li>
+          <li className="flex items-start gap-4">
+            <span className="list-bullet list-bullet--navy mt-[0.65em] shrink-0" />
+            <span>
+              주일 방문 시, 교회 주차장과 청년회관 주차장, 도로 주차를 이용하시면 됩니다.
+            </span>
+          </li>
+        </ul>
+      </section>
+
       <section id="contact-info" className="section-shell section-shell--narrow scroll-mt-28 pb-20 pt-4 md:pb-24 md:pt-8">
         <SectionHeading label="Church Info" title="교회 정보" />
 
