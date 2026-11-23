@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+// JSX usage is not recognized by @typescript-eslint/no-unused-vars in this config.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Link from "next/link";
 import AnimatedCards from "@/app/home/components/animated-cards";
 import MissionSection from "@/app/home/components/mission-section";

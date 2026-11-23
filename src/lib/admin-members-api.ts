@@ -178,7 +178,7 @@ interface BackendMemberDetail extends BackendMemberSummary {
   recentAttendance: BackendAttendanceWeek[];
 }
 
-interface BackendMemberCreateResponse extends BackendMemberDetail {}
+type BackendMemberCreateResponse = BackendMemberDetail;
 
 function toFrontendId(value: string | number) {
   return String(value);
