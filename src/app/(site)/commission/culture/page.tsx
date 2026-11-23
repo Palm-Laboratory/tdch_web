@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import Link from "next/link";
 import SectionHeading from "@/components/section-heading";
 import ScriptureQuoteCard from "@/components/scripture-quote-card";
 import { createPageMetadata } from "@/lib/seo";
@@ -22,29 +21,31 @@ const goals = [
     number: "01",
     label: "Welcome",
     title: "환대",
-    description: "한국 사회에 적응하는 일을 돕고 조건 없이 맞이합니다.",
+    description:
+      "한국 사회에 적응하는 일을 돕고, 조건 없이 맞이합니다. 언어와 문화는 시간이 필요하니 천천히, 반복해서, 조급함 없이 함께 걷겠습니다.",
   },
   {
     number: "02",
     label: "Gospel",
     title: "복음",
-    description: "언어의 벽을 넘는 예수님의 사랑을 나누고 서로에게서 배웁니다.",
+    description:
+      "언어의 벽을 넘는 예수님의 사랑을 나눕니다. 다름을 존중하며, 서로에게서 배우는 자세로 다가갑니다.",
   },
   {
     number: "03",
     label: "Send",
     title: "땅 끝 선교",
-    description: "선교사를 기도와 후원으로 보내고 교회 간 협력으로 세계 선교에 함께합니다.",
+    description: "선교사를 기도와 후원으로 보내고, 교회 간 협력으로 세계 선교에 함께합니다.",
   },
 ] as const;
 
 const scriptureCards = [
   {
-    text: "타국인이 너희의 땅에 거류하여 함께 있거든 너희는 그를 학대하지 말고 너희와 함께 있는 타국인을 너희 중에서 난 자 같이 여기며 자기 같이 사랑하라",
+    text: "타국인이 너희 땅에 우거하여 함께 있거든 너희는 그를 학대하지 말고 너희와 함께 있는 타국인을 너희 중에서 낳은 자 같이 여기며 자기 같이 사랑하라 너희도 애굽 땅에서 객이 되었더니라 나는 너희 하나님 여호와니라",
     reference: "레위기 19:33-34",
   },
   {
-    text: "나그네 대접하기를 잊지 말라 이로써 부지중에 천사들을 대접한 이들이 있었느니라",
+    text: "손님 대접하기를 잊지 말라 이로써 부지중에 천사들을 대접한 이들이 있었느니라",
     reference: "히브리서 13:2",
   },
   {
@@ -52,7 +53,7 @@ const scriptureCards = [
     reference: "에베소서 2:19",
   },
   {
-    text: "내가 나그네 되었을 때에 영접하였고",
+    text: "내가 주릴 때에 너희가 먹을 것을 주었고 목마를 때에 마시게 하였고 나그네 되었을 때에 영접하였고",
     reference: "마태복음 25:35",
   },
 ] as const;
@@ -61,46 +62,37 @@ const missionLessons = [
   {
     number: "01",
     title: "인내",
-    description: "언어와 문화는 시간이 필요합니다. 천천히, 반복해서 — 조급함 없이 함께 걷는 것이 진정한 섬김입니다.",
+    description: "조급함 없이 함께 걷기",
   },
   {
     number: "02",
     title: "존중",
-    description: "다름을 인정하고, 우월감을 배제합니다. 서로에게서 배우는 자세가 진정한 문화 통합의 시작입니다.",
+    description: "다름을 인정하고 서로 배우기",
   },
   {
     number: "03",
     title: "사랑",
-    description: "조건 없는 환대와 실제적 도움, 진심 어린 관심 — 예수님의 사랑이 언어의 장벽을 넘습니다.",
+    description: "조건 없는 환대와 실제적 도움",
   },
   {
     number: "04",
     title: "협력",
-    description: "현지 교회와 동역하며 스스로 서는 교회를 함께 세웁니다.",
+    description: "현지 교회와 함께, 스스로 서는 교회 세우기",
   },
 ] as const;
 
-const volunteerItems = [
-  "한국어 교사",
-  "통역 (영어·필리핀어·베트남어·중국어 등)",
-  "1:1 멘토",
-  "아이 돌봄",
-  "요리 봉사",
+const participationItems = [
+  {
+    label: "봉사",
+    description: "한국어 교사 · 통역(영어·필리핀어·베트남어·중국어 등) · 1:1 멘토 · 아이 돌봄 · 요리 봉사",
+  },
+  {
+    label: "선교",
+    description: "기도 · 선교 헌금 · 단기 선교",
+  },
 ] as const;
 
 const supportItems = ["한국어 교재비", "생활 지원 기금", "자녀 장학금", "문화 행사비"] as const;
-
-function GoldButton({ href, children }: { href: string; children: ReactNode }) {
-  return (
-    <Link
-      href={href}
-      className="inline-flex items-center justify-center rounded-[8px] bg-[#c9a84c] px-[18px] py-[14px] text-[0.9375rem] font-bold leading-none tracking-[0.04em] text-white transition hover:bg-[#b79436]"
-    >
-      <span>{children}</span>
-      <span className="ml-1">→</span>
-    </Link>
-  );
-}
 
 function SectionBlock({
   label,
@@ -186,17 +178,18 @@ export default function CommissionCulturePage() {
 
       <SectionBlock label="ministry program" title="함께 준비하는 사역" className="mt-20 md:mt-[68px]">
         <ul className="mt-8 grid gap-4 md:grid-cols-2">
-          {["한국어 교실", "다문화 가정 환대", "자녀 학습·돌봄 지원", "선교 기도회"].map((item) => (
+          {[
+            "한국어 교실 — 한글 읽기·쓰기부터 일상 회화까지",
+            "다문화 가정 환대 — 예배와 식탁 교제, 생활 정착 돕기",
+            "자녀 학습·돌봄 지원",
+            "선교 기도회 — 선교사와 선교지, 미전도 종족을 위한 기도",
+          ].map((item) => (
             <li key={item} className="rounded-[12px] border border-black/10 bg-[#f8f7f4] px-6 py-5 type-body font-semibold text-[#1a2744]">{item}</li>
           ))}
         </ul>
       </SectionBlock>
 
-      <SectionBlock label="mission experience" title="필리핀 선교 경험" className="mt-20 md:mt-[68px]">
-        <p className="mt-5 type-body-small leading-[1.8] tracking-[0.02em] text-[#4f4a42]">
-          필리핀 산타로사 꿈의교회에서 17년간 사역하며 배운 원칙을 보령에서 이어 갑니다.
-        </p>
-
+      <SectionBlock label="mission principles" title="선교에서 배운 것" className="mt-20 md:mt-[68px]">
         <div className="mt-8">
           {missionLessons.map((lesson, index) => (
             <div
@@ -215,28 +208,27 @@ export default function CommissionCulturePage() {
         </div>
       </SectionBlock>
 
-      <SectionBlock label="participate" title="참여 방법" className="mt-20 md:mt-[68px]">
-        <div className="mt-8 overflow-hidden rounded-[16px] border border-[#d0cdca] bg-[#f8f7f4] md:flex md:items-end md:justify-between md:px-9 md:py-9">
-          <div className="px-6 py-7 md:w-[440px] md:px-0 md:py-0">
-            <p className="type-label font-bold tracking-[0.12em] text-[#c9a84c]">봉사자 모집</p>
-            <div className="mt-5 space-y-4">
-              {volunteerItems.map((item) => (
-                <div key={item} className="flex items-center gap-3">
-                  <span className="h-4 w-4 rounded-[4px] border border-[#d0cdca] bg-white" />
-                  <span className="type-body-small font-medium tracking-[0.02em] text-[#4a4845]">{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+      <SectionBlock label="mission partnership" title="협력 선교" className="mt-20 md:mt-[68px]">
+        <p className="mt-5 type-body-small leading-[1.8] tracking-[0.02em] text-[#4f4a42]">
+          필리핀 산타로사 꿈의교회(형제교회, 전영 목사)와 기도로 동역합니다.
+        </p>
+      </SectionBlock>
 
-          <div className="px-6 pb-7 md:px-0 md:pb-0">
-            <GoldButton href="/about/location#contact-info">지원하기</GoldButton>
-          </div>
+      <SectionBlock label="participate" title="참여 방법" className="mt-20 md:mt-[68px]">
+        <div className="mt-8 divide-y divide-[#f2f0ec] border-y border-[#d0cdca]">
+          {participationItems.map((item) => (
+            <div key={item.label} className="grid gap-2 py-5 md:grid-cols-[140px_1fr] md:gap-6">
+              <h3 className="type-body font-bold tracking-[0.02em] text-[#0f2044]">{item.label}</h3>
+              <p className="type-body-small leading-[1.8] tracking-[0.02em] text-[#4a4845]">
+                {item.description}
+              </p>
+            </div>
+          ))}
         </div>
       </SectionBlock>
 
       <section className="mt-20 md:mt-[68px]" aria-labelledby="commission-culture-support-title">
-        <div className="flex flex-col gap-8 rounded-[12px] bg-[#1a2744] px-6 py-8 md:flex-row md:items-end md:justify-between md:px-9 md:py-9">
+        <div className="rounded-[12px] bg-[#1a2744] px-6 py-8 md:px-9 md:py-9">
           <div>
             <p className="type-label font-bold uppercase tracking-[0.28em] text-[#c9a84c]">support</p>
             <h2
@@ -255,9 +247,6 @@ export default function CommissionCulturePage() {
             </div>
           </div>
 
-          <div className="shrink-0">
-            <GoldButton href="/about/giving">후원하기</GoldButton>
-          </div>
         </div>
       </section>
     </main>

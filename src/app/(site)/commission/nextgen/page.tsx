@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import Link from "next/link";
 import SectionHeading from "@/components/section-heading";
 import ScriptureQuoteCard from "@/components/scripture-quote-card";
 import NextgenProgramTabs from "./components/nextgen-program-tabs";
@@ -163,18 +162,6 @@ export const metadata: Metadata = createPageMetadata({
   description: "대천침례교회 지상명령 다음 세대 사역과 부모·교사 참여 안내를 소개합니다.",
   path: "/commission/nextgen",
 });
-
-function GoldButton({ href, children }: { href: string; children: ReactNode }) {
-  return (
-    <Link
-      href={href}
-      className="inline-flex items-center justify-center rounded-[8px] bg-[#c9a84c] px-[18px] py-[14px] text-[0.9375rem] font-bold leading-none tracking-[0.04em] text-white transition hover:bg-[#b79436]"
-    >
-      <span>{children}</span>
-      <span className="ml-1">→</span>
-    </Link>
-  );
-}
 
 function SectionBlock({
   label,
@@ -346,7 +333,7 @@ export default function CommissionNextgenPage() {
             >
               <div className="flex justify-center gap-5 md:w-[260px] md:shrink-0 md:justify-end">
                 <span
-                  className={`${cormorantGaramond.className} w-[32px] translate-y-[0.02em] text-right text-[2rem] font-normal leading-[0.5] tracking-[0.08em] text-[#c9a84c]`}
+                  className={`${cormorantGaramond.className} w-[40px] shrink-0 translate-y-[0.02em] whitespace-nowrap text-right text-[2rem] font-normal leading-[0.5] tracking-[0.08em] text-[#c9a84c]`}
                 >
                   {step.number}
                 </span>
@@ -502,10 +489,6 @@ export default function CommissionNextgenPage() {
             </div>
           </div>
         </div>
-
-        <div className="mt-6">
-          <GoldButton href="/about/location#contact-info">교사 지원하기</GoldButton>
-        </div>
       </SectionBlock>
 
       <section className="mt-20 md:mt-[68px]" aria-labelledby="commission-nextgen-support-title">
@@ -526,10 +509,6 @@ export default function CommissionNextgenPage() {
                 </div>
               ))}
             </div>
-          </div>
-
-          <div className="shrink-0">
-            <GoldButton href="/about/giving">후원하기</GoldButton>
           </div>
         </div>
       </section>

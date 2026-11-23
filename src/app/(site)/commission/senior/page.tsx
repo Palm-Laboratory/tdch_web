@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import SectionHeading from "@/components/section-heading";
 import ScriptureQuoteCard from "@/components/scripture-quote-card";
 import { redirectToCanonicalStaticPathIfNeeded } from "@/lib/canonical-menu-path";
@@ -18,15 +17,15 @@ const goals = [
 ] as const;
 
 const gatheringItems = [
-  "예배와 새벽기도회",
-  "어르신 교제 모임",
-  "믿음의 이야기와 간증 기록",
-  "교회와 다음 세대, 선교사를 위한 중보기도",
+  "예배와 새벽기도회 — 교회의 기도 기둥으로 함께합니다",
+  "어르신 교제 모임 — 식사와 나눔, 찬양과 말씀",
+  "믿음의 이야기 — 평생의 신앙 간증을 나누고 기록합니다",
+  "중보기도 동역 — 교회와 다음세대, 선교사님을 위한 기도",
 ] as const;
 
 const generationItems = [
-  "청소년과 청년을 위한 다음 세대 멘토링",
-  "다문화 가정의 이웃이 되어 주는 세대 간 교제",
+  "다음세대 멘토링 — 청소년과 청년에게 삶의 지혜와 기도를 전합니다",
+  "다문화 가정의 이웃 — 낯선 땅에서 살아가는 가정에 \"교회의 할머니·할아버지\"가 되어 주세요",
 ] as const;
 
 export default async function CommissionSeniorPage() {
@@ -76,7 +75,6 @@ export default async function CommissionSeniorPage() {
           <h2 className="mt-3 type-subsection-title font-bold">함께 섬겨 주세요</h2>
           <p className="mt-4 type-body text-white/68">기도 동역 · 간증과 이야기 나눔 · 심방 동행 · 다음 세대 멘토</p>
         </div>
-        <Link href="/about/location#contact-info" className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 py-3 font-semibold text-ink transition hover:bg-surface md:mt-0">문의하기</Link>
       </section>
     </main>
   );
