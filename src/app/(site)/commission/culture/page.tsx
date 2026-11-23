@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import Link from "next/link";
 import SectionHeading from "@/components/section-heading";
 import ScriptureQuoteCard from "@/components/scripture-quote-card";
 import { createPageMetadata } from "@/lib/seo";
 import { cormorantGaramond, nanumMyeongjo } from "@/lib/fonts";
-import MulticulturalProgramTabs from "./components/multicultural-program-tabs";
-import MulticulturalRealitySection from "./components/multicultural-reality-section";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "지상명령 다문화",
-  description: "The 제자교회 지상명령 다문화 사역과 참여 안내를 소개합니다.",
+  title: "지상명령 다문화·다민족",
+  description: "대천침례교회의 다문화·다민족 사역과 세계 선교 참여 안내입니다.",
   path: "/commission/culture",
 });
 
@@ -22,31 +19,33 @@ const introQuote = {
 const goals = [
   {
     number: "01",
-    label: "Gospel Mission",
-    title: "복음 전파",
-    description: "예수 그리스도의 사랑 전하기 · 다문화 가정의 구원",
+    label: "Welcome",
+    title: "환대",
+    description:
+      "한국 사회에 적응하는 일을 돕고, 조건 없이 맞이합니다. 언어와 문화는 시간이 필요하니 천천히, 반복해서, 조급함 없이 함께 걷겠습니다.",
   },
   {
     number: "02",
-    label: "Cultural Bridge",
-    title: "문화 통합",
-    description: "한국 사회 적응 돕기 · 한국어 교육 및 문화 교류",
+    label: "Gospel",
+    title: "복음",
+    description:
+      "언어의 벽을 넘는 예수님의 사랑을 나눕니다. 다름을 존중하며, 서로에게서 배우는 자세로 다가갑니다.",
   },
   {
     number: "03",
-    label: "Build Community",
-    title: "공동체 세우기",
-    description: "다문화 가정 네트워크 · 서로 돕고 격려하는 공동체",
+    label: "Send",
+    title: "땅 끝 선교",
+    description: "선교사를 기도와 후원으로 보내고, 교회 간 협력으로 세계 선교에 함께합니다.",
   },
 ] as const;
 
 const scriptureCards = [
   {
-    text: "타국인이 너희의 땅에 거류하여 함께 있거든 너희는 그를 학대하지 말고 너희와 함께 있는 타국인을 너희 중에서 난 자 같이 여기며 자기 같이 사랑하라",
+    text: "타국인이 너희 땅에 우거하여 함께 있거든 너희는 그를 학대하지 말고 너희와 함께 있는 타국인을 너희 중에서 낳은 자 같이 여기며 자기 같이 사랑하라 너희도 애굽 땅에서 객이 되었더니라 나는 너희 하나님 여호와니라",
     reference: "레위기 19:33-34",
   },
   {
-    text: "나그네 대접하기를 잊지 말라 이로써 부지중에 천사들을 대접한 이들이 있었느니라",
+    text: "손님 대접하기를 잊지 말라 이로써 부지중에 천사들을 대접한 이들이 있었느니라",
     reference: "히브리서 13:2",
   },
   {
@@ -54,7 +53,7 @@ const scriptureCards = [
     reference: "에베소서 2:19",
   },
   {
-    text: "내가 나그네 되었을 때에 영접하였고",
+    text: "내가 주릴 때에 너희가 먹을 것을 주었고 목마를 때에 마시게 하였고 나그네 되었을 때에 영접하였고",
     reference: "마태복음 25:35",
   },
 ] as const;
@@ -63,41 +62,37 @@ const missionLessons = [
   {
     number: "01",
     title: "인내",
-    description: "언어와 문화는 시간이 필요합니다. 천천히, 반복해서 — 조급함 없이 함께 걷는 것이 진정한 섬김입니다.",
+    description: "조급함 없이 함께 걷기",
   },
   {
     number: "02",
     title: "존중",
-    description: "다름을 인정하고, 우월감을 배제합니다. 서로에게서 배우는 자세가 진정한 문화 통합의 시작입니다.",
+    description: "다름을 인정하고 서로 배우기",
   },
   {
     number: "03",
     title: "사랑",
-    description: "조건 없는 환대와 실제적 도움, 진심 어린 관심 — 예수님의 사랑이 언어의 장벽을 넘습니다.",
+    description: "조건 없는 환대와 실제적 도움",
+  },
+  {
+    number: "04",
+    title: "협력",
+    description: "현지 교회와 함께, 스스로 서는 교회 세우기",
   },
 ] as const;
 
-const volunteerItems = [
-  "한국어 교사",
-  "통역 (영어·필리핀어·베트남어·중국어)",
-  "상담 (법률·가정·진로)",
-  "멘토 (1:1 또는 가정)",
-  "교통 지원 · 아이 돌봄 · 요리 봉사",
+const participationItems = [
+  {
+    label: "봉사",
+    description: "한국어 교사 · 통역(영어·필리핀어·베트남어·중국어 등) · 1:1 멘토 · 아이 돌봄 · 요리 봉사",
+  },
+  {
+    label: "선교",
+    description: "기도 · 선교 헌금 · 단기 선교",
+  },
 ] as const;
 
 const supportItems = ["한국어 교재비", "생활 지원 기금", "자녀 장학금", "문화 행사비"] as const;
-
-function GoldButton({ href, children }: { href: string; children: ReactNode }) {
-  return (
-    <Link
-      href={href}
-      className="inline-flex items-center justify-center rounded-[8px] bg-[#c9a84c] px-[18px] py-[14px] text-[0.9375rem] font-bold leading-none tracking-[0.04em] text-white transition hover:bg-[#b79436]"
-    >
-      <span>{children}</span>
-      <span className="ml-1">→</span>
-    </Link>
-  );
-}
 
 function SectionBlock({
   label,
@@ -122,20 +117,20 @@ export default function CommissionCulturePage() {
   return (
     <main className="section-shell section-shell--narrow pt-10 pb-20 md:pt-16 md:pb-24">
       <section aria-labelledby="commission-culture-intro-title">
-        <SectionHeading id="commission-culture-intro-title" label="multicultural ministry" title="다문화" />
+        <SectionHeading id="commission-culture-intro-title" label="multicultural and multi ethnic" title="다문화·다민족" />
 
-        <p className="mt-6 type-body leading-[1.7] tracking-[0.02em] text-black">함께 사는 세상, 서로 섬기는 교회</p>
+        <p className="mt-6 type-body leading-[1.7] tracking-[0.02em] text-black">함께 사는 세상, 땅 끝까지</p>
 
         <ScriptureQuoteCard quote={introQuote.text} reference={introQuote.reference} className="mt-4" />
       </section>
 
-      <SectionBlock label="vision" title="다문화 사역의 3대 목표" className="mt-20 md:mt-[68px]">
+      <SectionBlock label="vision" title="다문화·다민족 사역의 3대 목표" className="mt-20 md:mt-[68px]">
         <div className="mt-5 max-w-[780px] space-y-0">
           <p className="type-body leading-[1.8] tracking-[0.02em] text-[#4f4a42]">
-            더 제자교회는 17년 필리핀 선교 경험을 통해 다문화 가정의 아픔과 필요를 압니다.
+            대천침례교회는 선교로 세워졌고, 17년간 낯선 땅에서 사역한 목사와 함께합니다.
           </p>
           <p className="type-body leading-[1.8] tracking-[0.02em] text-[#4f4a42]">
-            한국 사회에서 소외되기 쉬운 다문화 가정과 이주민을 예수님의 사랑으로 품고 함께 하나님 나라를 세워갑니다.
+            우리 곁의 이주민 이웃에서 땅 끝의 미전도 종족까지 모든 민족이 예수님의 제자가 되도록 섬깁니다.
           </p>
         </div>
 
@@ -181,17 +176,20 @@ export default function CommissionCulturePage() {
         </div>
       </SectionBlock>
 
-      <MulticulturalRealitySection />
-
-      <SectionBlock label="ministry program" title="다문화 사역 프로그램" className="mt-20 md:mt-[68px]">
-        <MulticulturalProgramTabs />
+      <SectionBlock label="ministry program" title="함께 준비하는 사역" className="mt-20 md:mt-[68px]">
+        <ul className="mt-8 grid gap-4 md:grid-cols-2">
+          {[
+            "한국어 교실 — 한글 읽기·쓰기부터 일상 회화까지",
+            "다문화 가정 환대 — 예배와 식탁 교제, 생활 정착 돕기",
+            "자녀 학습·돌봄 지원",
+            "선교 기도회 — 선교사와 선교지, 미전도 종족을 위한 기도",
+          ].map((item) => (
+            <li key={item} className="rounded-[12px] border border-black/10 bg-[#f8f7f4] px-6 py-5 type-body font-semibold text-[#1a2744]">{item}</li>
+          ))}
+        </ul>
       </SectionBlock>
 
-      <SectionBlock label="mission experience" title="필리핀 선교 경험" className="mt-20 md:mt-[68px]">
-        <p className="mt-5 type-body-small leading-[1.8] tracking-[0.02em] text-[#4f4a42]">
-          산타로사 꿈의교회 17년 — 한국·필리핀 다문화 가정 10여 가정을 섬기며 배운 것들입니다.
-        </p>
-
+      <SectionBlock label="mission principles" title="선교에서 배운 것" className="mt-20 md:mt-[68px]">
         <div className="mt-8">
           {missionLessons.map((lesson, index) => (
             <div
@@ -210,28 +208,27 @@ export default function CommissionCulturePage() {
         </div>
       </SectionBlock>
 
-      <SectionBlock label="participate" title="참여 방법" className="mt-20 md:mt-[68px]">
-        <div className="mt-8 overflow-hidden rounded-[16px] border border-[#d0cdca] bg-[#f8f7f4] md:flex md:items-end md:justify-between md:px-9 md:py-9">
-          <div className="px-6 py-7 md:w-[440px] md:px-0 md:py-0">
-            <p className="type-label font-bold tracking-[0.12em] text-[#c9a84c]">봉사자 모집</p>
-            <div className="mt-5 space-y-4">
-              {volunteerItems.map((item) => (
-                <div key={item} className="flex items-center gap-3">
-                  <span className="h-4 w-4 rounded-[4px] border border-[#d0cdca] bg-white" />
-                  <span className="type-body-small font-medium tracking-[0.02em] text-[#4a4845]">{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+      <SectionBlock label="mission partnership" title="협력 선교" className="mt-20 md:mt-[68px]">
+        <p className="mt-5 type-body-small leading-[1.8] tracking-[0.02em] text-[#4f4a42]">
+          필리핀 산타로사 꿈의교회(형제교회, 전영 목사)와 기도로 동역합니다.
+        </p>
+      </SectionBlock>
 
-          <div className="px-6 pb-7 md:px-0 md:pb-0">
-            <GoldButton href="/about/location#contact-info">지원하기</GoldButton>
-          </div>
+      <SectionBlock label="participate" title="참여 방법" className="mt-20 md:mt-[68px]">
+        <div className="mt-8 divide-y divide-[#f2f0ec] border-y border-[#d0cdca]">
+          {participationItems.map((item) => (
+            <div key={item.label} className="grid gap-2 py-5 md:grid-cols-[140px_1fr] md:gap-6">
+              <h3 className="type-body font-bold tracking-[0.02em] text-[#0f2044]">{item.label}</h3>
+              <p className="type-body-small leading-[1.8] tracking-[0.02em] text-[#4a4845]">
+                {item.description}
+              </p>
+            </div>
+          ))}
         </div>
       </SectionBlock>
 
       <section className="mt-20 md:mt-[68px]" aria-labelledby="commission-culture-support-title">
-        <div className="flex flex-col gap-8 rounded-[12px] bg-[#1a2744] px-6 py-8 md:flex-row md:items-end md:justify-between md:px-9 md:py-9">
+        <div className="rounded-[12px] bg-[#1a2744] px-6 py-8 md:px-9 md:py-9">
           <div>
             <p className="type-label font-bold uppercase tracking-[0.28em] text-[#c9a84c]">support</p>
             <h2
@@ -250,9 +247,6 @@ export default function CommissionCulturePage() {
             </div>
           </div>
 
-          <div className="shrink-0">
-            <GoldButton href="/about/giving">후원하기</GoldButton>
-          </div>
         </div>
       </section>
     </main>

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import MobileNav from "@/components/mobile-nav";
 import { useNavigation } from "@/lib/navigation-context";
 import { shouldOpenNavigationInNewTab } from "@/lib/navigation-utils";
+import { SITE_ALTERNATE_NAME, SITE_NAME } from "@/lib/site-config";
 
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
@@ -152,7 +153,7 @@ export default function SiteHeader() {
       ref={headerRef}
       data-site-header
       className={`fixed inset-x-0 top-0 z-50 transition-[transform,box-shadow,background-color] duration-300 lg:sticky
-        border-b border-cedar/10 bg-[#ffffff] backdrop-blur-lg
+        border-b border-white/10 bg-[#0f1c2e] backdrop-blur-lg
         ${isHiddenOnMobile ? "-translate-y-full pointer-events-none lg:translate-y-0 lg:pointer-events-auto" : "translate-y-0"}
         ${isCondensed ? "shadow-[0_10px_30px_rgba(16,33,63,0.08)]" : ""}
       `}
@@ -171,33 +172,33 @@ export default function SiteHeader() {
           >
             <div className="lg:hidden">
               <div className="flex flex-col">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-themeBlue/70">
-                  The Disciples Church
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gold/80">
+                  {SITE_ALTERNATE_NAME}
                 </p>
-                <p className="font-serif font-bold text-[20px] text-ink leading-tight">
-                  The 제자교회
+                <p className="font-serif font-bold text-[20px] text-ivory leading-tight">
+                  {SITE_NAME}
                 </p>
               </div>
             </div>
             <div className="hidden lg:block">
               <p
-                className={`hidden font-semibold uppercase tracking-[0.18em] text-themeBlue/70 transition-[font-size,opacity] duration-300 lg:block ${isCondensed ? "text-[9px] opacity-80" : "text-[10px]"
+                className={`hidden font-semibold uppercase tracking-[0.18em] text-gold/80 transition-[font-size,opacity] duration-300 lg:block ${isCondensed ? "text-[9px] opacity-80" : "text-[10px]"
                   }`}
               >
-                The Disciples Church
+                {SITE_ALTERNATE_NAME}
               </p>
               <p
-                className={`truncate font-serif font-bold text-ink transition-[font-size] duration-300 ${isCondensed ? "text-[18px] md:text-[21px]" : "text-[20px] md:text-[24px]"
+                className={`truncate font-serif font-bold text-ivory transition-[font-size] duration-300 ${isCondensed ? "text-[18px] md:text-[21px]" : "text-[20px] md:text-[24px]"
                   }`}
               >
-                The 제자교회
+                {SITE_NAME}
               </p>
             </div>
           </Link>
 
           {/* 데스크탑 내비게이션 */}
           <nav
-            className={`hidden items-center justify-center font-semibold text-ink/85 transition-[gap,font-size] duration-300 lg:mr-auto lg:flex lg:pl-10 ${isCondensed ? "gap-5 text-[18px] xl:gap-6" : "gap-6 text-[20px] xl:gap-8"
+            className={`hidden items-center justify-center font-semibold text-ivory/85 transition-[gap,font-size] duration-300 lg:mr-auto lg:flex lg:pl-10 ${isCondensed ? "gap-5 text-[18px] xl:gap-6" : "gap-6 text-[20px] xl:gap-8"
               }`}
           >
             {navMenuGroups.filter((menu) => !menu.hiddenInHeader).map((menu) => {
@@ -216,7 +217,7 @@ export default function SiteHeader() {
                     href={menuHref}
                     target={openMenuInNewTab ? "_blank" : undefined}
                     rel={openMenuInNewTab ? "noopener noreferrer" : undefined}
-                    className={`inline-flex whitespace-nowrap rounded-full border border-transparent transition duration-300 group-hover/menu:border-cedar/20 group-hover/menu:bg-white group-hover/menu:text-themeBlue ${isCondensed ? "px-5 py-2" : "px-6 py-2.5"
+                    className={`inline-flex whitespace-nowrap rounded-full border border-transparent transition duration-300 group-hover/menu:border-white/20 group-hover/menu:bg-white/10 group-hover/menu:text-ivory ${isCondensed ? "px-5 py-2" : "px-6 py-2.5"
                       }`}
                   >
                     <span>{menu.label}</span>
@@ -257,7 +258,7 @@ export default function SiteHeader() {
             <MobileNav
               isOpen={isMobileNavOpen}
               setIsOpen={setIsMobileNavOpen}
-              isTransparent={false}
+              isTransparent
             />
           </div>
         </div>

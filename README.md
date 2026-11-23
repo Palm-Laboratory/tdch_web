@@ -1,6 +1,6 @@
-# The 제자교회 웹사이트
+# 대천침례교회 웹사이트
 
-`tdch_web`은 The 제자교회 공개 사이트와 관리자 CMS를 제공하는 Next.js 15 프로젝트입니다.
+`tdch_web`은 대천침례교회 공개 사이트와 관리자 CMS를 제공하는 Next.js 15 프로젝트입니다.
 
 ## 개요
 
@@ -51,6 +51,15 @@ npm run test
 - `AUTH_SECRET`: 관리자 세션 서명 키
 - `ADMIN_SYNC_KEY`: 관리자 API 연동 키
 - `NEXT_PUBLIC_SITE_URL`: 공개 사이트 canonical 기준 주소
+- `NEXT_PUBLIC_NAVER_MAP_CLIENT_ID`: 네이버 지도 JavaScript API v3 Client ID (`Dynamic Map` 사용 설정 필요)
+
+네이버 지도 표시 설정:
+
+1. [네이버 지도 API Client ID 발급 안내](https://navermaps.github.io/maps.js.ncp/docs/tutorial-1-Getting-Client-ID.html)에 따라 Naver Cloud Platform 콘솔에서 애플리케이션을 등록하고 `Web Dynamic Map`을 선택합니다.
+2. 로컬 `.env.local`에는 `NEXT_PUBLIC_NAVER_MAP_CLIENT_ID`를 설정하고, 네이버 콘솔에는 [웹 서비스 URL 등록 안내](https://guide.ncloud-docs.com/docs/maps-app)에 따라 `http://localhost`와 `https://tdch.co.kr`을 등록합니다. URL에는 포트, 경로, `www`를 넣지 않습니다.
+3. 운영은 Vercel 프로젝트의 Environment Variables에도 같은 Client ID를 `NEXT_PUBLIC_NAVER_MAP_CLIENT_ID`로 추가한 뒤 다시 배포합니다.
+
+웹 지도 SDK는 브라우저에서 Client ID를 사용하므로 허용된 웹 서비스 URL을 네이버 콘솔에 등록해야 합니다. Client Secret은 웹 페이지나 `NEXT_PUBLIC_` 변수에 넣지 않습니다. 무료 제공 여부는 계정 조건에 따라 달라질 수 있으니 콘솔에서 주 계정과 사용량 한도를 확인합니다.
 
 현재 프로젝트는 서버/브라우저 API base URL 계약을 분리했습니다.
 

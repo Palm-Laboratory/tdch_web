@@ -253,7 +253,7 @@ export default function CmsSidebar({ canManageAccounts }: CmsSidebarProps) {
 
       {/* 하단 */}
       <div className="shrink-0 border-t border-white/[0.06] px-4 py-4">
-        <p className="text-[10px] text-white/20">The 제자교회 © 2025</p>
+        <p className="text-[10px] text-white/20">대천침례교회 © 2026</p>
       </div>
     </aside>
   );

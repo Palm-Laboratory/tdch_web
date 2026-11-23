@@ -60,7 +60,7 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
         {/* 로고 + 타이틀 */}
         <div className="mb-10 text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#6ca6f0]/60">
-            The 제자교회
+            대천침례교회
           </p>
           <h1 className="mt-3 text-2xl font-bold text-white">
             관리자 로그인
@@ -97,7 +97,7 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
 
         {/* 하단 */}
         <p className="mt-8 text-center text-xs text-white/20">
-          © The 제자교회 · 관리자 전용
+          © 대천침례교회 · 관리자 전용
         </p>
       </div>
     </div>

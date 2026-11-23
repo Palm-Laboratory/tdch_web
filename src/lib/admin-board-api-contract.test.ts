@@ -30,6 +30,7 @@ const _assertPostSummary: AdminBoardPostSummary = {
   isPublic: true,
   isPinned: true,
   authorId: "admin-42",
+  authorName: "관리자",
   createdAt: "2026-04-20T00:00:00.000Z",
   updatedAt: "2026-04-20T01:00:00.000Z",
 };
@@ -64,6 +65,7 @@ const _assertPostDetail: AdminBoardPostDetail = {
   isPublic: _assertPostSummary.isPublic,
   isPinned: _assertPostSummary.isPinned,
   authorId: _assertPostSummary.authorId,
+  authorName: _assertPostSummary.authorName,
   createdAt: _assertPostSummary.createdAt,
   updatedAt: _assertPostSummary.updatedAt,
   assets: [_assertPostAsset],

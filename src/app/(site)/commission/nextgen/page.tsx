@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import Link from "next/link";
 import SectionHeading from "@/components/section-heading";
 import ScriptureQuoteCard from "@/components/scripture-quote-card";
 import NextgenProgramTabs from "./components/nextgen-program-tabs";
@@ -160,21 +159,9 @@ const supportItems = ["주일학교 교재비", "여름·겨울 성경학교", "
 
 export const metadata: Metadata = createPageMetadata({
   title: "지상명령 다음세대",
-  description: "The 제자교회 지상명령 다음세대 사역과 부모·교사 참여 안내를 소개합니다.",
+  description: "대천침례교회 지상명령 다음 세대 사역과 부모·교사 참여 안내를 소개합니다.",
   path: "/commission/nextgen",
 });
-
-function GoldButton({ href, children }: { href: string; children: ReactNode }) {
-  return (
-    <Link
-      href={href}
-      className="inline-flex items-center justify-center rounded-[8px] bg-[#c9a84c] px-[18px] py-[14px] text-[0.9375rem] font-bold leading-none tracking-[0.04em] text-white transition hover:bg-[#b79436]"
-    >
-      <span>{children}</span>
-      <span className="ml-1">→</span>
-    </Link>
-  );
-}
 
 function SectionBlock({
   label,
@@ -214,7 +201,7 @@ export default function CommissionNextgenPage() {
             다음세대가 곧 교회의 미래입니다.
           </p>
           <p className="type-body-small leading-[1.8] tracking-[0.02em] text-[#6f675d]">
-            더 제자교회는 다음세대를 단순히 &quot;미래의 일꾼&quot;이 아니라 &quot;지금의 제자&quot;로 세웁니다.
+            대천침례교회는 다음 세대를 단순히 &quot;미래의 일꾼&quot;이 아니라 &quot;지금의 제자&quot;로 세웁니다.
             어린 시절부터 예수님을 만나고 말씀으로 양육받아 세상을 변화시키는 차세대 리더로 자라게 합니다.
           </p>
         </div>
@@ -346,7 +333,7 @@ export default function CommissionNextgenPage() {
             >
               <div className="flex justify-center gap-5 md:w-[260px] md:shrink-0 md:justify-end">
                 <span
-                  className={`${cormorantGaramond.className} w-[32px] translate-y-[0.02em] text-right text-[2rem] font-normal leading-[0.5] tracking-[0.08em] text-[#c9a84c]`}
+                  className={`${cormorantGaramond.className} w-[40px] shrink-0 translate-y-[0.02em] whitespace-nowrap text-right text-[2rem] font-normal leading-[0.5] tracking-[0.08em] text-[#c9a84c]`}
                 >
                   {step.number}
                 </span>
@@ -502,10 +489,6 @@ export default function CommissionNextgenPage() {
             </div>
           </div>
         </div>
-
-        <div className="mt-6">
-          <GoldButton href="/about/location#contact-info">교사 지원하기</GoldButton>
-        </div>
       </SectionBlock>
 
       <section className="mt-20 md:mt-[68px]" aria-labelledby="commission-nextgen-support-title">
@@ -526,10 +509,6 @@ export default function CommissionNextgenPage() {
                 </div>
               ))}
             </div>
-          </div>
-
-          <div className="shrink-0">
-            <GoldButton href="/about/giving">후원하기</GoldButton>
           </div>
         </div>
       </section>

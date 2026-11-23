@@ -60,8 +60,9 @@ const STATIC_PAGE_OPTIONS = [
   { value: "newcomer.disciples", label: "제자 양육 / 제자 훈련" },
   { value: "commission.summary", label: "지상명령 / 개요" },
   { value: "commission.nextgen", label: "지상명령 / 다음세대" },
-  { value: "commission.culture", label: "지상명령 / 다문화" },
-  { value: "commission.ethnic", label: "지상명령 / 다민족" },
+  { value: "commission.culture", label: "지상명령 / 다문화·다민족" },
+  { value: "commission.ethnic", label: "지상명령 / 다민족 (이전 주소)" },
+  { value: "commission.senior", label: "지상명령 / 시니어" },
 ];
 
 function flattenTree(nodes: EditorNode[], depth = 0): Array<{ node: EditorNode; depth: number }> {

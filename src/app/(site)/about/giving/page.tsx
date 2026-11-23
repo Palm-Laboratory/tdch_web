@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import SectionHeading from "@/components/section-heading";
 import { redirectToCanonicalStaticPathIfNeeded } from "@/lib/canonical-menu-path";
 import { createPageMetadata } from "@/lib/seo";
-import { GIVING_BANK, GIVING_OWNER } from "@/lib/site-config";
+import { GIVING_BANK, GIVING_OWNER, SITE_NAME } from "@/lib/site-config";
 import CopyAccountButton from "./components/copy-account-button";
 
 export const metadata: Metadata = createPageMetadata({
   title: "헌금안내",
-  description: "온라인 헌금 방법, 입금자명 작성 예시, 온라인 계좌 안내를 확인하실 수 있습니다.",
+  description: `${SITE_NAME} 온라인 헌금 방법과 계좌 안내입니다.`,
   path: "/about/giving",
 });
 
@@ -163,6 +163,11 @@ export default async function GivingPage() {
           <CopyAccountButton value={givingAccount.copyValue} />
         </div>
       </section>
+
+      <p className="type-body mt-8 leading-[1.8] text-ink/72">
+        드려진 헌금은 말씀을 가르치고, 이웃을 섬기고, 복음을 전하는 데 귀하게 사용합니다.
+        입금하실 때 성함과 헌금 종류를 함께 적어 주시면 확인에 도움이 됩니다.
+      </p>
 
       {/* <div className="mt-10 h-px w-full bg-black/10 md:mt-12" />
 

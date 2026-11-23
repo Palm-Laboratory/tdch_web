@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
 import { useNavigation } from "@/lib/navigation-context";
 import { shouldOpenNavigationInNewTab } from "@/lib/navigation-utils";
+import { SITE_ALTERNATE_NAME, SITE_NAME } from "@/lib/site-config";
 
 export default function MobileNav({ isOpen, setIsOpen, isTransparent = false }: { isOpen: boolean, setIsOpen: (val: boolean) => void, isTransparent?: boolean }) {
   const [mounted, setMounted] = useState(false);
@@ -86,8 +87,8 @@ export default function MobileNav({ isOpen, setIsOpen, isTransparent = false }: 
           <div className="flex h-[60px] items-center justify-between px-4 md:px-6">
             <Link href="/" onClick={closeMenu} className="shrink-0 pt-1 lg:hidden">
               <div className="text-left">
-                <p className="hidden text-[10px] font-semibold uppercase tracking-[0.18em] text-themeBlue/70 md:block">The Disciples Church</p>
-                <p className="whitespace-nowrap font-serif text-[24px] font-bold text-ink hover:text-themeBlue transition">The 제자교회</p>
+                <p className="hidden text-[10px] font-semibold uppercase tracking-[0.18em] text-themeBlue/70 md:block">{SITE_ALTERNATE_NAME}</p>
+                <p className="whitespace-nowrap font-serif text-[24px] font-bold text-ink hover:text-themeBlue transition">{SITE_NAME}</p>
               </div>
             </Link>
             <button
@@ -165,7 +166,7 @@ export default function MobileNav({ isOpen, setIsOpen, isTransparent = false }: 
 
           {/* 하단 푸터 영역 (선택사항) */}
           <div className="px-6 py-6 text-center text-xs font-medium text-ink/40">
-            <p>The Disciples Church</p>
+            <p>{SITE_ALTERNATE_NAME}</p>
           </div>
         </div>
       </div>, document.body)}

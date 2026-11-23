@@ -42,25 +42,20 @@ export const bulletinList: ChurchNewsItem[] = [
 
 export interface ServiceTimeData {
   name: string;
-  day: string;
   time: string;
   ampm: string;
-  location: string;
 }
 
 export const serviceTimes: ServiceTimeData[] = [
-  // { name: "주일 1부 예배 (준비 중)", day: "주일", time: "11:00", ampm: "AM", location: "나인아트홀" },
-  { name: "주일 예배", day: "주일", time: "2:00", ampm: "PM", location: "나인아트홀" },
-  { name: "새가족 양육", day: "주일", time: "예배 후 / 주중", ampm: "PM", location: "나인아트홀 / 구글 Meet" },
-  // { name: "새벽 기도회", day: "월~금", time: "5:30", ampm: "AM", location: "나인아트홀" },
-  { name: "금요 기도회", day: "금요일", time: "9:00", ampm: "PM", location: "나인아트홀" },
-  { name: "리더 모임", day: "수요일", time: "8:30", ampm: "PM", location: "구글 Meet" },
-  { name: "더 좋은 묵상", day: "화~금", time: "8:00", ampm: "AM", location: "YouTube" },
+  { name: "주일예배", time: "11:00", ampm: "AM" },
+  { name: "주일 오후예배", time: "2:00", ampm: "PM" },
+  { name: "수요예배", time: "7:30", ampm: "PM" },
+  { name: "금요기도회", time: "7:30", ampm: "PM" },
+  { name: "새벽기도회 (월~금)", time: "5:00", ampm: "AM" },
 ];
 
 export const serviceNotices: string[] = [
-  "주일 오전 예배시간은 11시에 시작된 2부 예배가 본 교회의 주 예배입니다.",
-  "주차 공간이 한정되어 있으므로 대중교통 이용을 권장합니다.",
+  "모든 예배는 대천침례교회 본당에서 드립니다.",
 ];
 
 export interface SpecialServiceData {
@@ -70,10 +65,4 @@ export interface SpecialServiceData {
   note: string;
 }
 
-export const specialServices: SpecialServiceData[] = [
-  { name: "신년 감사 예배", date: "1월 첫째 주일", location: "본당", note: "-" },
-  { name: "사순절 뉴 새벽 서비스 예배", date: "-", location: "기도실", note: "-" },
-  { name: "부활절 연합 예배", date: "부활절 주일 오전 8:00", location: "야외 / 본당", note: "-" },
-  { name: "추수 감사 예배", date: "11월 셋째 주일", location: "본당", note: "-" },
-  { name: "성탄 전야 예배", date: "12월 24일 오후 7:30", location: "본당", note: "-" },
-];
+export const specialServices: SpecialServiceData[] = [];

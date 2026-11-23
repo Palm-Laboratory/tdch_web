@@ -55,7 +55,7 @@ export default function GreetingOpenDoorSection() {
 
               <div className="type-lead space-y-[18px] tracking-[0.01em] text-black/88">
                 <p>
-                  The 제자교회는 완벽한 사람들이 모인 곳이 아닙니다.
+                  대천침례교회는 완벽한 사람들이 모인 곳이 아닙니다.
                   <br />
                   의심해도 되고, 넘어져도 되고, 질문해도 됩니다.
                   <br />
@@ -84,7 +84,7 @@ export default function GreetingOpenDoorSection() {
                   &quot;성령으로 제자 삼는 교회&quot;
                 </p>
                 <p className="type-body-small mt-2 text-right font-normal text-black/72">
-                  The 제자교회 담임목사 이진욱 드림
+                  대천침례교회 제3대 담임목사 이진욱 드림
                 </p>
               </div>
             </motion.div>
@@ -101,7 +101,7 @@ export default function GreetingOpenDoorSection() {
               <div className="absolute bottom-[44px] left-[18px] right-[18px] top-[24px] overflow-hidden shadow-[inset_0_0_4px_rgba(0,0,0,0.24),0px_1px_1px_rgba(0,0,0,0.1)] md:bottom-[56px] md:left-[21px] md:right-[21px] md:top-[30px]">
                 <Image
                   src="/images/greeting/open_door.jpeg"
-                  alt="더제자교회 공동체 사진"
+                  alt="대천침례교회 공동체 사진"
                   fill
                   sizes="(max-width: 768px) 100vw, 416px"
                   className="object-cover object-center"

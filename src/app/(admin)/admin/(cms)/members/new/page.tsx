@@ -123,7 +123,7 @@ export default async function AdminMembersNewPage() {
             <Input name="learningDate" label="학습일" type="date" />
             <Input name="baptismDate" label="세례일" type="date" />
             <Input name="confirmationDate" label="입교일" type="date" />
-            <Input name="baptismPlace" label="세례 장소" placeholder="예: 더제자교회" />
+            <Input name="baptismPlace" label="세례 장소" placeholder="예: 대천침례교회" />
             <Input name="baptismOfficiant" label="집례자" placeholder="예: 김○○ 담임목사" />
             <Input name="previousChurch" label="이전 교회" placeholder="예: 사랑교회" />
             <Input name="transferredInAt" label="이명 전입일" type="date" />

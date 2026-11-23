@@ -12,7 +12,7 @@ import NewcomerDisciplesPage from "@/app/(site)/newcomer/disciples/page";
 import CommissionSummaryPage from "@/app/(site)/commission/summary/page";
 import CommissionNextgenPage from "@/app/(site)/commission/nextgen/page";
 import CommissionCulturePage from "@/app/(site)/commission/culture/page";
-import CommissionEthnicPage from "@/app/(site)/commission/ethnic/page";
+import CommissionSeniorPage from "@/app/(site)/commission/senior/page";
 
 function AboutStaticPageShell({
   subtitle,
@@ -118,7 +118,13 @@ export default function MenuStaticPageRenderer({
     case "commission.ethnic":
       return (
         <CommissionStaticPageShell>
-          <CommissionEthnicPage />
+          <CommissionCulturePage />
+        </CommissionStaticPageShell>
+      );
+    case "commission.senior":
+      return (
+        <CommissionStaticPageShell>
+          <CommissionSeniorPage />
         </CommissionStaticPageShell>
       );
     default:

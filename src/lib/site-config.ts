@@ -8,29 +8,30 @@ const readEnv = (name: string, fallback: string) => {
 };
 
 const DEFAULT_SITE_URL = "https://www.tdch.co.kr";
-const DEFAULT_SITE_NAME = "The 제자교회";
-const DEFAULT_SITE_ALTERNATE_NAME = "더제자교회";
+const DEFAULT_SITE_NAME = "대천침례교회";
+const DEFAULT_SITE_ALTERNATE_NAME = "Daecheon Baptist Church";
 const DEFAULT_SITE_TAGLINE = "성령으로 제자삼는 교회";
-const DEFAULT_CHURCH_ADDRESS = "경기도 수원시 팔달구 경수대로425 지하1층(나인아트홀)";
-const DEFAULT_CHURCH_ADDRESS_STREET = "경수대로425 지하1층(나인아트홀)";
-const DEFAULT_CHURCH_ADDRESS_LOCALITY = "수원시";
-const DEFAULT_CHURCH_ADDRESS_REGION = "경기도";
-const DEFAULT_CHURCH_POSTAL_CODE = "16490";
+const DEFAULT_CHURCH_ADDRESS = "충남 보령시 해태로 26-21";
+const DEFAULT_CHURCH_ADDRESS_STREET = "해태로 26-21";
+const DEFAULT_CHURCH_ADDRESS_LOCALITY = "보령시";
+const DEFAULT_CHURCH_ADDRESS_REGION = "충청남도";
+const DEFAULT_CHURCH_POSTAL_CODE = "";
 const DEFAULT_CHURCH_COUNTRY = "KR";
-const DEFAULT_CHURCH_PHONE = "010-5252-8580";
+const DEFAULT_CHURCH_PHONE = "041-935-8244";
+const DEFAULT_CHURCH_CONTACT_PHONE = "010-5252-8580";
 const DEFAULT_CHURCH_EMAIL = "timothy35@hanmail.net";
 const DEFAULT_YOUTUBE_URL =
-  "https://www.youtube.com/@%EB%8D%94%EC%A0%9C%EC%9E%90%EA%B5%90%ED%9A%8C";
-const DEFAULT_YOUTUBE_LABEL = "The 제자티비";
+  "https://www.youtube.com/channel/UCfVJ2cB46sHVrUvBN_Q5VNQ";
+const DEFAULT_YOUTUBE_LABEL = "대천침례교회";
 const DEFAULT_NAVER_MAP_URL =
-  "https://map.naver.com/p/search/%EB%82%98%EC%9D%B8%EC%95%84%ED%8A%B8%ED%99%80/place/1394960485?c=15.00,0,0,0,dh&placePath=/home?bk_query=%EB%82%98%EC%9D%B8%EC%95%84%ED%8A%B8%ED%99%80&entry=bmp&from=map&fromPanelNum=2&timestamp=202603021305&locale=ko&svcName=map_pcv5&searchText=%EB%82%98%EC%9D%B8%EC%95%84%ED%8A%B8%ED%99%80";
+  "https://map.naver.com/p/entry/place/1036390907?c=16.35,0,0,0,dh";
 const DEFAULT_KAKAO_MAP_URL =
-  "https://map.kakao.com/link/search/%EA%B2%BD%EA%B8%B0%EB%8F%84%20%EC%88%98%EC%9B%90%EC%8B%9C%20%ED%8C%94%EB%8B%AC%EA%B5%AC%20%EA%B2%BD%EC%88%98%EB%8C%80%EB%A1%9C425%20%EB%82%98%EC%9D%B8%EC%95%84%ED%8A%B8%ED%99%80";
-const DEFAULT_NAVER_MAP_PUBLIC_CLIENT_ID = "dzevj9klz8";
-const DEFAULT_CHURCH_LATITUDE = "37.2642526267482";
-const DEFAULT_CHURCH_LONGITUDE = "127.025125618372";
-const DEFAULT_GIVING_BANK = "하나은행 181-04-01160-381 예금주:이진욱(The제자교회)";
-const DEFAULT_GIVING_OWNER = "이진욱(The제자교회)";
+  "https://map.kakao.com/link/search/%EC%B6%A9%EB%82%A8%20%EB%B3%B4%EB%A0%B9%EC%8B%9C%20%ED%95%B4%ED%83%9C%EB%A1%9C%2026-21";
+const DEFAULT_NAVER_MAP_PUBLIC_CLIENT_ID = "";
+const DEFAULT_CHURCH_LATITUDE = "36.3535758";
+const DEFAULT_CHURCH_LONGITUDE = "126.5916916";
+const DEFAULT_GIVING_BANK = "농협 3511100599793 예금주:대천침례교회";
+const DEFAULT_GIVING_OWNER = "대천침례교회";
 const DEFAULT_NEWCOMER_CONTACT_DEPARTMENT = "교육부";
 const DEFAULT_NEWCOMER_APPLY_TEXT = "홈페이지 또는 주일 안내데스크";
 
@@ -65,6 +66,10 @@ export const CHURCH_COUNTRY = readEnv(
   DEFAULT_CHURCH_COUNTRY,
 );
 export const CHURCH_PHONE = readEnv("NEXT_PUBLIC_CHURCH_PHONE", DEFAULT_CHURCH_PHONE);
+export const CHURCH_CONTACT_PHONE = readEnv(
+  "NEXT_PUBLIC_CHURCH_CONTACT_PHONE",
+  DEFAULT_CHURCH_CONTACT_PHONE,
+);
 export const CHURCH_EMAIL = readEnv("NEXT_PUBLIC_CHURCH_EMAIL", DEFAULT_CHURCH_EMAIL);
 export const YOUTUBE_CHANNEL_URL = readEnv("NEXT_PUBLIC_YOUTUBE_URL", DEFAULT_YOUTUBE_URL);
 export const YOUTUBE_CHANNEL_LABEL = readEnv(
@@ -93,4 +98,4 @@ export const NEWCOMER_CONTACT_APPLY_TEXT = readEnv(
 );
 export const PUBLIC_API_BASE_URL = readPublicApiBaseUrlFromEnv(process.env);
 
-export const SITE_DESCRIPTION = `${SITE_ALTERNATE_NAME}(${SITE_NAME})는 ${SITE_TAGLINE}를 비전으로 삼는 교회입니다. ${CHURCH_ADDRESS}`;
+export const SITE_DESCRIPTION = `${SITE_NAME}(${SITE_ALTERNATE_NAME})는 ${SITE_TAGLINE}를 비전으로 삼는 교회입니다. ${CHURCH_ADDRESS}`;

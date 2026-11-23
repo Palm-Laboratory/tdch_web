@@ -4,7 +4,6 @@ import Link from "next/link";
 import SectionHeading from "@/components/section-heading";
 import ScriptureQuoteCard from "@/components/scripture-quote-card";
 import { cormorantGaramond } from "@/lib/fonts";
-import { CHURCH_EMAIL, CHURCH_PHONE } from "@/lib/site-config";
 import { createPageMetadata } from "@/lib/seo";
 
 const visionItems = [
@@ -16,15 +15,15 @@ const visionItems = [
   },
   {
     href: "/commission/culture",
-    label: "multicultural",
-    title: "다문화",
-    description: "함께 사는 세상 · 다가간 섬김",
+    label: "multicultural and multi ethnic",
+    title: "다문화·다민족",
+    description: "함께 사는 세상 · 땅끝 선교 · 세계 선교",
   },
   {
-    href: "/commission/ethnic",
-    label: "multi ethnic",
-    title: "다민족",
-    description: "땅끝 선교 · 세계 선교",
+    href: "/commission/senior",
+    label: "senior",
+    title: "시니어",
+    description: "존귀하게 섬김 · 믿음의 유산 전수",
   },
 ] as const;
 
@@ -78,19 +77,28 @@ const participateItems = [
   },
 ] as const;
 
-const historyLeftItems = [
-  "17년간 필리핀 선교",
-  "산타로사 한글학교 운영",
-  "현지인 리더 양성 · 현지 8교회 성장",
-  "4세대 재생산 제자훈련 실현",
-  "2025년 자립 교회로 이양 완료",
-] as const;
-
-const historyRightItems = [
-  "3D 선교 비전 계승",
-  "다음세대 사역 확장",
-  "다문화 가정 섬김",
-  "세계 선교 네트워크 구축",
+const historyItems = [
+  {
+    period: "1971 – 2004",
+    pastor: "초대 김성조 목사",
+    theme: "받은 사랑을 나눈 시기",
+    description:
+      "미국 교회들의 후원으로 세워진 교회는 1973년 스스로 서고, 곧바로 보내는 교회가 되었습니다. 1975년 성문침례교회를 시작으로 2000년까지 열두 교회를 개척하고, 대만 선교신학교와 극동방송 등을 후원했으며, 1994년 카자흐스탄에 선교사를 파송했습니다. 1996년 창립 25주년에는 후원해 준 미국 교회 지도자들을 초청해 감사를 전했습니다.",
+  },
+  {
+    period: "2004 – 2026",
+    pastor: "제2대 조성훈 목사",
+    theme: "선교의 마음을 이어간 시기",
+    description:
+      "앞선 세대가 심은 선교의 마음을 이어받아, 지역과 성도를 섬기며 선교하는 교회의 정체성을 지켜 왔습니다.",
+  },
+  {
+    period: "2026 –",
+    pastor: "제3대 이진욱 목사",
+    theme: "선교사 출신 목회자와 함께",
+    description:
+      "2009년부터 2025년까지 17년간 필리핀에서 선교하며 산타로사꿈의교회를 세우고 한글학교를 운영했습니다. 2025년 현지 목회자에게 자립 교회로 이양하고 돌아와, 선교로 세워진 교회에서 다시 선교를 이어 갑니다.",
+  },
 ] as const;
 
 const visionPhotos = [
@@ -104,16 +112,11 @@ const visionPhotos = [
     alt: "다음세대 아이들",
     frameClassName: "z-[13] right-[48px] top-[-6px] w-[274px] rotate-[4deg]",
   },
-  {
-    src: "/images/commission/vision-ethnic.jpg",
-    alt: "다민족 공동체",
-    frameClassName: "z-[11] right-[-156px] top-[174px] w-[226px] rotate-[9deg]",
-  },
 ] as const;
 
 export const metadata: Metadata = createPageMetadata({
   title: "지상명령 개요",
-  description: "The 제자교회 지상명령 개요와 3D 선교 비전을 소개합니다.",
+  description: "대천침례교회가 다음 세대, 다문화·다민족, 시니어와 함께 감당하는 지상명령을 소개합니다.",
   path: "/commission/summary",
 });
 
@@ -186,11 +189,11 @@ export default function CommissionSummaryPage() {
 
         <div className="mt-6 max-w-[780px] space-y-3">
           <p className="type-body leading-[1.7] tracking-[0.02em] text-[#1a2744]">
-            더 제자교회는 예수님의 지상명령을 교회의 최우선 사명으로 여깁니다.
+            대천침례교회는 예수님의 지상명령을 교회의 최우선 사명으로 여깁니다.
           </p>
           <p className="type-body leading-[1.7] tracking-[0.02em] text-[#1a2744]">
-            필리핀 17년 선교 사역의 열매로 3D 선교 전략을 세우고, 다음세대 · 다문화 ·
-            다민족을 향한 하나님 나라 확장에 헌신합니다.
+            선교로 세워진 교회, 선교사 출신 이진욱 목사와 함께 다음 세대 · 다문화·다민족 ·
+            시니어를 향한 하나님 나라 확장에 헌신합니다.
           </p>
         </div>
       </section>
@@ -198,13 +201,13 @@ export default function CommissionSummaryPage() {
       <section aria-labelledby="commission-vision-title" className="relative mt-20 md:mt-[68px]">
         <SectionHeading
           id="commission-vision-title"
-          label="3D mission vision"
-          title="3D 선교 비전"
+          label="mission vision"
+          title="선교 비전"
         />
 
         <p className="mt-5 max-w-[720px] type-body leading-[1.8] tracking-[0.02em] text-[#4f4a42]">
           &quot;모든 민족을 제자로&quot; - 지상명령의 부르심에 따라
-          <br className="hidden md:block lg:hidden" />더 제자교회는 세 방향으로 사명을 감당합니다.
+          <br className="hidden md:block lg:hidden" />대천침례교회는 세 방향으로 사명을 감당합니다.
         </p>
 
         <div className="relative mt-8">
@@ -311,69 +314,30 @@ export default function CommissionSummaryPage() {
         <SectionHeading
           id="commission-history-title"
           label="mission history"
-          title="더 제자교회 선교 사역"
+          title="대천침례교회 선교 사역"
         />
 
-        <div className="mt-8 grid gap-10 md:grid-cols-[1fr_auto_1fr] md:items-start">
-          <div>
-            <div className="flex items-center gap-2">
-              <p
-                className={`${cormorantGaramond.className} text-[30px] font-bold leading-none tracking-[0.04em] text-[#0f2044]`}
-              >
-                2009
+        <div className="mt-8 divide-y divide-[#eee6db] border-y border-[#eee6db]">
+          {historyItems.map((item) => (
+            <article key={item.period} className="grid gap-4 py-6 md:grid-cols-[minmax(220px,0.8fr)_2fr] md:gap-10 md:py-7">
+              <div>
+                <p
+                  className={`${cormorantGaramond.className} text-[30px] font-bold leading-none tracking-[0.04em] text-[#0f2044]`}
+                >
+                  {item.period}
+                </p>
+                <h3 className="mt-4 type-body font-bold tracking-[0.04em] text-[#4a4840]">
+                  {item.pastor}
+                </h3>
+                <p className="mt-1 type-body-small leading-[1.6] tracking-[0.02em] text-[#8d7f67]">
+                  {item.theme}
+                </p>
+              </div>
+              <p className="type-body-small leading-[1.8] tracking-[0.02em] text-[#4a4840]">
+                {item.description}
               </p>
-              <span className="h-px w-[18px] bg-[#0f2044]" />
-              <p
-                className={`${cormorantGaramond.className} text-[30px] font-bold leading-none tracking-[0.04em] text-[#0f2044]`}
-              >
-                2025
-              </p>
-            </div>
-            <p className="mt-5 type-body font-bold tracking-[0.04em] text-[#4a4840]">
-              필리핀 산타로사 꿈의교회
-            </p>
-            <ul className="mt-6 space-y-3">
-              {historyLeftItems.map((item) => (
-                <li key={item} className="type-body-small flex items-start gap-2 leading-[1.3] tracking-[0.02em] text-[#4a4840] md:leading-[1.76]">
-                  <span className="mt-[5px] text-[#c9a84c]">·</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="mx-auto hidden h-[128px] w-[12px] md:block">
-            <div className="relative flex h-full items-center justify-center">
-              <div className="h-full w-[2px] bg-[linear-gradient(180deg,#c9a84c_10%,#d9d9d9_100%)]" />
-              <div className="absolute top-0 h-[7px] w-[7px] rounded-full bg-[#c9a84c]" />
-              <div className="absolute bottom-0 translate-y-[3px] border-l-[4px] border-r-[4px] border-t-[6px] border-l-transparent border-r-transparent border-t-[#d9d9d9]" />
-            </div>
-          </div>
-
-          <div>
-            <div className="flex items-center gap-2">
-              <p
-                className={`${cormorantGaramond.className} text-[30px] font-bold leading-none tracking-[0.04em] text-[#0f2044]`}
-              >
-                2026
-              </p>
-              <span className="h-px w-[18px] bg-[#0f2044]" />
-              <p className="type-card-title font-section-title font-bold leading-none tracking-[0.04em] text-[#0f2044]">
-                현재
-              </p>
-            </div>
-            <p className="mt-5 type-body font-bold tracking-[0.04em] text-[#4a4840]">
-              한국 더 제자교회 (수원/동탄/용인)
-            </p>
-            <ul className="mt-6 space-y-3">
-              {historyRightItems.map((item) => (
-                <li key={item} className="type-body-small flex items-start gap-2 leading-[1.3] tracking-[0.02em] text-[#4a4840] md:leading-[1.76]">
-                  <span className="mt-[5px] text-[#c9a84c]">·</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+            </article>
+          ))}
         </div>
       </section>
 
@@ -443,44 +407,6 @@ export default function CommissionSummaryPage() {
         </div>
       </section>
 
-      <section className="mt-20 md:mt-[68px]" aria-labelledby="commission-contact-title">
-        <div className="rounded-[16px] bg-[#1a2744] px-6 py-8 md:flex md:items-end md:justify-between md:px-9 md:py-9">
-          <div>
-            <p className="type-label font-semibold uppercase tracking-[0.32em] text-[#c9a84c]">
-              Contact
-            </p>
-            <h2
-              id="commission-contact-title"
-              className="mt-4 type-subsection-title font-section-title font-bold leading-none tracking-[0.02em] text-white"
-            >
-              문의
-            </h2>
-
-            <div className="mt-6 space-y-2 type-body-small tracking-[0.02em]">
-              <p>
-                <span className="text-white/60">전화</span>
-                <span className="ml-3 text-white/85">{CHURCH_PHONE}</span>
-              </p>
-              <p>
-                <span className="text-white/60">이메일</span>
-                <span className="ml-3 text-white/85">{CHURCH_EMAIL}</span>
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-6 flex flex-col items-start gap-2 md:mt-0 md:items-end">
-            <Link
-              href="/about/location"
-              className="inline-flex h-11 items-center justify-center rounded-[8px] bg-[#c9a84c] px-5 text-[0.9375rem] font-bold leading-none tracking-[0.05em] text-white transition hover:bg-[#d4b261]"
-            >
-              지금 참여하기 →
-            </Link>
-            <p className="type-body-small tracking-[0.02em] text-white/55">
-              선교 문의: 선교 위원회
-            </p>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }

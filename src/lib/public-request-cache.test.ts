@@ -305,7 +305,7 @@ test("getPublicPlaylistVideoListByPath dedupes identical path, page, and size tu
 test("runWithPublicRequestCache keeps concurrent request scopes isolated", async () => {
   const { runWithPublicRequestCache, getNavigationResponse } = await loadPublicLoaderModule();
   const originalFetch = globalThis.fetch;
-  let releaseFirstRequest: (() => void) | null = null;
+  let releaseFirstRequest: () => void = () => undefined;
   const firstRequestStarted = new Promise<void>((resolve) => {
     releaseFirstRequest = resolve;
   });
@@ -335,7 +335,7 @@ test("runWithPublicRequestCache keeps concurrent request scopes isolated", async
       await getNavigationResponse();
     });
 
-    releaseFirstRequest?.();
+    releaseFirstRequest();
 
     await Promise.all([firstScope, secondScope]);
     assert.equal(callCount, 2);

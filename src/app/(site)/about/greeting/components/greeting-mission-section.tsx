@@ -144,9 +144,9 @@ export default function GreetingMissionSection() {
             animate={mission.isInView ? "visible" : "hidden"}
             custom={0.8}
           >
-            The 제자교회도 그렇게 하고 싶습니다.
+            대천침례교회도 그렇게 하고 싶습니다.
             <br />
-            말씀으로 가르치고, 사랑으로 치유하고, 삶으로 복음을 전하는 것..
+            말씀으로 가르치고, 사랑으로 치유하고, 삶으로 복음을 전하는 것.
 
             <br />
 

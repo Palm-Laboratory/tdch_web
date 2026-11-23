@@ -51,6 +51,27 @@ const FALLBACK_NAVIGATION_RESPONSE = {
         createStaticNavigationItem("disciples", "제자 훈련", "/newcomer/disciples", "newcomer.disciples"),
       ],
     },
+    {
+      key: "commission",
+      type: "FOLDER",
+      label: "지상 명령",
+      href: "/commission",
+      matchPath: "/commission",
+      linkType: "INTERNAL",
+      contentSiteKey: null,
+      visible: true,
+      headerVisible: true,
+      mobileVisible: true,
+      lnbVisible: true,
+      breadcrumbVisible: true,
+      defaultLandingHref: "/commission/summary",
+      items: [
+        createStaticNavigationItem("summary", "개요", "/commission/summary", "commission.summary", true),
+        createStaticNavigationItem("nextgen", "다음 세대", "/commission/nextgen", "commission.nextgen"),
+        createStaticNavigationItem("culture", "다문화·다민족", "/commission/culture", "commission.culture"),
+        createStaticNavigationItem("senior", "시니어", "/commission/senior", "commission.senior"),
+      ],
+    },
   ],
 } satisfies NavigationResponse;
 

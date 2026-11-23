@@ -29,7 +29,7 @@ test("public site catch-all route keeps static behavior and adds board rendering
     /from\s*["']@\/lib\/public-board-api["']/,
     "Expected the catch-all route to import public board API helpers.",
   );
-  assert.match(contents, /resolved\.type\s*===\s*["']BOARD["']/, "Expected a BOARD branch in the catch-all route.");
+  assert.match(contents, /resolved\?*\.type\s*===\s*["']BOARD["']/, "Expected a BOARD branch in the catch-all route.");
   assert.match(
     contents,
     /resolved\.boardKey/,
