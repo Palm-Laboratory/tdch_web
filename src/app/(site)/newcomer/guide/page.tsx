@@ -20,7 +20,7 @@ const coreValues = [
   { number: "01", title: "기도", description: "위로부터 부어지는\n능력을 받는 교회" },
   { number: "02", title: "전도", description: "제자 삼는 교회\n(예수님의 3대 사역)" },
   { number: "03", title: "목장", description: "성령공동체" },
-  { number: "04", title: "훈련", description: "모든 것을 가르쳐\n지키게 하는 교회" },
+  { number: "04", title: "양육", description: "모든 것을 가르쳐\n지키게 하는 교회" },
   { number: "05", title: "선교", description: "함께하는 교회\n(땅 끝까지)" },
 ] as const;
 

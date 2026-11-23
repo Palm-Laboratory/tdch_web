@@ -206,7 +206,7 @@ export default function CommissionSummaryPage() {
         />
 
         <p className="mt-5 max-w-[720px] type-body leading-[1.8] tracking-[0.02em] text-[#4f4a42]">
-          &quot;모든 민족을 제자로&quot; - 지상명령의 부르심에 따라
+          &quot;모든 민족을 제자로&quot; - 지상명령의 부르심에 따라{" "}
           <br className="hidden md:block lg:hidden" />대천침례교회는 세 방향으로 사명을 감당합니다.
         </p>
 
