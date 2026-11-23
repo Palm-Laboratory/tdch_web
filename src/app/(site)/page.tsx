@@ -91,7 +91,7 @@ export default function Home() {
       </section>
 
       {/* 3. 퀵메뉴 + 말씀 영역 */}
-      <section className="relative -mt-[6rem] h-[500px] w-full overflow-hidden bg-white md:-mt-[6.5rem] md:h-[800px]">
+      <section className="relative -mt-[6rem] w-full overflow-hidden bg-white pb-16 md:-mt-[6.5rem] md:pb-20 lg:pb-24">
         <div className="relative z-10 section-shell space-y-7 pt-0">
           {/* 퀵 메뉴 */}
           <AnimatedCards cards={quickMenuCards} />

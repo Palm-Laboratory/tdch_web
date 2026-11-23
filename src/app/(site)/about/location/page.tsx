@@ -5,12 +5,16 @@ import {
   CHURCH_ADDRESS,
   CHURCH_CONTACT_PHONE,
   CHURCH_EMAIL,
+  CHURCH_LATITUDE_NUMBER,
+  CHURCH_LONGITUDE_NUMBER,
   CHURCH_PHONE,
   KAKAO_MAP_URL,
+  NAVER_MAP_PUBLIC_CLIENT_ID,
   NAVER_MAP_URL,
   SITE_NAME,
 } from "@/lib/site-config";
 import { createPageMetadata } from "@/lib/seo";
+import NaverDynamicMap from "./components/naver-dynamic-map";
 
 export const metadata: Metadata = createPageMetadata({
   title: "오시는 길",
@@ -29,7 +33,7 @@ function ExternalArrowIcon() {
 
 function MapButton({ label, href }: { label: string; href: string }) {
   return (
-    <a href={href} target="_blank" rel="noreferrer" className="type-body-small inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/25 bg-white px-5 py-3 font-semibold text-ink transition hover:-translate-y-0.5 hover:bg-surface">
+    <a href={href} target="_blank" rel="noreferrer" className="type-body-small inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-cedar/15 bg-white px-6 py-3 font-bold text-ink shadow-[0_10px_28px_rgba(16,33,63,0.07)] transition hover:-translate-y-0.5 hover:border-cedar/30 hover:bg-surface">
       <span>{label}</span>
       <ExternalArrowIcon />
     </a>
@@ -54,17 +58,30 @@ export default async function LocationPage() {
         <div className="section-shell section-shell--narrow py-12 md:py-16">
           <SectionHeading id="location-title" label="Location" title="오시는 길" />
 
-          <div className="mt-10 overflow-hidden rounded-[28px] bg-ink text-white shadow-[0_24px_70px_rgba(16,33,63,0.18)]">
-            <div className="grid gap-8 px-7 py-10 md:grid-cols-[1fr_auto] md:items-end md:px-12 md:py-14">
-              <div>
-                <p className="type-label font-semibold uppercase tracking-[0.2em] text-gold">Daecheon Baptist Church</p>
-                <h2 className="mt-4 font-serif text-3xl font-bold md:text-5xl">{SITE_NAME}</h2>
-                <p className="type-lead mt-5 text-white/78">{CHURCH_ADDRESS}</p>
-              </div>
+          <div className="mt-10 overflow-hidden border border-cedar/15 bg-white shadow-[0_20px_60px_rgba(16,33,63,0.1)]">
+            <div className="relative h-[340px] md:h-[460px]">
+              <NaverDynamicMap
+                clientId={NAVER_MAP_PUBLIC_CLIENT_ID}
+                latitude={CHURCH_LATITUDE_NUMBER}
+                longitude={CHURCH_LONGITUDE_NUMBER}
+                title={SITE_NAME}
+              />
 
-              <div className="flex flex-wrap gap-3">
-                <MapButton label="네이버 지도로 보기" href={NAVER_MAP_URL} />
-                <MapButton label="카카오맵으로 보기" href={KAKAO_MAP_URL} />
+              <div className="pointer-events-none absolute inset-x-4 bottom-4 z-10 md:inset-x-6 md:bottom-6 md:max-w-[360px]">
+                <div className="pointer-events-auto rounded-[22px] border border-white/25 bg-white/20 px-5 py-4 shadow-[0_16px_36px_rgba(16,33,63,0.12)] backdrop-blur-md md:px-6 md:py-5">
+                  <h2 className="font-serif text-xl font-bold text-ink md:text-2xl">{SITE_NAME}</h2>
+                  <p className="type-body-small mt-2 leading-relaxed text-ink/85 md:mt-3">{CHURCH_ADDRESS}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col justify-center gap-5 border-t border-cedar/10 bg-[#f8faff] px-5 py-6 md:flex-row md:items-center md:justify-between md:px-10 md:py-7">
+              <p className="type-body hidden max-w-2xl text-ink/90 md:block">
+                지도를 크게 확인하거나 길찾기를 시작하려면 아래 버튼을 사용해 주세요.
+              </p>
+              <div className="flex flex-wrap justify-center gap-3 md:justify-end">
+                <MapButton label="네이버 지도" href={NAVER_MAP_URL} />
+                <MapButton label="카카오맵" href={KAKAO_MAP_URL} />
               </div>
             </div>
           </div>

@@ -14,6 +14,8 @@ interface NaverMapsSDK {
   LatLng: new (lat: number, lng: number) => unknown;
   Map: new (element: HTMLElement, options: Record<string, unknown>) => unknown;
   Marker: new (options: Record<string, unknown>) => unknown;
+  Position: { TOP_LEFT: unknown };
+  ZoomControlStyle: { LARGE: unknown };
 }
 
 const NAVER_MAP_SCRIPT_ID = "naver-maps-sdk";
@@ -82,11 +84,11 @@ export default function NaverDynamicMap({
 }) {
   const mapElementId = useId().replace(/:/g, "-");
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const [loadError, setLoadError] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState(false);
 
   useEffect(() => {
     if (!clientId) {
-      setLoadError("네이버 지도 클라이언트 ID가 설정되지 않았습니다.");
+      setLoadError(true);
       return;
     }
 
@@ -103,9 +105,13 @@ export default function NaverDynamicMap({
           center,
           zoom: 17,
           zoomControl: true,
-          mapDataControl: false,
+          zoomControlOptions: {
+            style: maps.ZoomControlStyle.LARGE,
+            position: maps.Position.TOP_LEFT,
+          },
+          mapDataControl: true,
           scaleControl: false,
-          logoControl: false,
+          logoControl: true,
         });
 
         new maps.Marker({
@@ -114,12 +120,12 @@ export default function NaverDynamicMap({
           title,
         });
       })
-      .catch((error) => {
+      .catch(() => {
         if (!isMounted) {
           return;
         }
 
-        setLoadError(error instanceof Error ? error.message : "네이버 지도를 불러오지 못했습니다.");
+        setLoadError(true);
       });
 
     return () => {
@@ -129,17 +135,15 @@ export default function NaverDynamicMap({
 
   if (loadError) {
     return (
-      <div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[linear-gradient(135deg,#edf4ff_0%,#f8fbff_46%,#eef6ff_100%)]">
+      <div role="status" className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[linear-gradient(135deg,#edf4ff_0%,#f8fbff_46%,#eef6ff_100%)]">
         <div className="absolute inset-0 opacity-70 [background-image:linear-gradient(to_right,rgba(42,79,143,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(42,79,143,0.08)_1px,transparent_1px)] [background-size:38px_38px]" />
         <div className="relative z-10 flex max-w-[24rem] flex-col items-center px-6 text-center">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-2xl shadow-[0_18px_32px_rgba(16,33,63,0.12)]">
             !
           </div>
-          <p className="mt-5 text-[11px] font-black uppercase tracking-[0.26em] text-cedar/55">
-            Dynamic Map Unavailable
-          </p>
+          <p className="mt-5 text-[11px] font-black uppercase tracking-[0.26em] text-cedar/55">위치 안내</p>
           <p className="mt-3 text-sm leading-7 text-ink/65 md:text-base">
-            {loadError}
+            네이버 지도를 불러오지 못했습니다. 위의 네이버 지도 버튼을 눌러 위치를 확인해 주세요.
           </p>
         </div>
       </div>
