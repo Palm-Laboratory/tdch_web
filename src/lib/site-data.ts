@@ -42,20 +42,24 @@ export const bulletinList: ChurchNewsItem[] = [
 
 export interface ServiceTimeData {
   name: string;
+  day: string;
   time: string;
-  ampm: string;
+  period: string;
+  location: string;
 }
 
 export const serviceTimes: ServiceTimeData[] = [
-  { name: "주일예배", time: "11:00", ampm: "AM" },
-  { name: "주일 오후예배", time: "2:00", ampm: "PM" },
-  { name: "수요예배", time: "7:30", ampm: "PM" },
-  { name: "금요기도회", time: "7:30", ampm: "PM" },
-  { name: "새벽기도회 (월~금)", time: "5:00", ampm: "AM" },
+  { name: "주일예배", day: "주일", time: "11:00", period: "오전", location: "본당" },
+  { name: "주일 오후예배", day: "주일", time: "2:00", period: "오후", location: "본당" },
+  { name: "수요예배", day: "수요일", time: "7:30", period: "저녁", location: "본당" },
+  { name: "금요기도회", day: "금요일", time: "7:30", period: "저녁", location: "본당" },
+  { name: "새벽기도회", day: "월~금", time: "5:00", period: "새벽", location: "본당" },
+  { name: "아동부", day: "주일", time: "11:00", period: "오전", location: "교육관" },
+  { name: "학생회", day: "토요일", time: "4:00", period: "오후", location: "교육관" },
 ];
 
 export const serviceNotices: string[] = [
-  "모든 예배는 대천침례교회 본당에서 드립니다.",
+  "예배 및 부서별 모임 장소는 각 항목에 안내되어 있습니다.",
 ];
 
 export interface SpecialServiceData {
