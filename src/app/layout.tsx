@@ -1,8 +1,16 @@
-import type { Viewport } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 
 import "./globals.scss";
 import { nanumMyeongjo, notoSansKr, notoSerifKr, yeongwol } from "@/lib/fonts";
+
+export const metadata: Metadata = {
+  verification: {
+    other: {
+      "naver-site-verification": "6fc0563c14ae5fcb72b60e3e49604f89837a6302",
+    },
+  },
+};
 
 export const viewport: Viewport = {
   themeColor: "#ffffff",
