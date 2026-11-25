@@ -94,12 +94,12 @@ export default async function LocationPage() {
         <ul className="type-body-strong mt-8 space-y-4 text-site-ink md:mt-10 md:space-y-5">
           <li className="flex items-start gap-4">
             <span className="list-bullet list-bullet--navy mt-[0.65em] shrink-0" />
-            <span>예배 장소는 2층 대예배당입니다.</span>
+            <span>예배 장소는 1층 예배당입니다.</span>
           </li>
           <li className="flex items-start gap-4">
             <span className="list-bullet list-bullet--navy mt-[0.65em] shrink-0" />
             <span>
-              주일 방문 시, 교회 주차장과 청년회관 주차장, 도로 주차를 이용하시면 됩니다.
+              주일 방문 시, 교회 주차장과 도로 주차를 이용하시면 됩니다.
             </span>
           </li>
         </ul>

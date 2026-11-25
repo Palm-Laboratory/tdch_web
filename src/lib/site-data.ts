@@ -44,6 +44,7 @@ export interface ServiceTimeData {
   name: string;
   day: string;
   time: string;
+  timeNote?: string;
   period: string;
   location: string;
 }
@@ -51,9 +52,9 @@ export interface ServiceTimeData {
 export const serviceTimes: ServiceTimeData[] = [
   { name: "주일예배", day: "주일", time: "11:00", period: "오전", location: "본당" },
   { name: "주일 오후예배", day: "주일", time: "2:00", period: "오후", location: "본당" },
-  { name: "수요예배", day: "수요일", time: "7:30", period: "저녁", location: "본당" },
+  { name: "수요예배", day: "수요일", time: "7:30", timeNote: "동절기 7시", period: "오후", location: "1층 대예배당" },
   { name: "금요기도회", day: "금요일", time: "7:30", period: "저녁", location: "본당" },
-  { name: "새벽기도회", day: "월~금", time: "5:00", period: "새벽", location: "본당" },
+  { name: "새벽기도회", day: "월~금", time: "5:00", period: "새벽", location: "지하 로뎀쉼터" },
   { name: "아동부", day: "주일", time: "11:00", period: "오전", location: "교육관" },
   { name: "학생회", day: "토요일", time: "4:00", period: "오후", location: "교육관" },
 ];

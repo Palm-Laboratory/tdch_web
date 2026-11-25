@@ -36,8 +36,9 @@ export default function SiteFooter() {
             className="flex h-10 w-10 items-center justify-center rounded-full bg-white/5 text-ivory/60 transition hover:bg-white/10 hover:text-white"
             aria-label="YouTube"
           >
-            <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path fillRule="evenodd" d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z" clipRule="evenodd" />
+            <svg className="h-[18px] w-[18px]" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="#FF0000" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12s0 3.8.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12s0-3.8-.5-5.8Z" />
+              <path fill="#fff" d="m9.6 15.7 6.3-3.7-6.3-3.7v7.4Z" />
             </svg>
           </a>
         </div>

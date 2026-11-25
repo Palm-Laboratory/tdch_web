@@ -19,7 +19,7 @@ export default async function ServiceTimesPage() {
 
   const serviceRows = serviceTimes.map((service) => ({
     title: service.name,
-    schedule: `${service.day} ${service.period} ${service.time}`,
+    schedule: `${service.day} ${service.period} ${service.time}${service.timeNote ? ` (${service.timeNote})` : ""}`,
     location: service.location,
   }));
 
