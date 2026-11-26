@@ -6,29 +6,30 @@ import Link from "next/link";
 import AnimatedCards from "@/app/home/components/animated-cards";
 import MissionSection from "@/app/home/components/mission-section";
 import HomeHeroHeader from "@/components/home-hero-header";
+import { WebSiteJsonLd } from "@/components/json-ld";
 
 import {
   quickMenuCards,
 } from "@/lib/site-data";
 import {
   CHURCH_ADDRESS,
-  SITE_ALTERNATE_NAME,
   SITE_NAME,
-  SITE_TAGLINE,
+  SITE_TITLE,
 } from "@/lib/site-config";
 import { gowunBatang } from "@/lib/fonts";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
-  title: `${SITE_ALTERNATE_NAME} | ${SITE_NAME}`,
-  absoluteTitle: `${SITE_ALTERNATE_NAME} | ${SITE_NAME}`,
-  description: `${SITE_ALTERNATE_NAME}(${SITE_NAME})는 ${SITE_TAGLINE}를 비전으로 삼는 교회입니다. ${CHURCH_ADDRESS}에서 예배합니다.`,
+  title: SITE_NAME,
+  absoluteTitle: SITE_TITLE,
+  description: `${SITE_NAME} 공식 홈페이지입니다. ${CHURCH_ADDRESS}에 있으며, 예배 시간과 오시는 길, 새가족 안내를 확인할 수 있습니다.`,
   path: "/",
 });
 
 export default function Home() {
   return (
     <div className="flex w-full flex-col pb-0 pt-0 overflow-x-hidden">
+      <WebSiteJsonLd />
       {/* 1. 히어로 섹션 */}
       <section id="home-hero-section" className="relative h-[clamp(560px,56.25vw,1800px)] w-full overflow-hidden bg-[#f7fbff]">
         <div className="relative mx-auto h-full w-full max-w-[1920px] lg:max-w-[3200px]">

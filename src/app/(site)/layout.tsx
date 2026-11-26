@@ -4,14 +4,14 @@ import RootLayoutAccessories from "@/components/root-layout-accessories";
 import SiteHeader from "@/components/site-header";
 import { NavigationProvider } from "@/lib/navigation-context";
 import { getNavigationResponse } from "@/lib/navigation-api";
-import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/site-config";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, SITE_TITLE } from "@/lib/site-config";
 import { SITE_LOCALE, DEFAULT_OG_IMAGE } from "@/lib/seo";
-import { ChurchJsonLd, WebSiteJsonLd } from "@/components/json-ld";
+import { ChurchJsonLd } from "@/components/json-ld";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} — 성령으로 제자삼는 교회`,
+    default: SITE_TITLE,
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
@@ -40,14 +40,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: SITE_LOCALE,
     siteName: SITE_NAME,
-    title: `${SITE_NAME} — 성령으로 제자삼는 교회`,
+    title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     url: SITE_URL,
     images: [DEFAULT_OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_NAME} — 성령으로 제자삼는 교회`,
+    title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     images: [DEFAULT_OG_IMAGE.url],
   },
@@ -80,7 +80,6 @@ export default async function SiteLayout({
   return (
     <>
       <ChurchJsonLd />
-      <WebSiteJsonLd />
       <NavigationProvider navigation={navigation}>
         <div className="relative flex min-h-screen flex-col [overflow-x:clip]">
           <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
